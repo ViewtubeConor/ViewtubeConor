@@ -393,7 +393,7 @@ const ConfirmedDirectPrimitiveRows: React.FC = () => {
   ]
   return (
     <Family
-      title="Direct Imported Primitive Representatives · Standard" defaultOpen defaultOpen
+      title="Direct Imported Primitive Representatives · Standard" defaultOpen
       nonDefaultSettings={[
         "Standard-size examples are the production components themselves; the catalog only supplies representative content and state.",
         "The double-split face uses two square rails and one divider; module and accordion geometry is documented in the dedicated families.",
