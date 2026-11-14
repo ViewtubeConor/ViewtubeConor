@@ -66,7 +66,9 @@ export const StudioPanelAccordion: React.FC<StudioPanelAccordionProps> = ({
               onClick={() => select(index)}
             >
               <span className="vt-studio-panel-accordion__icon" aria-hidden="true">{item.icon}</span>
-              <span className="vt-studio-panel-accordion__label">{item.label}</span>
+              {/* A 1:1 rail cell cannot hold a word: the label becomes the shared
+                  speech-bubble tooltip and the accessible name stays on the button. */}
+              <span className="vt-studio-panel-accordion__tooltip" aria-hidden="true">{item.label}</span>
             </button>
           )
         })}
