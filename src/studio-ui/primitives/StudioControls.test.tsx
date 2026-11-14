@@ -1380,11 +1380,19 @@ describe("Studio Controls regression recovery contracts", () => {
 
 
 describe("collapsing module header geometry", () => {
-  it("paints the expanded divider over the complete split header, including both rails", () => {
+  it("paints exactly one full-width divider at the bottom of the expanded split header", () => {
     const css = readStudioControlCss()
+    const start = css.indexOf(".vt-studio-collapsing-split-module > .vt-studio-collapsing-split-module__head")
+    const end = css.indexOf("\\n}", start)
+    const headerRule = css.slice(start, end)
+    expect(headerRule).toContain("border-bottom:")
+    expect(headerRule).toContain("solid transparent")
     expect(css).toContain(".vt-studio-collapsing-split-module__head::after")
-    expect(css).toMatch(/\.vt-studio-collapsing-split-module__head::after\s*\{[^}]*position:\s*absolute[^}]*left:\s*0[^}]*right:\s*0[^}]*background:\s*#000/s)
-    expect(css).toContain("z-index: 5;")
+    expect(css).toContain("left: 0;")
+    expect(css).toContain("right: 0;")
+    expect(css).toContain("bottom: 0;")
+    expect(css).toContain("background: #000;")
+    expect(css).toContain(".vt-studio-collapsing-split-module:not([open]) > .vt-studio-collapsing-split-module__head::after")
   })
   it("keeps the body mounted across open and close so content does not jump on disclosure", () => {
     const source = readFileSync(resolve(process.cwd(), "src/studio-ui/primitives/StudioControls.tsx"), "utf8")
