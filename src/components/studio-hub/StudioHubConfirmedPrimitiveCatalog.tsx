@@ -393,7 +393,7 @@ const ConfirmedDirectPrimitiveRows: React.FC = () => {
   ]
   return (
     <Family
-      title="Direct Imported Primitive Representatives · Standard" defaultOpen
+      title="Direct Imported Primitive Representatives · Standard" defaultOpen defaultOpen
       nonDefaultSettings={[
         "Standard-size examples are the production components themselves; the catalog only supplies representative content and state.",
         "The double-split face uses two square rails and one divider; module and accordion geometry is documented in the dedicated families.",
@@ -950,7 +950,7 @@ const classifyConfirmedCatalogItem = (node: React.ReactNode): ConfirmedCatalogFa
 }
 
 const isSwitchToggleChoiceFamily = (title: string): boolean =>
-  /^(?:Switches, Radios & Checkboxes|Word Toggles · Standard \+ Compact \+ Vertical|Arrow \/ Side \/ Double Side \/ Bar Toggles)$/.test(title)
+  /^(?:Switches, Radios & Checkboxes|Word Toggles · Standard \\+ Compact \\+ Vertical|Arrow Toggle ·|Side Toggle ·|Double Side Toggle ·|Bar Toggle ·)/.test(title)
 
 const ConfirmedCatalogFamilyGroups: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const nodes = React.Children.toArray(children)
