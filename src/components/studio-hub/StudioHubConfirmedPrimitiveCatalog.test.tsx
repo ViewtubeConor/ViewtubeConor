@@ -58,7 +58,7 @@ describe("confirmed composite primitive catalog", () => {
     expect(representativeEnd).toBeGreaterThan(representativeStart)
     const representative = source.slice(representativeStart, representativeEnd)
 
-    expect(representative).toContain('title="Direct Imported Primitive Representatives · Standard"')
+    expect(representative).toContain('title="Direct Imported Primitive Representatives · Standard" defaultOpen')
     for (const primitive of [
       "StudioButton", "StudioActionButton", "StudioTwoLineButton", "StudioSplitTwoLineButton",
       "StudioSplitLeftButton", "StudioSplitRightButton", "StudioDoubleSplitButton",
@@ -96,7 +96,10 @@ describe("confirmed composite primitive catalog", () => {
     for (const title of [
       "Split Button Family · All Sizes × Left / Right / Double / Two-Line",
       "Dropdown Family · All Sizes × Single / Simple / Split-Left / Multi-Select",
-      "Arrow / Side / Double Side / Bar Toggles",
+      "Arrow Toggle · Five Sizes × Left / Right / Double Rails",
+      "Side Toggle · Five Sizes × Left / Right Arrow Orientation",
+      "Double Side Toggle · Five Sizes × V1 / V2 × Three Right Faces",
+      "Bar Toggle · Five Sizes",
       "Word Toggles · Standard + Compact + Vertical",
       "StudioCounter · Supreme + Standard + Compact + Mini + Micro",
       "StudioDoubleSplitSlider · Supreme + Standard + Compact + Mini + Micro",
