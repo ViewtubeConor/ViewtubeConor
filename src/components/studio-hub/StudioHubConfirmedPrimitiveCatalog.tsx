@@ -393,7 +393,7 @@ const ConfirmedDirectPrimitiveRows: React.FC = () => {
   ]
   return (
     <Family
-      title="Direct Imported Primitive Representatives · Standard"
+      title="Direct Imported Primitive Representatives · Standard" defaultOpen
       nonDefaultSettings={[
         "Standard-size examples are the production components themselves; the catalog only supplies representative content and state.",
         "The double-split face uses two square rails and one divider; module and accordion geometry is documented in the dedicated families.",
@@ -950,13 +950,14 @@ const classifyConfirmedCatalogItem = (node: React.ReactNode): ConfirmedCatalogFa
 }
 
 const isSwitchToggleChoiceFamily = (title: string): boolean =>
-  /^(?:Switches, Radios & Checkboxes|Word Toggles · Standard \+ Compact \+ Vertical|Arrow \/ Side \/ Double Side \/ Bar Toggles)$/.test(title)
+  /^(?:Switches, Radios & Checkboxes|Word Toggles · Standard \\+ Compact \\+ Vertical|Arrow Toggle ·|Side Toggle ·|Double Side Toggle ·|Bar Toggle ·)/.test(title)
 
 const ConfirmedCatalogFamilyGroups: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const nodes = React.Children.toArray(children)
   const defaults: React.ReactNode[] = []
   const unclassified: React.ReactNode[] = []
   const switchToggleFamilies: React.ReactNode[] = []
+  const representatives: React.ReactNode[] = []
   const grouped = new Map<ConfirmedCatalogFamilyName, React.ReactNode[]>(
     CONFIRMED_CATALOG_FAMILIES.map((family) => [family, []]),
   )
@@ -968,6 +969,10 @@ const ConfirmedCatalogFamilyGroups: React.FC<{ children: React.ReactNode }> = ({
     const title = React.isValidElement(node) && typeof (node.props as { title?: unknown }).title === "string"
       ? (node.props as { title: string }).title
       : ""
+    if (title === "Direct Imported Primitive Representatives · Standard") {
+      representatives.push(node)
+      continue
+    }
     if (isSwitchToggleChoiceFamily(title)) {
       switchToggleFamilies.push(node)
       continue
@@ -990,6 +995,7 @@ const ConfirmedCatalogFamilyGroups: React.FC<{ children: React.ReactNode }> = ({
   return (
     <div className="vt-confirmed-catalog">
       {defaults}
+      {representatives}
       {unclassified.length > 0 && (
         <section className="vt-confirmed-unclassified-family" role="alert" data-vt-confirmed-family="unclassified">
           <strong>Unclassified family</strong>
@@ -1802,14 +1808,11 @@ const ConfirmedStudioValueToggleFamily: React.FC = () => {
   const updateAt = <T,>(setter: React.Dispatch<React.SetStateAction<T[]>>, index: number, value: T) =>
     setter(current => current.map((previous, itemIndex) => itemIndex === index ? value : previous))
   return (
-    <Family title="Arrow / Side / Double Side / Bar Toggles" nonDefaultSettings={[
-      "Arrow Toggle shows left, right, and double icon-rail positions at all five canonical sizes.",
-      "Side Toggle shows both left-rail and right-rail arrow orientations at all five canonical sizes.",
-      "Double Side Toggle shows V1/V2 divider treatment and all three right-face appearances at every size.",
-      "Bar Toggle has one independent controlled value at every size; its tooltip is focus-only and includes the secondary downspout.",
-      "Every specimen uses the imported production primitive and independent controlled state.",
-    ]} provenance={<Provenance primitive="StudioArrowToggle · StudioSideToggle · StudioDoubleSideToggle · StudioBarToggle" tsx="src/studio-ui/primitives/StudioValueToggles.tsx" css="src/styles/studio-control-value-toggles.css + src/styles/studio-control-distill-overrides.css" tokens="Supreme / Standard / Compact / Mini / Micro · left/right/double rails · V1/V2 · primary/secondary/black-primary-text right faces" imports={["src/studio-ui/primitives/StudioValueToggles.tsx", "src/styles/studio-control-value-toggles.css", "src/styles/studio-control-distill-overrides.css"]} />}>
-      <div className="vt-confirmed-toggle-subfamily">
+    <>
+      <Family title="Arrow Toggle · Five Sizes × Left / Right / Double Rails" nonDefaultSettings={[
+        "Arrow Toggle covers left, right, and double square icon-rail layouts at all five canonical sizes."
+      ]} provenance={<Provenance primitive="StudioArrowToggle" tsx="src/studio-ui/primitives/StudioValueToggles.tsx" css="src/styles/studio-control-value-toggles.css" tokens="Five canonical Studio size tiers; shared token-owned split-shell geometry and focus behavior." imports={["src/studio-ui/primitives/StudioValueToggles.tsx", "src/styles/studio-control-value-toggles.css"]} />}>
+        <div className="vt-confirmed-toggle-subfamily">
         <strong>ARROW TOGGLE · LEFT / RIGHT / DOUBLE ICON RAILS × FIVE SIZES</strong>
         {sizes.map((size, sizeIndex) => <div className="vt-confirmed-control-row" key={"arrow-" + size}>
           <strong>{sizeLabels[sizeIndex]}</strong>
@@ -1826,7 +1829,11 @@ const ConfirmedStudioValueToggleFamily: React.FC = () => {
           </div>
         </div>)}
       </div>
-      <div className="vt-confirmed-toggle-subfamily">
+      </Family>
+      <Family title="Side Toggle · Five Sizes × Left / Right Arrow Orientation" nonDefaultSettings={[
+        "Side Toggle covers both left-rail and right-rail arrow orientations at all five canonical sizes."
+      ]} provenance={<Provenance primitive="StudioSideToggle" tsx="src/studio-ui/primitives/StudioValueToggles.tsx" css="src/styles/studio-control-value-toggles.css" tokens="Five canonical Studio size tiers; shared token-owned split-shell geometry and focus behavior." imports={["src/studio-ui/primitives/StudioValueToggles.tsx", "src/styles/studio-control-value-toggles.css"]} />}>
+        <div className="vt-confirmed-toggle-subfamily">
         <strong>SIDE TOGGLE · LEFT / RIGHT ARROW ORIENTATION × FIVE SIZES</strong>
         {sizes.map((size, sizeIndex) => <div className="vt-confirmed-control-row" key={"side-" + size}>
           <strong>{sizeLabels[sizeIndex]}</strong>
@@ -1843,7 +1850,11 @@ const ConfirmedStudioValueToggleFamily: React.FC = () => {
           </div>
         </div>)}
       </div>
-      <div className="vt-confirmed-toggle-subfamily">
+      </Family>
+      <Family title="Double Side Toggle · Five Sizes × V1 / V2 × Three Right Faces" nonDefaultSettings={[
+        "Double Side Toggle covers V1 and V2 divider treatment plus primary, secondary, and black-primary-text right faces at all five sizes."
+      ]} provenance={<Provenance primitive="StudioDoubleSideToggle" tsx="src/studio-ui/primitives/StudioValueToggles.tsx" css="src/styles/studio-control-value-toggles.css" tokens="Five canonical Studio size tiers; shared token-owned split-shell geometry and focus behavior." imports={["src/studio-ui/primitives/StudioValueToggles.tsx", "src/styles/studio-control-value-toggles.css"]} />}>
+        <div className="vt-confirmed-toggle-subfamily">
         <strong>DOUBLE SIDE TOGGLE · V1 / V2 × THREE RIGHT-FACE APPEARANCES × FIVE SIZES</strong>
         {sizes.map((size, sizeIndex) => <div className="vt-confirmed-control-row" key={"double-side-" + size}>
           <strong>{sizeLabels[sizeIndex]}</strong>
@@ -1860,7 +1871,11 @@ const ConfirmedStudioValueToggleFamily: React.FC = () => {
           </div>
         </div>)}
       </div>
-      <div className="vt-confirmed-toggle-subfamily">
+      </Family>
+      <Family title="Bar Toggle · Five Sizes" nonDefaultSettings={[
+        "Bar Toggle has an independent controlled value at every size and exposes its percentage tooltip on track hover and keyboard focus."
+      ]} provenance={<Provenance primitive="StudioBarToggle" tsx="src/studio-ui/primitives/StudioValueToggles.tsx" css="src/styles/studio-control-value-toggles.css" tokens="Five canonical Studio size tiers; shared token-owned split-shell geometry and focus behavior." imports={["src/studio-ui/primitives/StudioValueToggles.tsx", "src/styles/studio-control-value-toggles.css"]} />}>
+        <div className="vt-confirmed-toggle-subfamily">
         <strong>BAR TOGGLE · FIVE SIZES</strong>
         {sizes.map((size, index) => <div className="vt-confirmed-control-row" key={"bar-" + size} data-vt-library-component="StudioBarToggle">
           <strong>{sizeLabels[index]} · {barValues[index]}%</strong>
@@ -1868,7 +1883,8 @@ const ConfirmedStudioValueToggleFamily: React.FC = () => {
             ariaLabel={size + " bar toggle level"} />
         </div>)}
       </div>
-    </Family>
+      </Family>
+    </>
   )
 }
 

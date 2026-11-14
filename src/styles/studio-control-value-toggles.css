@@ -79,8 +79,8 @@
 .vt-studio-value-toggle__bars {
   position: relative;
   --vt-bar-gap: 3px;
-  --vt-bar-height: calc(var(--vt-studio-control-font-size, 38px) * var(--vt-studio-bar-height-to-text-ratio, 1));
-  --vt-bar-width: calc(var(--vt-bar-height) / var(--vt-studio-bar-height-to-width-ratio, 2.5));
+  --vt-bar-height: calc(var(--vt-studio-control-font-size, 38px) * .5);
+  --vt-bar-width: calc(var(--vt-studio-control-font-size, 38px) * .4);
   --vt-bar-radius: var(--vt-studio-bar-radius, 2px);
   --vt-bar-padding-inline: calc(var(--vt-studio-control-stroke, 3px) * 2);
   display: flex;
@@ -97,24 +97,24 @@
 }
 .vt-studio-value-toggle[data-size="supreme"] .vt-studio-value-toggle__bars {
   --vt-bar-gap: 4px;
-  --vt-bar-height: calc(var(--vt-studio-control-font-size, 51.82px) * var(--vt-studio-bar-height-to-text-ratio, 1));
+  --vt-bar-height: calc(var(--vt-studio-control-font-size, 51.82px) * .5);
 }
 .vt-studio-value-toggle[data-size="standard"] .vt-studio-value-toggle__bars,
 .vt-studio-value-toggle:not([data-size]) .vt-studio-value-toggle__bars {
   --vt-bar-gap: 3px;
-  --vt-bar-height: calc(var(--vt-studio-control-font-size, 38px) * var(--vt-studio-bar-height-to-text-ratio, 1));
+  --vt-bar-height: calc(var(--vt-studio-control-font-size, 38px) * .5);
 }
 .vt-studio-value-toggle[data-size="compact"] .vt-studio-value-toggle__bars {
   --vt-bar-gap: 2px;
-  --vt-bar-height: calc(var(--vt-studio-control-font-size, 24px) * var(--vt-studio-bar-height-to-text-ratio, 1));
+  --vt-bar-height: calc(var(--vt-studio-control-font-size, 24px) * .5);
 }
 .vt-studio-value-toggle[data-size="mini"] .vt-studio-value-toggle__bars {
   --vt-bar-gap: 1.5px;
-  --vt-bar-height: calc(var(--vt-studio-control-font-size, 17.5px) * var(--vt-studio-bar-height-to-text-ratio, 1));
+  --vt-bar-height: calc(var(--vt-studio-control-font-size, 17.5px) * .5);
 }
 .vt-studio-value-toggle[data-size="micro"] .vt-studio-value-toggle__bars {
   --vt-bar-gap: 1px;
-  --vt-bar-height: calc(var(--vt-studio-control-font-size, 10px) * var(--vt-studio-bar-height-to-text-ratio, 1));
+  --vt-bar-height: calc(var(--vt-studio-control-font-size, 10px) * .5);
 }
 .vt-studio-value-toggle__bar {
   position: relative;
@@ -193,8 +193,8 @@
   transition: opacity 120ms ease-out;
   pointer-events: none;
 }
-.vt-studio-value-toggle__bar:hover .vt-studio-value-toggle__bar-tooltip,
-.vt-studio-value-toggle__bar:focus-within .vt-studio-value-toggle__bar-tooltip {
+.vt-studio-value-toggle__bars:hover .vt-studio-value-toggle__bar-tooltip,
+.vt-studio-value-toggle--bar:focus-within .vt-studio-value-toggle__bar-tooltip {
   visibility: visible;
   opacity: 1;
 }
