@@ -1,36 +1,51 @@
-/* StudioPanelAccordion: one square selector rail and one flexible active panel. */
+/* StudioPanelAccordion: one square split-rail selector stack and one flexible active panel.
+   Rails follow the split-rail contract from the global defaults: 1:1 icon cells, no text.
+   The label is a speech-bubble tooltip that is allowed to overflow the component border. */
 .vt-studio-panel-accordion {
-  --vt-studio-panel-height: var(--vt-studio-control-height, 44px);
+  --vt-studio-panel-size: var(--vt-studio-control-height, 44px);
   --vt-studio-panel-stroke: var(--vt-studio-control-stroke, 3px);
   --vt-studio-panel-radius: var(--vt-studio-control-radius, 6px);
+  --vt-studio-panel-rail: var(--vt-studio-panel-size);
+  --vt-tooltip-spout: 7px;
+  --vt-tooltip-gap: 5px;
   display: grid;
-  grid-template-columns: var(--vt-studio-panel-height) minmax(0, 1fr);
+  grid-template-columns: var(--vt-studio-panel-rail) minmax(0, 1fr);
   align-items: stretch;
   width: 100%;
   min-width: 0;
   border: var(--vt-studio-panel-stroke) solid #000;
   border-radius: var(--vt-studio-panel-radius);
-  overflow: hidden;
+  /* Tooltips must escape the shell, so the shell cannot clip. */
+  overflow: visible;
+  isolation: isolate;
   background: color-mix(in srgb, white 50%, var(--vt-studio-control-accent, var(--pair-a, #36e0f6)) 50%);
 }
 .vt-studio-panel-accordion[data-size="compact"] {
-  --vt-studio-panel-height: var(--vt-studio-compact-height, 28px);
+  --vt-studio-panel-size: var(--vt-studio-compact-height, 28px);
   --vt-studio-panel-stroke: var(--vt-studio-compact-stroke, 2px);
   --vt-studio-panel-radius: var(--vt-studio-compact-radius, 4px);
+  --vt-studio-panel-rail: var(--vt-studio-panel-size);
 }
+/* Left button stack: one vertical divider between the stack and the text body. */
 .vt-studio-panel-accordion__rails {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  border-right: var(--vt-studio-panel-stroke) solid #000;
+  border-inline-end: var(--vt-studio-panel-stroke) solid #000;
+  background: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
+  overflow: visible;
 }
+/* Split-rail icon section: 1:1 from the global size defaults, exactly like the rail face. */
 .vt-studio-panel-accordion__rail {
+  position: relative;
   display: grid;
   place-items: center;
   box-sizing: border-box;
-  width: var(--vt-studio-panel-height);
-  min-width: var(--vt-studio-panel-height);
-  min-height: var(--vt-studio-panel-height);
+  width: var(--vt-studio-panel-rail);
+  min-width: var(--vt-studio-panel-rail);
+  height: var(--vt-studio-panel-rail);
+  min-height: var(--vt-studio-panel-rail);
+  aspect-ratio: 1 / 1;
   padding: 0;
   border: 0;
   border-bottom: var(--vt-studio-panel-stroke) solid #000;
@@ -38,6 +53,7 @@
   background: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
   color: #000;
   cursor: pointer;
+  overflow: visible;
 }
 .vt-studio-panel-accordion__rail:last-child { border-bottom: 0; }
 .vt-studio-panel-accordion__rail[data-active="true"] {
@@ -52,13 +68,61 @@
 .vt-studio-panel-accordion__icon,
 .vt-studio-panel-accordion__icon svg {
   display: block;
-  width: min(62%, 28px);
-  height: min(62%, 28px);
+  width: min(62%, var(--vt-studio-control-icon-size, 28px));
+  height: min(62%, var(--vt-studio-control-icon-size, 28px));
+}
+
+/* Shared speech-bubble tooltip: same shape and tokens as the bar toggle's value bubble.
+   Positioned outside the rail so it overflows the component's black border. */
+.vt-studio-panel-accordion__tooltip {
+  position: absolute;
+  z-index: 60;
+  left: 50%;
+  bottom: calc(100% + var(--vt-tooltip-gap, 5px) + var(--vt-tooltip-spout, 7px));
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+  box-sizing: border-box;
+  min-height: 20px;
+  padding: 4px 8px;
+  border: 2px solid #000;
+  border-radius: var(--vt-studio-control-radius, 6px);
+  background: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
+  color: #000;
+  font: 1000 12px/1 Inter, ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: translate(-50%, 0);
+  transform-origin: bottom center;
+  transition: opacity 120ms ease-out;
+  pointer-events: none;
+}
+.vt-studio-panel-accordion__tooltip::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: var(--vt-tooltip-spout, 7px);
+  height: var(--vt-tooltip-spout, 7px);
+  box-sizing: border-box;
+  background: inherit;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  border-end-end-radius: 2px;
+  transform: translate(-50%, calc(var(--vt-tooltip-spout, 7px) * -0.5 - 1px)) rotate(45deg);
+  pointer-events: none;
+}
+.vt-studio-panel-accordion__rail:hover .vt-studio-panel-accordion__tooltip,
+.vt-studio-panel-accordion__rail:focus-visible .vt-studio-panel-accordion__tooltip {
+  visibility: visible;
+  opacity: 1;
 }
 .vt-studio-panel-accordion__panel {
   box-sizing: border-box;
   min-width: 0;
-  min-height: var(--vt-studio-panel-height);
+  min-height: var(--vt-studio-panel-rail);
   padding: var(--vt-studio-space-unit, 4px);
+  overflow-wrap: anywhere;
   background: color-mix(in srgb, white 85%, var(--vt-studio-control-accent, var(--pair-a, #36e0f6)) 15%);
 }
