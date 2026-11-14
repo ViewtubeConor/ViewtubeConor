@@ -168,7 +168,7 @@
   z-index: 1;
 }
 .vt-studio-value-toggle__bar-tooltip {
-  --vt-tooltip-spout: 7px;
+  --vt-tooltip-spout: 6px;
   --vt-tooltip-gap: 5px;
   position: absolute;
   z-index: 60;
@@ -180,7 +180,7 @@
   box-sizing: border-box;
   min-height: 20px;
   padding: 4px 8px;
-  border: 2px solid #000;
+  border: 0;
   border-radius: var(--vt-studio-control-radius, 6px);
   background: var(--vt-studio-control-secondary, var(--pair-b));
   color: #000;
@@ -200,22 +200,20 @@
 }
 /* Speech-bubble spout: one rotated square shares the bubble fill so the outline is
    continuous, and its mouth opens over the bubble's bottom stroke. */
-.vt-studio-value-toggle__bar-tooltip::before {
+.vt-studio-value-toggle__bar-tooltip::before { content: none; }
+.vt-studio-value-toggle__bar-tooltip::after {
   content: "";
   position: absolute;
-  top: 100%;
   left: 50%;
-  width: var(--vt-tooltip-spout, 7px);
-  height: var(--vt-tooltip-spout, 7px);
-  box-sizing: border-box;
-  background: inherit;
-  border-right: 2px solid #000;
-  border-bottom: 2px solid #000;
-  border-end-end-radius: 2px;
-  transform: translate(-50%, calc(var(--vt-tooltip-spout, 7px) * -0.5 - 1px)) rotate(45deg);
+  bottom: calc(-1 * var(--vt-tooltip-spout, 6px));
+  width: 0;
+  height: 0;
+  border-left: var(--vt-tooltip-spout, 6px) solid transparent;
+  border-right: var(--vt-tooltip-spout, 6px) solid transparent;
+  border-top: var(--vt-tooltip-spout, 6px) solid var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
+  transform: translateX(-50%);
   pointer-events: none;
 }
-.vt-studio-value-toggle__bar-tooltip::after { content: none; }
 
 /* Overflow escape: the bubble must clear the module chrome instead of being cut off by
    the global overflow defaults. Scoped with :has() so cell clipping stays intact. */
