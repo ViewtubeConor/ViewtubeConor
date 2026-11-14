@@ -109,6 +109,24 @@ describe("confirmed composite primitive catalog", () => {
     }
   })
 
+  it("opens the representative ledger and keeps the four value-toggle modules independently collapsed", () => {
+    const source = readFileSync(resolve(process.cwd(), "src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx"), "utf8")
+    const html = renderToStaticMarkup(<StudioHubConfirmedPrimitiveCatalog />)
+    expect(source).toContain("representatives.push(node)")
+    expect(source).toContain('title="Direct Imported Primitive Representatives · Standard" defaultOpen')
+    for (const title of ["Arrow Toggle · Five Sizes × Left / Right / Double Rails", "Side Toggle · Five Sizes × Left / Right Arrow Orientation", "Double Side Toggle · Five Sizes × V1 / V2 × Three Right Faces", "Bar Toggle · Five Sizes"]) {
+      expect(source).toContain(`title="${title}"`)
+      expect(html).toContain(`data-vt-primitive-title="${title}"`)
+    }
+  })
+
+  it("reveals the bar tooltip from the track and shortens its bar height", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-value-toggles.css"), "utf8")
+    expect(css).toContain(".vt-studio-value-toggle__bars:hover .vt-studio-value-toggle__bar-tooltip")
+    expect(css).toContain("--vt-bar-height: calc(var(--vt-studio-control-font-size, 38px) * .5)")
+    expect(css).toContain("--vt-bar-width: calc(var(--vt-studio-control-font-size, 38px) * .4)")
+  })
+
   it("renders the representative ledger as a single full-width row and groups all module primitives together", () => {
     const source = readFileSync(resolve(process.cwd(), "src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx"), "utf8")
     const styles = readFileSync(resolve(process.cwd(), "src/styles/studio-confirmed-catalog-modules.css"), "utf8")
