@@ -31,4 +31,23 @@ describe("Studio split-module bottom-stroke regression", () => {
     expect(controls).toContain("vt-studio-collapsing-split-module__head")
     expect(controls).toContain("vt-studio-top-split-module__head")
   })
+  it("keeps the collapsing header rails square and the expanded divider on their bottom edge", () => {
+    const css = source("src/styles/studio-control-system.css")
+
+    expect(css).toContain("height: var(--vt-top-split-size, var(--vt-studio-control-height, 44px));")
+    expect(css).toContain("min-height: var(--vt-top-split-size, var(--vt-studio-control-height, 44px));")
+    expect(css).toContain('details.vt-studio-collapsing-split-module[open] > summary.vt-studio-collapsing-split-module__head')
+    expect(css).toContain("box-shadow: inset 0 calc(-1 * var(--vt-top-split-stroke, 3px)) 0 #000 !important;")
+  })
+
+  it("uses the borderless bar-toggle tooltip treatment", () => {
+    const css = source("src/styles/studio-control-value-toggles.css")
+
+    expect(css).toContain(".vt-studio-value-toggle__bar-tooltip {")
+    expect(css).toContain("border: 0;")
+    expect(css).toContain(".vt-studio-value-toggle__bar-tooltip::after")
+    expect(css).toContain("border-top: var(--vt-tooltip-spout, 6px) solid")
+    expect(css).toContain(".vt-studio-value-toggle__bar-tooltip::before { content: none; }")
+  })
+
 })
