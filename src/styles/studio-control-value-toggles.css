@@ -71,9 +71,68 @@
 .vt-studio-value-toggle__bars { display: flex; flex: 1 1 auto; align-items: center; justify-content: center; gap: var(--vt-studio-control-stroke, 3px); min-width: 0; padding: 0 calc(var(--vt-studio-control-stroke, 3px) * 1.33); overflow: visible; }
 .vt-studio-value-toggle__bar { position: relative; flex: 1 1 0; min-width: 2px; height: 65%; border: 1px solid #000; background: transparent; }
 .vt-studio-value-toggle__bar[data-active="true"] { background: var(--pair-b); }
-.vt-studio-value-toggle__bar-tooltip { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; padding: 2px 4px; border: 1px solid #000; background: var(--pair-b); color: #000; font-size: 10px; font-weight: 1000; white-space: nowrap; opacity: 0; pointer-events: none; }
+.vt-studio-value-toggle__bar-tooltip {
+  --vt-tooltip-spout: 7px;
+  --vt-tooltip-gap: 5px;
+  position: absolute;
+  z-index: 60;
+  left: 50%;
+  bottom: calc(100% + var(--vt-tooltip-gap) + var(--vt-tooltip-spout));
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+  box-sizing: border-box;
+  min-height: 20px;
+  padding: 4px 8px;
+  border: 2px solid #000;
+  border-radius: var(--vt-studio-control-radius, 6px);
+  background: var(--vt-studio-control-secondary, var(--pair-b));
+  color: #000;
+  font: 1000 12px/1 Inter, ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: translate(-50%, 0);
+  transform-origin: bottom center;
+  transition: opacity 120ms ease-out;
+  pointer-events: none;
+}
 .vt-studio-value-toggle__bar:hover .vt-studio-value-toggle__bar-tooltip,
-.vt-studio-value-toggle__bar:focus-within .vt-studio-value-toggle__bar-tooltip { opacity: 1; }
+.vt-studio-value-toggle__bar:focus-within .vt-studio-value-toggle__bar-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+/* Speech-bubble spout: one rotated square shares the bubble fill so the outline is
+   continuous, and its mouth opens over the bubble's bottom stroke. */
+.vt-studio-value-toggle__bar-tooltip::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: var(--vt-tooltip-spout, 7px);
+  height: var(--vt-tooltip-spout, 7px);
+  box-sizing: border-box;
+  background: inherit;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  border-end-end-radius: 2px;
+  transform: translate(-50%, calc(var(--vt-tooltip-spout, 7px) * -0.5 - 1px)) rotate(45deg);
+  pointer-events: none;
+}
+.vt-studio-value-toggle__bar-tooltip::after { content: none; }
+
+/* Overflow escape: the bubble must clear the module chrome instead of being cut off by
+   the global overflow defaults. Scoped with :has() so cell clipping stays intact. */
+.vt-studio-value-toggle--bar,
+.vt-studio-value-toggle--bar > [data-vt-studio-split-label],
+.vt-studio-split-shell.vt-studio-value-toggle--bar > [data-vt-studio-split-label] {
+  overflow: visible !important;
+  clip-path: none !important;
+}
+:is(.vt-studio-top-split-module, .vt-studio-collapsing-split-module, .vt-studio-inter-module):has(.vt-studio-value-toggle__bar-tooltip) {
+  overflow: visible !important;
+  clip-path: none !important;
+}
 .vt-studio-word-counter__value {
   display: grid; place-items: center; align-self: stretch; min-width: 0; width: 100%; height: 100%; padding: 0;
   line-height: 1; text-align: center;

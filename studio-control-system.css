@@ -6044,11 +6044,23 @@ button[data-vt-studio-button="true"][data-vt-studio-button-lines="two"][data-vt-
 
 
 /* Collapsing split module: reuses the canonical split-module geometry and palette. */
+/* Expanded parity with StudioTopSplitModule: the head carries NO divider of its own.
+   The body owns exactly one full-width divider as its block-start border, so the rule
+   sits flush against the bottom of the header at every size tier. */
 .vt-studio-collapsing-split-module > .vt-studio-collapsing-split-module__head {
   display: grid;
   cursor: pointer;
   list-style: none;
   user-select: none;
+  border-bottom: 0;
+}
+/* Collapsed: <details> renders only the summary, so the module's own bottom border IS
+   the divider and it lands exactly on the new bottom edge - no leftover strip below it. */
+.vt-studio-collapsing-split-module:not([open]) > .vt-studio-collapsing-split-module__head {
+  border-bottom: 0;
+}
+.vt-studio-collapsing-split-module > .vt-studio-top-split-module__body {
+  border-top: var(--vt-top-split-stroke, 3px) solid #000;
 }
 .vt-studio-collapsing-split-module > .vt-studio-collapsing-split-module__head[data-split="left"] {
   grid-template-columns: var(--vt-top-split-size, 44px) minmax(0, 1fr) var(--vt-top-split-size, 44px);
@@ -6059,9 +6071,14 @@ button[data-vt-studio-button="true"][data-vt-studio-button-lines="two"][data-vt-
 .vt-studio-collapsing-split-module > .vt-studio-collapsing-split-module__head::marker {
   content: "";
 }
+/* Disclosure fallback cell keeps split-rail parity: same 1:1 face as [data-rail="end"]. */
 .vt-studio-collapsing-split-module__disclosure {
   display: grid;
   place-items: center;
+  box-sizing: border-box;
+  min-width: 0;
+  width: var(--vt-top-split-size, 44px);
+  min-width: var(--vt-top-split-size, 44px);
   border-left: var(--vt-top-split-stroke, 3px) solid #000;
   background: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
   color: #000;
