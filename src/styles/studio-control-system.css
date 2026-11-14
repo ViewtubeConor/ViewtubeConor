@@ -6475,7 +6475,8 @@ html body textarea[data-vt-studio-control="true"][data-vt-studio-field-kind="tex
 .vt-studio-collapsing-split-module > .vt-studio-collapsing-split-module__head {
   position: relative;
   isolation: isolate;
-  border-bottom: var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px)) solid #000;
+  /* Reserve the standard split-header stroke without painting a second line. */
+  border-bottom: var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px)) solid transparent;
 }
 .vt-studio-collapsing-split-module__head::after {
   content: "";
