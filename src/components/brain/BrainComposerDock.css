@@ -1,35 +1,76 @@
 /**
- * Brain composer composition only.
+ * Brain composer composition only (layout and placement).
  *
- * StudioTextArea and Studio button primitives own control geometry, borders,
- * fill, typography, focus, and interaction states. Do not skin controls here.
+ * StudioTextArea, StudioSplitTwoLineButton and StudioSquareIconButton own control
+ * geometry, borders, fill, typography, focus and interaction. StudioChatComposerDock
+ * owns the pinned shell, its top rule and the safe-area inset. Nothing here skins a
+ * control; it lines them up on one grid.
+ *
+ * One grid for every row: a flexible main column and a 44px rail, 4px apart. The tools
+ * row has no rail; its buttons share the full width in equal columns.
+ *
+ *   status    hint | Brain status
+ *   source    [ draft-source badge          | clear source ]   28px row
+ *   field     [ message field (92px+)       | Clear draft   ]   rail = field height
+ *             [                             | Send          ]
+ *   tools     [ Prompts | Tools | Context | AI Journal ]       28px row, equal columns
+ *
+ * The tools row adapts to the dock's own width (container query), not the viewport, so it
+ * is right on a phone and in a narrow desktop column alike: below 388px the AI Journal is
+ * a 28px icon square beside two equal labelled buttons; from 388px it is a third equal
+ * labelled button; from 520px Brain Tools joins as a fourth.
+ *
+ * The rail holds two standard 44px controls and the textarea's 92px minimum is exactly
+ * two of them plus one 4px gap, so the rail and the field are always the same height.
+ * The draft-source row and the tools row are both 28px (compact tier), and every row
+ * starts and ends on the same left and right edge.
  */
 .vt-brain-composer-dock {
-  --brain-composer-paper: #f8f8f4;
   --brain-composer-muted: #5b6268;
-  display: block;
-  box-sizing: border-box;
-  width: 100%;
-  min-width: 0;
+  --brain-composer-rail: 44px;
+  --brain-composer-gap: 4px;
   color: #000;
-  background: var(--brain-composer-paper);
+  container-type: inline-size;
+  container-name: brain-composer;
 }
 
-.vt-brain-composer-dock[data-vt-composer-layout="inline-actions"] {
-  width: 100%;
+/* Rhythm: one 4px gap between rows (Studio spacing unit), no extra seams. */
+.vt-brain-composer-dock.vt-studio-chat-composer-dock {
+  gap: var(--brain-composer-gap);
+  padding: 8px 10px max(10px, env(safe-area-inset-bottom, 0px));
+}
+
+/* Status row: keyboard hint when idle, truthful Brain status while working. */
+.vt-brain-composer-dock .vt-studio-chat-composer-dock__status {
+  min-height: 0;
   min-width: 0;
-  gap: 0;
-  border: 0;
-  border-top: 2px solid #000;
-  border-radius: 0;
-  overflow: visible;
-  background: var(--brain-composer-paper);
+}
+
+.vt-brain-composer-dock .vt-brain-composer-hint {
+  color: var(--brain-composer-muted);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: .01em;
+  overflow-wrap: anywhere;
+}
+
+/* Draft source: badge and clear control are both 28px; the clear control sits on the rail's centre line. */
+.vt-brain-composer-dock .vt-brain-composer-source {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--brain-composer-rail);
+  align-items: center;
+  justify-items: center;
+  gap: var(--brain-composer-gap);
+  min-width: 0;
+  width: 100%;
 }
 
 .vt-brain-composer-dock .vt-brain-composer-attachment {
   box-sizing: border-box;
-  max-width: min(100%, 260px);
+  justify-self: start;
   min-width: 0;
+  max-width: 100%;
   overflow: hidden;
 }
 
@@ -41,88 +82,113 @@
   text-overflow: clip;
 }
 
-.vt-brain-composer-dock .vt-brain-composer-hint {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px;
-  color: var(--brain-composer-muted);
-  font-size: 11px;
-  font-weight: 650;
-  letter-spacing: .01em;
+/* The dock's own field row reserves a trailing track for an inline action; the toolbar layout has none. */
+.vt-brain-composer-dock .vt-studio-chat-composer-dock__field-row {
+  grid-template-columns: minmax(0, 1fr);
 }
 
-.vt-brain-composer-dock .vt-studio-chat-composer-dock__field-row {
+/* Message field and its rail: one row, so the rail is always as tall as the field. */
+.vt-brain-composer-dock .vt-brain-composer-field {
   display: grid;
-  grid-template-columns: minmax(0, 4.4fr) minmax(0, 1fr);
-  gap: 4px;
+  grid-template-columns: minmax(0, 1fr) var(--brain-composer-rail);
+  align-items: stretch;
+  gap: var(--brain-composer-gap);
+  min-width: 0;
+  width: 100%;
+}
+
+.vt-brain-composer-dock .vt-brain-composer-field > :is(textarea, [data-vt-studio-control="true"]):not(.vt-brain-composer-send-column) {
+  min-width: 0;
+  width: 100%;
+}
+
+/* Clear draft on the field's top edge, Send on its bottom edge. */
+.vt-brain-composer-dock .vt-brain-composer-send-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--brain-composer-gap);
+  min-width: 0;
+}
+
+/* Tools row: one full-width track; the tray divides it into equal columns. */
+.vt-brain-composer-dock .vt-studio-chat-composer-dock__bottom-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   align-items: stretch;
   min-width: 0;
   width: 100%;
 }
 
-.vt-brain-composer-dock .vt-studio-chat-composer-dock__field {
+.vt-brain-composer-dock .vt-studio-chat-composer-dock__tray {
   display: flex;
   align-items: stretch;
+  gap: var(--brain-composer-gap);
+  overflow: visible;
   min-width: 0;
   width: 100%;
 }
 
-.vt-brain-composer-dock .vt-brain-composer-action {
-  display: grid;
-  grid-template-rows: repeat(3, minmax(0, 1fr));
-  align-self: stretch;
-  align-items: stretch;
-  gap: 4px;
-  width: 100%;
+.vt-brain-composer-dock .vt-studio-chat-composer-dock__tray > * {
+  flex: 1 1 0;
   min-width: 0;
 }
 
-/* Layout-only constraints; the Studio primitives retain their own sizing and skin. */
-.vt-brain-composer-dock .vt-brain-composer-action > * {
-  min-width: 0;
-  width: 100%;
+/* The dock always renders its (here unused) action slot; keep it out of the grid. */
+.vt-brain-composer-dock .vt-studio-chat-composer-dock__action:empty {
+  display: none;
 }
 
-.vt-brain-composer-dock .vt-brain-composer-tool__content,
-.vt-brain-composer-dock .vt-brain-composer-send__content {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+/* Wrappers (not the buttons) show and hide: Studio's button skin owns each button's own display. */
+.vt-brain-composer-dock .vt-brain-composer-wide-only,
+.vt-brain-composer-dock .vt-brain-composer-journal-labelled,
+.vt-brain-composer-dock .vt-brain-composer-journal-icon {
+  display: none;
   min-width: 0;
 }
 
-.vt-brain-composer-dock .vt-brain-composer-tool__icon {
-  display: inline-flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
+.vt-brain-composer-dock .vt-brain-composer-wide-only > *,
+.vt-brain-composer-dock .vt-brain-composer-journal-labelled > *,
+.vt-brain-composer-dock .vt-brain-composer-journal-icon > * {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
-.vt-brain-composer-dock .vt-brain-composer-tool:focus-visible,
-.vt-brain-composer-dock .vt-brain-composer-journal:focus-visible {
-  z-index: 1;
+.vt-brain-composer-dock .vt-studio-chat-composer-dock__tray > .vt-brain-composer-journal-icon {
+  display: flex;
+  flex: 0 0 28px;
 }
 
-.vt-brain-composer-dock .vt-brain-composer-send:disabled {
-  opacity: .48;
+@container brain-composer (min-width: 388px) {
+  .vt-brain-composer-dock .vt-studio-chat-composer-dock__tray > .vt-brain-composer-journal-labelled {
+    display: flex;
+  }
+
+  .vt-brain-composer-dock .vt-studio-chat-composer-dock__tray > .vt-brain-composer-journal-icon {
+    display: none;
+  }
+}
+
+@container brain-composer (min-width: 520px) {
+  .vt-brain-composer-dock .vt-studio-chat-composer-dock__tray > .vt-brain-composer-wide-only {
+    display: flex;
+  }
+}
+
+/* The keyboard hint is a desktop affordance; phones have no Shift+Enter. */
+@media (max-width: 639px) {
+  .vt-brain-composer-dock .vt-studio-chat-composer-dock__status:has(> .vt-brain-composer-hint) {
+    display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .vt-brain-composer-dock.vt-studio-chat-composer-dock {
+    padding-inline: 6px;
+  }
+}
+
+.vt-brain-composer-dock [data-vt-brain-component="BrainComposerSendAction"]:disabled {
   cursor: not-allowed;
-}
-
-@media (max-width: 520px) {
-  .vt-brain-composer-dock .vt-studio-chat-composer-dock__field-row {
-    grid-template-columns: minmax(0, 4.4fr) minmax(0, 1fr);
-  }
-
-  .vt-brain-composer-dock .vt-brain-composer-tool__content,
-  .vt-brain-composer-dock .vt-brain-composer-send__content {
-    gap: 4px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .vt-brain-composer-dock .vt-brain-composer-tool {
-    transition: none;
-  }
 }
