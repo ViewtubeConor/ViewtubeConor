@@ -3447,3 +3447,25 @@
   min-width: 0;
   max-width: none;
 }
+
+
+/* Every horizontal word-toggle skin occupies its own specimen row.
+   The primitive itself retains its documented content-driven width. */
+.vt-confirmed-control-variants[data-vt-library-component="StudioWordToggle"] {
+  grid-template-columns: minmax(0, 1fr);
+  overflow: visible;
+}
+.vt-confirmed-control-variants[data-vt-library-component="StudioWordToggle"] > div {
+  width: 100%;
+  justify-items: start;
+}
+.vt-confirmed-control-variants[data-vt-library-component="StudioWordToggle"] .vt-studio-44-word-toggle {
+  width: max-content;
+  max-width: 100%;
+  justify-self: start;
+  align-self: start;
+  margin-inline: 0;
+}
+.vt-confirmed-vertical-word-toggle-specimen > .vt-studio-vertical-word-toggle {
+  max-width: 100%;
+}
