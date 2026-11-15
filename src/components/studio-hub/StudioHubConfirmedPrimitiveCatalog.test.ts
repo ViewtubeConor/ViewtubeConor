@@ -10,7 +10,8 @@ const readStudioControlCss = () => [
 describe("confirmed Studio button primitive library", () => {
   it("uses real StudioButton and StudioSplitLeftButton exports", () => {
     const catalog = read("src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx")
-    expect(catalog).toContain("StudioButton,")\n    expect(catalog).toContain("StudioSplitLeftButton,")
+    expect(catalog).toContain("StudioButton,")
+    expect(catalog).toContain("StudioSplitLeftButton,")
     expect(catalog).toContain('title="StudioButton"')
     expect(catalog).toContain('title="Split-left Button"')
     expect(catalog).toContain('sizeVariant="standard"')
