@@ -138,7 +138,7 @@ export const StudioCalendarThumbnailEventChip: React.FC<StudioCalendarThumbnailE
 }) => {
   const content = (
     <>
-      <span className="vt-studio-calendar-thumbnail-event-chip__media" data-thumbnail-ratio="16:9">
+      <span className="vt-studio-calendar-thumbnail-event-chip__media" data-thumbnail-ratio="16:9" data-has-thumbnail-art={thumbnailSrc || thumbnail ? "true" : undefined}>
         {thumbnailSrc
           ? <img src={thumbnailSrc} alt={thumbnailAlt ?? ""} loading="lazy" />
           : thumbnail ?? <ImageIcon aria-hidden="true" />}
