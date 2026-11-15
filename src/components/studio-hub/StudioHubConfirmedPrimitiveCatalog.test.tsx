@@ -1195,3 +1195,50 @@ describe("SideTextCounter-based split text-input confirmed-library registration"
     expect(fields).toContain("--vt-field-fill-focus")
   })
 })
+
+
+describe("confirmed Studio toggle row-fill contract", () => {
+  it("gives each switch, radio, and checkbox its own five-size family module", () => {
+    const source = readFileSync(resolve(process.cwd(), "src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx"), "utf8");
+    for (const title of [
+      "Round Switch · Five Sizes × Four Skins",
+      "Rectangular Switch · Five Sizes × Four Skins",
+      "Radio Button · Five Sizes × Four Skins",
+      "Checkmark Checkbox · Five Sizes × Four Skins",
+      "X Checkbox · Five Sizes × Four Skins",
+    ]) expect(source).toContain(`title="${title}"`);
+    expect(source).not.toContain('title="Switches, Radios & Checkboxes"');
+  });
+
+  it("stacks each value-toggle variant on its own full-width row", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/components/studio-hub/studio-hub-primitive-catalogs.css"), "utf8");
+    for (const primitive of ["StudioArrowToggle", "StudioSideToggle", "StudioDoubleSideToggle"]) {
+      expect(css).toMatch(new RegExp(`data-vt-library-component=["']${primitive}["'][^}]*grid-template-columns: minmax\\(0, 1fr\\)`, "s"));
+    }
+    expect(css).toContain(".vt-confirmed-control-variants[data-vt-library-component]");
+  });
+
+  it("does not apply intrinsic-width or fixed-content sizing to switch, choice, or value-toggle primitives", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/styles/studio-confirmed-catalog-modules.css"), "utf8");
+    const intrinsic = css.slice(css.indexOf("/* Content-width / fixed-geometry primitives"), css.indexOf(".vt-confirmed-catalog .vt-studio-square-icon-button-group"));
+    for (const selector of [
+      ".vt-studio-44-switch",
+      ".vt-studio-44-choice",
+      ".vt-studio-value-toggle",
+      ".vt-studio-side-toggle",
+      ".vt-studio-double-side-toggle",
+      ".vt-studio-arrow-toggle",
+      ".vt-studio-bar-toggle",
+    ]) expect(intrinsic).not.toContain(selector);
+    expect(intrinsic).not.toContain("width: auto !important");
+    expect(intrinsic).not.toContain("max-width: max-content !important");
+    expect(intrinsic).not.toContain("flex: 0 0 auto !important");
+  });
+
+  it("keeps word-toggle intrinsic sizing as the explicit documented exception", () => {
+    const css = readStudioControlCss();
+    expect(css).toContain(".vt-studio-44-word-toggle");
+    expect(css).toContain(".vt-studio-vertical-word-toggle");
+    expect(css).toContain('[data-vt-studio-width="content"]');
+  });
+});
