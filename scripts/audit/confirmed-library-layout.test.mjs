@@ -520,7 +520,7 @@ test("confirmed primitive grid is visible first and covers core and advanced Stu
   const top = catalog.slice(catalog.indexOf("export const StudioHubConfirmedPrimitiveCatalog"));
   assert.match(top, /<ConfirmedPrimitiveGridOverview\s*\/>\s*<ConfirmedDirectPrimitiveRows\s*\/>/);
   const grid = catalog.match(/const ConfirmedPrimitiveGridOverview:[^]*?\n}\n\nconst ConfirmedDirectPrimitiveRows/)?.[0] ?? "";
-  assert.match(grid, /<StudioComponentGrid cols=\{3\} rows=\{3\} size="standard"/);
+  assert.match(grid, /<StudioComponentGrid cols=\{1\} rows=\{8\} size="standard"/);
   for (const primitive of [
     "StudioButton",
     "StudioSplitLeftButton",
@@ -530,7 +530,6 @@ test("confirmed primitive grid is visible first and covers core and advanced Stu
     "StudioCounter",
     "StudioSideCounter",
     "StudioDoubleSplitSlider",
-    "StudioArrowToggle",
   ]) assert.ok(grid.includes(`data-vt-library-component="${primitive}"`), `top grid is missing ${primitive}`);
   for (const primitive of [
     "StudioDoubleSplitButton",
@@ -554,7 +553,32 @@ test("canonical grouped families do not render a second duplicate individual-con
   assert.doesNotMatch(catalog, /const ConfirmedIndividualPrimitiveSections\s*:/);
   assert.match(catalog, /<CanonicalControlFamilies\s*\/>/);
   assert.match(catalog, /<CanonicalWordToggleFamily\s*\/>/);
-  assert.match(catalog, /<ConfirmedStudioValueToggleFamily\s*\/>/);
+  assert.match(catalog, /<ConfirmedStudioValueToggleFamily\\s*\\/>/);
+});
+
+test("value-toggle modules expose five canonical full-row specimens and no variation matrix", () => {
+  const family = catalog.match(/const ConfirmedStudioValueToggleFamily:[\\s\\S]*?const CanonicalSplitBadgeFamily/)?.[0] ?? "";
+  for (const [title, primitive] of [
+    ["Arrow Toggle · Five Sizes × Left / Right / Double Rails", "StudioArrowToggle"],
+    ["Side Toggle · Five Sizes × Left / Right Arrow Orientation", "StudioSideToggle"],
+    ["Double Side Toggle · Five Sizes × V1 / V2 × Three Right Faces", "StudioDoubleSideToggle"],
+    ["Bar Toggle · Five Sizes", "StudioBarToggle"],
+  ]) {
+    const start = family.indexOf(`title="${title}"`);
+    const end = family.indexOf("</Family>", start);
+    const module = family.slice(start, end);
+    assert.ok(start >= 0, `${title} exists`);
+    assert.equal((module.match(new RegExp(`data-vt-library-component="${primitive}"`, "g")) ?? []).length, 1);
+    assert.match(module, /sizes\\.map\\(\\(size, index\\)/);
+    assert.match(module, /vt-confirmed-variant is-full-row/);
+    assert.doesNotMatch(module, /gridTemplateColumns|grid-template-columns|vt-confirmed-control-variants|style=\\{/);
+  }
+  assert.match(family, /const sizes = \["supreme", "standard", "compact", "mini", "micro"\] as const/);
+  assert.match(family, /iconSide="double"/);
+  assert.match(family, /arrowSide="right"/);
+  assert.match(family, /variant="v1"/);
+  assert.match(family, /rightAppearance="primary"/);
+  assert.doesNotMatch(family, /rightAppearance="secondary"|rightAppearance="black-primary-text"/);
 });
 
  
