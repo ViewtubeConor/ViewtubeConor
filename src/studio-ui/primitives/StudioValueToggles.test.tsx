@@ -6,6 +6,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { StudioArrowToggle, StudioBarToggle, StudioDoubleSideToggle, StudioDoubleSplitWordCounter, StudioSideToggle } from "./StudioValueToggles";
+import { StudioLeftWordCounter } from "./StudioControls";
 
 const cleanups: Array<() => void> = [];
 function mount(element: React.ReactElement) {
@@ -217,3 +218,26 @@ describe("Side Toggle text-style parity", () => {
     expect(css).not.toMatch(/\.vt-studio-value-toggle--side \.vt-studio-value-toggle__face,\s*\.vt-studio-value-toggle--double[^}]+\{[^}]*color:\s*var\(--vt-toggle-fill/s);
   });
 });
+
+
+describe("shared Word Counter text primitive", () => {
+  it("uses the same value class for Word Counter, Side Toggle, and both Double Side Toggle faces", () => {
+    const wordCounter = renderToStaticMarkup(<StudioLeftWordCounter value={1} onValueChange={() => {}} />)
+    const side = renderToStaticMarkup(<StudioSideToggle options={["LOW", "HIGH"]} value="LOW" onValueChange={() => {}} />)
+    const double = renderToStaticMarkup(
+      <StudioDoubleSideToggle
+        left={{ options: ["ONE", "TWO"], value: "ONE", onValueChange: () => {} }}
+        right={{ options: ["THREE", "FOUR"], value: "THREE", onValueChange: () => {} }}
+      />,
+    )
+    expect(wordCounter).toContain("vt-studio-word-counter__value")
+    expect(side).toContain("vt-studio-word-counter__value")
+    expect(double.match(/vt-studio-word-counter__value/g)?.length).toBe(2)
+  })
+
+  it("does not expose a local text-color override for Arrow Toggle", () => {
+    const source = readFileSync(resolve(process.cwd(), "src/studio-ui/primitives/StudioValueToggles.tsx"), "utf8")
+    expect(source).not.toContain("textColor?: string")
+    expect(source).not.toContain('"--vt-toggle-text"')
+  })
+})
