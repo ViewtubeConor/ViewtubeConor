@@ -1396,6 +1396,28 @@
         "docs/product/VIEWTUBE_STUDIO_HUB_MASTER_TOOL_ARCHITECTURE.md",
         "tasks/toolbox-workflow-convergence/plan.md"
       ]
+    },
+    {
+      "id": "DOC-HANDOFF-COMMENT-MANAGEMENT-MASTER-20261115",
+      "path": "docs/product/studio-hub/COMMENT_MANAGEMENT_MASTER_RESOURCE_AND_HANDOFF.md",
+      "class": "HANDOFF",
+      "status": "ACTIVE",
+      "concern": "studio-hub-comment-management-master-resource-and-implementation-handoff",
+      "owner": "Creator Engagement + Studio Hub + Documentation Governance",
+      "productionDate": "2026-11-15",
+      "lastEdited": "2026-11-15",
+      "lastAuditedMainSha": null,
+      "supersedes": [],
+      "relatedAuthorities": [
+        "docs/product/studio-hub/COMMENT_MANAGEMENT_WORKSPACE.md",
+        "docs/governance/CONVERSATION_HANDOFFS.md",
+        "docs/governance/TASK_AUTHORITY.md",
+        "docs/governance/CONVERGENCE.md",
+        "docs/governance/VERIFICATION.md",
+        "tasks/toolbox-workflow-convergence/plan.md",
+        "tasks/toolbox-workflow-convergence/todo.md",
+        "tasks/conversation-intake/VT-CONV-COMMENT-MANAGEMENT-STUDIO-2026-11-15/handoff.md"
+      ]
     }
   ],
   "legacyGlobalSources": [
