@@ -45,6 +45,12 @@ describe("Confirmed Primitive Library recovery", () => {
     expect(CONFIRMED_CATALOG_MODULE_INVENTORY.some(item => item.title.includes("Studio Numeric Steppers"))).toBe(true)
   })
 
+
+  it("imports every icon used by restored catalog specimens", () => {
+    const lucideImport = catalogSource.match(/import\\s*\\{([^}]+)\\}\\s*from\\s*["']lucide-react["']/)
+    expect(lucideImport?.[1].split(",").map((name) => name.trim())).toContain("Search")
+  })
+
   it("does not re-register the intentionally retired split-text-input family", () => {
     expect(CONFIRMED_CATALOG_MODULE_INVENTORY.some(item => /StudioSplit(?:Left|Right)?TextInput/.test(item.title))).toBe(false)
   })
