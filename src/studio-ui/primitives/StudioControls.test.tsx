@@ -1643,8 +1643,8 @@ describe("StudioCircleIconButton shape consistency", () => {
     for (const size of ["supreme", "standard", "compact", "mini", "micro"]) {
       expect(html[["supreme", "standard", "compact", "mini", "micro"].indexOf(size)]).toContain('data-size="' + size + '"');
     }
-    expect(css).toContain('button[data-vt-studio-circle-icon-button="true"][data-size="supreme"]');
-    expect(css).toContain('button[data-vt-studio-circle-icon-button="true"][data-size="mini"]');
-    expect(css).toContain('button[data-vt-studio-circle-icon-button="true"][data-size="micro"]');
+    expect(css).toContain('button.vt-studio-circle-icon-button[data-size="supreme"]');
+    expect(css).toContain('button.vt-studio-circle-icon-button[data-size="mini"]');
+    expect(css).toContain('button.vt-studio-circle-icon-button[data-size="micro"]');
   });
 });
