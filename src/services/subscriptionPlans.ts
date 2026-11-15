@@ -11,6 +11,10 @@ export type SubscriptionPlanId =
 export interface SubscriptionPlanCapabilityMatrix {
  id: SubscriptionPlanId
  label: string
+ priceUsd: number
+ monthlyCredits: number
+ rolloverCap: number
+ billingTier: "free" | "medium" | "large"
  modes: Array<"public_handle" | "connected" | "import" | "hybrid">
  tables: MasterTableType[]
  maxHistoryDays: number
@@ -25,6 +29,10 @@ export interface SubscriptionPlanCapabilityMatrix {
 export const SUBSCRIPTION_PLANS: SubscriptionPlanCapabilityMatrix[] = [
  {
   id: "basic",
+  priceUsd: 0,
+  monthlyCredits: 0,
+  rolloverCap: 0,
+  billingTier: "free",
   label: "Basic (Free)",
   modes: ["public_handle", "import"],
   tables: [
@@ -44,6 +52,10 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlanCapabilityMatrix[] = [
  },
  {
   id: "beta",
+  priceUsd: 0,
+  monthlyCredits: 0,
+  rolloverCap: 0,
+  billingTier: "large",
   label: "Beta (BYOK)",
   modes: ["connected", "import", "hybrid", "public_handle"],
   tables: [
@@ -69,6 +81,10 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlanCapabilityMatrix[] = [
  },
  {
   id: "creator",
+  priceUsd: 9.99,
+  monthlyCredits: 1000,
+  rolloverCap: 2000,
+  billingTier: "medium",
   label: "Creator",
   modes: ["connected", "import", "hybrid", "public_handle"],
   tables: [
@@ -90,6 +106,10 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlanCapabilityMatrix[] = [
  },
  {
   id: "creator_plus",
+  priceUsd: 19.99,
+  monthlyCredits: 2000,
+  rolloverCap: 4000,
+  billingTier: "medium",
   label: "Creator Plus",
   modes: ["connected", "import", "hybrid", "public_handle"],
   tables: [
@@ -114,6 +134,10 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlanCapabilityMatrix[] = [
  },
  {
   id: "creator_pro",
+  priceUsd: 39.99,
+  monthlyCredits: 4000,
+  rolloverCap: 8000,
+  billingTier: "medium",
   label: "Creator Pro",
   modes: ["connected", "import", "hybrid", "public_handle"],
   tables: [
@@ -139,6 +163,10 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlanCapabilityMatrix[] = [
  },
  {
   id: "executive",
+  priceUsd: 69.99,
+  monthlyCredits: Number.POSITIVE_INFINITY,
+  rolloverCap: Number.POSITIVE_INFINITY,
+  billingTier: "large",
   label: "Executive",
   modes: ["connected", "import", "hybrid", "public_handle"],
   tables: [
