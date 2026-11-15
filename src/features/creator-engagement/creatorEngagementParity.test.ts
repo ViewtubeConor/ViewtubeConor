@@ -1,5 +1,7 @@
 import { readFileSync } from "node:fs"
 import { describe, expect, it } from "vitest"
+import type { SimpleYouTubeCommentThread } from "../../services/simpleYouTubeApi"
+import { partitionCommentThreads } from "./useCommentResponderController"
 
 const source = (relativePath: string) => readFileSync(new URL(relativePath, import.meta.url), "utf8")
 
@@ -31,5 +33,35 @@ describe("creator engagement cross-surface parity", () => {
   expect(studioCommunity).toContain('aria-live="polite"')
   expect(studioCommunity).toContain('htmlFor="community-post-copy"')
   expect(studioCommunity).not.toContain("transition-all")
+ })
+
+ it("partitions only fully hydrated comment threads and recognizes creator replies", () => {
+  const makeThread = (
+   id: string,
+   replyAuthorChannelId?: string,
+   repliesComplete = true,
+  ): SimpleYouTubeCommentThread => ({
+   id,
+   snippet: {
+    videoId: "video-1",
+    topLevelComment: { id: `${id}-top`, snippet: { textOriginal: `Comment ${id}` } },
+    totalReplyCount: replyAuthorChannelId ? 1 : 0,
+   },
+   replies: {
+    comments: replyAuthorChannelId
+     ? [{ id: `${id}-reply`, snippet: { authorChannelId: { value: replyAuthorChannelId } } }]
+     : [],
+   },
+   repliesComplete,
+  })
+
+  const result = partitionCommentThreads([
+   makeThread("new"),
+   makeThread("replied", "channel-1"),
+   makeThread("incomplete", "channel-1", false),
+  ], "channel-1")
+
+  expect(result.unreplied.map((thread) => thread.id)).toEqual(["new"])
+  expect(result.replied.map((thread) => thread.id)).toEqual(["replied"])
  })
 })
