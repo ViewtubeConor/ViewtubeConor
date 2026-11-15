@@ -6706,3 +6706,24 @@ button.vt-studio-circle-icon-button > [data-vt-studio-button-face] {
     transform: translate(-50%, 0);
   }
 }
+
+
+/* Circular actions need a circular outer shell as well as a circular face. */
+button.vt-studio-circle-icon-button {
+  border-radius: 50%;
+}
+button.vt-studio-circle-icon-button > [data-vt-studio-button-face] {
+  border-radius: 50%;
+}
+button.vt-studio-square-icon-button [data-vt-square-tooltip] {
+  transition: opacity 140ms ease, transform 160ms ease, visibility 0s linear 160ms;
+}
+button.vt-studio-square-icon-button:is(:hover, :focus-visible) [data-vt-square-tooltip] {
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  button.vt-studio-square-icon-button [data-vt-square-tooltip] {
+    transition-duration: 0s;
+    animation: none;
+  }
+}
