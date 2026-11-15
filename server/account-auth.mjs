@@ -6,6 +6,7 @@ import {
   reserveAiCredits,
   settleAiCreditReservation,
   releaseAiCreditReservation,
+  recordAiProviderUsage,
   createAccountSession,
   deleteAccountRecord,
   getAccountSnapshotData,
@@ -1000,6 +1001,24 @@ export const handleAccountRoute = async ({ req, res, method, pathname, parsedUrl
     });
     if (!result.released) return json(res, 409, { error: "AI credit reservation could not be released.", ...result }), true;
     return json(res, 200, { ...result, snapshot: await buildSnapshot(userId) }), true;
+  }
+
+  if (method === "POST" && pathname === "/api/account/ai-usage/record") {
+    const userId = await sessionUserId(req);
+    if (!userId) return json(res, 401, { error: "Authentication required." }), true;
+    const payload = await readJsonBody(req, readBody);
+    const result = await recordAiProviderUsage(userId, {
+      provider: payload.provider,
+      modelId: payload.modelId,
+      keySource: payload.keySource,
+      inputTokens: payload.inputTokens,
+      outputTokens: payload.outputTokens,
+      rawCostUsd: payload.rawCostUsd,
+      usageSource: payload.usageSource,
+      idempotencyKey: payload.idempotencyKey,
+      metadata: payload.metadata || {},
+    });
+    return json(res, 200, { recorded: result.inserted, duplicate: !result.inserted }), true;
   }
 
   if (method === "POST" && pathname === "/api/account/ai-credits/consume") {
