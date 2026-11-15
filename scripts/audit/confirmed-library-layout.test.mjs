@@ -474,7 +474,7 @@ test("StudioButton catalog styles contain labels without retired V1-V7 skin over
   assert.match(buttonCss, /\.vt-confirmed-button-skin\s*>\s*\[data-vt-studio-button-face\]/);
   assert.match(buttonCss, /overflow:\s*hidden/);
   assert.doesNotMatch(buttonCss, /data-vt-button-skin/);
-  assert.doesNotMatch(buttonCss, /overflow-wrap:\\s*anywhere/,
+  assert.doesNotMatch(buttonCss, /overflow-wrap:\s*anywhere/,
     "the catalog must not override StudioButton's own text containment policy");
 });
 
@@ -557,7 +557,7 @@ test("canonical grouped families do not render a second duplicate individual-con
 });
 
 test("value-toggle modules expose five canonical full-row specimens and no variation matrix", () => {
-  const family = catalog.match(/const ConfirmedStudioValueToggleFamily:[\\s\\S]*?const CanonicalSplitBadgeFamily/)?.[0] ?? "";
+  const family = catalog.match(/const ConfirmedStudioValueToggleFamily:[\s\S]*?const CanonicalSplitBadgeFamily/)?.[0] ?? "";
   for (const [title, primitive] of [
     ["Arrow Toggle · Five Sizes × Left / Right / Double Rails", "StudioArrowToggle"],
     ["Side Toggle · Five Sizes × Left / Right Arrow Orientation", "StudioSideToggle"],
@@ -571,7 +571,7 @@ test("value-toggle modules expose five canonical full-row specimens and no varia
     assert.equal((module.match(new RegExp(`data-vt-library-component="${primitive}"`, "g")) ?? []).length, 1);
     assert.match(module, /sizes\.map\(\(size, index\)/);
     assert.match(module, /vt-confirmed-variant is-full-row/);
-    assert.doesNotMatch(module, /grid-template-columns|gridTemplateColumns|grid-template-columns|gridTemplateColumns|vt-confirmed-control-variants|style=\\{/);
+    assert.doesNotMatch(module, /grid-template-columns|gridTemplateColumns|vt-confirmed-control-variants|style=\{/);
   }
   assert.match(family, /const sizes = \["supreme", "standard", "compact", "mini", "micro"\] as const/);
   assert.match(family, /iconSide="double"/);
