@@ -115,7 +115,7 @@ export interface StudioModuleAction {
   disabled?: boolean
 }
 
-export interface StudioAccentRailModuleProps extends React.HTMLAttributes<HTMLElement> {
+export interface StudioAccentRailModuleProps extends Omit<React.HTMLAttributes<HTMLElement>, "title"> {
   spectrum: StudioSpectrumName
   title?: React.ReactNode
   subtitle?: React.ReactNode
@@ -187,7 +187,7 @@ export function StudioAccentRailModule({
   )
 }
 
-export interface StudioIconTitleModuleProps extends React.HTMLAttributes<HTMLElement> {
+export interface StudioIconTitleModuleProps extends Omit<React.HTMLAttributes<HTMLElement>, "title"> {
   spectrum: StudioSpectrumName
   icon: React.ReactNode
   title: React.ReactNode
