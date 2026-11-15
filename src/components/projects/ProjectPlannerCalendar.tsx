@@ -244,7 +244,9 @@ const ProjectPlannerCalendar: React.FC<ProjectPlannerCalendarProps> = ({ onOpenP
                         {dayItems.slice(0, 2).map(item => {
                           const hasRange = Boolean(item.event.endDate && item.event.endDate > item.event.startDate)
                           if (hasRange) {
-                            const segment = key === item.event.startDate ? "start" : key === item.event.endDate ? "end" : "middle"
+                            const startsSegment = key === item.event.startDate || day.getDay() === 0
+                            const endsSegment = key === item.event.endDate || day.getDay() === 6
+                            const segment = startsSegment && endsSegment ? "single" : startsSegment ? "start" : endsSegment ? "end" : "middle"
                             return <StudioCalendarMultiDayBar key={item.id} label={item.label} kind={item.event.kind === "publish" ? "publish" : "task"} status={item.status} segment={segment} className="vt-project-planner-calendar__marker" />
                           }
                           const project = item.event.source.projectId ? projectById.get(item.event.source.projectId) : projectById.get(item.event.source.recordId)
