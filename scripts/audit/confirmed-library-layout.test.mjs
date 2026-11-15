@@ -579,6 +579,9 @@ test("value-toggle modules expose five canonical full-row specimens and no varia
   assert.match(family, /variant="v1"/);
   assert.match(family, /rightAppearance="primary"/);
   assert.doesNotMatch(family, /rightAppearance="secondary"|rightAppearance="black-primary-text"/);
+  assert.match(family, /className="vt-confirmed-value-toggle-module"/);
+  assert.match(styles, /\.vt-confirmed-value-toggle-module > \.vt-confirmed-primitive-body > \.vt-confirmed-variants\s*\{[\s\S]*?display:\s*flex;[\s\S]*?flex-direction:\s*column;/);
+  assert.match(styles, /\.vt-confirmed-value-toggle-module \.vt-confirmed-variant\.is-full-row\s*\{[\s\S]*?display:\s*flex;[\s\S]*?width:\s*100%;/);
 });
 
  
