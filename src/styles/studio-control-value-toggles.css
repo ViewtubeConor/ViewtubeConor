@@ -251,15 +251,6 @@
   overflow: visible !important;
   clip-path: none !important;
 }
-.vt-studio-word-counter__value {
-  --vt-studio-number-background: var(--vt-studio-control-accent, var(--pair-a));
-  --vt-studio-number-rest-color: color-mix(in srgb, #fff var(--vt-studio-number-default-white-mix, 50%), var(--vt-studio-number-background));
-  display: grid; place-items: center; align-self: stretch; min-width: 0; width: 100%; height: 100%; padding: 0;
-  line-height: 1; text-align: center;
-  color: var(--vt-studio-number-rest-color);
-  -webkit-text-fill-color: var(--vt-studio-number-rest-color);
-  -webkit-text-stroke: var(--vt-studio-control-text-stroke, 1px) var(--vt-studio-number-rest-color);
-}
 .vt-studio-word-counter__button { display: grid; place-items: center; width: 100%; height: 100%; padding: 0; border: 0; border-radius: 0; background: transparent; color: #000; }
 .vt-studio-word-counter__button { --vt-studio-stepper-icon-size: calc(var(--vt-studio-control-height, 44px) * .82); --vt-studio-stepper-icon-stroke: 3.75; }
 .vt-studio-word-counter__button svg { width: var(--vt-studio-stepper-icon-size); height: var(--vt-studio-stepper-icon-size); }
@@ -269,7 +260,6 @@
 
 /* Shared focus contract: the perimeter and glyph transition use one timing token.
    Double-side controls keep one outer outline; only the side containing focus changes glyph color. */
-.vt-studio-value-toggle .vt-studio-value-toggle__face,
 .vt-studio-value-toggle .vt-studio-value-toggle__arrow,
 .vt-studio-value-toggle .vt-studio-value-toggle__divider {
   transition:
@@ -314,8 +304,7 @@
 .vt-studio-value-toggle--double .vt-studio-value-toggle--nested:focus-within {
   outline: none;
 }
-.vt-studio-value-toggle--double .vt-studio-value-toggle__double-side .vt-studio-value-toggle__face,
-.vt-studio-value-toggle--double .vt-studio-value-toggle__double-side .vt-studio-word-counter__value {
+.vt-studio-value-toggle--double .vt-studio-value-toggle__double-side .vt-studio-value-toggle__face {
   transition:
     color var(--vt-studio-focus-outline-fade-ms, 500ms) ease-out,
     -webkit-text-fill-color var(--vt-studio-focus-outline-fade-ms, 500ms) ease-out,
