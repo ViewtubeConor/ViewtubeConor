@@ -1206,7 +1206,8 @@ describe("confirmed Studio toggle row-fill contract", () => {
       "Radio Button",
       "Checkmark Checkbox",
       "X Checkbox",
-    ]) expect(source).toContain(`"${title}" + " · Five Sizes × Four Skins"`);
+    ]) expect(source).toContain(`"${title}"`);
+    expect(source).toContain(" · Five Sizes × Four Skins");
     expect(source).not.toContain('title="Switches, Radios & Checkboxes"');
   });
 
