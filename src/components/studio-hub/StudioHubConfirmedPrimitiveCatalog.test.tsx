@@ -1217,12 +1217,12 @@ describe("toggle row-width and module contract", () => {
     const catalog = readFileSync(resolve(process.cwd(), "src/components/studio-hub/studio-hub-primitive-catalogs.css"), "utf8");
     const exceptions = readFileSync(resolve(process.cwd(), "src/styles/studio-confirmed-catalog-modules.css"), "utf8");
     const representative = readFileSync(resolve(process.cwd(), "src/components/studio-hub/studio-hub-primitive-catalogs.css"), "utf8");
-    expect(controls).toMatch(/button\.vt-studio-44-switch\s*\\{[^}]*width:\s*auto/s);
-    expect(controls).toMatch(/button\.vt-studio-44-choice\s*\\{[^}]*width:\s*auto/s);
+    expect(controls).toMatch(/button\.vt-studio-44-switch\s*\{[^}]*width:\s*auto/s);
+    expect(controls).toMatch(/button\.vt-studio-44-choice\s*\{[^}]*width:\s*auto/s);
     expect(controls).not.toMatch(/\.vt-studio-44-switch[^}]*flex:\s*none/s);
-    expect(valueToggles).toMatch(/\.vt-studio-value-toggle\s*\\{[^}]*width:\s*auto/s);
-    expect(valueToggles).toMatch(/\.vt-studio-split-shell\.vt-studio-value-toggle\s*\\{[^}]*width:\s*auto/s);
-    expect(valueToggles).toMatch(/\.vt-studio-value-toggle--double\s*\\{[^}]*width:\s*auto/s);
+    expect(valueToggles).toMatch(/\.vt-studio-value-toggle\s*\{[^}]*width:\s*auto/s);
+    expect(valueToggles).toMatch(/\.vt-studio-split-shell\.vt-studio-value-toggle\s*\{[^}]*width:\s*auto/s);
+    expect(valueToggles).toMatch(/\.vt-studio-value-toggle--double\s*\{[^}]*width:\s*auto/s);
     expect(catalog).toContain('.vt-confirmed-control-variants[data-vt-library-component="StudioArrowToggle"]');
     expect(catalog).toContain('.vt-confirmed-control-variants[data-vt-library-component="StudioSideToggle"]');
     expect(catalog).toContain('.vt-confirmed-control-variants[data-vt-library-component="StudioDoubleSideToggle"]');
@@ -1234,7 +1234,7 @@ describe("toggle row-width and module contract", () => {
   it("stacks horizontal and vertical word-toggle variants while preserving their documented intrinsic sizing", () => {
     const catalog = readFileSync(resolve(process.cwd(), "src/components/studio-hub/studio-hub-primitive-catalogs.css"), "utf8");
     const controls = readStudioControlCss();
-    expect(catalog).toContain(".vt-confirmed-word-toggle-family .vt-confirmed-control-variants {\\n  grid-template-columns: minmax(0, 1fr);");
+    expect(catalog).toContain(".vt-confirmed-word-toggle-family .vt-confirmed-control-variants {\n  grid-template-columns: minmax(0, 1fr);");
     expect(catalog).toContain(".vt-confirmed-vertical-word-toggle-family .vt-confirmed-vertical-word-toggle-micro");
     expect(controls).toContain(".vt-studio-44-word-toggle");
     expect(controls).toContain(".vt-studio-vertical-word-toggle");
