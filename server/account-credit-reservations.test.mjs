@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import crypto from "node:crypto";
 import os from "node:os";
 import path from "node:path";
 import { mkdtemp, rm } from "node:fs/promises";
@@ -122,4 +123,44 @@ test("unlimited Executive accounts reserve and settle without finite credit debi
   assert.equal(settled.settled, true);
   assert.equal(settled.unlimited, true);
   assert.equal(settled.availableCredits, 1_000);
+});
+
+test("settlement above the reservation requires available balance and leaves the reservation open on failure", async () => {
+  const userId = await createFundedCreator();
+  const reservation = await store.reserveAiCredits(userId, {
+    credits: 100,
+    idempotencyKey: "generation:underestimated",
+  });
+  await store.consumeAiCredits(userId, { credits: 850, idempotencyKey: "other-generation:large" });
+
+  const settlement = await store.settleAiCreditReservation(userId, {
+    reservationId: reservation.reservationId,
+    actualCredits: 200,
+    idempotencyKey: "generation:underestimated:settle",
+  });
+  assert.equal(settlement.settled, false);
+  assert.equal(settlement.reason, "insufficient_balance");
+  assert.equal(settlement.availableCredits, 50);
+
+  const released = await store.releaseAiCreditReservation(userId, {
+    reservationId: reservation.reservationId,
+    idempotencyKey: "generation:underestimated:release",
+  });
+  assert.equal(released.released, true);
+  assert.equal(released.availableCredits, 150);
+});
+
+test("settlement can charge usage above the estimate when remaining credits cover the difference", async () => {
+  const userId = await createFundedCreator();
+  const reservation = await store.reserveAiCredits(userId, {
+    credits: 100,
+    idempotencyKey: "generation:underestimated-but-funded",
+  });
+  const settlement = await store.settleAiCreditReservation(userId, {
+    reservationId: reservation.reservationId,
+    actualCredits: 150,
+    idempotencyKey: "generation:underestimated-but-funded:settle",
+  });
+  assert.equal(settlement.settled, true);
+  assert.equal(settlement.availableCredits, 850);
 });
