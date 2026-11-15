@@ -4,7 +4,7 @@
 **PR target branch:** `fix/studio-controls-regression-recovery-2026-10-31`  
 **Implementation branch:** `feat/projects-calendar-phase-0-1-source-integration-2026-11-15`  
 **Canonical data owner:** Projects / Project records; no second calendar store  
-**Status:** Phases 0–1 source/branch reconciliation and read-only Projects event projection are implemented on the recovery-based feature branch; runtime verification remains open. Phases 2–5 remain pending.
+**Status:** Phases 0–4 implementation is present on the recovery-based feature branch; repository test/build/browser verification remains open. Phase 5 owner-write interactions and Phase 6 release certification remain pending.
 
 ## Product contract
 
@@ -20,10 +20,10 @@ The visual language stays neo-brutalist and uses the canonical Studio controls f
 |---|---|---|---|
 | 0. Branch/source reconciliation | Audit all identified calendar branches and PRs against the October 31 recovery branch; disposition stale, merged and unique work | **Complete — source audit** | Branch ledger below; #1244 is superseded, #1245–#1249 are merged, and no identified branch contains additional unmerged calendar commits beyond the merged recovery history |
 | 1. Source-owned event contract | Define canonical owners, stable record identity, date semantics and read-only projections for existing Project and task records | **Implemented; runtime verification pending** | `calendarEventContract.ts` plus `projectCalendarEvents.ts` and focused tests for Projects/tasks and verified Publisher schedules; existing owner write paths remain unchanged |
-| 2. Studio primitives | Mini event chips, multi-day bars, thumbnail event chips and media rails | **Implemented on recovery branch; integration/visual verification pending** | `StudioCalendarEventChip`, `StudioCalendarMultiDayBar`, `StudioCalendarThumbnailEventChip`, `StudioCalendarMediaRail`, exports and confirmed catalog |
+| 2. Studio primitives | Mini event chips, multi-day bars, thumbnail event chips and media rails | **Implemented; visual verification pending** | `StudioCalendarEventChip`, `StudioCalendarMultiDayBar`, `StudioCalendarThumbnailEventChip`, `StudioCalendarMediaRail`, public exports and shared tokens |
 | 3. Confirmed primitive catalog | Actual production representatives and regression coverage | **Implemented on recovery branch; verification pending** | PRs #1245, #1248 and #1249 |
-| 4. Production calendar integration | Consume the event projection and render new Mini/bar/thumbnail primitives in `ProjectPlannerCalendar` | **Pending** | Current production calendar still projects project/task arrays inline and renders individual chips |
-| 5. Interaction and owner writes | Drag/drop, range movement, task/publish interactions and owner-correct persistence | **Pending** | Preserve existing `updateProject` paths; add only owner-supported workflows |
+| 4. Production calendar integration | Consume the event projection and render new Mini/bar/thumbnail primitives in `ProjectPlannerCalendar` | **Implemented; runtime verification pending** | `ProjectPlannerCalendar` now consumes `projectProjectsToCalendarEvents`, resolves owner records by stable source identity, uses thumbnail Mini chips for publication markers, Mini chips for tasks, and week-segmented bars only for explicit source-owned ranges |
+| 5. Interaction and owner writes | Drag/drop, range movement, task/publish interactions and owner-correct persistence | **Pending** | Preserve existing `updateProject` paths; add drag/drop or range movement only when owner APIs and persisted range fields are explicitly supported |
 | 6. Verification and release | Focused tests, Studio gate, typecheck, build, full suite and desktop/mobile accessibility checks | **Pending** | Must run in repository-capable CI/runtime; do not claim visual certification before browser inspection |
 
 
@@ -113,7 +113,7 @@ No calendar table, browser-local calendar store, duplicate task store, or new Pr
 
 The source changes and regression assertions have been authored on the implementation branch. The repository runtime is not available in this execution environment, so the focused Vitest test, Studio Controls test gate, typecheck, build, and browser rendering have **not** been run here. Do not treat phases 2–3 as certified until those checks run in CI or a repository-capable environment.
 
-## Creator-facing copy contract
+### Phase 4 — production calendar integration (implementation record)\n\n- `ProjectPlannerCalendar` now consumes the shared read-only Projects/task event projection instead of independently deriving event dates from raw arrays.\n- Stable projection source identity resolves the owning Project and task for selected-day details; owner records remain authoritative.\n- Day cells render Mini thumbnail chips for publish events and Mini event chips for tasks.\n- Explicit `endDate` ranges render `StudioCalendarMultiDayBar` segments with week-boundary caps. The current Project adapter intentionally emits no range events because the persisted Project contract has no approved start/end fields; therefore no multi-day bars are fabricated from `publishDate`.\n- Existing schedule, unschedule and task-completion actions still call `updateProject`. Drag/drop and range writes are not introduced in this phase.\n- Publisher status remains the existing read-only saved ContentBuild badge. A verified Publisher event feed is not claimed as integrated into the day grid.\n\n### Phase 4 verification boundary\n\nThe code path and documentation are updated, but no focused Vitest, Studio gate, typecheck, production build, full suite, or browser/mobile run has been completed in this environment. Phase 4 is implementation-complete but not certified.\n\n## Creator-facing copy contract
 
 Use short, action-led language. Avoid implementation terms such as “calendar state,” “record mutation,” “projection,” or “ContentBuild” in creator-facing controls.
 
