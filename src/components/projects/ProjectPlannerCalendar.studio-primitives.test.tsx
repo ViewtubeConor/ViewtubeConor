@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server"
 import { readFileSync } from "node:fs"
 import { resolve } from "node:path"
 import { describe, expect, it } from "vitest"
-import { StudioCalendarEventChip, StudioCalendarMediaRail } from "../../studio-ui/primitives/StudioCalendarPrimitives"
+import { StudioCalendarEventChip, StudioCalendarMediaRail, StudioCalendarMultiDayBar, StudioCalendarThumbnailEventChip } from "../../studio-ui/primitives/StudioCalendarPrimitives"
 
 describe("Studio Calendar control compositions", () => {
   it("renders event chips with semantic event identity and accessible action", () => {
@@ -20,6 +20,22 @@ describe("Studio Calendar control compositions", () => {
     expect(html).toContain('data-event-kind="publish"')
     expect(html).toContain('aria-pressed="true"')
     expect(html).toContain("PUBLISH EPISODE")
+  })
+
+  it("binds calendar chip and multi-day geometry to the global Mini tier", () => {
+    const html = renderToStaticMarkup(
+      <>
+        <StudioCalendarEventChip label="Task" sizeVariant="mini" />
+        <StudioCalendarMultiDayBar label="Campaign" channelWide />
+        <StudioCalendarThumbnailEventChip label="Publish" thumbnail={<svg viewBox="0 0 16 9"><rect width="16" height="9" fill="#36e0f6" /></svg>} />
+      </>,
+    )
+    expect((html.match(/data-size="mini"/g) || []).length).toBe(3)
+    expect(html).toContain("<svg")
+    const css = readFileSync(resolve(process.cwd(), "src/studio-ui/primitives/studio-calendar-primitives.css"), "utf8")
+    expect(css).toContain("height: var(--vt-studio-control-height, 20px)")
+    expect(css).toContain("border: var(--vt-studio-control-stroke, 1.5px) solid #000")
+    expect(css).not.toContain("border-style: dashed")
   })
 
   it("supports landscape and portrait media rails without changing the project data owner", () => {
