@@ -74,11 +74,13 @@ export const CommentResponder: React.FC = () => {
       const itemAuthor = plainText(itemSnippet.authorDisplayName || "Viewer")
       const itemText = plainText(itemSnippet.textDisplay || itemSnippet.textOriginal || "")
       const selected = index === comments.currentIndex
-      return <button key={item.id || index} type="button" role="listitem" aria-pressed={selected} aria-label={`Open comment from ${itemAuthor}`} onClick={() => comments.setCurrentIndex(index)} data-comment-inbox-item data-selected={selected ? "true" : "false"} className={`min-w-0 rounded-lg border-2 border-black p-3 text-left transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black ${selected ? "bg-[#DDF4FF]" : "bg-white hover:bg-[#F4F8FA]"}`}>
-       <span className="flex items-center justify-between gap-2"><strong className="truncate text-[11px] font-black uppercase">{itemAuthor}</strong><span className="shrink-0 text-[9px] font-bold opacity-55">{Number(itemSnippet.likeCount || 0).toLocaleString()} likes</span></span>
-       <span className="mt-1 block text-xs font-semibold leading-snug">{itemText || "No comment text available."}</span>
-       <span className="mt-2 flex items-center justify-between gap-2 text-[9px] font-black uppercase opacity-50"><span>{formatCommentDate(itemSnippet.publishedAt || itemSnippet.updatedAt)}</span><span>{item.replies?.comments?.length || 0} replies</span></span>
-      </button>
+      return <div key={item.id || index} role="listitem" className="min-w-0">
+       <button type="button" aria-pressed={selected} aria-label={`Open comment from ${itemAuthor}`} onClick={() => comments.setCurrentIndex(index)} data-comment-inbox-item data-selected={selected ? "true" : "false"} className={`flex h-full w-full min-w-0 flex-col rounded-lg border-2 border-black p-3 text-left transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black ${selected ? "bg-[#DDF4FF]" : "bg-white hover:bg-[#F4F8FA]"}`}>
+        <span className="flex w-full items-center justify-between gap-2"><strong className="truncate text-[11px] font-black uppercase">{itemAuthor}</strong><span className="shrink-0 text-[9px] font-bold opacity-55">{Number(itemSnippet.likeCount || 0).toLocaleString()} likes</span></span>
+        <span className="mt-1 block w-full text-xs font-semibold leading-snug">{itemText || "No comment text available."}</span>
+        <span className="mt-auto flex w-full items-center justify-between gap-2 pt-2 text-[9px] font-black uppercase opacity-50"><span>{formatCommentDate(itemSnippet.publishedAt || itemSnippet.updatedAt)}</span><span>{item.replies?.comments?.length || 0} replies</span></span>
+       </button>
+      </div>
      })}
     </div> : <p className="rounded-lg border-2 border-dashed border-black/30 p-3 text-xs font-semibold">Your selected queue is clear. Refresh to check for new comments.</p>}
    </div>
