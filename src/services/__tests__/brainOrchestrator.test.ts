@@ -210,7 +210,7 @@ describe("BrainOrchestrator", () => {
   }))
   const result = await runBrainTurn({
    channelId: "orchestrator-channel",
-   userText: "What is my best video?",
+   userText: "What should my next video be?",
    snapshot,
    growthContext,
    systemPrompt: "Use channel evidence.",
@@ -277,7 +277,7 @@ describe("BrainOrchestrator", () => {
   const provider = vi.fn(async () => { throw new Error("provider unavailable") })
   const failed = await runBrainTurn({
    channelId: "orchestrator-channel",
-   userText: "Give me a strategy",
+   userText: "What should my next video be?",
    snapshot,
    growthContext,
    systemPrompt: "Use evidence.",
