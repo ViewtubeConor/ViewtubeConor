@@ -100,7 +100,8 @@ describe("confirmed composite primitive catalog", () => {
       "Side Toggle · Five Sizes × Left / Right Arrow Orientation",
       "Double Side Toggle · Five Sizes × V1 / V2 × Three Right Faces",
       "Bar Toggle · Five Sizes",
-      "Word Toggles · Standard + Compact + Vertical",
+      "Word Toggle · Five Sizes × Four Skins",
+      "Vertical Word Toggle · Five Sizes × Four Variants",
       "StudioCounter · Supreme + Standard + Compact + Mini + Micro",
       "StudioDoubleSplitSlider · Supreme + Standard + Compact + Mini + Micro",
       "Studio Numeric Steppers · Inline + Split",
@@ -560,8 +561,10 @@ describe("confirmed vertical word-toggle primitive", () => {
     for (const title of ["Round Switch", "Rectangular Switch", "Radio Button", "Checkmark Checkbox", "X Checkbox"]) {
       expect(source).toContain('family("' + title + '"');
     }
-    expect(source).toContain('title="Word Toggles · Standard + Compact + Vertical"');
-    expect(source).toContain('primitive="StudioWordToggle / StudioVerticalWordToggle"');
+    expect(source).toContain('title="Word Toggle · Five Sizes × Four Skins"');
+    expect(source).toContain('title="Vertical Word Toggle · Five Sizes × Four Variants"');
+    expect(source).toContain('primitive="StudioWordToggle"');
+    expect(source).toContain('primitive="StudioVerticalWordToggle"');
     expect(source).not.toContain("Switches, radios, checkboxes, horizontal word toggles, and vertical word toggles are grouped in one family module.");
     expect(readFileSync(resolve(process.cwd(), "src/components/studio-hub/studio-hub-primitive-catalogs.css"), "utf8")).toContain("flex-direction: column;\n  align-items: flex-start;");
   });
