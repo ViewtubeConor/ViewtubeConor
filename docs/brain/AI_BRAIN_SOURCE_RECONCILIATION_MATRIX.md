@@ -98,3 +98,23 @@ The following requested target files were fetched from the current target:
 - `VideoUploaderWidget.tsx`: calls governed tag, timestamp and SEO generation services.
 
 This is an import/call-surface check only. It does not yet prove all internal helpers use the canonical resolver, nor does it certify every execution path or release-gate job.
+
+
+## PR #1241 selective reconciliation against target SHA 52c6e90f
+
+The PR is a single-commit donor but is 48 commits behind current target (merge base a279e52e). Do not merge or cherry-pick the commit wholesale.
+
+| Area | Current target | PR #1241 donor | Disposition |
+|---|---|---|---|
+| Context budget | No exact included/requested section manifest on BrainContextBroker budget | Adds includedSections and requestedSections | Candidate for selective recovery; inspect section-selection semantics and budget tests |
+| Brain trace contract | No sectionsRequested, context project/build scope, generation-path/fallback/validation fields in trace type | Adds these fields | Candidate; retain backward compatibility for legacy traces |
+| Orchestrator | Already has generation/fallback locals and model-input snapshot persistence | Adds exact selected/requested section capture, scope identity, retry snapshot restoration metadata | Candidate; verify actual original/retry input parity and no invented provenance for legacy snapshots |
+| Runtime snapshot | Current trace summary omits exact context manifest and generation/evidence detail fields | Adds section manifest, scope, model/provider, generation path, fallback, validation, evidence IDs and output ref | Candidate; ensure values derive from canonical trace and absent data remains explicitly unavailable |
+| Runtime UI | No equivalent creator-facing full “How this answer was produced” disclosure found in current target | Adds collapsed provenance disclosure | Candidate after snapshot contract is proven; keep creator-facing, not debug-panel-first |
+| Evidence ribbon | Target already has evidence integrity status path | Donor adjusts identity wording and additional statuses | Compare exact status semantics and preserve fail-closed handling; do not replace current component wholesale |
+| Composer TSX/CSS | Same blob content at target and donor | Same blob content | No migration; identical source already exists |
+| Composer tests/contracts | Target assertions differ from donor | Donor updates CSS ownership/layout expectations | Review each changed assertion; only carry assertions that describe current canonical Studio primitives and live behavior |
+
+### PR #1241 CI interpretation
+
+The exact-head workflow run passed Brain quality-loop, Gemini governance, production build and local smoke. It failed source-governance, focused-contracts, conversation-handoff-contract, full-suite and static-quality. The first two failures are explicitly Studio catalog/control contracts; static-quality includes missing Studio exports/files, invalid size variants and a missing test dependency. Treat those as cross-domain blockers requiring exact-target reconciliation, not as evidence that the context-manifest code itself failed. The PR remains unsuitable for wholesale merge.
