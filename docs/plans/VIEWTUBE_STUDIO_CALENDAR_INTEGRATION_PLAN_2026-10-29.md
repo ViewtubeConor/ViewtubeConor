@@ -4,7 +4,7 @@
 **PR target branch:** `fix/studio-controls-regression-recovery-2026-10-31`  
 **Implementation branch:** `feat/projects-calendar-phase-0-1-source-integration-2026-11-15`  
 **Canonical data owner:** Projects / Project records; no second calendar store  
-**Status:** Phases 0–4 implementation is present on the recovery-based feature branch; repository test/build/browser verification remains open. Phase 5 owner-write interactions and Phase 6 release certification remain pending.
+**Status:** Phases 0–5 implementation is present on a branch based on the current recovery head. Phase 6 test/build/browser certification is not yet complete. Phase 7 selective master handoff and branch cleanup are documented and gated on Phase 6.
 
 ## Product contract
 
@@ -113,7 +113,43 @@ No calendar table, browser-local calendar store, duplicate task store, or new Pr
 
 The source changes and regression assertions have been authored on the implementation branch. The repository runtime is not available in this execution environment, so the focused Vitest test, Studio Controls test gate, typecheck, build, and browser rendering have **not** been run here. Do not treat phases 2–3 as certified until those checks run in CI or a repository-capable environment.
 
-### Phase 4 — production calendar integration (implementation record)\n\n- `ProjectPlannerCalendar` now consumes the shared read-only Projects/task event projection instead of independently deriving event dates from raw arrays.\n- Stable projection source identity resolves the owning Project and task for selected-day details; owner records remain authoritative.\n- Day cells render Mini thumbnail chips for publish events and Mini event chips for tasks.\n- Explicit `endDate` ranges render `StudioCalendarMultiDayBar` segments with week-boundary caps. The current Project adapter intentionally emits no range events because the persisted Project contract has no approved start/end fields; therefore no multi-day bars are fabricated from `publishDate`.\n- Existing schedule, unschedule and task-completion actions still call `updateProject`. Drag/drop and range writes are not introduced in this phase.\n- Publisher status remains the existing read-only saved ContentBuild badge. A verified Publisher event feed is not claimed as integrated into the day grid.\n\n### Phase 4 verification boundary\n\nThe code path and documentation are updated, but no focused Vitest, Studio gate, typecheck, production build, full suite, or browser/mobile run has been completed in this environment. Phase 4 is implementation-complete but not certified.\n\n## Creator-facing copy contract
+### Phase 4 — production calendar integration (implementation record)\n\n- `ProjectPlannerCalendar` now consumes the shared read-only Projects/task event projection instead of independently deriving event dates from raw arrays.\n- Stable projection source identity resolves the owning Project and task for selected-day details; owner records remain authoritative.\n- Day cells render Mini thumbnail chips for publish events and Mini event chips for tasks.\n- Explicit `endDate` ranges render `StudioCalendarMultiDayBar` segments with week-boundary caps. The current Project adapter intentionally emits no range events because the persisted Project contract has no approved start/end fields; therefore no multi-day bars are fabricated from `publishDate`.\n- Existing schedule, unschedule and task-completion actions still call `updateProject`. Drag/drop and range writes are not introduced in this phase.\n- Publisher status remains the existing read-only saved ContentBuild badge. A verified Publisher event feed is not claimed as integrated into the day grid.\n\n### Phase 4 verification boundary\n\nThe code path and documentation are updated, but no focused Vitest, Studio gate, typecheck, production build, full suite, or browser/mobile run has been completed in this environment. Phase 4 is implementation-complete but not certified.\n\n### Phase 5 — owner-backed interactions (implementation record)
+
+- Project rows in the selected-day detail panel are draggable. Dropping a row on a calendar day moves the Project's existing `publishDate`.
+- The drag/drop handler writes only through the existing `updateProject` callback. It does not create a calendar event record or update a second store.
+- The existing schedule selector and button remain available as the keyboard and touch-friendly alternative to drag/drop.
+- Both interaction paths share `moveProjectToCalendarDate`, which validates the project identity and strict YYYY-MM-DD date before calling the owner callback.
+- Task completion remains owned by the existing Project `tasks` update path.
+- No start/end date fields exist on the current `Project` type. Multi-day project range creation, resizing and drag movement are deliberately not offered; adding these requires a Projects-owned schema/API decision and persistence migration.
+- Added focused tests for owner callback payload, invalid-date rejection and non-mutation.
+
+### Phase 6 — verification and release gate
+
+The code and tests are authored, but the checks have not been executed successfully in a repository-capable environment. The latest known GitHub status for the preceding branch had no Actions workflow run associated with its head and Vercel reported build-rate-limit failures. This phase is **not complete** until all of the following have inspectable results:
+
+1. Focused calendar projection and interaction Vitest tests.
+2. Confirmed calendar catalog regression tests and the Studio Controls gate.
+3. `npm run typecheck`.
+4. `npm run build`.
+5. `npm test` (or a complete failure classification with no test suppression).
+6. Browser verification at desktop, narrow mobile portrait and landscape.
+7. Keyboard-only scheduling/moving, screen-reader labels, reduced-motion behavior, and owner persistence verification.
+8. A successful PR check set with no unresolved merge conflict.
+
+### Phase 7 — selective integration and handoff
+
+This is the final convergence phase, not permission to merge the divergent master branch wholesale.
+
+- Keep the recovery PR based on `fix/studio-controls-regression-recovery-2026-10-31` as the source-of-truth delivery.
+- After Phase 6 passes, create a second, selective PR targeting `master/consolidated-feature-integration` containing only the verified calendar contract, adapter, interaction and production calendar files plus the canonical plan update.
+- Compare the selective master PR against the recovery implementation and verify no Studio primitive, token, catalog or calendar behavior is duplicated or omitted.
+- Run the master-target PR's own CI and review its merge base; do not treat recovery-branch CI as master certification.
+- Only after both PRs are merged and all open PRs/dependencies are audited may stale calendar branches be deleted.
+- Final handoff must record merged SHAs, test run URLs, known owner limitations, release/deployment state and branch cleanup evidence.
+
+**Current Phase 7 status:** handoff criteria and migration sequence are documented; actual master PR, merge and branch deletion are gated on Phase 6. No merge or deployment is claimed.
+
+## Creator-facing copy contract
 
 Use short, action-led language. Avoid implementation terms such as “calendar state,” “record mutation,” “projection,” or “ContentBuild” in creator-facing controls.
 
