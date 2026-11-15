@@ -43,6 +43,10 @@ export const CONFIRMED_CATALOG_MODULE_INVENTORY: ReadonlyArray<{ title: string; 
   { title: "Split-left Badge · Standard + Compact + Micro", family: "badges" },
   { title: "Direct Imported Primitive Representatives · Standard", family: "representatives" },
   { title: "StudioSideTextCounterIcon · Editable Text + Single Icon Rail · Five Sizes", family: "split-text-fields" },
+  { title: "StudioSplitTextInput · Left / Right / Double · Five Sizes", family: "split-text-fields" },
+  { title: "StudioSplitLeftTextInput · Five Sizes", family: "split-text-fields" },
+  { title: "StudioSplitRightTextInput · Five Sizes", family: "split-text-fields" },
+  { title: "StudioDoubleSplitTextInput · Five Sizes", family: "split-text-fields" },
   { title: "Button · V1–V7 · Proportional size grid", family: "buttons" },
   { title: "Split Button Family · All Sizes × Left / Right / Double / Two-Line", family: "buttons", combined: true },
   { title: "Dropdown Family · All Sizes × Single / Simple / Split-Left / Multi-Select", family: "dropdowns" },
@@ -63,7 +67,7 @@ export const CONFIRMED_CATALOG_MODULE_INVENTORY: ReadonlyArray<{ title: string; 
 
 export const CONFIRMED_CATALOG_REQUIRED_EXPORTS: readonly string[] = [
   "StudioButton", "StudioTextInput", "StudioTextArea", "StudioTextBox", "StudioCounter", "StudioSideCounter",
-  "StudioSideTextCounter", "StudioLeftCounter", "StudioDropdown", "StudioSwitch", "StudioWordToggle",
+  "StudioSideTextCounter", "StudioSideTextCounterIcon", "StudioSplitTextInput", "StudioSplitLeftTextInput", "StudioSplitRightTextInput", "StudioDoubleSplitTextInput", "StudioLeftCounter", "StudioDropdown", "StudioSwitch", "StudioWordToggle",
   "StudioSplitLeftButton", "StudioDoubleSplitSlider", "StudioInterModule", "StudioCollapsingSplitModule",
   "StudioTopSplitModule", "StudioUploadFrame", "StudioSpectrumTag", "StudioCloseableBadge",
   "StudioChatComposerDock", "StudioChatResponseShell", "StudioResponseMetaRow",

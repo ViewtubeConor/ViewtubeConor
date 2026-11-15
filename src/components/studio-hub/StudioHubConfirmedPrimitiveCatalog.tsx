@@ -1,5 +1,6 @@
 import React from "react"
 import { StudioPublishingCard } from "../../studio-ui/compositions/StudioPublishingCard"
+import { StudioSplitTextInput, StudioSplitLeftTextInput, StudioSplitRightTextInput, StudioDoubleSplitTextInput } from "../../studio-ui"
 import { Check, Home, Info, Search, Settings2, Sparkles } from "lucide-react"
 import { StudioSplitAccordionCatalogSpecimens } from "./StudioSplitAccordionCatalogSpecimens"
 import ConfirmedSpecimenGrid from "./ConfirmedSpecimenGrid"
@@ -448,6 +449,10 @@ const ConfirmedDirectPrimitiveRows: React.FC = () => {
         <h4 className="vt-confirmed-representative-heading">TEXT ENTRY & INPUTS</h4>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioNumberInput"><span>Number Input · STANDARD</span><StudioNumberInput aria-label="Number input specimen" defaultValue={42} sizeVariant="standard" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioTextInput"><span>Text Input · STANDARD</span><StudioTextInput sizeVariant="standard" aria-label="Text input standard specimen" placeholder="TYPE HERE" /></div>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSplitTextInput"><span>Split Text Input · STANDARD</span><StudioSplitTextInput split="double" sizeVariant="standard" ariaLabel="Split text input standard representative" leftIcon={<Search aria-hidden="true" />} rightIcon={<Check aria-hidden="true" />} placeholder="TYPE HERE" /></div>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSplitLeftTextInput"><span>Split Left Text Input · STANDARD</span><StudioSplitLeftTextInput sizeVariant="standard" ariaLabel="Split left text input standard representative" leftIcon={<Search aria-hidden="true" />} placeholder="TYPE HERE" /></div>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSplitRightTextInput"><span>Split Right Text Input · STANDARD</span><StudioSplitRightTextInput sizeVariant="standard" ariaLabel="Split right text input standard representative" rightIcon={<Check aria-hidden="true" />} placeholder="TYPE HERE" /></div>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioDoubleSplitTextInput"><span>Double Split Text Input · STANDARD</span><StudioDoubleSplitTextInput sizeVariant="standard" ariaLabel="Double split text input standard representative" leftIcon={<Search aria-hidden="true" />} rightIcon={<Check aria-hidden="true" />} placeholder="TYPE HERE" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioTextArea"><span>Text Area · STANDARD</span><StudioTextArea sizeVariant="standard" rows={3} aria-label="Text area standard specimen" placeholder="TYPE HERE" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioInput"><span>StudioInput · STANDARD ALIAS</span><StudioInput sizeVariant="standard" aria-label="StudioInput compatibility specimen" placeholder="STUDIO INPUT" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="Studioarea"><span>Studioarea · STANDARD ALIAS</span><Studioarea sizeVariant="standard" rows={2} aria-label="Studioarea compatibility specimen" placeholder="STUDIOAREA" /></div>
@@ -672,6 +677,120 @@ const ConfirmedStudioSideTextCounterIconFamily: React.FC = () => {
           {sizes.map((size, index) => <div className="vt-confirmed-counter-size-row" key={size}><small>{labels[index]}</small><StudioSideTextCounterIcon value={values[index]} onValueChange={next => setValues(current => current.map((value, item) => item === index ? next : value))} icon={<Search aria-hidden="true" />} iconLabel={size + " side text counter icon action"} onIconClick={activate} size={size} ariaLabel={size + " side text counter icon specimen"} placeholder="TYPE TEXT OR NUMBER" /></div>)}
         </div>
         <span aria-live="polite">ICON ACTIONS TRIGGERED: {actionCount}</span>
+      </div>
+    </Family>
+  )
+}
+
+
+
+
+const SPLIT_TEXT_INPUT_SIZE_TIERS = ["supreme", "standard", "compact", "mini", "micro"] as const
+const SPLIT_TEXT_INPUT_SIZE_LABELS = ["60px SUPREME", "44px STANDARD", "28px COMPACT", "20px MINI", "12px MICRO"]
+
+const ConfirmedStudioSplitTextInputFamily: React.FC = () => {
+  const layouts = ["left", "right", "double"] as const
+  const [values, setValues] = React.useState(Array(15).fill(""))
+  const update = (index: number, value: string) => setValues(current => current.map((old, item) => item === index ? value : old))
+  return (
+    <Family title="StudioSplitTextInput · Left / Right / Double · Five Sizes"
+      nonDefaultSettings={[
+        "Generic split input API; each of the left, right, and double rail layouts is shown at all five canonical size tiers.",
+        "The production StudioSplitShell owns the black outer perimeter and square 1×1 rails; StudioTextInput owns one persistent primary inset stroke.",
+        "All examples remain editable and left-aligned; the catalog does not recreate shell, rail, or field styling.",
+      ]}
+      provenance={<Provenance primitive="StudioSplitTextInput" tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css + src/styles/studio-control-fields.css" tokens="60px / 44px / 28px / 20px / 12px · left / right / double layouts · shared SideTextCounter rail geometry." imports={["src/studio-ui/index.ts", "src/studio-ui/primitives/StudioControls.tsx", "src/styles/studio-control-fields.css"]} />}
+    >
+      <div className="vt-confirmed-variant is-full-row">
+        {layouts.map((layout, layoutIndex) => (
+          <div className="vt-confirmed-counter-size-rows" key={layout}>
+            <strong>{layout.toUpperCase()} RAIL LAYOUT</strong>
+            {SPLIT_TEXT_INPUT_SIZE_TIERS.map((size, sizeIndex) => {
+              const index = layoutIndex * SPLIT_TEXT_INPUT_SIZE_TIERS.length + sizeIndex
+              return <div className="vt-confirmed-counter-size-row" key={size}>
+                <small>{SPLIT_TEXT_INPUT_SIZE_LABELS[sizeIndex]}</small>
+                <StudioSplitTextInput split={layout} sizeVariant={size} value={values[index]} onValueChange={next => update(index, next)}
+                  leftIcon={layout !== "right" ? <Search aria-hidden="true" /> : undefined}
+                  rightIcon={layout !== "left" ? <Check aria-hidden="true" /> : undefined}
+                  ariaLabel={layout + " split text input " + size} placeholder="TYPE TEXT" />
+              </div>
+            })}
+          </div>
+        ))}
+      </div>
+    </Family>
+  )
+}
+
+const ConfirmedStudioSplitLeftTextInputFamily: React.FC = () => {
+  const [values, setValues] = React.useState(["", "", "", "", ""])
+  return (
+    <Family title="StudioSplitLeftTextInput · Five Sizes"
+      nonDefaultSettings={[
+        "Single square leading icon rail with an editable, left-aligned field face.",
+        "The leading rail and field use the same black perimeter, square rail geometry, and single primary inset as the SideTextCounter family.",
+      ]}
+      provenance={<Provenance primitive="StudioSplitLeftTextInput" tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css + src/styles/studio-control-fields.css" tokens="60px / 44px / 28px / 20px / 12px · one leading 1×1 rail." imports={["src/studio-ui/index.ts", "src/studio-ui/primitives/StudioControls.tsx", "src/styles/studio-control-fields.css"]} />}
+    >
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSplitLeftTextInput">
+        <div className="vt-confirmed-counter-size-rows">
+          {SPLIT_TEXT_INPUT_SIZE_TIERS.map((size, index) => <div className="vt-confirmed-counter-size-row" key={size}>
+            <small>{SPLIT_TEXT_INPUT_SIZE_LABELS[index]}</small>
+            <StudioSplitLeftTextInput sizeVariant={size} value={values[index]} onValueChange={next => setValues(current => current.map((old, item) => item === index ? next : old))}
+              leftIcon={<Search aria-hidden="true" />} ariaLabel={"split left text input " + size} placeholder="SEARCH TEXT" />
+          </div>)}
+        </div>
+      </div>
+    </Family>
+  )
+}
+
+const ConfirmedStudioSplitRightTextInputFamily: React.FC = () => {
+  const [values, setValues] = React.useState(["", "", "", "", ""])
+  return (
+    <Family title="StudioSplitRightTextInput · Five Sizes"
+      nonDefaultSettings={[
+        "Single square trailing icon rail with an editable, left-aligned field face.",
+        "The trailing rail and field use the same black perimeter, square rail geometry, and single primary inset as the SideTextCounter family.",
+      ]}
+      provenance={<Provenance primitive="StudioSplitRightTextInput" tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css + src/styles/studio-control-fields.css" tokens="60px / 44px / 28px / 20px / 12px · one trailing 1×1 rail." imports={["src/studio-ui/index.ts", "src/studio-ui/primitives/StudioControls.tsx", "src/styles/studio-control-fields.css"]} />}
+    >
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSplitRightTextInput">
+        <div className="vt-confirmed-counter-size-rows">
+          {SPLIT_TEXT_INPUT_SIZE_TIERS.map((size, index) => <div className="vt-confirmed-counter-size-row" key={size}>
+            <small>{SPLIT_TEXT_INPUT_SIZE_LABELS[index]}</small>
+            <StudioSplitRightTextInput sizeVariant={size} value={values[index]} onValueChange={next => setValues(current => current.map((old, item) => item === index ? next : old))}
+              rightIcon={<Check aria-hidden="true" />} ariaLabel={"split right text input " + size} placeholder="ENTER TEXT" />
+          </div>)}
+        </div>
+      </div>
+    </Family>
+  )
+}
+
+const ConfirmedStudioDoubleSplitTextInputFamily: React.FC = () => {
+  const [values, setValues] = React.useState(["", "", "", "", ""])
+  const [actionCount, setActionCount] = React.useState(0)
+  return (
+    <Family title="StudioDoubleSplitTextInput · Five Sizes"
+      nonDefaultSettings={[
+        "Two square icon rails flank one editable, left-aligned field face; each rail remains a shared 1×1 side-counter rail.",
+        "The trailing icon is an action button and increments the live action count; the leading icon is decorative.",
+        "The field retains exactly one primary inset inside the black outer shell.",
+      ]}
+      provenance={<Provenance primitive="StudioDoubleSplitTextInput" tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css + src/styles/studio-control-fields.css" tokens="60px / 44px / 28px / 20px / 12px · two square 1×1 rails · single primary inset." imports={["src/studio-ui/index.ts", "src/studio-ui/primitives/StudioControls.tsx", "src/styles/studio-control-fields.css"]} />}
+    >
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioDoubleSplitTextInput">
+        <div className="vt-confirmed-counter-size-rows">
+          {SPLIT_TEXT_INPUT_SIZE_TIERS.map((size, index) => <div className="vt-confirmed-counter-size-row" key={size}>
+            <small>{SPLIT_TEXT_INPUT_SIZE_LABELS[index]}</small>
+            <StudioDoubleSplitTextInput sizeVariant={size} value={values[index]} onValueChange={next => setValues(current => current.map((old, item) => item === index ? next : old))}
+              leftIcon={<Search aria-hidden="true" />} rightIcon={<Check aria-hidden="true" />}
+              onRightIconClick={() => setActionCount(count => count + 1)}
+              ariaLabel={"double split text input " + size} placeholder="ENTER TEXT" />
+          </div>)}
+        </div>
+        <span aria-live="polite">TRAILING ACTIONS: {actionCount}</span>
       </div>
     </Family>
   )
@@ -1556,6 +1675,10 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
     <ConfirmedStudioSideCounterFamily />
     <ConfirmedStudioSideTextCounterFamily />
     <ConfirmedStudioSideTextCounterIconFamily />
+    <ConfirmedStudioSplitTextInputFamily />
+    <ConfirmedStudioSplitLeftTextInputFamily />
+    <ConfirmedStudioSplitRightTextInputFamily />
+    <ConfirmedStudioDoubleSplitTextInputFamily />
     <ConfirmedStudioDoubleSplitSliderFamily />
     <ConfirmedStudioLeftWordCounterFamily />
     <ConfirmedStudioDoubleSplitWordCounterFamily />

@@ -283,7 +283,7 @@ This update records the current production primitive surface and remaining sourc
 
 ### Canonical family inventory
 
-The Confirmed Primitive Library at `src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx` contains a full-width representative row set backed by production imports for buttons (standard, split-left, double-split, two-line, split two-line); dropdowns (simple, multi, split-left); toggles (arrow, bar, horizontal/vertical word, side, double-side); fields (single-line, split text input, textarea, read-only TextBox); counters (standard, side, left); and double-split slider. `StudioSplitTextInput` comes from `src/studio-ui/primitives/StudioSplitTextInput.tsx`; `StudioSplitAccordion` is a standalone primitive with its own production module and stylesheet.
+The Confirmed Primitive Library at `src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx` contains full-width Standard representatives for the four SideTextCounter-based split text-input exports: `StudioSplitTextInput`, `StudioSplitLeftTextInput`, `StudioSplitRightTextInput`, and `StudioDoubleSplitTextInput`. Each has its own expandable module; the generic module shows left, right, and double layouts, while each dedicated wrapper module covers all five size tiers. Their implementation is in `src/studio-ui/primitives/StudioControls.tsx`, publicly exported by `src/studio-ui/index.ts`, and styled by `studio-control-fields.css`. `StudioSplitAccordion` remains a standalone primitive with its own production module and stylesheet.
 
 A catalog row is evidence of registration and wiring, not by itself evidence of all variants, accessibility states, or pixel-level behavior. Each family record should identify exact export/module, style owner, supported size tiers, public variants, semantic/keyboard behavior, regression tests, and verification level.
 
@@ -292,7 +292,7 @@ A catalog row is evidence of registration and wiring, not by itself evidence of 
 - `src/studio-ui/tokens.ts` defines Mini as 20px / 1.5px stroke / 3px radius / 17.5px type and icon. Generated CSS now reflects 17.5px; core/recovery no longer redeclare the tier.
 - Micro is 12px / 1px stroke / 2px radius / 10px type and icon, with a 0.65px outline and global `-0.02em` letter-spacing.
 - Micro uses the global `-0.02em` letter-spacing token; no Micro-specific exception is registered.
-- `StudioSplitTextInput` imports `src/styles/studio-split-text-input.css` for shell anatomy. Shared typography and field states remain owned by `studio-control-fields.css`; the entry stylesheet no longer carries split-input-specific rules.
+- The restored split text-input family does not import `studio-split-text-input.css`; that badge-based stylesheet is deleted. `StudioSplitShell` owns the black perimeter and square rails, while `StudioTextInput` owns the single primary inset. Shared geometry and field states remain in `studio-control-fields.css`.
 - Editable fields use primary text/stroke and a primary inset at rest; focused fields switch text/stroke to black while retaining the primary inset and using a secondary outline at 65% of border width. TextBox remains black text/stroke with primary inset and secondary outline. The border, inset, and outline are independent layers.
 
 ### Verification boundary

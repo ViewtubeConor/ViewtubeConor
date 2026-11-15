@@ -15,6 +15,7 @@ describe("confirmed catalog taxonomy phases 0–8", () => {
     expect(classifyConfirmedCatalogTitle("Arrow / Side / Double Side / Bar Toggles")).toBe("choice-toggles")
     expect(classifyConfirmedCatalogTitle("Studio Text Input · Standard")).toBe("text-fields")
     expect(classifyConfirmedCatalogTitle("Studio Icon Rail Text Inputs · Non-Interactive")).toBe("split-text-fields")
+    for (const title of ["StudioSplitTextInput · Left / Right / Double · Five Sizes", "StudioSplitLeftTextInput · Five Sizes", "StudioSplitRightTextInput · Five Sizes", "StudioDoubleSplitTextInput · Five Sizes"]) expect(classifyConfirmedCatalogTitle(title)).toBe("split-text-fields")
     expect(classifyConfirmedCatalogTitle("Split-left Button · Standard")).toBe("buttons")
     expect(classifyConfirmedCatalogTitle("StudioInterModule · Standard")).toBe("modules-frames")
     expect(classifyConfirmedCatalogTitle("Publishing Card · Standard")).toBe("compositions")

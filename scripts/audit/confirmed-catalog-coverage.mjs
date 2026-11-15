@@ -12,8 +12,8 @@ const read = (path) => {
 }
 
 const entry = read("src/styles/studio-control-entry.css")
-const splitInput = read("src/studio-ui/primitives/studio-split-text-input.css")
-const splitInputComponent = read("src/studio-ui/primitives/StudioSplitTextInput.tsx")
+const splitInput = read("src/styles/studio-control-fields.css")
+const splitInputComponent = read("src/studio-ui/primitives/StudioControls.tsx")
 const overrides = read("src/styles/studio-control-distill-overrides.css")
 const recovery = read("src/styles/studio-control-recovery-overrides.css")
 const catalog = read("src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx")
@@ -38,7 +38,7 @@ const checks = [
   ["stacked toggle divider is centered", read("src/styles/studio-side-rail-unify.css").includes(".vt-studio-value-toggle__arrow-stack::after") && read("src/styles/studio-side-rail-unify.css").includes("top: 50%") && read("src/styles/studio-side-rail-unify.css").includes("translateY(-50%)")],
   ["side-toggle rails reuse Side Counter arrow metrics", read("src/styles/studio-side-rail-unify.css").includes(".vt-studio-side-counter__actions,") && read("src/styles/studio-side-rail-unify.css").includes(".vt-studio-value-toggle__arrow-stack") && read("src/styles/studio-side-rail-unify.css").includes("width: var(--vt-studio-control-height, 44px)")],
   ["side-toggle arrow stack has one horizontal divider owner", !read("src/styles/studio-side-rail-unify.css").includes(".vt-studio-value-toggle__arrow + .vt-studio-value-toggle__arrow") && read("src/styles/studio-side-rail-unify.css").includes(".vt-studio-value-toggle__arrow-stack::after")],
-  ["split text input uses a badge-owned perimeter, primary field border, and shell focus", splitInputComponent.includes("./studio-split-text-input.css") && splitInput.includes("html body .vt-studio-split-text-input {") && splitInput.includes("[data-vt-studio-split-rail]") && splitInput.includes('input.vt-studio-text-input[data-vt-studio-control="true"]') && splitInput.includes("border: 0;") && splitInput.includes("box-shadow: inset 0 0 0 var(--vt-studio-control-stroke, 3px) var(--vt-split-field-primary);") && splitInput.includes("outline: none;") && splitInput.includes("background: color-mix(in srgb, white 50%, var(--vt-split-field-primary) 50%);") && splitInput.includes("background: color-mix(in srgb, white 85%, var(--vt-split-field-primary) 15%);") && splitInput.includes("-webkit-text-stroke-color: #000;") && splitInput.includes(":is(:focus, :focus-visible)") && splitInput.includes("outline: calc(var(--vt-studio-control-stroke, 3px) * .65) solid var(--vt-studio-control-secondary") && splitInput.includes("outline-offset: 0;")],
+  ["split text inputs reuse StudioSplitShell, shared square rails, and the SideTextCounter field contract", splitInputComponent.includes("export const StudioSplitTextInput") && splitInputComponent.includes("export const StudioSplitLeftTextInput") && splitInputComponent.includes("export const StudioSplitRightTextInput") && splitInputComponent.includes("export const StudioDoubleSplitTextInput") && splitInput.includes(".vt-studio-split-text-input input.vt-studio-side-text-counter__input") && splitInput.includes("--vt-field-fill-rest") && splitInput.includes("--vt-field-fill-focus")],
   ["catalog uses canonical StudioTopSplitModule", catalog.includes("StudioTopSplitModule") && controls.includes("StudioTopSplitModule")],
   ["catalog uses canonical StudioSquareIconButtonGroup", catalog.includes("StudioSquareIconButtonGroup") && controls.includes("StudioSquareIconButtonGroup")],
   ["Brain Status Badge has its own production representative row", catalog.includes('data-vt-library-component="StudioBrainStatusBadge"') && catalog.includes('<StudioBrainStatusBadge label="READY" tone="green" appearance="tinted" />')],
@@ -57,16 +57,15 @@ const checks = [
 
   ["retired CLEAN COMPOSITION specimen is absent from confirmed catalog", !/CLEAN COMPOSITION|Confirmed Specimen Grid\s*[·-]\s*Layout Contract/i.test(catalog)],
   ["side text counter has exactly one standard representative", (catalog.match(/data-vt-library-component="StudioSideTextCounter"/g) ?? []).length === 1],
-  ["side and double-split text inputs each have one canonical representative", (catalog.match(/data-vt-library-component="StudioSideTextInput"/g) ?? []).length === 1 && (catalog.match(/data-vt-library-component="StudioDoubleSplitTextInput"/g) ?? []).length === 1],
+  ["all four SideTextCounter-based split text inputs have one Standard representative each", ["StudioSplitTextInput", "StudioSplitLeftTextInput", "StudioSplitRightTextInput", "StudioDoubleSplitTextInput"].every((name) => catalog.includes('data-vt-library-component="' + name + '" '))],
   ["specimen grid supports the complete five-tier global size vocabulary", specimenGrid.includes('export type SpecimenTier = "supreme" | "standard" | "compact" | "mini" | "micro"') && specimenGrid.includes('const SPECIMEN_TIERS = ["supreme", "standard", "compact", "mini", "micro"] as const')],
   ["confirmed library owns canonical production representatives while legacy tracks remain comparison-only", libraryAuthority.includes("The **Confirmed Primitive Library**") && libraryAuthority.includes("not evidence that a control is part of the public API") && libraryAuthority.includes("must not silently override the Confirmed catalog's ownership")],
 ]
 
 const requiredP0 = [
-  "StudioTextInput", "StudioTextArea", "StudioTextBox", "StudioSplitLeftIconRailTextInput", "StudioSplitRightIconRailTextInput", "StudioDoubleSplitIconRailTextInput",
-  "StudioSplitLeftIconButtonTextInput", "StudioSplitRightIconButtonTextInput", "StudioDoubleSplitIconButtonTextInput", "StudioButton", "StudioSideTextCounter", "StudioSideTextInput", "StudioDoubleSplitTextInput",
+  "StudioTextInput", "StudioTextArea", "StudioTextBox", "StudioButton", "StudioSideTextCounter", "StudioSideTextCounterIcon", "StudioSplitTextInput", "StudioSplitLeftTextInput", "StudioSplitRightTextInput", "StudioDoubleSplitTextInput",
   "StudioActionButton", "StudioSquareIconButtonGroup", "StudioTopSplitModule", "StudioCollapsingTwoLineModule",
-  "StudioUploadFrame", "StudioDropdown", "StudioLegendMultiDropdown", "StudioSplitLeftDropdown", "StudioSplitTextInput",
+  "StudioUploadFrame", "StudioDropdown", "StudioLegendMultiDropdown", "StudioSplitLeftDropdown", "StudioSplitTextInput", "StudioSplitLeftTextInput", "StudioSplitRightTextInput", "StudioDoubleSplitTextInput",
   "StudioSwitch", "StudioChoice", "StudioRadio", "StudioCheckbox", "StudioXCheckbox", "StudioIconButton", "StudioSplitRightButton",
   "StudioWordToggle", "StudioArrowToggle", "StudioSideToggle", "StudioDoubleSideToggle",
   "StudioBarToggle", "StudioSplitAccordion", "StudioPublishingCard", "StudioBrainStatusBadge",

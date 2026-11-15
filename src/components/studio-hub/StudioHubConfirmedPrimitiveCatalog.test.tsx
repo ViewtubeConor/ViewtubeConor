@@ -1139,12 +1139,59 @@ describe("StudioSideTextCounterIcon confirmed-library registration", () => {
 });
 
 
-describe("split text-input quarantine registration", () => {
-  it("removes every legacy split text-input family from active representatives and modules", () => {
-    const source = readFileSync(resolve(process.cwd(), "src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx"), "utf8");
-    const barrel = readFileSync(resolve(process.cwd(), "src/studio-ui/index.ts"), "utf8");
-    expect(source).not.toMatch(/StudioSplitTextInput|StudioIconRailTextInput|StudioSideTextInput|StudioDoubleSplitTextInput/);
-    expect(barrel).not.toMatch(/StudioSplitTextInput|StudioIconRailTextInput/);
-    expect(source).toContain('data-vt-library-component="StudioSideTextCounterIcon"');
-  });
-});
+describe("SideTextCounter-based split text-input confirmed-library registration", () => {
+  it("registers all four public primitives in the Standard representative ledger", () => {
+    const source = readFileSync(resolve(process.cwd(), "src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx"), "utf8")
+    const representativeStart = source.indexOf("const ConfirmedDirectPrimitiveRows")
+    const representativeEnd = source.indexOf("const ConfirmedStudioCounterFamily", representativeStart)
+    const representative = source.slice(representativeStart, representativeEnd)
+    for (const name of ["StudioSplitTextInput", "StudioSplitLeftTextInput", "StudioSplitRightTextInput", "StudioDoubleSplitTextInput"]) {
+      expect(representative).toContain('data-vt-library-component="' + name + '"')
+      expect(representative).toContain("<" + name)
+    }
+  })
+
+  it("gives each split input its own five-size production module", () => {
+    const source = readFileSync(resolve(process.cwd(), "src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx"), "utf8")
+    const moduleNames = [
+      "ConfirmedStudioSplitTextInputFamily",
+      "ConfirmedStudioSplitLeftTextInputFamily",
+      "ConfirmedStudioSplitRightTextInputFamily",
+      "ConfirmedStudioDoubleSplitTextInputFamily",
+    ]
+    const titles = [
+      "StudioSplitTextInput · Left / Right / Double · Five Sizes",
+      "StudioSplitLeftTextInput · Five Sizes",
+      "StudioSplitRightTextInput · Five Sizes",
+      "StudioDoubleSplitTextInput · Five Sizes",
+    ]
+    const primitives = ["StudioSplitTextInput", "StudioSplitLeftTextInput", "StudioSplitRightTextInput", "StudioDoubleSplitTextInput"]
+    for (let index = 0; index < moduleNames.length; index++) {
+      const start = source.indexOf("const " + moduleNames[index])
+      const end = source.indexOf("\nconst ", start + 1)
+      expect(start).toBeGreaterThanOrEqual(0)
+      expect(source).toContain('title="' + titles[index] + '"')
+      expect(source).toContain("<" + moduleNames[index] + " />")
+      const moduleSource = source.slice(start, end < 0 ? source.length : end)
+      for (const size of ["supreme", "standard", "compact", "mini", "micro"]) {
+        expect(moduleSource).toContain('"' + size + '"')
+      }
+      expect(moduleSource).toContain('primitive="' + primitives[index] + '"')
+    }
+  })
+
+  it("uses the public Studio UI exports and shared SideTextCounter field styles", () => {
+    const catalog = readFileSync(resolve(process.cwd(), "src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx"), "utf8")
+    const barrel = readFileSync(resolve(process.cwd(), "src/studio-ui/index.ts"), "utf8")
+    const controls = readFileSync(resolve(process.cwd(), "src/studio-ui/primitives/StudioControls.tsx"), "utf8")
+    const fields = readFileSync(resolve(process.cwd(), "src/styles/studio-control-fields.css"), "utf8")
+    expect(catalog).toContain('from "../../studio-ui"')
+    for (const name of ["StudioSplitTextInput", "StudioSplitLeftTextInput", "StudioSplitRightTextInput", "StudioDoubleSplitTextInput"]) {
+      expect(barrel).toContain(name)
+      expect(controls).toContain("export const " + name)
+    }
+    expect(fields).toContain(".vt-studio-split-text-input input.vt-studio-side-text-counter__input")
+    expect(fields).toContain("--vt-field-fill-rest")
+    expect(fields).toContain("--vt-field-fill-focus")
+  })
+})
