@@ -201,8 +201,8 @@ export const useCommentResponderController = (context: CreatorEngagementContext)
    const comment = currentThread.snippet.topLevelComment.snippet
    const { sourceTitle, candidateVideos } = sourceVideoContext()
    const result = await draftCommentReply({
-    commentText: `${comment.textOriginal}\n\nThis comment was left on: "${sourceTitle}". If recommending another video, choose a DIFFERENT video and only when it genuinely helps the viewer.`,
-    authorName: comment.authorDisplayName.replace(/@/g, ""),
+    commentText: `${comment.textOriginal || comment.textDisplay || ""}\n\nThis comment was left on: "${sourceTitle}". If recommending another video, choose a DIFFERENT video and only when it genuinely helps the viewer.`,
+    authorName: (comment.authorDisplayName || "Viewer").replace(/@/g, ""),
     channelContext: context.channelName || "Content Creation",
     availableVideos: candidateVideos.map((video) => ({ title: video.title, id: video.videoId })),
     existingReply: mode === "refine" ? replyText[currentId]?.trim() || "" : "",
@@ -232,7 +232,7 @@ export const useCommentResponderController = (context: CreatorEngagementContext)
     return
    }
    const recommendation = await recommendVideoForComment({
-    commentText: `${comment.textOriginal}\n\nSOURCE VIDEO: "${sourceTitle}". Recommend a DIFFERENT creator-owned video only if it meaningfully answers or extends what this viewer wants.`,
+    commentText: `${comment.textOriginal || comment.textDisplay || ""}\n\nSOURCE VIDEO: "${sourceTitle}". Recommend a DIFFERENT creator-owned video only if it meaningfully answers or extends what this viewer wants.`,
     availableVideos: candidateVideos.map((video) => ({ title: video.title, id: video.videoId })),
    })
    const suggestedVideoId = resolveSuggestedVideoId(
