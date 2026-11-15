@@ -848,7 +848,7 @@ export const releaseAiCreditReservation = async (userId, input = {}) => {
     if (!reservation.unlimited) db.aiLedger.push({
       id: `aic_${crypto.randomUUID().replace(/-/g, "")}`, viewtubeUserId: userId,
       entryType: "reservation_release", deltaCredits: Number(reservation.reservedCredits),
-      idempotencyKey: `release:${idempotencyKey}`,
+      idempotencyKey: `release:${reservationId}:${idempotencyKey}`,
       metadata: { reservationId, reason: String(input.reason || "cancelled").slice(0, 120) }, createdAt: nowIso(),
     });
     reservation.status = "released";
