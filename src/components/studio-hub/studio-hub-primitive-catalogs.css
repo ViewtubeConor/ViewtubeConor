@@ -3446,8 +3446,9 @@
   min-width: 0;
 }
 .vt-confirmed-value-toggle-module .vt-confirmed-variant.is-full-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   width: 100%;
   min-width: 0;
 }
