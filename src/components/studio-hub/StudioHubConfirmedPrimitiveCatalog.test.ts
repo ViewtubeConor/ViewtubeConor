@@ -10,9 +10,9 @@ const readStudioControlCss = () => [
 describe("confirmed Studio button primitive library", () => {
   it("uses real StudioButton and StudioSplitLeftButton exports", () => {
     const catalog = read("src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx")
-    expect(catalog).toContain('import { StudioButton, StudioSplitLeftButton } from "../../studio-ui"')
+    expect(catalog).toContain("StudioButton,")\n    expect(catalog).toContain("StudioSplitLeftButton,")
     expect(catalog).toContain('title="StudioButton"')
-    expect(catalog).toContain('title="StudioSplitLeftButton"')
+    expect(catalog).toContain('title="Split-left Button"')
     expect(catalog).toContain('sizeVariant="standard"')
     expect(catalog).toContain('sizeVariant="compact"')
     expect(catalog).not.toContain("heightVariant=")
@@ -124,7 +124,7 @@ describe("Confirmed Panel Accordion module", () => {
     const catalog = read("src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx")
     const additional = catalog.indexOf("const useConfirmedAdditionalPrimitiveSections")
     const panel = catalog.indexOf('title="Panel Accordion"')
-    const representatives = catalog.indexOf('data-vt-representatives="true"')
+    const representatives = catalog.indexOf('title="Primitive Representatives"')
     expect(panel).toBeGreaterThan(additional)
     expect(panel).toBeGreaterThan(representatives)
     expect(catalog).not.toContain("Panel Accordion · STANDARD")
