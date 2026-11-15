@@ -118,7 +118,9 @@
 - [ ] Expand Brain reply context with approved thread/video evidence and explicit source references; do not create a second Brain runtime.
 - [ ] Add recommendation evaluation fixtures for strong match, weak/no match, excluded source video, unknown IDs, and sparse video metadata.
 - [ ] Extend Audience Pulse only through its existing read-only projection and evidence proposal packet; validate sample coverage and heuristic limitations.
-- [ ] Audit YouTube API scopes and supported moderation operations before adding delete, hide, hold, pin, heart, or bulk moderation controls.
+- [x] Verify the existing moderation API foundation: `moderateSimpleComment` / `markCommentAsSpam`, authenticated server routes, `data.comments.manage`, and the `youtube.force-ssl` scope.
+- [ ] Add explicit-confirmation moderation actions to the workspace using the existing endpoints; test permission gating, success/error refresh, and rejected/spam outcomes before exposing controls.
+- [ ] Verify whether delete, pin, heart, and bulk moderation operations have supported endpoint/permission contracts before proposing them.
 - [ ] Certify desktop, tablet, mobile portrait/landscape, loading, empty, disconnected, error, keyboard, focus, and touch states.
 - [ ] Longform Optimization capability matrix.
 - [ ] Video Asset Engine capability matrix.
