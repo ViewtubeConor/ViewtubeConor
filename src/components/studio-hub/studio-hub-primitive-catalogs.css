@@ -3437,23 +3437,33 @@
   gap: 4px;
   min-width: 0;
 }
-.vt-confirmed-control-variants[data-vt-library-component="StudioArrowToggle"],
-.vt-confirmed-control-variants[data-vt-library-component="StudioSideToggle"],
-.vt-confirmed-control-variants[data-vt-library-component="StudioDoubleSideToggle"] {
-  grid-template-columns: minmax(0, 1fr);
-}
-.vt-confirmed-control-variants[data-vt-library-component="StudioArrowToggle"] > div,
-.vt-confirmed-control-variants[data-vt-library-component="StudioSideToggle"] > div,
-.vt-confirmed-control-variants[data-vt-library-component="StudioDoubleSideToggle"] > div {
-  grid-template-rows: auto auto;
-  justify-items: stretch;
+/* Value-toggle modules are a strict five-row specimen ledger: no variant grid,
+   source-size overrides, or intrinsic-width shrinkage at the catalog layer. */
+.vt-confirmed-value-toggle-module {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  width: 100%;
   min-width: 0;
 }
-.vt-confirmed-control-variants[data-vt-library-component="StudioArrowToggle"] .vt-studio-value-toggle,
-.vt-confirmed-control-variants[data-vt-library-component="StudioSideToggle"] .vt-studio-value-toggle,
-.vt-confirmed-control-variants[data-vt-library-component="StudioDoubleSideToggle"] .vt-studio-value-toggle {
-  width: auto;
-  max-width: 100%;
+.vt-confirmed-value-toggle-module > .vt-confirmed-value-toggle-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  justify-items: stretch;
+  gap: 4px;
+  width: 100%;
+  min-width: 0;
+}
+.vt-confirmed-value-toggle-module > .vt-confirmed-value-toggle-row > strong {
+  display: block;
+  min-width: 0;
+}
+.vt-confirmed-value-toggle-module .vt-studio-value-toggle {
+  display: flex;
+  width: 100%;
+  max-width: none;
   min-width: 0;
 }
 .vt-confirmed-word-toggle-family .vt-confirmed-control-variants {
