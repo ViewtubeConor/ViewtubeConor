@@ -1,7 +1,7 @@
 {
   "schemaVersion": "viewtube.ideas-registry.v2",
   "productionDate": "2026-09-27",
-  "lastEdited": "2026-09-27",
+  "lastEdited": "2026-11-15",
   "authority": "docs/governance/CONVERGENCE.md",
   "sourceLists": [
     {
@@ -52,6 +52,13 @@
       "title": "Conversation Intake Opportunity Ideas",
       "sourceType": "conversation-intake",
       "itemCount": 2
+    },
+    {
+      "id": "IDEA-LIST-COMMENT-MANAGEMENT-001",
+      "path": "docs/product/studio-hub/COMMENT_MANAGEMENT_WORKSPACE.md",
+      "title": "Comment Management and Audience Interaction Opportunity Catalog",
+      "sourceType": "conversation",
+      "itemCount": 65
     }
   ],
   "ideas": [
@@ -2404,7 +2411,8 @@
         "ideas/lists/product/current-main-audit-expansion-opportunities.md",
         "docs/VIEWTUBE_100_ITEM_CURRENT_MAIN_UNFINISHED_WORK_AUDIT_2026-09-25.md",
         "ideas/lists/product/toolbox-widget-promotion-and-workbench-ideas-2026-09-27.md",
-        "docs/specifications/TOOLBOX_PROMOTION_AND_WORKFLOW_CHAINS.md"
+        "docs/specifications/TOOLBOX_PROMOTION_AND_WORKFLOW_CHAINS.md",
+        "docs/product/studio-hub/COMMENT_MANAGEMENT_WORKSPACE.md"
       ],
       "sourceListId": "IDEA-LIST-AUDIT-EXPANSION-001",
       "status": "UNREVIEWED",
@@ -2433,7 +2441,72 @@
       ],
       "sourceItemIds": [
         "IDEA-SRC-AUDIT-YT-004",
-        "IDEA-SRC-TWB-008"
+        "IDEA-SRC-TWB-008",
+        "IDEA-SRC-CM-001",
+        "IDEA-SRC-CM-002",
+        "IDEA-SRC-CM-003",
+        "IDEA-SRC-CM-004",
+        "IDEA-SRC-CM-005",
+        "IDEA-SRC-CM-006",
+        "IDEA-SRC-CM-007",
+        "IDEA-SRC-CM-008",
+        "IDEA-SRC-CM-009",
+        "IDEA-SRC-CM-010",
+        "IDEA-SRC-CM-011",
+        "IDEA-SRC-CM-012",
+        "IDEA-SRC-CM-013",
+        "IDEA-SRC-CM-014",
+        "IDEA-SRC-CM-015",
+        "IDEA-SRC-CM-016",
+        "IDEA-SRC-CM-017",
+        "IDEA-SRC-CM-018",
+        "IDEA-SRC-CM-019",
+        "IDEA-SRC-CM-020",
+        "IDEA-SRC-CM-021",
+        "IDEA-SRC-CM-022",
+        "IDEA-SRC-CM-023",
+        "IDEA-SRC-CM-024",
+        "IDEA-SRC-CM-025",
+        "IDEA-SRC-CM-026",
+        "IDEA-SRC-CM-027",
+        "IDEA-SRC-CM-028",
+        "IDEA-SRC-CM-029",
+        "IDEA-SRC-CM-030",
+        "IDEA-SRC-CM-031",
+        "IDEA-SRC-CM-032",
+        "IDEA-SRC-CM-033",
+        "IDEA-SRC-CM-034",
+        "IDEA-SRC-CM-035",
+        "IDEA-SRC-CM-036",
+        "IDEA-SRC-CM-037",
+        "IDEA-SRC-CM-038",
+        "IDEA-SRC-CM-039",
+        "IDEA-SRC-CM-040",
+        "IDEA-SRC-CM-041",
+        "IDEA-SRC-CM-042",
+        "IDEA-SRC-CM-043",
+        "IDEA-SRC-CM-044",
+        "IDEA-SRC-CM-045",
+        "IDEA-SRC-CM-046",
+        "IDEA-SRC-CM-047",
+        "IDEA-SRC-CM-048",
+        "IDEA-SRC-CM-049",
+        "IDEA-SRC-CM-050",
+        "IDEA-SRC-CM-051",
+        "IDEA-SRC-CM-052",
+        "IDEA-SRC-CM-053",
+        "IDEA-SRC-CM-054",
+        "IDEA-SRC-CM-055",
+        "IDEA-SRC-CM-056",
+        "IDEA-SRC-CM-057",
+        "IDEA-SRC-CM-058",
+        "IDEA-SRC-CM-059",
+        "IDEA-SRC-CM-060",
+        "IDEA-SRC-CM-061",
+        "IDEA-SRC-CM-062",
+        "IDEA-SRC-CM-063",
+        "IDEA-SRC-CM-064",
+        "IDEA-SRC-CM-065"
       ],
       "requirements": [
         {
@@ -2449,6 +2522,526 @@
           "text": "Promote or consolidate Comment Responder into Comment Operations Toolbox; Dashboard role: queue count + priority replies.",
           "sourceItemIds": [
             "IDEA-SRC-TWB-008"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-001",
+          "text": "Comment Management improvement: Unified inbox across comments and supported community interactions.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-001"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-002",
+          "text": "Comment Management improvement: Smart priority sorting using unanswered age, creator-defined rules and observable signals.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-002"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-003",
+          "text": "Comment Management improvement: Saved queue views for questions, feedback, support, praise and follow-up.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-003"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-004",
+          "text": "Comment Management improvement: Full-text search across the currently available comment corpus.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-004"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-005",
+          "text": "Comment Management improvement: Filters by video, status, date, author and supported moderation state.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-005"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-006",
+          "text": "Comment Management improvement: Duplicate-question detection with links to earlier answers.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-006"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-007",
+          "text": "Comment Management improvement: Thread completeness and pagination indicators.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-007"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-008",
+          "text": "Comment Management improvement: Conversation timeline with clear creator/viewer roles.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-008"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-009",
+          "text": "Comment Management improvement: Context drawer for original video and Video Inspector findings.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-009"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-010",
+          "text": "Comment Management improvement: Transcript-grounded reply context with timestamp citations.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-010"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-011",
+          "text": "Comment Management improvement: Comment-to-video moment matching for precise answers.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-011"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-012",
+          "text": "Comment Management improvement: Multi-draft reply alternatives with side-by-side comparison.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-012"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-013",
+          "text": "Comment Management improvement: Channel-voice presets grounded in creator-approved examples.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-013"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-014",
+          "text": "Comment Management improvement: Tone, length and reading-level controls.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-014"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-015",
+          "text": "Comment Management improvement: Translation and bilingual response drafting with language labels.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-015"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-016",
+          "text": "Comment Management improvement: Fact-check assistant that flags claims needing source review.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-016"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-017",
+          "text": "Comment Management improvement: Policy and safety review for risky or overconfident draft language.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-017"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-018",
+          "text": "Comment Management improvement: FAQ answer suggestions grounded in creator-approved sources.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-018"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-019",
+          "text": "Comment Management improvement: Saved reply snippets with versioning and channel ownership.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-019"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-020",
+          "text": "Comment Management improvement: Personalized response templates by question type.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-020"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-021",
+          "text": "Comment Management improvement: Suggest Videos with transparent relevance rationale and reviewable previews.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-021"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-022",
+          "text": "Comment Management improvement: Multi-video recommendation sets with creator selection.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-022"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-023",
+          "text": "Comment Management improvement: Related playlist/series suggestions when supported by creator catalog data.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-023"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-024",
+          "text": "Comment Management improvement: Comment-to-content opportunity extraction with evidence links.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-024"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-025",
+          "text": "Comment Management improvement: Audience request clustering with sample-size and coverage labels.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-025"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-026",
+          "text": "Comment Management improvement: Topic trend changes across defined, comparable time windows.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-026"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-027",
+          "text": "Comment Management improvement: Sentiment/theme analysis with model provenance and uncertainty.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-027"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-028",
+          "text": "Comment Management improvement: Repeated confusion and product-issue detection.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-028"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-029",
+          "text": "Comment Management improvement: Creator-defined escalation rules for sensitive or urgent threads.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-029"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-030",
+          "text": "Comment Management improvement: Escalation notes and handoff to existing support/workflow destinations.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-030"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-031",
+          "text": "Comment Management improvement: Moderation review queue for currently supported actions only.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-031"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-032",
+          "text": "Comment Management improvement: Per-item moderation preview and explicit confirmation.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-032"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-033",
+          "text": "Comment Management improvement: Bulk action preview with bounded batches and per-item receipts, only after API validation.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-033"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-034",
+          "text": "Comment Management improvement: Duplicate/ambiguous action prevention and post-outcome reconciliation.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-034"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-035",
+          "text": "Comment Management improvement: Audit history for reply and moderation actions.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-035"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-036",
+          "text": "Comment Management improvement: Reply performance reporting using verified available metrics, without causal overclaim.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-036"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-037",
+          "text": "Comment Management improvement: Response-time and unanswered-backlog reporting with clear data coverage.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-037"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-038",
+          "text": "Comment Management improvement: Comment-to-Project proposal through Brain interpretation and Project Builder approval.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-038"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-039",
+          "text": "Comment Management improvement: Creator learning loop from approved/rejected drafts, gated by existing learning governance.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-039"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-040",
+          "text": "Comment Management improvement: Accessibility-first keyboard triage, focus management and mobile quick actions.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-040"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-041",
+          "text": "Audience/community interaction: Answer a viewer question with a concise, source-grounded response.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-041"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-042",
+          "text": "Audience/community interaction: Link a relevant existing tutorial video after creator review.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-042"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-043",
+          "text": "Audience/community interaction: Direct a viewer to the correct chapter/timestamp when transcript evidence exists.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-043"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-044",
+          "text": "Audience/community interaction: Acknowledge constructive criticism and explain a planned correction.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-044"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-045",
+          "text": "Audience/community interaction: Thank a viewer for detailed feedback without generating repetitive spam.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-045"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-046",
+          "text": "Audience/community interaction: Identify recurring questions and draft a public FAQ response.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-046"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-047",
+          "text": "Audience/community interaction: Turn repeated requests into a creator-reviewed future-video brief.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-047"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-048",
+          "text": "Audience/community interaction: Invite viewers to clarify an ambiguous request.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-048"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-049",
+          "text": "Audience/community interaction: Recognize returning contributors using only permitted, visible context.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-049"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-050",
+          "text": "Audience/community interaction: Identify unanswered high-value questions for creator attention.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-050"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-051",
+          "text": "Audience/community interaction: Route product/support issues into an existing support workflow.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-051"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-052",
+          "text": "Audience/community interaction: Escalate threats, harassment or sensitive content for human review.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-052"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-053",
+          "text": "Audience/community interaction: Surface misinformation claims for evidence review rather than automatic confrontation.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-053"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-054",
+          "text": "Audience/community interaction: Draft respectful disagreement responses that preserve channel voice.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-054"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-055",
+          "text": "Audience/community interaction: Invite viewers to compare approaches or share their own experience.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-055"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-056",
+          "text": "Audience/community interaction: Collect feedback after a tutorial and propose improvements.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-056"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-057",
+          "text": "Audience/community interaction: Identify requests for a follow-up, sequel or deeper explanation.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-057"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-058",
+          "text": "Audience/community interaction: Convert related comments into a community poll proposal.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-058"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-059",
+          "text": "Audience/community interaction: Draft a Community post summarizing a recurring audience question for creator approval.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-059"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-060",
+          "text": "Audience/community interaction: Build a creator-approved response campaign for a video launch.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-060"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-061",
+          "text": "Audience/community interaction: Identify viewers asking for resources and prepare a reviewed resource reply.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-061"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-062",
+          "text": "Audience/community interaction: Suggest a playlist or series path for a viewer's learning journey.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-062"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-063",
+          "text": "Audience/community interaction: Invite a viewer to an existing public community activity where appropriate.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-063"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-064",
+          "text": "Audience/community interaction: Detect recurring praise themes and summarize what viewers value.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-064"
+          ],
+          "disposition": "RETAINED"
+        },
+        {
+          "id": "REQ-YT-004-CM-065",
+          "text": "Audience/community interaction: Produce a weekly audience conversation digest with source references and unanswered items.",
+          "sourceItemIds": [
+            "IDEA-SRC-CM-065"
           ],
           "disposition": "RETAINED"
         }
