@@ -48,7 +48,7 @@ describe("confirmed Studio button primitive library", () => {
   it("places split-left badge specimens in the confirmed primitive library", () => {
     const catalog = read("src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx")
     expect(catalog).toContain("StudioSplitLeftBadge")
-    expect(catalog).toContain('title="Split-left Badge · Standard + Compact + Micro"')
+    expect(catalog).toContain('title="Split-left Badges"')
     expect(catalog).toContain("STANDARD · FULL ROW")
     expect(catalog).toContain("STANDARD · HALF ROW")
     expect(catalog).toContain("STANDARD · QUARTER ROW · 4×1")
