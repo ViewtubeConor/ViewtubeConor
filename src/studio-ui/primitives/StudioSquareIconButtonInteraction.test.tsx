@@ -273,6 +273,8 @@ describe("StudioSquareIconButtonGroup exclusive selection", () => {
     expect(buttons.filter(button => button.getAttribute("aria-pressed") === "true")).toHaveLength(1);
     await act(async () => { buttons[1]?.dispatchEvent(new MouseEvent("click", { bubbles: true })) });
     expect(buttons.map(button => button.getAttribute("aria-pressed"))).toEqual(["false", "true", "false"]);
+    await act(async () => { buttons[1]?.dispatchEvent(new MouseEvent("click", { bubbles: true })) });
+    expect(buttons.map(button => button.getAttribute("aria-pressed"))).toEqual(["false", "true", "false"]);
     await act(async () => { buttons[2]?.dispatchEvent(new MouseEvent("click", { bubbles: true })) });
     expect(buttons.map(button => button.getAttribute("aria-pressed"))).toEqual(["false", "false", "true"]);
   });
