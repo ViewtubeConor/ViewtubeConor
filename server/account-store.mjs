@@ -736,6 +736,7 @@ export const settleAiCreditReservation = async (userId, input = {}) => {
   if (!reservationId) throw new Error("AI credit settlement requires a reservation ID.");
   const actualCredits = input.actualCredits === 0 ? 0 : normalizePositiveCredits(input.actualCredits, "Actual AI usage");
   const idempotencyKey = normalizeIdempotencyKey(input.idempotencyKey, "AI credit settlement");
+  const settlementMetadata = input.metadata && typeof input.metadata === "object" ? input.metadata : {};
   if (usePostgres()) {
     const client = await pool.connect();
     try {
@@ -764,7 +765,7 @@ export const settleAiCreditReservation = async (userId, input = {}) => {
           [`aic_${crypto.randomUUID().replace(/-/g, "")}`, userId, adjustment, `settle:${reservationId}:${idempotencyKey}`, JSON.stringify({ reservationId, reservedCredits: reserved, actualCredits })],
         );
       }
-      await client.query("UPDATE viewtube_ai_credit_reservations SET status='settled',settled_credits=$2,updated_at=NOW() WHERE id=$1", [reservationId, actualCredits]);
+      await client.query("UPDATE viewtube_ai_credit_reservations SET status='settled',settled_credits=$2,metadata=metadata || jsonb_build_object('settlement',$3::jsonb),updated_at=NOW() WHERE id=$1", [reservationId, actualCredits, JSON.stringify(settlementMetadata)]);
       const finalBalance = await client.query("SELECT COALESCE(SUM(delta_credits),0) AS available FROM viewtube_ai_credit_ledger WHERE viewtube_user_id=$1", [userId]);
       await client.query("COMMIT");
       return { settled: true, duplicate: false, availableCredits: Math.max(0, Number(finalBalance.rows[0]?.available || 0)), unlimited: Boolean(row.unlimited) };
@@ -796,6 +797,7 @@ export const settleAiCreditReservation = async (userId, input = {}) => {
     });
     reservation.status = "settled";
     reservation.settledCredits = actualCredits;
+    reservation.metadata = { ...(reservation.metadata || {}), settlement: settlementMetadata };
     reservation.updatedAt = nowIso();
     return { settled: true, duplicate: false, availableCredits: ledgerAvailableCredits(db.aiLedger, userId), unlimited: Boolean(reservation.unlimited) };
   });
