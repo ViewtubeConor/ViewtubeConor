@@ -96,6 +96,8 @@ describe("Comment Responder Studio Hub contract", () => {
   expect(controller).toContain("matchStrength: recommendation.matchStrength")
   expect(controller).toContain("const applyVideoRecommendation")
   expect(controller).toContain("const dismissVideoRecommendation")
+  expect(controller).toContain("Keep the generated reply as a draft")
+  expect(controller).not.toContain("Check this out for more details: https://youtu.be/")
  })
 
  it("makes generation, refinement, and video suggestions explicit contextual actions", () => {
