@@ -114,14 +114,13 @@ export const GOOGLE_SCOPES = [
 ];
 // Compatibility export for external tooling that has not yet moved to GOOGLE_SCOPES.
 export const READ_ONLY_SCOPES = GOOGLE_SCOPES;
-export const PUBLIC_PLANS = [
-  { id: "basic", label: "Basic", priceUsd: 0, trialHours: 0, monthlyCredits: 0 },
-  { id: "beta", label: "Beta (BYOK)", priceUsd: 0, trialHours: 0, monthlyCredits: 0 },
-  { id: "creator", label: "Creator", priceUsd: 9.99, trialHours: 48, monthlyCredits: 1000 },
-  { id: "creator_plus", label: "Creator Plus", priceUsd: 19.99, trialHours: 48, monthlyCredits: 2000 },
-  { id: "creator_pro", label: "Creator Pro", priceUsd: 39.99, trialHours: 48, monthlyCredits: 4000 },
-  { id: "executive", label: "Executive", priceUsd: 69.99, trialHours: 48, monthlyCredits: null },
-];
+export const PUBLIC_PLANS = Object.values(SUBSCRIPTION_PLAN_BILLING).map((plan) => ({
+  id: plan.id,
+  label: plan.label,
+  priceUsd: plan.priceUsd,
+  trialHours: plan.trialHours,
+  monthlyCredits: Number.isFinite(plan.monthlyCredits) ? plan.monthlyCredits : null,
+}));
 
 const cleanOrigin = (value) => String(value || "").replace(/\/$/, "");
 const publicOrigin = () => cleanOrigin(process.env.ACCOUNT_PUBLIC_ORIGIN || "http://localhost:5173");
