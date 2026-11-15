@@ -88,8 +88,8 @@ These are preliminary source dispositions, not implementation approvals. “Port
 | `scripts/audit/studio-public-export-catalog-matrix.test.mjs` | PR #1271 / 10-31 | **PORT / RECONCILE TEST COVERAGE** | Use tests as acceptance contract only after updating them to current master API and quarantine decisions. |
 | `scripts/audit/studio-split-text-input-geometry.test.mjs` | PR #1271 / 10-31 | **QUARANTINE / PRESERVE HISTORY** | Legacy split-input family is explicitly quarantined by newer master docs; do not reactivate public exports or active CSS. |
 | `scripts/emit-studio-control-vars.mjs` | PR #1271 / 10-31 | **RECONCILE TOKEN PIPELINE** | Compare generated output and emitter; one canonical token source, no duplicate token hierarchy. |
-| `src/components/analyticsVisualContextBar.test.tsx` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Keep master width reservation; assess source metric icon rail as additive metadata-driven presentation. |
-| `src/components/analyticsVisualContextBar.tsx` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Keep master width reservation; assess source metric icon rail as additive metadata-driven presentation. |
+| `src/components/analyticsVisualContextBar.test.tsx` | PR #1271 / 10-31 | **PRESERVE / RECONCILE TESTS** | Retain master metric tone and width-stability tests; add split-left DOM, explicit icon identity, rail width, localization, and compact-layout tests. |
+| `src/components/analyticsVisualContextBar.tsx` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Preserve master metric normalization, tones, and declared width reservations; selectively add split-left icon rail, explicit iconKey metadata, and rail-aware width reservation. Avoid label-substring icon inference. |
 | `src/components/brain/BrainComposerDock.contract.test.ts` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Keep master primitive/field ownership; recover only still-missing interactions and responsive behavior with tests. |
 | `src/components/brain/BrainComposerDock.css` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Keep master primitive/field ownership; recover only still-missing interactions and responsive behavior with tests. |
 | `src/components/brain/BrainComposerDock.test.tsx` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Keep master primitive/field ownership; recover only still-missing interactions and responsive behavior with tests. |
@@ -176,6 +176,7 @@ These are preliminary source dispositions, not implementation approvals. “Port
 
 - [Calendar projection and primitive audit](VIEWTUBE_CALENDAR_PROJECTION_AND_PRIMITIVE_RECONCILIATION_AUDIT_2026-11-15.md)
 - [Resource Library Studio row audit](VIEWTUBE_RESOURCE_LIBRARY_STUDIO_ROW_RECONCILIATION_AUDIT_2026-11-15.md)
+- [Analytics metric rail audit](VIEWTUBE_ANALYTICS_METRIC_RAIL_RECONCILIATION_AUDIT_2026-11-15.md)
 
 ## 5. Cross-cutting preservation rules
 
