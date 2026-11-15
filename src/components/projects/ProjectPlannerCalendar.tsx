@@ -175,6 +175,7 @@ const ProjectPlannerCalendar: React.FC<ProjectPlannerCalendarProps> = ({ onOpenP
                   key={project.id}
                   className="vt-project-planner-calendar__project-row"
                   draggable
+                  title="Drag this project onto a calendar day to move its publish date. You can also use the schedule selector."
                   onDragStart={event => {
                     event.dataTransfer.effectAllowed = "move"
                     event.dataTransfer.setData("text/plain", project.id)
