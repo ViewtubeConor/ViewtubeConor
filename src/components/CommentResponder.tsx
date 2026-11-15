@@ -50,8 +50,8 @@ export const CommentResponder: React.FC = () => {
      ? comments.tab === "history" ? "No replied comments found." : "No new comments found."
      : `${comments.currentIndex + 1} of ${comments.displayThreads.length}`
 
- return <div data-vt-comment-responder data-state={dataState} className="flex w-full flex-col items-stretch gap-3 bg-white p-1 sm:p-3 lg:p-5">
-  <SubToolbox title="Comment Responder" icon={<MessagesSquare />} collapsible isOpenInitial>
+ return <div data-vt-comment-responder data-state={dataState} className="flex w-full min-w-0 flex-col items-stretch gap-4">
+  <section data-comment-management-workspace className="min-w-0 space-y-3">
    <div data-comment-queue-controls className="mb-3 flex min-w-0 flex-wrap items-center gap-2">
     <div role="group" aria-label="Comment queue filter" className="grid min-w-0 flex-1 grid-cols-2 gap-1">
      <StudioButton type="button" aria-pressed={comments.tab === "unreplied"} tone={comments.tab === "unreplied" ? "accent" : "neutral"} heightVariant="28" sizeVariant="compact" onClick={() => comments.setTab("unreplied")}>New · {comments.tab === "unreplied" ? comments.displayThreads.length : ""}</StudioButton>
@@ -63,7 +63,26 @@ export const CommentResponder: React.FC = () => {
     </div>
     <StudioSquareIconButton type="button" label={context.connected ? "Refresh comments" : "Connect YouTube channel"} icon={context.connected ? <RefreshCw size={14} className={comments.loading ? "animate-spin" : ""} /> : <Link2 size={14} />} sizeVariant="compact" onClick={context.connected ? comments.refresh : comments.reconnect} disabled={context.connected && comments.loading} tone="accent" animate />
    </div>
-   <div role="status" aria-live="polite" className="mb-3 min-h-5 text-[10px] font-black uppercase">{queueStatus}</div>
+   <div data-comment-inbox className="min-w-0 rounded-xl border-2 border-black bg-white p-2 sm:p-3">
+    <div className="mb-2 flex items-center justify-between gap-2">
+     <div><p className="text-[9px] font-black uppercase tracking-[0.16em] opacity-55">Comment inbox</p><h3 className="text-sm font-black uppercase">Needs your attention</h3></div>
+     <span className="rounded-md border-2 border-black bg-[#FFF1B8] px-2 py-1 text-[10px] font-black tabular-nums">{comments.displayThreads.length} loaded</span>
+    </div>
+    {comments.displayThreads.length > 0 ? <div role="list" aria-label="Comments in the selected queue" className="grid max-h-64 gap-2 overflow-y-auto sm:grid-cols-2 xl:grid-cols-3">
+     {comments.displayThreads.map((item: any, index: number) => {
+      const itemSnippet = item.snippet?.topLevelComment?.snippet || {}
+      const itemAuthor = plainText(itemSnippet.authorDisplayName || "Viewer")
+      const itemText = plainText(itemSnippet.textDisplay || itemSnippet.textOriginal || "")
+      const selected = index === comments.currentIndex
+      return <button key={item.id || index} type="button" role="listitem" aria-current={selected ? "true" : undefined} aria-label={`Open comment from ${itemAuthor}`} onClick={() => comments.setCurrentIndex(index)} data-comment-inbox-item data-selected={selected ? "true" : "false"} className={`min-w-0 rounded-lg border-2 border-black p-3 text-left transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black ${selected ? "bg-[#DDF4FF]" : "bg-white hover:bg-[#F4F8FA]"}`}>
+       <span className="flex items-center justify-between gap-2"><strong className="truncate text-[11px] font-black uppercase">{itemAuthor}</strong><span className="shrink-0 text-[9px] font-bold opacity-55">{Number(itemSnippet.likeCount || 0).toLocaleString()} likes</span></span>
+       <span className="mt-1 block text-xs font-semibold leading-snug">{itemText || "No comment text available."}</span>
+       <span className="mt-2 flex items-center justify-between gap-2 text-[9px] font-black uppercase opacity-50"><span>{formatCommentDate(itemSnippet.publishedAt || itemSnippet.updatedAt)}</span><span>{item.replies?.comments?.length || 0} replies</span></span>
+      </button>
+     })}
+    </div> : <p className="rounded-lg border-2 border-dashed border-black/30 p-3 text-xs font-semibold">Your selected queue is clear. Refresh to check for new comments.</p>}
+   </div>
+   <div role="status" aria-live="polite" className="min-h-5 text-[10px] font-black uppercase">{queueStatus}</div>
    {!context.connected && <div className="mb-3"><SubToolboxGridActionButton label="Connect YouTube Channel" iconName="link" tone="green" onClick={comments.reconnect} /></div>}
    {thread && <div data-comment-video-context className="mb-3 grid min-w-0 grid-cols-[96px_minmax(0,1fr)] items-center gap-3 rounded-lg border-2 border-black bg-white p-2 sm:grid-cols-[140px_minmax(0,1fr)]">
     <div className="aspect-video overflow-hidden rounded-md border-2 border-black bg-gray-100">{thumbnail ? <img src={thumbnail} width={320} height={180} alt={"Thumbnail for " + videoTitle} className="h-full w-full object-cover" /> : <div className="grid h-full w-full place-items-center"><Loader2 className="animate-spin" /></div>}</div>
@@ -89,9 +108,9 @@ export const CommentResponder: React.FC = () => {
     {replies.length === 0 && <p className="ml-11 text-[10px] font-bold uppercase tracking-wide opacity-45">No replies yet — start the conversation below.</p>}
    </div> : <div className="grid min-h-24 place-items-center rounded-lg border-2 border-dashed border-black/30 bg-white/60 p-4 text-center text-xs font-black uppercase opacity-60">{dataState === "disconnected" ? "Connect your channel to load comments." : dataState === "loading" ? "Loading conversation…" : dataState === "error" ? "Conversation unavailable. Refresh and try again." : "No comment selected."}</div>}
    <div data-comment-reply-composer className="mt-3 border-t-2 border-black pt-3">
-    <label htmlFor="comment-reply-copy" className="mb-1 block text-[10px] font-black uppercase">Reply · Enter to post</label>
+    <label htmlFor="comment-reply-copy" className="mb-1 block text-[10px] font-black uppercase">Reply · Enter for a new line</label>
     <div className="flex items-end gap-2">
-     <StudioTextArea id="comment-reply-copy" name="commentReply" sizeVariant="compact" value={comments.replyText} onChange={(event) => comments.setReplyText(event.target.value)} onKeyDown={(event: React.KeyboardEvent<HTMLTextAreaElement>) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); if (comments.canPostReply && comments.replyText.trim() && !comments.loading) void comments.postReply(); } }} placeholder={!context.connected ? "Connect your YouTube channel to reply…" : comments.tab === "history" ? "Write a follow-up reply…" : "Write or generate a reply…"} className="min-h-[54px] flex-1" disabled={!context.connected || !thread} />
+     <StudioTextArea id="comment-reply-copy" name="commentReply" sizeVariant="compact" value={comments.replyText} onChange={(event) => comments.setReplyText(event.target.value)} placeholder={!context.connected ? "Connect your YouTube channel to reply…" : comments.tab === "history" ? "Write a follow-up reply…" : "Write or generate a reply…"} className="min-h-[54px] flex-1" disabled={!context.connected || !thread} />
      <StudioSquareIconButton type="button" label={comments.canPostReply ? "Post reply" : context.connected ? "Reconnect channel" : "Connect channel"} icon={comments.canPostReply ? <Send size={14} /> : <Link2 size={14} />} sizeVariant="compact" onClick={comments.canPostReply ? comments.postReply : comments.reconnect} disabled={comments.canPostReply ? (!thread || !comments.replyText.trim() || comments.loading) : false} tone="accent" />
     </div>
     <div role="group" aria-label="Reply writing actions" className="mt-3 grid grid-cols-3 gap-1 sm:gap-2">
@@ -101,7 +120,7 @@ export const CommentResponder: React.FC = () => {
     </div>
    </div>
    {comments.error && context.connected && <div role="alert" className="mt-3 rounded-lg border-[3px] border-black bg-[#FFB158] p-3 text-xs font-black">{comments.error}</div>}
-  </SubToolbox>
+  </section>
    <SubToolbox title="Audience Pulse" icon={<Sparkles />} collapsible isOpenInitial={false}>
     <p className="mb-3 text-[10px] font-bold uppercase opacity-60">Read-only patterns from the loaded comment records. Intent is inferred, not verified.</p>
     {comments.audienceSignals.length ? <div className="space-y-2">
