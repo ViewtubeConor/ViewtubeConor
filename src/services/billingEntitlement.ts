@@ -962,13 +962,8 @@ export const entitlementStatesEqual = (a: EntitlementState, b: EntitlementState)
  serializeEntitlement(a) === serializeEntitlement(b)
 
 export const getMeterLedgerEntries = (): CreditLedgerEntry[] => readLedger()
-export const getPlanDefinitions = (): PlanDefinition[] => SUBSCRIPTION_PLANS.map((plan) => ({
- id: plan.id,
- priceUsd: plan.priceUsd,
- monthlyCredits: plan.monthlyCredits,
- rolloverCap: plan.rolloverCap,
- tier: plan.billingTier,
-}))
+export const getPlanDefinitions = (): PlanDefinition[] =>
+ SUBSCRIPTION_PLANS.map((plan) => getPlanDefinition(plan.id))
 
 const sanitizeReferralCode = (raw: string): string =>
  String(raw || "")
