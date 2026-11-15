@@ -1,4 +1,4 @@
-import type { SubscriptionPlanId } from "./subscriptionPlans"
+import { getSubscriptionPlan, SUBSCRIPTION_PLANS, type SubscriptionPlanId } from "./subscriptionPlans"
 import { reportDiagnostic } from "./diagnostics"
 import { getGeminiModel, normalizeGeminiModelId } from "./geminiModelGovernance"
 
@@ -9,7 +9,7 @@ export type CreditLedgerEntryType =
  | "usage_debit"
  | "adjustment"
 
-export interface PlanDefinition {
+export type PlanDefinition = {
  id: SubscriptionPlanId
  priceUsd: number
  monthlyCredits: number
@@ -191,27 +191,6 @@ export const ENTITLEMENT_CHANGED_EVENT = "vt_entitlement_changed"
 
 const MARKUP_MULTIPLIER = Number(import.meta.env?.VITE_GEMINI_METER_MARKUP || 3)
 
-const PLAN_DEFINITIONS: PlanDefinition[] = [
- { id: "basic", priceUsd: 0, monthlyCredits: 0, rolloverCap: 0, tier: "free" },
- { id: "beta", priceUsd: 0, monthlyCredits: 0, rolloverCap: 0, tier: "large" },
- { id: "creator", priceUsd: 9.99, monthlyCredits: 1000, rolloverCap: 2000, tier: "medium" },
- {
-  id: "creator_plus",
-  priceUsd: 19.99,
-  monthlyCredits: 2000,
-  rolloverCap: 4000,
-  tier: "medium",
- },
- {
-  id: "creator_pro",
-  priceUsd: 39.99,
-  monthlyCredits: 4000,
-  rolloverCap: 8000,
-  tier: "medium",
- },
- { id: "executive", priceUsd: 69.99, monthlyCredits: Number.POSITIVE_INFINITY, rolloverCap: Number.POSITIVE_INFINITY, tier: "large" },
-]
-
 export const TOPUP_DEFINITIONS: TopupDefinition[] = [
  { sku: "topup_5", priceUsd: 5, creditAmount: 8_000 },
  { sku: "topup_10", priceUsd: 10, creditAmount: 18_000 },
@@ -273,8 +252,11 @@ const safeNumber = (value: unknown, fallback = 0): number => {
  return Number.isFinite(n) ? n : fallback
 }
 
-const getPlanDefinition = (planId: SubscriptionPlanId): PlanDefinition =>
- PLAN_DEFINITIONS.find((plan) => plan.id === planId) || PLAN_DEFINITIONS[0]
+const getPlanDefinition = (planId: SubscriptionPlanId): PlanDefinition => {
+ const plan = getSubscriptionPlan(planId)
+ return { id: plan.id, priceUsd: plan.priceUsd, monthlyCredits: plan.monthlyCredits,
+  rolloverCap: plan.rolloverCap, tier: plan.billingTier }
+}
 
 const modelRatesFor = (modelId: string) => {
  const pricing = getGeminiModel(normalizeGeminiModelId(modelId))?.pricing
@@ -980,7 +962,8 @@ export const entitlementStatesEqual = (a: EntitlementState, b: EntitlementState)
  serializeEntitlement(a) === serializeEntitlement(b)
 
 export const getMeterLedgerEntries = (): CreditLedgerEntry[] => readLedger()
-export const getPlanDefinitions = (): PlanDefinition[] => [...PLAN_DEFINITIONS]
+export const getPlanDefinitions = (): PlanDefinition[] =>
+ SUBSCRIPTION_PLANS.map((plan) => getPlanDefinition(plan.id))
 
 const sanitizeReferralCode = (raw: string): string =>
  String(raw || "")

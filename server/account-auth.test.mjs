@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { SUBSCRIPTION_PLAN_BILLING } from "../shared/subscriptionPlanBilling.mjs";
 import { withVerifiedPostgresSslMode } from "./account-store.mjs";
 import {
   PUBLIC_PLANS,
@@ -56,10 +57,18 @@ test("existing core-connected users receive an incremental monetary reconnect ac
   }), "connect_channel");
 });
 
-test("server plan catalog owns every public plan id", () => {
-  assert.deepEqual(PUBLIC_PLANS.map((plan) => plan.id), [
-    "basic", "beta", "creator", "creator_plus", "creator_pro", "executive",
-  ]);
+test("server plan catalog is projected from the shared six-plan billing contract", () => {
+  assert.deepEqual(PUBLIC_PLANS.map((plan) => plan.id), Object.keys(SUBSCRIPTION_PLAN_BILLING));
+  for (const plan of PUBLIC_PLANS) {
+    const source = SUBSCRIPTION_PLAN_BILLING[plan.id];
+    assert.equal(plan.label, source.label);
+    assert.equal(plan.priceUsd, source.priceUsd);
+    assert.equal(plan.trialHours, source.trialHours);
+    assert.equal(plan.monthlyCredits, Number.isFinite(source.monthlyCredits) ? source.monthlyCredits : null);
+  }
+  assert.equal(SUBSCRIPTION_PLAN_BILLING.beta.monthlyCredits, 0);
+  assert.equal(SUBSCRIPTION_PLAN_BILLING.beta.billingTier, "large");
+  assert.equal(SUBSCRIPTION_PLAN_BILLING.executive.monthlyCredits, Number.POSITIVE_INFINITY);
 });
 
 test("OAuth tokens are encrypted at rest", () => {

@@ -4,6 +4,10 @@ const providerGenerateContent = vi.hoisted(() => vi.fn())
 const providerGenerateContentStream = vi.hoisted(() => vi.fn())
 const unifiedServerEnabled = vi.hoisted(() => vi.fn())
 const unifiedAccountSnapshot = vi.hoisted(() => vi.fn())
+const reserveUnifiedAiCredits = vi.hoisted(() => vi.fn())
+const settleUnifiedAiCredits = vi.hoisted(() => vi.fn())
+const releaseUnifiedAiCredits = vi.hoisted(() => vi.fn())
+const recordUnifiedAiProviderUsage = vi.hoisted(() => vi.fn().mockResolvedValue({ recorded: true, duplicate: false }))
 
 vi.mock("@google/genai", () => ({
  GoogleGenAI: class {
@@ -19,6 +23,10 @@ vi.mock("@google/genai", () => ({
 
 vi.mock("../account/accountCoordinator", () => ({
  consumeUnifiedAiCredits: vi.fn(),
+ reserveUnifiedAiCredits,
+ settleUnifiedAiCredits,
+ releaseUnifiedAiCredits,
+ recordUnifiedAiProviderUsage,
  fetchUnifiedAccountSnapshot: unifiedAccountSnapshot,
  isUnifiedAccountServerEnabled: unifiedServerEnabled,
 }))
@@ -43,6 +51,11 @@ describe("Gemini custom-key access", () => {
   vi.stubGlobal("localStorage", storage)
   providerGenerateContent.mockReset()
   providerGenerateContentStream.mockReset()
+  reserveUnifiedAiCredits.mockReset()
+  settleUnifiedAiCredits.mockReset()
+  releaseUnifiedAiCredits.mockReset()
+  recordUnifiedAiProviderUsage.mockReset()
+  recordUnifiedAiProviderUsage.mockResolvedValue({ recorded: true, duplicate: false })
   unifiedServerEnabled.mockReturnValue(true)
   unifiedAccountSnapshot.mockResolvedValue({
    authentication: { status: "authenticated" },
@@ -65,6 +78,10 @@ describe("Gemini custom-key access", () => {
   })).resolves.toMatchObject({ text: "creator-specific answer" })
 
   expect(providerGenerateContent).toHaveBeenCalledTimes(1)
+  expect(reserveUnifiedAiCredits).not.toHaveBeenCalled()
+  expect(settleUnifiedAiCredits).not.toHaveBeenCalled()
+  expect(releaseUnifiedAiCredits).not.toHaveBeenCalled()
+  expect(recordUnifiedAiProviderUsage).toHaveBeenCalledWith(expect.objectContaining({ keySource: "byok", provider: "google" }))
  })
 
  it("still blocks a signed-out creator from using a custom key", async () => {
@@ -98,6 +115,10 @@ describe("Gemini custom-key access", () => {
 
   expect(chunks).toEqual([{ text: "creator-specific streamed answer" }])
   expect(providerGenerateContentStream).toHaveBeenCalledTimes(1)
+  expect(recordUnifiedAiProviderUsage).toHaveBeenCalledWith(expect.objectContaining({ keySource: "byok", provider: "google" }))
+  expect(reserveUnifiedAiCredits).not.toHaveBeenCalled()
+  expect(settleUnifiedAiCredits).not.toHaveBeenCalled()
+  expect(releaseUnifiedAiCredits).not.toHaveBeenCalled()
  })
 
  it("blocks a signed-out creator from streaming with a custom key", async () => {

@@ -21,6 +21,7 @@ import {
   initAccountStore,
   setServerSubscription,
 } from "./account-store.mjs";
+import { SUBSCRIPTION_PLAN_BILLING } from "../shared/subscriptionPlanBilling.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,24 +39,23 @@ const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || "";
 const STRIPE_TRIAL_HOURS = Number(process.env.STRIPE_TRIAL_HOURS || 48);
 const ALLOW_LEGACY_BILLING_IDENTITY = process.env.ALLOW_LEGACY_BILLING_IDENTITY === "true";
 
-const PRICE_MAP = {
-  creator: process.env.STRIPE_PRICE_CREATOR || "",
-  creator_plus: process.env.STRIPE_PRICE_CREATOR_PLUS || "",
-  creator_pro: process.env.STRIPE_PRICE_CREATOR_PRO || "",
-  executive: process.env.STRIPE_PRICE_EXECUTIVE || "",
-};
+const PRICE_MAP = Object.fromEntries(
+  Object.values(SUBSCRIPTION_PLAN_BILLING)
+    .filter((plan) => plan.stripePriceEnv)
+    .map((plan) => [plan.id, process.env[plan.stripePriceEnv] || ""]),
+);
 const TOPUP_PRICE_MAP = {
   topup_5: process.env.STRIPE_PRICE_TOPUP_5 || "",
   topup_10: process.env.STRIPE_PRICE_TOPUP_10 || "",
   topup_25: process.env.STRIPE_PRICE_TOPUP_25 || "",
 };
-const PLAN_CREDITS = {
-  basic: { monthly: 0, cap: 0, tier: "free" },
-  creator: { monthly: 1000, cap: 2000, tier: "medium" },
-  creator_plus: { monthly: 2000, cap: 4000, tier: "medium" },
-  creator_pro: { monthly: 4000, cap: 8000, tier: "medium" },
-  executive: { monthly: Number.POSITIVE_INFINITY, cap: Number.POSITIVE_INFINITY, tier: "large" },
-};
+const PLAN_CREDITS = Object.fromEntries(
+  Object.values(SUBSCRIPTION_PLAN_BILLING).map((plan) => [plan.id, {
+    monthly: plan.monthlyCredits,
+    cap: plan.rolloverCap,
+    tier: plan.billingTier,
+  }]),
+);
 
 const json = (res, status, payload) => {
   res.writeHead(status, {
@@ -337,7 +337,8 @@ const handleDuplicateProject = async (req, res, projectId, userId) => {
 
 const normalizePlanId = (input) => {
   const planId = String(input || "creator_plus");
-  if (Object.prototype.hasOwnProperty.call(PRICE_MAP, planId)) return planId;
+  if (planId === "starter") return "basic";
+  if (Object.prototype.hasOwnProperty.call(SUBSCRIPTION_PLAN_BILLING, planId)) return planId;
   return "creator_plus";
 };
 

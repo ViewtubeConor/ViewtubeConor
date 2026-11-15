@@ -568,6 +568,99 @@ export const activateUnifiedFreePlan = async (planId: "basic" | "beta"): Promise
   return snapshot
 }
 
+export interface UnifiedAiCreditReservationResult {
+  reservationId: string
+  availableCredits: number
+  unlimited: boolean
+  duplicate: boolean
+  snapshot: UnifiedAccountSnapshot
+}
+
+const cacheCreditOperationSnapshot = (snapshot: UnifiedAccountSnapshot): void => {
+  cacheAccountSnapshot(snapshot)
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("vt_account_snapshot_changed", { detail: snapshot }))
+  }
+}
+
+export const reserveUnifiedAiCredits = async (input: {
+  credits: number
+  idempotencyKey: string
+  metadata?: Record<string, unknown>
+}): Promise<UnifiedAiCreditReservationResult> => {
+  const response = await fetch(accountUrl("/api/account/ai-credits/reserve"), {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(input),
+  })
+  const payload = await readJson<UnifiedAiCreditReservationResult>(response)
+  if (!payload?.reservationId || !isValidAccountSnapshot(payload.snapshot)) {
+    throw new Error("AI credit reservation response was malformed.")
+  }
+  cacheCreditOperationSnapshot(payload.snapshot)
+  return payload
+}
+
+export const settleUnifiedAiCredits = async (input: {
+  reservationId: string
+  actualCredits: number
+  idempotencyKey: string
+  metadata?: Record<string, unknown>
+}): Promise<Omit<UnifiedAiCreditReservationResult, "reservationId"> & { settled: boolean }> => {
+  const response = await fetch(accountUrl("/api/account/ai-credits/settle"), {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(input),
+  })
+  const payload = await readJson<Omit<UnifiedAiCreditReservationResult, "reservationId"> & { settled: boolean }>(response)
+  if (!payload?.settled || !isValidAccountSnapshot(payload.snapshot)) {
+    throw new Error("AI credit settlement response was malformed.")
+  }
+  cacheCreditOperationSnapshot(payload.snapshot)
+  return payload
+}
+
+export const releaseUnifiedAiCredits = async (input: {
+  reservationId: string
+  idempotencyKey: string
+  reason?: string
+}): Promise<Omit<UnifiedAiCreditReservationResult, "reservationId"> & { released: boolean }> => {
+  const response = await fetch(accountUrl("/api/account/ai-credits/release"), {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(input),
+  })
+  const payload = await readJson<Omit<UnifiedAiCreditReservationResult, "reservationId"> & { released: boolean }>(response)
+  if (!payload?.released || !isValidAccountSnapshot(payload.snapshot)) {
+    throw new Error("AI credit release response was malformed.")
+  }
+  cacheCreditOperationSnapshot(payload.snapshot)
+  return payload
+}
+
+export const recordUnifiedAiProviderUsage = async (input: {
+  provider: string
+  modelId: string
+  keySource: "byok" | "viewtube"
+  inputTokens: number
+  outputTokens: number
+  rawCostUsd: number
+  usageSource: "provider_reported" | "estimate"
+  idempotencyKey: string
+  metadata?: Record<string, unknown>
+}): Promise<{ recorded: boolean; duplicate: boolean }> => {
+  const response = await fetch(accountUrl("/api/account/ai-usage/record"), {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(input),
+  })
+  return readJson<{ recorded: boolean; duplicate: boolean }>(response)
+}
+
 export const consumeUnifiedAiCredits = async (input: {
   credits: number
   idempotencyKey: string

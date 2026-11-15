@@ -1,4 +1,5 @@
 import type { MasterTableType } from "./productArchitecture"
+import { SUBSCRIPTION_PLAN_BILLING } from "../../shared/subscriptionPlanBilling.mjs"
 
 export type SubscriptionPlanId =
  | "basic"
@@ -164,10 +165,20 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlanCapabilityMatrix[] = [
  },
 ]
 
+export type SubscriptionPlanWithBilling = SubscriptionPlanCapabilityMatrix & {
+ priceUsd: number
+ monthlyCredits: number
+ rolloverCap: number
+ billingTier: "free" | "medium" | "large"
+}
+
 export const getSubscriptionPlan = (
  planId: SubscriptionPlanId,
-): SubscriptionPlanCapabilityMatrix => {
- return SUBSCRIPTION_PLANS.find((plan) => plan.id === planId) || SUBSCRIPTION_PLANS[0]
+): SubscriptionPlanWithBilling => {
+ const capability = SUBSCRIPTION_PLANS.find((plan) => plan.id === planId) || SUBSCRIPTION_PLANS[0]
+ const billing = SUBSCRIPTION_PLAN_BILLING[capability.id]
+ return { ...capability, priceUsd: billing.priceUsd, monthlyCredits: billing.monthlyCredits,
+  rolloverCap: billing.rolloverCap, billingTier: billing.billingTier }
 }
 
 export const isTableEnabledForPlan = (
