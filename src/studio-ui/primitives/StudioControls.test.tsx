@@ -1648,3 +1648,12 @@ describe("StudioCircleIconButton shape consistency", () => {
     expect(css).toContain('button.vt-studio-circle-icon-button[data-size="micro"]');
   });
 });
+
+
+describe("StudioSquareIconButtonGroup horizontal layout contract", () => {
+  it("keeps the five square faces in one non-wrapping horizontal flex row", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-system.css"), "utf8");
+    expect(css).toContain('div.vt-studio-square-icon-button-group[data-vt-studio-icon-button-group="true"]');
+    expect(css).toMatch(/div\.vt-studio-square-icon-button-group\[data-vt-studio-icon-button-group="true"\]\s*\{[^}]*display:\s*flex;[^}]*flex-direction:\s*row;[^}]*flex-wrap:\s*nowrap;/s);
+  });
+});
