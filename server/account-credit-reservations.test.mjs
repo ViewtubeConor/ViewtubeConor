@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import os from "node:os";
 import path from "node:path";
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp, readFile, rm } from "node:fs/promises";
 import test from "node:test";
 
 const tempRoot = await mkdtemp(path.join(os.tmpdir(), "viewtube-ai-credit-reservations-"));
@@ -56,10 +56,14 @@ test("AI credit reservation is idempotent and settles to actual usage", async ()
     reservationId: first.reservationId,
     actualCredits: 180,
     idempotencyKey: "generation:one:settle",
+    metadata: { modelId: "gemini-2.5-flash", inputTokens: 180, outputTokens: 45 },
   });
   assert.equal(settled.settled, true);
   assert.equal(settled.duplicate, false);
   assert.equal(settled.availableCredits, 820);
+  const persisted = JSON.parse(await readFile(path.join(tempRoot, "account-store.json"), "utf8"));
+  assert.equal(persisted.aiReservations[first.reservationId].metadata.settlement.modelId, "gemini-2.5-flash");
+  assert.equal(persisted.aiReservations[first.reservationId].metadata.settlement.inputTokens, 180);
 
   const repeatedSettlement = await store.settleAiCreditReservation(userId, {
     reservationId: first.reservationId,
