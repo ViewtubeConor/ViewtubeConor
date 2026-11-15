@@ -2,7 +2,7 @@
 
 **Target branch:** `fix/studio-controls-regression-recovery-2026-10-31`  
 **Scope:** Dashboard Widget primitives → native Studio UI primitives.  
-**Status:** Phase 0 audited; phases 1–3 implementation in progress.
+**Status:** Phase 0 audit and phases 1–3 implementation committed; automated verification pending.
 
 ## Ownership and guardrails
 
@@ -71,4 +71,16 @@
 
 ## Verification record
 
-Tests/build/typecheck are not recorded as passed until executed against this branch. The GitHub connector used for this audit can inspect and commit repository files but does not provide a local checkout or a test runner. Do not mark phases complete based on static inspection alone.
+The following focused tests were added:
+
+- `src/studio-ui/primitives/StudioDashboardPrimitives.test.tsx`
+
+Required verification commands from the repository root:
+
+```bash
+npx vitest run src/studio-ui/primitives/StudioDashboardPrimitives.test.tsx
+npm run typecheck
+npm run build
+```
+
+The GitHub connector used for this execution can inspect and commit repository files but does not provide a local checkout or a test runner. These commands have **not** been executed in this session. The available commit status checks reported Vercel build-rate-limit failures, not a passing application build or a TypeScript/test result. Therefore the source changes and library registration are committed, but phases 1–3 are awaiting local/CI verification before being certified complete.
