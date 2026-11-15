@@ -1523,6 +1523,7 @@ export const StudioResourceSplitButton = React.forwardRef<HTMLButtonElement, Stu
       icon={icon}
       sizeVariant={sizeVariant}
       className={studioClasses("vt-studio-resource-split-button", className)}
+      data-vt-library-component="StudioResourceSplitButton"
       aria-pressed={props["aria-pressed"]}
     >
       <span className="vt-studio-resource-split-button__copy">
