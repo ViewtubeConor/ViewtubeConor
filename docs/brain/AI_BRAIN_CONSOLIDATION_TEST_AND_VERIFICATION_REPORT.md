@@ -83,3 +83,28 @@ Record command, exact SHA, result, failing test names and whether each failure i
 ## 5. Exit decision
 
 **Not ready for a production integration PR.** Discovery is incomplete, no code recovery has been implemented, and no executable verification has run. The two audit documents and this report are reviewable checkpoints only.
+
+
+## 6. Retrieved PR #1241 exact-head release-gate results
+
+Workflow run: https://github.com/viewtube-dev/viewtube/actions/runs/43004496051 for head b339f5e8d2253c6109e1a431ce1edbf0bcb6b986.
+
+| Job | Result | Evidence |
+|---|---|---|
+| brain-quality-loop | PASS | Job completed successfully |
+| gemini-governance | PASS | Job completed successfully |
+| production-build | PASS | Job completed successfully |
+| local-smoke | PASS | Job completed successfully |
+| source-governance | FAIL | audit:confirmed-catalog reports missing split-text-input stylesheet and P0 catalog specimens; multiple field/toggle/split-input assertions fail |
+| focused-contracts | FAIL | Three Studio counter/dropdown CSS contract assertions fail |
+| conversation-handoff-contract | FAIL | Job exits nonzero; full assertion detail not yet isolated |
+| full-suite | FAIL | npm test exits nonzero; complete failing-file inventory not yet triaged |
+| static-quality | FAIL | npm run typecheck fails on missing Studio exports/files, size-variant type mismatches and missing @testing-library/react |
+
+The source-governance log shows Studio catalog failures stop later governance steps in that job (those steps are skipped). The focused-contracts job likewise stops before later test commands. Static-quality typecheck errors are cross-cutting and include multiple Studio symbols and fixtures; they must not be attributed to Brain provenance code without an exact failing-file comparison.
+
+This is not a clean release gate. Passing Brain/Gemini/build/smoke jobs are evidence for those job scopes only. No live authenticated Gemini browser turn was performed, and no current-target workflow result was returned for SHA 52c6e90f.
+
+## 7. PR #1241 exact-base status
+
+The PR head is 1 commit ahead and 48 commits behind current target SHA 52c6e90f, with merge base a279e52e. The PR body’s older claim of “1 ahead, 0 behind” reflects its earlier base, not the current target. The provenance implementation requires selective forward-porting and exact-target verification.
