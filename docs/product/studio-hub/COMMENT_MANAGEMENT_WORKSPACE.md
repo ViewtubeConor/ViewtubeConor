@@ -100,18 +100,22 @@ PR-reported changed paths:
 
 ### CI evidence — do not overstate
 
-Workflow run [43677671858](https://github.com/viewtube-dev/viewtube/actions/runs/43677671858) completed with overall failure. The job detail retrieved during this conversation showed:
+Workflow run [43677671858](https://github.com/viewtube-dev/viewtube/actions/runs/43677671858) completed with overall failure. Job logs were retrieved and the failure classes are now known:
+
 - Production build: PASS.
 - Local smoke: PASS.
 - Brain quality-loop: PASS.
 - Gemini governance: PASS.
-- Focused-contracts: FAIL at the pre-existing Studio counter/dropdown regression gate; the new Comment Management test step is reported by PR #1274 as having passed before that gate.
-- Static-quality: FAIL at typecheck.
-- Conversation handoff contract job: handoff contract and document-system tests PASS; document audit FAIL.
-- Source governance: confirmed catalog audit FAIL.
-- Full suite: FAIL.
+- Focused-contracts: FAIL in `scripts/audit/studio-counter-dropdown-regression.test.mjs`: failures include the expected double-split counter root-width formula, missing expected double-split word-counter CSS, and dropdown hard-coded-color assertion. The dedicated Comment Management CI step is reported in PR #1274 as having passed before this gate.
+- Static-quality: FAIL at `npm run typecheck`. Errors span unrelated paths including `OpportunityEvidenceAdapter.test.ts` successMetrics literal typing, `generationStore.test.ts` null-to-CustomEvent casts, missing `StudioLeftWordVariant` / `StudioSplitLeftInput` exports, missing `StudioIconSizeVariant`, StudioControls five-tier typing, StudioValueToggles prop typing, missing Brain evidence test exports, and missing `@testing-library/react`. No type error in CommentResponder itself was shown in the captured tail; the complete diagnostics still require review.
+- Conversation handoff contract: handoff tests PASS (7); document-system tests PASS (4); document audit FAIL because multiple ACTIVE documents share concerns for P1 workstream execution packets (Brain Continuity, Gemini Governance, Unified Diagnostics, Priority-25 Runtime, Public Resolver and Studio Controls). The new Comment Management spec has its own unique registered concern and was not named in the reported conflicts.
+- Source governance: confirmed catalog audit FAIL. It reports missing `src/styles/studio-split-text-input.css`, missing P0 specimens `StudioUsernameInput` and `StudioSplitLeftInput`, and failures for focused-field black text/stroke/fill, stacked-toggle divider, side-toggle rail metrics/divider ownership and split-text-input perimeter/focus. These are Studio Controls/catalog issues, but baseline attribution requires a target-branch comparison.
+- Full suite: FAIL with 298 failed tests. Failures include missing `src/styles/studio-split-text-input.css`, missing `src/studio-ui/StudioHubCertification.tsx`, missing `@testing-library/react`, and numerous Studio/SubToolbox/Brain evidence contract mismatches. **Two CommentResponder contract failures are feature-specific:** the compact textarea source assertion and the Post Reply accessible-label source assertion. Reconcile these with the canonical StudioTextArea/StudioSquareIconButton contracts; do not dismiss them as unrelated.
+- The PR description's earlier statement that full-suite/typecheck were still running is superseded by the completed failure results above.
 
-The exact underlying failure output for typecheck, document audit, confirmed catalog and full suite was not retrieved in this conversation. Do not label these failures as unrelated without examining the logs. Do not claim the PR is merge-ready. Re-run the affected checks on the current head after diagnosing and correcting the failures. PR #1274 remains a review artifact, not proof of completion or merge.
+A subsequent workflow run [43688189005](https://github.com/viewtube-dev/viewtube/actions/runs/43688189005) was cancelled while jobs were in progress as additional documentation commits advanced the branch. It is not a successful verification run. No CI result is claimed for the final branch head after the documentation/idea-registry updates.
+
+Do not label failures as baseline without running the same gates against the exact target branch. Do not claim the PR is merge-ready. The next action is to reconcile the two CommentResponder assertions, diagnose target-branch versus branch-only failures, and run the complete release-gate workflow on the final head. PR #1274 remains a review artifact, not proof of completion.
 
 ## 4. Product interaction model
 
