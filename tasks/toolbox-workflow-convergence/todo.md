@@ -122,6 +122,8 @@
 - [ ] Add explicit-confirmation moderation actions to the workspace using the existing endpoints; test permission gating, success/error refresh, and rejected/spam outcomes before exposing controls.
 - [ ] Verify whether delete, pin, heart, and bulk moderation operations have supported endpoint/permission contracts before proposing them.
 - [ ] Diagnose and resolve PR #1274 CI failures: typecheck, full suite, confirmed-catalog audit, document audit, and the Studio counter/dropdown gate; inspect exact job logs and compare against target-branch baseline.
+- [ ] Reconcile the two failing CommentResponder contract assertions (compact textarea source contract and Post Reply accessible-label contract) against the actual canonical StudioTextArea and StudioSquareIconButton APIs; preserve runtime accessibility and behavior rather than weakening tests.
+- [ ] Compare Studio Controls/catalog, typecheck, document-audit and full-suite failures against the exact target branch before assigning baseline or feature-regression ownership.
 - [ ] Re-run all required CI jobs on the latest PR head after fixes; do not mark the PR ready based on the earlier partial pass.
 - [ ] Complete browser visual certification with desktop/tablet/mobile screenshots, keyboard/focus and authenticated/disconnected states; record screenshot analysis and corrections.
 - [ ] Complete YouTube API feasibility matrix for each proposed read/reply/moderation operation, including current endpoint, scope, quota, policy, ownership and retry behavior; no unsupported action claims.
