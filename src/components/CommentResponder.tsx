@@ -1,5 +1,4 @@
 import React from "react"
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChevronLeft, ChevronRight, ExternalLink, Link2, Loader2, RefreshCw, Send, Sparkles } from "lucide-react"
 import { buildYouTubeCommentUrl } from "../services/youtube/commentHandoff"
 import { SubToolbox, SubToolboxGridActionButton } from "./Toolbox"
@@ -69,7 +68,7 @@ export const CommentResponder: React.FC = () => {
      <span className="rounded-md border-2 border-black bg-[#FFF1B8] px-2 py-1 text-[10px] font-black tabular-nums">{comments.displayThreads.length} loaded</span>
     </div>
     {comments.displayThreads.length > 0 ? <div role="list" aria-label="Comments in the selected queue" className="grid max-h-64 gap-2 overflow-y-auto sm:grid-cols-2 xl:grid-cols-3">
-     {comments.displayThreads.map((item: any, index: number) => {
+     {comments.displayThreads.map((item, index) => {
       const itemSnippet = item.snippet?.topLevelComment?.snippet || {}
       const itemAuthor = plainText(itemSnippet.authorDisplayName || "Viewer")
       const itemText = plainText(itemSnippet.textDisplay || itemSnippet.textOriginal || "")
@@ -95,7 +94,7 @@ export const CommentResponder: React.FC = () => {
      <CommentAvatar name={plainText(snippet.authorDisplayName || "Viewer")} src={snippet.authorProfileImageUrl} />
      <div className="min-w-0 flex-1"><div className="mb-1 flex flex-wrap items-baseline gap-x-2 gap-y-1 text-[10px] font-black uppercase"><span className="break-words">{plainText(snippet.authorDisplayName || "Viewer")}</span><span className="font-bold normal-case opacity-50">{formatCommentDate(snippet.publishedAt || snippet.updatedAt)}</span><span className="ml-auto shrink-0 opacity-50">{Number(snippet.likeCount || 0).toLocaleString()} likes</span></div><div className="comment-responder-message-bubble w-fit max-w-full rounded-2xl rounded-tl-sm border-2 border-black bg-[#FFF9E8] px-3 py-3 text-sm font-bold leading-relaxed whitespace-pre-wrap break-words">{plainText(snippet.textDisplay || snippet.textOriginal || "")}</div><div className="mt-1 text-[9px] font-black uppercase tracking-wide opacity-45">Original comment</div></div>
     </article>
-    {replies.map((reply: any, index: number) => {
+    {replies.map((reply, index) => {
      const replySnippet = reply.snippet || {}
      const authorName = plainText(replySnippet.authorDisplayName || "Reply")
      const isCreatorReply = String(replySnippet.authorChannelId?.value || "") === String(context.channelId || "")
