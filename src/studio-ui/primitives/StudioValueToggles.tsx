@@ -107,7 +107,7 @@ export function StudioSideToggle(props: StudioSideToggleProps) {
     rightRailClassName={arrowSide === "right" ? "vt-studio-side-counter__rail" : undefined}
     leftRailContent={arrowSide === "left" ? arrows : undefined}
     rightRailContent={arrowSide === "right" ? arrows : undefined}>
-    <span className="vt-studio-value-toggle__face" data-content-width={reserveLabel ? "true" : undefined} aria-live="polite" aria-label={ariaLabel} title={current}><span>{current}</span>{reserveLabel && <span className="vt-studio-value-toggle__measure" aria-hidden="true">{reserveLabel}</span>}</span>
+    <span className="vt-studio-value-toggle__face vt-studio-word-counter__value" data-content-width={reserveLabel ? "true" : undefined} aria-live="polite" aria-label={ariaLabel} title={current}><span>{current}</span>{reserveLabel && <span className="vt-studio-value-toggle__measure" aria-hidden="true">{reserveLabel}</span>}</span>
   </StudioSplitShell>;
 }
 
