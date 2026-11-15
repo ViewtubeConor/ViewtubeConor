@@ -1,11 +1,12 @@
 # AI Brain Evidence & Context — Phase 0/1 Reconciliation
 
 **Class:** AUDIT  
-**Status:** ACTIVE — PHASE 0 BASELINE REFRESHED; PHASE 1 STATIC SOURCE MAP COMPLETE / RUNTIME PARITY OPEN  
-**Audit date:** 2026-11-11  
+**Status:** ACTIVE — 2026-11-15 TARGET BASELINE REFRESHED; PHASE 1 STATIC SOURCE MAP COMPLETE / RUNTIME PARITY OPEN  
+**Audit date:** 2026-11-15  
 **Repository:** `viewtube-dev/viewtube`  
 **Target:** `master/consolidated-feature-integration`  
-**Exact target HEAD:** `a279e52e63e816c0409a02e2feb4807f20c56e4b`  
+**Latest target HEAD (2026-11-15):** `ee4f527e2c763c12f91569ca0df5f1bce934e0e8`  
+**Previous audit baseline (2026-11-11):** `a279e52e63e816c0409a02e2feb4807f20c56e4b`  
 **Audit branch:** `docs/ai-brain-knowledge-evidence-consolidation-2026-11-11`  
 **Primary authority:** `docs/domains/BRAIN.md`  
 **Program authority:** `tasks/p1-canonical-system-integration/plan.md`  
@@ -269,3 +270,47 @@ The document audit identifies multiple ACTIVE registry entries claiming the same
 **Phase 0/1 disposition remains:** source and plan reconciliation complete; runtime baseline certification blocked by the failed aggregate run, missing focused Brain evidence/context/public-private tests, and Task Authority claim/receipt verification.
 
 Phase 2 and 3 source reconciliation and implementation gates are recorded in [AI Brain Phase 2/3 execution](AI-BRAIN-PHASE-2-3-EXECUTION-2026-11-11.md).
+
+
+## 11. Target refresh and consolidation discovery — 2026-11-14
+
+**Latest target HEAD:** `52c6e90f416aaac7d3690581e1faab9e4cfb0b1d`. This supersedes the 2026-11-11 baseline for current-state assertions; historical results above remain tied to their original SHA.
+
+### Source-confirmed changes since the earlier audit
+
+- The target contains the learning candidate evidence-completeness gate from PR #1254. The PR head is an ancestor of current target despite its closed/unmerged metadata.
+- The target contains PR #1256's canonical evidence resolution in `AlgorithmLearningProfilePromotion.ts`: evidence IDs are resolved from canonical, channel-scoped `EvidenceRecord` instances actually returned on candidate traces.
+- The default `BrainTrace` sink remains browser-local and capped. This is an explicit limitation, not durable server-side trace persistence.
+- The target does not contain `BrainEvidenceExplorerPanel.tsx` or its test. The donor implementation exists on `feat/brain-evidence-explorer-2026-10-30` and imports existing analytics-canon/evidence/controls owners; it is a candidate UI projection, not a new evidence store.
+- The target contains canonical profile preservation and scoped creator-answer evidence paths in `aiBrainContext.ts`, `CreatorAnswerEvidence.ts`, and `PromptEvidenceIntegrity.ts`. Older closed/unmerged context branches overlap with this code and must not be replayed wholesale.
+- The target and donor composer draft-store source is identical. Composer component/CSS implementations differ; donor auto-resize behavior requires focused verification.
+- The target and Gemini caller donor `tagSuggestions.ts` source are identical. The target already uses governed tag strategy entry points.
+- The target key-validation contract uses `models.list()` to verify credentials and separates credential rejection from transient/model-catalog failures. The model-specific fallback helper in closed PR #1125 is not automatically a missing capability.
+
+### Current evidence-owner coverage remains incomplete
+
+The Phase 0/1 source map is still not a runtime certification. Project/ContentBuild, Vault, verified Publishing receipts, YouTube-read, Comments, Transcripts, Research, Outcomes and Experiments require current owner-by-owner API, authorization, scope, stable-ID, freshness, UI reachability and test inspection.
+
+### Verification boundary
+
+This update was produced through GitHub source/metadata inspection. No checkout or executable test runner was available in this pass. No current-target test, typecheck, lint, build, browser, or live Gemini result is claimed.
+
+## Live target refresh — 2026-11-15
+
+**Latest target HEAD:** `ee4f527e2c763c12f91569ca0df5f1bce934e0e8`. This supersedes the 2026-11-14 target baseline `52c6e90f416aaac7d3690581e1faab9e4cfb0b1d`. The target advanced 42 commits after that baseline. The Studio recovery reference now resolves to `c26396aa7cb0c27ceb5bbd0d79c07207eca25989` and remains reference-only.
+
+### New source and donor findings
+
+- The live target does not export `getBrainContextBlockingIssues` from `BrainContextResolution.ts`; `BrainOrchestrator.ts` does not block provider dispatch when required evidence is missing or required sections cannot fit the budget. PR #522 carries a narrow helper, orchestrator guard and regression tests. Selectively port this behavior on a current-base branch; do not merge the 5,003-commits-behind branch.
+- PR #1241 now compares 1 ahead / 90 behind. Its unique commit adds exact required/included/omitted context section manifests, channel/project/build scope, retry snapshot continuity, safe failure classification, expanded BrainTrace provenance and a runtime disclosure. It is not merge-ready; see the dedicated consolidation verification report for failed jobs.
+- The Evidence Explorer donor remains absent from the target. It is an analytics-canon read-side projection with channel scope and BrainUserControls checks, not a universal evidence-owner browser. Adopt only after Studio primitive adaptation and analytics-only coverage disclosure.
+- PR #1233's nine UI coverage plans are already merged and should be used as the feature acceptance references.
+- Current target already has PR #1256 canonical learning evidence resolution and PR #800 governed context corrections. Do not replay old context/profile branches.
+- Current target and donor Composer TSX/CSS and draft-store source are byte-identical according to the latest source check. No Composer source/style migration is warranted.
+- The selected Gemini caller source inspection still shows governed SEO/tag paths and gateway usage, but no full repository-wide exact-head caller audit has been run. Identical `tagSuggestions.ts` and `gemini.ts` blobs must not be replayed.
+
+### Current evidence-owner status
+
+The typed resolver path remains primarily analytics-canon. Creator answers are a separate scoped projection. Project/ContentBuild, Vault, Publishing, YouTube-read, Comments, Transcripts, Research, Outcomes and Experiments remain partial or unverified as exact turn-bound EvidenceRecords. Authorization, freshness, stable identity, model-input parity, UI reachability and tests are still required before declaring these owners connected.
+
+**Verification:** GitHub source/compare/PR/workflow inspection only. No current-target tests, typecheck, lint, build, browser/accessibility or live Gemini verification were run.
