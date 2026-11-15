@@ -90,3 +90,33 @@ describe("required context integrity", () => {
   expect(result.characterCount).toBeLessThanOrEqual(result.maximumCharacters)
  })
 })
+
+
+describe("required context generation gate", () => {
+ it("blocks required evidence gaps and required sections that cannot fit", async () => {
+  const module = await import("./BrainContextResolution") as unknown as {
+   getBrainContextBlockingIssues: (omittedSectionIds: string[]) => string[]
+  }
+  expect(module.getBrainContextBlockingIssues([
+   "required_evidence_missing:channel_evidence",
+   "creator_style:truncated",
+   "creator_control_policy:required_context_does_not_fit",
+  ])).toEqual([
+   "required_evidence_missing:channel_evidence",
+   "creator_control_policy:required_context_does_not_fit",
+  ])
+ })
+
+ it("allows optional context omissions and deduplicates blocking reasons", async () => {
+  const module = await import("./BrainContextResolution") as unknown as {
+   getBrainContextBlockingIssues: (omittedSectionIds: string[]) => string[]
+  }
+  expect(module.getBrainContextBlockingIssues([
+   "recent_conversation",
+   "public_niche_knowledge:truncated",
+   "channel_knowledge:duplicate",
+   "required_evidence_missing:channel_evidence",
+   "required_evidence_missing:channel_evidence",
+  ])).toEqual(["required_evidence_missing:channel_evidence"])
+ })
+})
