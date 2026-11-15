@@ -1,6 +1,6 @@
 import React from "react"
 import { describe, expect, it } from "vitest"
-import { renderToStaticMarkup } from "react-dom/server"
+import { renderToStaticMarkup } from "react-dom/server"\nimport { readFileSync } from "node:fs"\nimport { resolve } from "node:path"
 import { StudioPanelAccordion } from "./StudioPanelAccordion"
 
 const items = [
