@@ -189,6 +189,8 @@ export const StudioCalendarMediaRail: React.FC<StudioCalendarMediaRailProps> = (
 }) => (
   <div
     className={["vt-studio-calendar-media-rail", className].filter(Boolean).join(" ")}
+    data-vt-studio-control="true"
+    data-size="standard"
     data-vt-library-component="StudioCalendarMediaRail"
     data-aspect-ratio={aspectRatio}
     data-split={split}
