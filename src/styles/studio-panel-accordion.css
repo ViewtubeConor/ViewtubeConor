@@ -128,11 +128,24 @@
 }
 .vt-studio-panel-accordion__panel {
   box-sizing: border-box;
+  display: flex;
   min-width: 0;
   min-height: var(--vt-studio-panel-rail);
-  padding: var(--vt-studio-space-unit, 4px);
+  padding: 0;
   overflow-wrap: anywhere;
-  background: color-mix(in srgb, white 85%, var(--vt-studio-control-accent, var(--pair-a, #36e0f6)) 15%);
+  background: transparent;
   border-top-right-radius: var(--vt-studio-panel-radius);
   border-bottom-right-radius: var(--vt-studio-panel-radius);
+}
+/* The canonical text box owns the black perimeter and primary inset. Its left
+   edge is the single vertical separator beside the icon-button rail. */
+.vt-studio-panel-accordion__textbox {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  align-self: stretch;
+  width: 100%;
+  min-width: 0;
+  min-height: var(--vt-studio-panel-rail);
+  border-radius: 0 var(--vt-studio-panel-radius) var(--vt-studio-panel-radius) 0;
+  overflow: hidden;
 }
