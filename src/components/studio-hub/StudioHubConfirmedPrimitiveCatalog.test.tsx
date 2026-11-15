@@ -121,6 +121,41 @@ describe("confirmed composite primitive catalog", () => {
     }
   })
 
+  it("renders exactly five full-width, single-specimen rows in each value-toggle module", () => {
+    const source = readFileSync(resolve(process.cwd(), "src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx"), "utf8")
+    const styles = readFileSync(resolve(process.cwd(), "src/components/studio-hub/studio-hub-primitive-catalogs.css"), "utf8")
+    const html = renderToStaticMarkup(<StudioHubConfirmedPrimitiveCatalog />)
+    const families = [
+      ["StudioArrowToggle", "Arrow Toggle · Five Sizes × Left / Right / Double Rails"],
+      ["StudioSideToggle", "Side Toggle · Five Sizes × Left / Right Arrow Orientation"],
+      ["StudioDoubleSideToggle", "Double Side Toggle · Five Sizes × V1 / V2 × Three Right Faces"],
+      ["StudioBarToggle", "Bar Toggle · Five Sizes"],
+    ] as const
+    for (const [primitive, title] of families) {
+      const moduleStart = source.indexOf('data-vt-library-module="' + primitive + '"')
+      expect(moduleStart).toBeGreaterThanOrEqual(0)
+      const moduleEnd = source.indexOf("</Family>", moduleStart)
+      const moduleSource = source.slice(moduleStart, moduleEnd)
+      expect((moduleSource.match(/className="vt-confirmed-control-row vt-confirmed-value-toggle-row"/g) ?? [])).toHaveLength(1)
+      expect(source).toContain('title="' + title + '"')
+      const familyHtml = html.slice(html.indexOf('data-vt-primitive-title="' + title + '"'))
+      const bodyEnd = familyHtml.indexOf("</details>")
+      const familyMarkup = familyHtml.slice(0, bodyEnd)
+      expect((familyMarkup.match(new RegExp('data-vt-library-component="' + primitive + '"', "g")) ?? [])).toHaveLength(5)
+      for (const size of ["supreme", "standard", "compact", "mini", "micro"]) {
+        expect(familyMarkup).toContain('data-control-size="' + size + '"')
+      }
+      expect(familyMarkup).not.toContain("vt-confirmed-control-variants")
+    }
+    expect(styles).toContain(".vt-confirmed-value-toggle-module")
+    expect(styles).toMatch(/\.vt-confirmed-value-toggle-module\s*\{[^}]*flex-direction:\s*column/s)
+    expect(styles).toMatch(/\.vt-confirmed-value-toggle-module\s*>\s*\.vt-confirmed-value-toggle-row\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/s)
+    expect(styles).toMatch(/\.vt-confirmed-value-toggle-module\s+\.vt-studio-value-toggle\s*\{[^}]*width:\s*100%/s)
+    expect(source).not.toContain("doubleSideVariants")
+    expect(source).not.toContain("iconSides")
+    expect(source).not.toContain("arrowSides")
+  })
+
   it("anchors the tooltip above the last full bar, moves it down, and enlarges text without enlarging the bubble", () => {
     const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-value-toggles.css"), "utf8")
     expect(css).toContain(".vt-studio-value-toggle__bars:hover .vt-studio-value-toggle__bar-tooltip")
