@@ -10,6 +10,7 @@ const readStudioControlCss = () => [
   "studio-control-core.css",
   "studio-control-split.css",
   "studio-control-fields.css",
+  "studio-control-value-toggles.css",
   "studio-inter-module.css",
 ].map((file) => readFileSync(resolve(process.cwd(), "src/styles", file), "utf8")).join("\n")
 
