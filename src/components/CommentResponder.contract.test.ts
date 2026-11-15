@@ -32,7 +32,9 @@ describe("Comment Responder Studio Hub contract", () => {
  it("offers connection as an action while preserving the normal tool", () => {
   expect(view).toContain("Connect YouTube Channel")
   expect(view).toContain("comments.reconnect")
-  expect(view).toContain('SubToolbox title="Comment Responder"')
+  expect(view).toContain("data-comment-management-workspace")
+  expect(view).toContain("data-comment-inbox")
+  expect(view).toContain("data-comment-inbox-item")
   expect(view).not.toContain('SubToolbox title="Comment Queue"')
   expect(view).not.toContain('SubToolbox title="Conversation Thread"')
   expect(view).toContain('data-comment-queue-controls')
@@ -42,7 +44,8 @@ describe("Comment Responder Studio Hub contract", () => {
   expect(view).toContain('aria-label="Reply writing actions"')
   expect(view).toContain('Load previous reply into composer')
   expect(view).toContain('Select to edit as a new reply draft')
-  expect(view).toContain('event.key === "Enter" && !event.shiftKey')
+  expect(view).toContain("Reply · Enter for a new line")
+  expect(view).not.toContain("event.key === \"Enter\" && !event.shiftKey")
  })
  it("renders inspectable Audience Pulse signals without implying a handoff was executed", () => {
   expect(view).toContain('SubToolbox title="Audience Pulse"')
@@ -65,8 +68,9 @@ describe("Comment Responder Studio Hub contract", () => {
   expect(view).toContain('sizeVariant="compact" className="min-h-[54px] flex-1"')
  })
 
- it("renders a conversation-first thread with participant avatars and message bubbles", () => {
-  expect(view).toContain('SubToolbox title="Conversation Thread"')
+ it("renders the selected conversation with participant avatars and message bubbles", () => {
+  expect(view).toContain('aria-label="Comment conversation thread"')
+  expect(view).toContain('data-comment-message="original"')
   expect(view).toContain("authorProfileImageUrl")
   expect(view).toContain("comment-responder-message-bubble")
   expect(view).toContain("comment-responder-avatar")
