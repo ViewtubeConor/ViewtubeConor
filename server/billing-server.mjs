@@ -337,7 +337,8 @@ const handleDuplicateProject = async (req, res, projectId, userId) => {
 
 const normalizePlanId = (input) => {
   const planId = String(input || "creator_plus");
-  if (Object.prototype.hasOwnProperty.call(PRICE_MAP, planId)) return planId;
+  if (planId === "starter") return "basic";
+  if (Object.prototype.hasOwnProperty.call(SUBSCRIPTION_PLAN_BILLING, planId)) return planId;
   return "creator_plus";
 };
 
