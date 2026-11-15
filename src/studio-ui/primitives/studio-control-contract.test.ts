@@ -296,11 +296,8 @@ describe("Studio size-bracketed selection and icon geometry", () => {
     }
     expect(css).toContain("border-radius: var(--vt-studio-control-radius)");
     expect(css).toContain("border-radius: 50%");
-    expect(css).toContain("--vt-studio-supreme-radius");
-    expect(css).toContain("--vt-studio-standard-radius");
-    expect(css).toContain("--vt-studio-compact-radius");
-    expect(css).toContain("--vt-studio-mini-radius");
-    expect(css).toContain("--vt-studio-micro-radius");
+    for (const radius of ["6px", "4px", "3px", "2px"]) expect(css).toContain(`--vt-studio-control-radius: ${radius}`);
+    expect(css).toContain("--vt-studio-control-stroke: 1px");
   });
 
   it("keeps square icon stages clipped while tooltips animate outside the button face", () => {
