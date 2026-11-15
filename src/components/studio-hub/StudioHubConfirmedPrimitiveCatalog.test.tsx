@@ -1201,12 +1201,12 @@ describe("confirmed Studio toggle row-fill contract", () => {
   it("gives each switch, radio, and checkbox its own five-size family module", () => {
     const source = readFileSync(resolve(process.cwd(), "src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx"), "utf8");
     for (const title of [
-      "Round Switch · Five Sizes × Four Skins",
-      "Rectangular Switch · Five Sizes × Four Skins",
-      "Radio Button · Five Sizes × Four Skins",
-      "Checkmark Checkbox · Five Sizes × Four Skins",
-      "X Checkbox · Five Sizes × Four Skins",
-    ]) expect(source).toContain(`title="${title}"`);
+      "Round Switch",
+      "Rectangular Switch",
+      "Radio Button",
+      "Checkmark Checkbox",
+      "X Checkbox",
+    ]) expect(source).toContain(`"${title}" + " · Five Sizes × Four Skins"`);
     expect(source).not.toContain('title="Switches, Radios & Checkboxes"');
   });
 
