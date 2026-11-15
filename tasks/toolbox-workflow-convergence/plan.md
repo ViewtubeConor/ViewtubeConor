@@ -124,7 +124,7 @@ The first implementation slice is tracked in [PR #1274](https://github.com/viewt
 2. Pass only approved, source-attributed thread/video context into Brain drafting; preserve provenance and distinguish observed facts from inference.
 3. Add recommendation evaluation fixtures, including no-fit and invalid-ID cases.
 4. Extend audience intelligence through the existing evidence projection and proposal packet.
-5. Audit YouTube API scopes and product support before implementing moderation mutations or bulk actions.
+5. Wire the already-existing `comments.setModerationStatus` and `comments.markAsSpam` routes into explicit-confirmation UI actions, gated by the existing `youtubeWrite` capability and covered by permission/error/refresh tests. The current `data.comments.manage` registry entry requires `youtube.force-ssl`; do not infer support for delete, pin, heart, or bulk actions from this.
 6. Complete responsive, accessibility, and state-matrix certification.
 
 **Hard boundaries**
