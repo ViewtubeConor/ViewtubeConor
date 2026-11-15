@@ -106,7 +106,7 @@ describe("StudioResourceSplitButton primitive", () => {
     const html = renderToStaticMarkup(
       <StudioResourceSplitButton icon={<span>R</span>} category="GUIDE" title="CREATOR STRATEGY" meta="8 MIN · BEGINNER" />,
     )
-    expect(html).toContain('data-vt-library-component="StudioSplitLeftButton"')
+    expect(html).toContain('data-vt-library-component="StudioResourceSplitButton"')
     expect(html).toContain("CREATOR STRATEGY")
     expect(html).toContain("GUIDE")
     expect(html).toContain("8 MIN · BEGINNER")
