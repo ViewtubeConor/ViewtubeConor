@@ -761,7 +761,7 @@ export const settleAiCreditReservation = async (userId, input = {}) => {
       if (!row.unlimited && adjustment !== 0) {
         await client.query(
           "INSERT INTO viewtube_ai_credit_ledger(id,viewtube_user_id,entry_type,delta_credits,idempotency_key,metadata) VALUES($1,$2,'settlement_adjustment',$3,$4,$5::jsonb)",
-          [`aic_${crypto.randomUUID().replace(/-/g, "")}`, userId, adjustment, `settle:${idempotencyKey}`, JSON.stringify({ reservationId, reservedCredits: reserved, actualCredits })],
+          [`aic_${crypto.randomUUID().replace(/-/g, "")}`, userId, adjustment, `settle:${reservationId}:${idempotencyKey}`, JSON.stringify({ reservationId, reservedCredits: reserved, actualCredits })],
         );
       }
       await client.query("UPDATE viewtube_ai_credit_reservations SET status='settled',settled_credits=$2,updated_at=NOW() WHERE id=$1", [reservationId, actualCredits]);
@@ -823,7 +823,7 @@ export const releaseAiCreditReservation = async (userId, input = {}) => {
       if (row.status !== "reserved") throw new Error(`AI credit reservation cannot be released from status: ${row.status}.`);
       if (!row.unlimited) await client.query(
         "INSERT INTO viewtube_ai_credit_ledger(id,viewtube_user_id,entry_type,delta_credits,idempotency_key,metadata) VALUES($1,$2,'reservation_release',$3,$4,$5::jsonb)",
-        [`aic_${crypto.randomUUID().replace(/-/g, "")}`, userId, Number(row.reserved_credits), `release:${idempotencyKey}`, JSON.stringify({ reservationId, reason: String(input.reason || "cancelled").slice(0, 120) })],
+        [`aic_${crypto.randomUUID().replace(/-/g, "")}`, userId, Number(row.reserved_credits), `release:${reservationId}:${idempotencyKey}`, JSON.stringify({ reservationId, reason: String(input.reason || "cancelled").slice(0, 120) })],
       );
       await client.query("UPDATE viewtube_ai_credit_reservations SET status='released',updated_at=NOW() WHERE id=$1", [reservationId]);
       const finalBalance = await client.query("SELECT COALESCE(SUM(delta_credits),0) AS available FROM viewtube_ai_credit_ledger WHERE viewtube_user_id=$1", [userId]);
