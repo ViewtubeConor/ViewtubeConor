@@ -77,4 +77,37 @@ describe("projectProjectsToCalendarEvents", () => {
     expect(events[0].startDate).toBe("2026-11-21")
     expect(project).toEqual(before)
   })
+  it("projects publisher schedules only when the external timestamp is verified", async () => {
+    const { publisherScheduleToCalendarEvent } = await import("./projectCalendarEvents")
+    expect(publisherScheduleToCalendarEvent({
+      recordId: "build-unverified",
+      projectId: "project-5",
+      title: "Unverified upload",
+      scheduledAt: "2026-11-22T16:00:00.000Z",
+    })).toBeNull()
+
+    expect(publisherScheduleToCalendarEvent({
+      recordId: "build-verified",
+      projectId: "project-5",
+      title: "Verified premiere",
+      scheduledAt: "2026-11-22T16:00:00.000Z",
+      verifiedAt: "2026-11-15T12:00:00.000Z",
+    })).toMatchObject({
+      id: "publisher:build-verified:publish",
+      source: {
+        owner: "publisher",
+        recordType: "content_build",
+        recordId: "build-verified",
+        projectId: "project-5",
+        contentBuildId: "build-verified",
+      },
+      kind: "publish",
+      title: "Verified premiere",
+      status: "scheduled",
+      startDate: "2026-11-22",
+      externalScheduledAt: "2026-11-22T16:00:00.000Z",
+      externalVerifiedAt: "2026-11-15T12:00:00.000Z",
+    })
+  })
+
 })
