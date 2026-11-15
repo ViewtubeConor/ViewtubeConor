@@ -110,13 +110,33 @@
 - [ ] Video Autopsy capability matrix.
 - [ ] Daily Oracle capability matrix.
 - [ ] Brain Hub capability matrix.
-- [ ] Comment Operations capability matrix.
+- [x] Comment Operations capability matrix — first implementation slice is tracked in PR #1274.
+- [x] Comment Management workspace shell and inbox redesign; preserve the existing creator-engagement controller and ToolboxScaffold owner.
+- [x] Make AI video recommendations reviewable before explicit insertion into a reply.
+- [x] Add an independent CI contract-test step for Comment Management.
+- [x] Replace weak comment/thread presentation `any` contracts with canonical typed YouTube thread/view types; keep transport ownership in the existing YouTube service. The API now exports typed comment/thread/page contracts; the shared controller and Studio renderer consume them, and the controller/component comment-flow `any` annotations were removed. `creatorEngagementParity.test.ts` now covers fully hydrated versus incomplete threads and creator-reply partitioning.
+- [ ] Expand Brain reply context with approved thread/video evidence and explicit source references; do not create a second Brain runtime.
+- [ ] Add recommendation evaluation fixtures for strong match, weak/no match, excluded source video, unknown IDs, and sparse video metadata.
+- [ ] Extend Audience Pulse only through its existing read-only projection and evidence proposal packet; validate sample coverage and heuristic limitations.
+- [x] Verify the existing moderation API foundation: `moderateSimpleComment` / `markCommentAsSpam`, authenticated server routes, `data.comments.manage`, and the `youtube.force-ssl` scope.
+- [ ] Add explicit-confirmation moderation actions to the workspace using the existing endpoints; test permission gating, success/error refresh, and rejected/spam outcomes before exposing controls.
+- [ ] Verify whether delete, pin, heart, and bulk moderation operations have supported endpoint/permission contracts before proposing them.
+- [ ] Diagnose and resolve remaining PR #1274 CI failures: typecheck, full suite, confirmed-catalog audit, document audit, and the Studio counter/dropdown gate. Latest exact-head run `43699044473` has retrieved logs; see the conversation handoff for per-job evidence.
+- [x] Reconcile the two previously reported CommentResponder contract assertions (compact textarea source contract and Post Reply accessible-label contract). Both are passing in the latest focused and full-suite runs; no assertion was weakened.
+- [ ] Compare Studio Controls/catalog, typecheck, document-audit and full-suite failures against the exact target branch before assigning baseline or feature-regression ownership.
+- [ ] Re-run all required CI jobs on the latest PR head after remaining failures are fixed; latest run `43699044473` is complete but still overall failing. Do not mark the PR ready based on the passing feature-specific checks alone.
+- [ ] Complete browser visual certification with desktop/tablet/mobile screenshots, keyboard/focus and authenticated/disconnected states; record screenshot analysis and corrections.
+- [ ] Complete YouTube API feasibility matrix for each proposed read/reply/moderation operation, including current endpoint, scope, quota, policy, ownership and retry behavior; no unsupported action claims.
+- [ ] Complete the Comment Management opportunity catalog review in `docs/product/studio-hub/COMMENT_MANAGEMENT_WORKSPACE.md`; promote selected items only through existing Ideas Registry and Task Authority.
+- [ ] Certify desktop, tablet, mobile portrait/landscape, loading, empty, disconnected, error, keyboard, focus, and touch states.
 - [ ] Longform Optimization capability matrix.
 - [ ] Video Asset Engine capability matrix.
 - [ ] Thumbnail Studio family capability matrix.
 - [ ] Define compact Dashboard signature for every WIDGET_PLUS_TOOLBOX candidate.
 - [ ] Define internal Toolbox pages/modes for promoted workstations.
 - [ ] Add persisted-layout migration plans before any widget ID retirement.
+
+**Comment Management continuation receipt (2026-11-15, latest run 43699044473):** The comment-specific compact textarea and Post Reply accessible-label assertions are now passing. The focused CommentResponder contract suite passes (9 tests); creator-engagement parity passes (4 tests), including the new hydrated-thread partition test. The YouTube comment transport, controller state, and Studio inbox/thread renderer now share typed comment-thread contracts. Production build, local smoke, Brain quality-loop, and Gemini governance pass. Remaining failures: Studio counter/dropdown gate (3 assertions), typecheck (cross-domain Brain/Studio/test typing and missing testing-library dependency; no diagnostics in the modified CommentResponder/controller/simpleYouTubeApi paths), document audit (six duplicate ACTIVE P1 workstream concern families), confirmed-catalog audit (missing split-text-input stylesheet/specimens and field/focus/toggle contracts), and full suite (296 failures across 86 files; 585 passed). Branch-vs-target comparison shows 14 changed files and 41 commits ahead/0 behind; the failing Studio/catalog files are not in the PR diff. A direct target-branch workflow baseline has not yet been run, so do not label those failures pre-existing solely from that comparison. Run URL: https://github.com/viewtube-dev/viewtube/actions/runs/43699044473.
 
 ### Checkpoint 4
 

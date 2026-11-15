@@ -82,8 +82,8 @@ const StudioHub: React.FC = () => {
 
     <div id="comment-responder" className="scroll-mt-24">
     <ToolboxScaffold
-     title="Comment Responder"
-     subtitle="Draft on-brand replies + pinned comments to boost engagement + watch time"
+     title="Comment Management"
+     subtitle="Review conversations, write thoughtful replies, and understand audience feedback"
 
      icon={<CustomIcon name="!!!IDEA" size={40} />}
 
@@ -92,10 +92,8 @@ const StudioHub: React.FC = () => {
      isOpen={states.comments}
      onToggle={() => toggle("comments")}
      unmountWhenClosed
-     helpText="Draft fast, on-brand replies to comments and plan a strong pinned comment.">
-     <div className="bg-white rounded-2xl">
-      <CommentResponder />
-     </div>
+     helpText="Review new and replied comments, draft responses with Brain, and inspect evidence-backed audience patterns.">
+     <CommentResponder />
     </ToolboxScaffold>
     </div>
 

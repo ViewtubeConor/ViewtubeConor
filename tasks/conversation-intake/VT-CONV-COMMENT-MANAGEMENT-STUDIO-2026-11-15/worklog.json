@@ -1,0 +1,248 @@
+{
+  "schemaVersion": "viewtube.conversation-worklog.v1",
+  "conversationId": "VT-CONV-COMMENT-MANAGEMENT-STUDIO-2026-11-15",
+  "productionDate": "2026-11-15",
+  "source": "ChatGPT conversation",
+  "repository": "viewtube-dev/viewtube",
+  "branch": "feat/comment-management-studio-redesign-2026-11-14",
+  "pullRequest": 1274,
+  "items": [
+    {
+      "id": "VT-CWI-CM-001",
+      "title": "Rewrite Comment Management planning prompt",
+      "summary": "Strengthen repository-grounded planning prompt with current responder features, Brain and video intelligence relationships, API/security gates, phased acceptance and research resources.",
+      "kind": "PLAN",
+      "state": "COMPLETED_IN_CONVERSATION",
+      "domains": [
+        "Creator Engagement",
+        "Studio Hub",
+        "Brain",
+        "YouTube API"
+      ],
+      "changedPaths": [],
+      "branchPrRefs": [],
+      "evidenceRefs": [
+        "conversation prompt and repository investigation"
+      ],
+      "suggestedDestination": "docs/product/studio-hub/COMMENT_MANAGEMENT_WORKSPACE.md",
+      "reviewStatus": "ROUTED"
+    },
+    {
+      "id": "VT-CWI-CM-002",
+      "title": "Redesign Studio Hub Comment Management workspace",
+      "summary": "Remove duplicate shell hierarchy, create selectable inbox and improve reply composer interaction while retaining existing controller and services.",
+      "kind": "DESIGN",
+      "state": "COMPLETED_IN_CONVERSATION",
+      "domains": [
+        "Studio Hub",
+        "Toolbox UI",
+        "Creator Engagement"
+      ],
+      "changedPaths": [
+        "src/components/CommentResponder.tsx",
+        "src/views/StudioHub.tsx",
+        "src/components/CommentResponder.contract.test.ts"
+      ],
+      "branchPrRefs": [
+        "feat/comment-management-studio-redesign-2026-11-14",
+        "PR #1274"
+      ],
+      "evidenceRefs": [
+        "PR #1274 description",
+        "workflow run 43677671858"
+      ],
+      "suggestedDestination": "tasks/toolbox-workflow-convergence/plan.md",
+      "reviewStatus": "ALREADY_TRACKED"
+    },
+    {
+      "id": "VT-CWI-CM-003",
+      "title": "Preserve and improve AI response actions",
+      "summary": "Keep Generate, Refine and Suggest Videos as separate draft/review actions; expose recommendation rationale and preview; require explicit creator insertion and posting.",
+      "kind": "FEATURE",
+      "state": "COMPLETED_IN_CONVERSATION",
+      "domains": [
+        "Brain",
+        "Creator Engagement"
+      ],
+      "changedPaths": [
+        "src/features/creator-engagement/useCommentResponderController.ts",
+        "src/features/creator-engagement/types.ts",
+        "src/services/brain/commentEngagement.ts"
+      ],
+      "branchPrRefs": [
+        "PR #1274"
+      ],
+      "evidenceRefs": [
+        "PR #1274 description",
+        "dedicated Comment Management CI step reported passed"
+      ],
+      "suggestedDestination": "tasks/toolbox-workflow-convergence/plan.md",
+      "reviewStatus": "ALREADY_TRACKED"
+    },
+    {
+      "id": "VT-CWI-CM-004",
+      "title": "Create full Comment Management specification and opportunity portfolio",
+      "summary": "Document current-state findings, ownership, UI composition, Brain/Video Inspector/Audience Pulse seams, YouTube feasibility, security, phased acceptance, 40 product opportunities and 25 community interaction workflows.",
+      "kind": "DOCUMENTATION",
+      "state": "COMPLETED_IN_CONVERSATION",
+      "domains": [
+        "Creator Engagement",
+        "Studio Hub",
+        "Brain",
+        "YouTube API",
+        "Audience & Community"
+      ],
+      "changedPaths": [
+        "docs/product/studio-hub/COMMENT_MANAGEMENT_WORKSPACE.md",
+        "docs/registry.json"
+      ],
+      "branchPrRefs": [
+        "feat/comment-management-studio-redesign-2026-11-14",
+        "PR #1274"
+      ],
+      "evidenceRefs": [
+        "DOC-SPEC-COMMENT-MANAGEMENT registry entry"
+      ],
+      "suggestedDestination": "docs/product/studio-hub/COMMENT_MANAGEMENT_WORKSPACE.md",
+      "reviewStatus": "ROUTED"
+    },
+    {
+      "id": "VT-CWI-CM-005",
+      "title": "Reconcile Comment Management into existing convergence workstream",
+      "summary": "Extend existing toolbox-workflow-convergence plan/todo rather than creating parallel task plan; record exact CI failures and next verification gates.",
+      "kind": "PLAN",
+      "state": "COMPLETED_IN_CONVERSATION",
+      "domains": [
+        "Toolbox UI",
+        "Creator Engagement",
+        "Verification"
+      ],
+      "changedPaths": [
+        "tasks/toolbox-workflow-convergence/plan.md",
+        "tasks/toolbox-workflow-convergence/todo.md"
+      ],
+      "branchPrRefs": [
+        "PR #1274",
+        "feat/comment-management-studio-redesign-2026-11-14"
+      ],
+      "evidenceRefs": [
+        "plan/todo read-back",
+        "workflow run 43677671858"
+      ],
+      "suggestedDestination": "tasks/toolbox-workflow-convergence/",
+      "reviewStatus": "ROUTED"
+    },
+    {
+      "id": "VT-CWI-CM-006",
+      "title": "Diagnose CI failures and finish implementation verification",
+      "summary": "Investigate typecheck, full-suite, confirmed-catalog, document-audit and Studio counter/dropdown gate failures; fix evidenced regressions and rerun gates.",
+      "kind": "VERIFICATION",
+      "state": "PLANNED",
+      "domains": [
+        "Verification",
+        "Studio Controls",
+        "Documentation Governance",
+        "Creator Engagement"
+      ],
+      "changedPaths": [],
+      "branchPrRefs": [
+        "PR #1274",
+        "feat/comment-management-studio-redesign-2026-11-14"
+      ],
+      "evidenceRefs": [
+        "workflow run 43677671858 job results"
+      ],
+      "dependencies": [
+        "VT-CWI-CM-002"
+      ],
+      "suggestedDestination": "tasks/toolbox-workflow-convergence/todo.md",
+      "reviewStatus": "ALREADY_TRACKED"
+    },
+    {
+      "id": "VT-CWI-CM-007",
+      "title": "Complete typed comment contracts and Brain context expansion",
+      "summary": "Replace remaining any types, add source-attributed permitted thread/video context and recommendation evaluation fixtures.",
+      "kind": "INTEGRATION",
+      "state": "PLANNED",
+      "domains": [
+        "Creator Engagement",
+        "Brain",
+        "YouTube Services"
+      ],
+      "changedPaths": [],
+      "branchPrRefs": [
+        "PR #1274"
+      ],
+      "dependencies": [
+        "VT-CWI-CM-006"
+      ],
+      "suggestedDestination": "tasks/toolbox-workflow-convergence/todo.md",
+      "reviewStatus": "ALREADY_TRACKED"
+    },
+    {
+      "id": "VT-CWI-CM-008",
+      "title": "Verify and expose safe moderation actions",
+      "summary": "Validate official endpoint/scope/quota/policy/ownership and wire only existing verified moderation routes with explicit confirmation, per-action permission gating, tests and audit receipts.",
+      "kind": "INTEGRATION",
+      "state": "PLANNED",
+      "domains": [
+        "YouTube API",
+        "Creator Engagement",
+        "Security"
+      ],
+      "changedPaths": [],
+      "branchPrRefs": [
+        "PR #1274"
+      ],
+      "dependencies": [
+        "VT-CWI-CM-006"
+      ],
+      "suggestedDestination": "tasks/toolbox-workflow-convergence/todo.md",
+      "reviewStatus": "ALREADY_TRACKED"
+    },
+    {
+      "id": "VT-CWI-CM-009",
+      "title": "Complete Audience Pulse and community interaction opportunity review",
+      "summary": "Validate sample coverage and heuristic limits; review the 40 + 25 opportunity catalog and promote only accepted, non-duplicate items through Ideas Registry and Task Authority.",
+      "kind": "IDEA",
+      "state": "PLANNED",
+      "domains": [
+        "Audience & Community",
+        "Brain",
+        "Creator Engagement"
+      ],
+      "changedPaths": [],
+      "branchPrRefs": [],
+      "evidenceRefs": [
+        "COMMENT_MANAGEMENT_WORKSPACE.md opportunity catalogs",
+        "IDEA-YT-004",
+        "IDEA-WF-029",
+        "IDEA-WF-008",
+        "IDEA-SPA-013"
+      ],
+      "suggestedDestination": "Ideas Registry and existing convergence plan",
+      "reviewStatus": "NEEDS_REVIEW"
+    },
+    {
+      "id": "VT-CWI-CM-010",
+      "title": "Complete responsive and accessibility certification",
+      "summary": "Capture and analyze desktop/tablet/mobile screenshots; verify keyboard, focus, touch, connected/disconnected and error states.",
+      "kind": "CERTIFICATION",
+      "state": "PLANNED",
+      "domains": [
+        "Studio Hub",
+        "Toolbox UI",
+        "Verification"
+      ],
+      "changedPaths": [],
+      "branchPrRefs": [
+        "PR #1274"
+      ],
+      "dependencies": [
+        "VT-CWI-CM-006"
+      ],
+      "suggestedDestination": "tasks/toolbox-workflow-convergence/todo.md",
+      "reviewStatus": "ALREADY_TRACKED"
+    }
+  ]
+}

@@ -2,6 +2,7 @@
 import type { VideoAsset } from "../../services/videoAssets"
 import type { AudiencePulseSignal } from "./audiencePulse"
 import type { BrainEvidenceClaim } from "../../services/brain/BrainEvidenceContract"
+import type { SimpleYouTubeCommentThread, SimpleVideoDetails } from "../../services/simpleYouTubeApi"
 
 export type CommunityPostType = "text" | "image" | "poll" | "image-poll" | "video"
 export type CommunityPostMode = "write" | "create"
@@ -73,25 +74,36 @@ export interface CommunityPostController {
 
 export type CommentResponderTab = "unreplied" | "history"
 
+export interface CommentVideoRecommendation {
+ videoId: string
+ title: string
+ matchStrength: number
+ reason: string
+ bridgePhrase: string
+}
+
 export interface CommentResponderController {
  tab: CommentResponderTab
  setTab: (tab: CommentResponderTab) => void
  loading: boolean
  error: string | null
- threads: any[]
+ threads: SimpleYouTubeCommentThread[]
  audienceSignals: AudiencePulseSignal[]
  audienceEvidenceClaims: BrainEvidenceClaim[]
  isAudienceSignalProposed: (signalId: string) => boolean
  proposeAudienceSignal: (signalId: string) => boolean
- displayThreads: any[]
- currentThread: any | null
+ displayThreads: SimpleYouTubeCommentThread[]
+ currentThread: SimpleYouTubeCommentThread | null
  currentIndex: number
  setCurrentIndex: (index: number) => void
  replyText: string
  setReplyText: (value: string) => void
  generating: boolean
- fetchedVideoData: Record<string, any>
+ fetchedVideoData: Record<string, SimpleVideoDetails>
  inboundImageUrl: string | null
+ videoRecommendation: CommentVideoRecommendation | null
+ applyVideoRecommendation: () => void
+ dismissVideoRecommendation: () => void
  canPostReply: boolean
  refresh: () => Promise<void>
  draftReply: (mode?: "generate" | "refine") => Promise<void>

@@ -79,6 +79,8 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - name: Verify Comment Management workspace and shared engagement contracts
+        run: npx vitest run src/components/CommentResponder.contract.test.ts src/features/creator-engagement/creatorEngagementParity.test.ts src/services/brain/commentEngagement.test.ts
       - run: npm run test:public-page-resolver
       - run: npm run test:vault-operation-store
       - name: Verify Studio counter and dropdown regression contracts
