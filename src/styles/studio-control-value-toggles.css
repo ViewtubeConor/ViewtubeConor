@@ -353,14 +353,7 @@
 }
 
 
-/* Arrow Toggle keeps its global black label. Side Toggle faces use the
-   word-counter value class as their sole text-style owner. */
-.vt-studio-value-toggle--arrow .vt-studio-value-toggle__face {
-  color: var(--vt-toggle-text, #000);
-  -webkit-text-fill-color: var(--vt-toggle-text, #000);
-  -webkit-text-stroke-color: var(--vt-toggle-text, #000);
-}
-
+/* Arrow Toggle has no local text paint override; it inherits global value-toggle defaults. */
 
 /* Side Toggle and Double Side Toggle use the exact word-counter value class;
    default paint, focus paint, and fade timing have one shared owner. */
