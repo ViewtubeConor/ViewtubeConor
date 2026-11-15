@@ -59,12 +59,8 @@ import {
   StudioSplitLeftDropdown,
   StudioUploadFrame,
   STUDIO_CONTROL_GLOBAL_RULE_EXCEPTIONS,
-  StudioArrowToggle,
-  StudioSideToggle,
-  StudioDoubleSideToggle,
-  StudioBarToggle,
 } from "../../studio-ui/primitives/StudioControls"
-import { StudioDoubleSplitWordCounter } from "../../studio-ui/primitives/StudioValueToggles"
+import { StudioArrowToggle, StudioSideToggle, StudioDoubleSideToggle, StudioBarToggle, StudioDoubleSplitWordCounter } from "../../studio-ui/primitives/StudioValueToggles"
 import { StudioSplitAccordion } from "../../studio-ui/primitives/StudioSplitAccordion"
 import { StudioCalendarEventChip, StudioCalendarMediaRail } from "../../studio-ui/primitives/StudioCalendarPrimitives"
 import { StudioDropdown } from "../../studio-ui/primitives/StudioDropdown"
@@ -125,6 +121,88 @@ const CanonicalControlFamilies: React.FC = () => {
     </Family>
   </>
 }
+
+const ConfirmedStudioValueToggleFamily: React.FC = () => {
+  const sizes = ["supreme", "standard", "compact", "mini", "micro"] as const;
+  const options = ["ONE", "TWO", "THREE"] as const;
+  const [arrowValues, setArrowValues] = React.useState(["ONE", "ONE", "ONE", "ONE", "ONE"]);
+  const [sideValues, setSideValues] = React.useState(["LOW", "LOW", "LOW", "LOW", "LOW"]);
+  const [doubleLeftValues, setDoubleLeftValues] = React.useState(["SOURCE", "SOURCE", "SOURCE", "SOURCE", "SOURCE"]);
+  const [doubleRightValues, setDoubleRightValues] = React.useState(["TARGET", "TARGET", "TARGET", "TARGET", "TARGET"]);
+  const [barValues, setBarValues] = React.useState([50, 50, 50, 50, 50]);
+  const updateString = (setter: React.Dispatch<React.SetStateAction<string[]>>, index: number, value: string) =>
+    setter(current => current.map((previous, itemIndex) => itemIndex === index ? value : previous));
+  const updateNumber = (index: number, value: number) =>
+    setBarValues(current => current.map((previous, itemIndex) => itemIndex === index ? value : previous));
+
+  return <>
+    <Family
+      title="Arrow Toggle · Five Sizes × Left / Right / Double Rails"
+      defaultOpen
+      nonDefaultSettings={[
+        "Exactly one production specimen per canonical size tier; this module uses the double-rail configuration as the representative.",
+        "The production API continues to support left-only, right-only, and double-rail anatomy; alternate rail layouts are not duplicated in this size inventory.",
+      ]}
+      provenance={<Provenance primitive="StudioArrowToggle" tsx="src/studio-ui/primitives/StudioValueToggles.tsx" css="src/styles/studio-control-value-toggles.css + shared Studio control styles" tokens="Supreme / Standard / Compact / Mini / Micro · canonical split-shell rail geometry · secondary action rails" imports={["src/studio-ui/primitives/StudioValueToggles.tsx", "src/studio-ui/primitives/StudioControls.tsx", "src/studio-ui/tokens.ts"]} />}
+    >
+      {sizes.map((size, index) => <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioArrowToggle" data-vt-library-size={size} key={size}>
+        <span>{size.toUpperCase()} · DOUBLE RAIL</span>
+        <StudioArrowToggle size={size} iconSide="double" value={arrowValues[index]} options={options} onValueChange={value => updateString(setArrowValues, index, value)} ariaLabel={size + " arrow toggle"} />
+      </div>)}
+    </Family>
+
+    <Family
+      title="Side Toggle · Five Sizes × Left / Right Arrow Orientation"
+      defaultOpen
+      nonDefaultSettings={[
+        "Exactly one production specimen per canonical size tier; the right-side vertical arrow rail is the representative.",
+        "The production API supports either left or right rail placement; alternate orientation is intentionally omitted from the five-row size inventory.",
+      ]}
+      provenance={<Provenance primitive="StudioSideToggle" tsx="src/studio-ui/primitives/StudioValueToggles.tsx" css="src/styles/studio-control-value-toggles.css + shared Studio control styles" tokens="Supreme / Standard / Compact / Mini / Micro · one square vertical action rail · shared side-counter rail source" imports={["src/studio-ui/primitives/StudioValueToggles.tsx", "src/studio-ui/primitives/StudioControls.tsx", "src/studio-ui/tokens.ts"]} />}
+    >
+      {sizes.map((size, index) => <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSideToggle" data-vt-library-size={size} key={size}>
+        <span>{size.toUpperCase()} · RIGHT ARROW RAIL</span>
+        <StudioSideToggle size={size} arrowSide="right" value={sideValues[index]} options={["LOW", "MID", "HIGH"]} onValueChange={value => updateString(setSideValues, index, value)} ariaLabel={size + " side toggle"} />
+      </div>)}
+    </Family>
+
+    <Family
+      title="Double Side Toggle · Five Sizes × V1 / V2 × Three Right Faces"
+      defaultOpen
+      nonDefaultSettings={[
+        "Exactly one production specimen per canonical size tier; V1 with a primary right face is the canonical representative.",
+        "The production API retains V1/V2 and primary/secondary/black-primary-text right-face settings; alternate combinations are not expanded into a gallery.",
+      ]}
+      provenance={<Provenance primitive="StudioDoubleSideToggle" tsx="src/studio-ui/primitives/StudioValueToggles.tsx" css="src/styles/studio-control-value-toggles.css + shared Studio control styles" tokens="Supreme / Standard / Compact / Mini / Micro · one shared perimeter · V1 center divider · primary right face" imports={["src/studio-ui/primitives/StudioValueToggles.tsx", "src/studio-ui/primitives/StudioControls.tsx", "src/studio-ui/tokens.ts"]} />}
+    >
+      {sizes.map((size, index) => <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioDoubleSideToggle" data-vt-library-size={size} key={size}>
+        <span>{size.toUpperCase()} · V1 / PRIMARY RIGHT</span>
+        <StudioDoubleSideToggle
+          size={size}
+          variant="v1"
+          rightAppearance="primary"
+          left={{ options: ["SOURCE", "ORIGIN", "INPUT"], value: doubleLeftValues[index], onValueChange: value => updateString(setDoubleLeftValues, index, value), ariaLabel: size + " left value" }}
+          right={{ options: ["TARGET", "DESTINATION", "OUTPUT"], value: doubleRightValues[index], onValueChange: value => updateString(setDoubleRightValues, index, value), ariaLabel: size + " right value" }}
+        />
+      </div>)}
+    </Family>
+
+    <Family
+      title="Bar Toggle · Five Sizes"
+      defaultOpen
+      nonDefaultSettings={[
+        "Exactly one production specimen per canonical size tier; bar count is measured from the available full-row track width.",
+        "The value begins at 50% to make the active/inactive bar treatment visible without a fixed specimen width or source-level bar-count override.",
+      ]}
+      provenance={<Provenance primitive="StudioBarToggle" tsx="src/studio-ui/primitives/StudioValueToggles.tsx" css="src/styles/studio-control-value-toggles.css + shared Studio control styles" tokens="Supreme / Standard / Compact / Mini / Micro · responsive measured bar count · secondary active bars" imports={["src/studio-ui/primitives/StudioValueToggles.tsx", "src/studio-ui/primitives/StudioControls.tsx", "src/studio-ui/tokens.ts"]} />}
+    >
+      {sizes.map((size, index) => <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioBarToggle" data-vt-library-size={size} key={size}>
+        <span>{size.toUpperCase()} · 50% LEVEL</span>
+        <StudioBarToggle size={size} value={barValues[index]} onValueChange={value => updateNumber(index, value)} ariaLabel={size + " bar toggle"} />
+      </div>)}
+    </Family>
+  </>;
+};
 
 const CanonicalSplitBadgeFamily: React.FC = () => (
   <>
@@ -304,13 +382,11 @@ const ConfirmedPrimitiveGridOverview: React.FC = () => {
   const [sliderValue, setSliderValue] = React.useState(58)
   const [buttonPressed, setButtonPressed] = React.useState(false)
   const [splitButtonPressed, setSplitButtonPressed] = React.useState(false)
-  const [arrowValue, setArrowValue] = React.useState("ONE")
-  const options = ["ONE", "TWO", "THREE"] as const
   return (
     <section className="vt-confirmed-primitive-grid-overview" data-vt-confirmed-primitive-grid="true" aria-labelledby="vt-confirmed-primitive-grid-title">
       <h2 id="vt-confirmed-primitive-grid-title">Primitive Grid · Live Production Components</h2>
       <p>Top-level quick reference: real production primitives across action, split, field, choice, counter, slider, and toggle designs. The complete standard representative inventory and detailed family variants follow below.</p>
-      <StudioComponentGrid cols={1} rows={9} size="standard" aria-label="Confirmed Studio primitive grid">
+      <StudioComponentGrid cols={1} rows={8} size="standard" aria-label="Confirmed Studio primitive grid">
         <StudioComponentGridCell col={1} row={1}>
           <div className="vt-confirmed-primitive-grid-cell" data-vt-library-component="StudioButton">
             <span>BUTTON</span>
@@ -359,12 +435,6 @@ const ConfirmedPrimitiveGridOverview: React.FC = () => {
             <StudioDoubleSplitSlider size="standard" value={sliderValue} onValueChange={setSliderValue} min={0} max={100} ariaLabel="Grid specimen double split slider" />
           </div>
         </StudioComponentGridCell>
-        <StudioComponentGridCell col={1} row={9}>
-          <div className="vt-confirmed-primitive-grid-cell" data-vt-library-component="StudioArrowToggle">
-            <span>ARROW TOGGLE</span>
-            <StudioArrowToggle size="standard" value={arrowValue} options={options} onValueChange={setArrowValue} ariaLabel="Grid specimen arrow toggle" />
-          </div>
-        </StudioComponentGridCell>
       </StudioComponentGrid>
     </section>
   )
@@ -374,8 +444,6 @@ const ConfirmedDirectPrimitiveRows: React.FC = () => {
   const [splitLeftPressed, setSplitLeftPressed] = React.useState(false)
   const [splitRightPressed, setSplitRightPressed] = React.useState(false)
   const [doubleSplitPressed, setDoubleSplitPressed] = React.useState(false)
-  const [arrowValue, setArrowValue] = React.useState("ONE")
-  const [barValue, setBarValue] = React.useState(40)
   const [wordValue, setWordValue] = React.useState(false)
   const [verticalWordValue, setVerticalWordValue] = React.useState(false)
   const [sideValue, setSideValue] = React.useState("LOW")
@@ -388,7 +456,6 @@ const ConfirmedDirectPrimitiveRows: React.FC = () => {
   const [sliderValue, setSliderValue] = React.useState(58)
   const [leftCounterRepValue, setLeftCounterRepValue] = React.useState(12)
   const [doubleWordCounterValue, setDoubleWordCounterValue] = React.useState(2)
-  const options = ["ONE", "TWO", "THREE"] as const
   const dropdownOptions = [
     { value: "balanced", label: "BALANCED" },
     { value: "focused", label: "FOCUSED" },
@@ -434,7 +501,6 @@ const ConfirmedDirectPrimitiveRows: React.FC = () => {
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioTextArea"><span>Text Area · STANDARD</span><StudioTextArea sizeVariant="standard" rows={3} aria-label="Text area standard specimen" placeholder="TYPE HERE" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioTextBox"><span>Text Box · STANDARD</span><StudioTextBox size="standard" aria-label="Text box standard specimen">Read-only text rendered by the production StudioTextBox primitive.</StudioTextBox></div>
         <h4 className="vt-confirmed-representative-heading">CONTROLS</h4>
-        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioArrowToggle"><span>Arrow Toggle · STANDARD</span><StudioArrowToggle size="standard" value={arrowValue} options={options} onValueChange={setArrowValue} ariaLabel="Arrow toggle standard specimen" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioCounter"><span>Studio Counter · STANDARD</span><StudioCounter size="standard" value={counterValue} onValueChange={setCounterValue} min={0} max={100} ariaLabel="Studio counter standard specimen" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioLeftWordCounter"><span>Left Word Counter · STANDARD</span><StudioLeftWordCounter size="standard" value={leftWordValue} onValueChange={setLeftWordValue} ariaLabel="Studio left word counter standard specimen" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioDoubleSplitSlider"><span>Double Split Slider · STANDARD</span><StudioDoubleSplitSlider size="standard" value={sliderValue} onValueChange={setSliderValue} min={0} max={100} ariaLabel="Double split slider standard specimen" /></div>
@@ -443,7 +509,6 @@ const ConfirmedDirectPrimitiveRows: React.FC = () => {
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioRadio"><span>Radio · STANDARD</span><StudioRadio skin="solid" checked={false} sizeVariant="standard" aria-label="Radio standard specimen" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioCheckbox"><span>Checkbox · STANDARD</span><StudioCheckbox skin="solid" checked={false} sizeVariant="standard" aria-label="Checkbox standard specimen" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioXCheckbox"><span>X Checkbox · STANDARD</span><StudioXCheckbox skin="solid" checked={false} sizeVariant="standard" aria-label="X checkbox standard specimen" /></div>
-        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioBarToggle"><span>Bar Toggle · STANDARD</span><StudioBarToggle size="standard" value={barValue} onValueChange={setBarValue} ariaLabel="Bar toggle standard representative" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioWordToggle"><span>Word Toggle · STANDARD</span><StudioWordToggle value={wordValue} onValueChange={setWordValue} aria-label="Word toggle standard representative" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioVerticalWordToggle"><span>Vertical Word Toggle · COMPACT</span><StudioVerticalWordToggle value={verticalWordValue} onValueChange={setVerticalWordValue} aria-label="Vertical word toggle representative" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSideToggle"><span>Side Toggle · STANDARD</span><StudioSideToggle size="standard" value={sideValue} options={["LOW", "MID", "HIGH"]} onValueChange={setSideValue} ariaLabel="Side toggle standard representative" /></div>
@@ -861,7 +926,7 @@ const classifyConfirmedCatalogItem = (node: React.ReactNode): ConfirmedCatalogFa
   if (/Compatibility Control Exports/.test(title)) return "Controls"
 
   // Choice primitives share one top-level family; check this before broad button rules.
-  if (/Switches, Radios & Checkboxes|Word Toggles|Arrow \/ Side \/ Double Side \/ Bar Toggles|StudioSwitch|StudioRadio|StudioCheckbox|StudioXCheckbox|StudioWordToggle|StudioVerticalWordToggle|StudioArrowToggle|StudioSideToggle|StudioDoubleSideToggle|StudioBarToggle|StudioChoice/.test(title)
+  if (/Switches, Radios & Checkboxes|Word Toggles|Arrow Toggle · Five Sizes|Side Toggle · Five Sizes|Double Side Toggle · Five Sizes|Bar Toggle · Five Sizes|Arrow \/ Side \/ Double Side \/ Bar Toggles|StudioSwitch|StudioRadio|StudioCheckbox|StudioXCheckbox|StudioWordToggle|StudioVerticalWordToggle|StudioArrowToggle|StudioSideToggle|StudioDoubleSideToggle|StudioBarToggle|StudioChoice/.test(title)
     || componentName === "CanonicalControlFamilies"
     || componentName === "CanonicalWordToggleFamily"
     || componentName === "ConfirmedStudioValueToggleFamily") {
@@ -1195,6 +1260,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
     </Family>
     <CanonicalControlFamilies />
     <CanonicalWordToggleFamily />
+    <ConfirmedStudioValueToggleFamily />
     <p className="vt-confirmed-intro">Production primitives · standard + compact.</p>
     <ConfirmedStudioButtonFamily />
     <ConfirmedStudioSplitButtonFamily />
