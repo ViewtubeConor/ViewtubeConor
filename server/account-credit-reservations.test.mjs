@@ -164,3 +164,24 @@ test("settlement can charge usage above the estimate when remaining credits cove
   assert.equal(settlement.settled, true);
   assert.equal(settlement.availableCredits, 850);
 });
+
+test("concurrent reservations cannot overspend one account balance", async () => {
+  const userId = await createFundedCreator();
+  const results = await Promise.all([
+    store.reserveAiCredits(userId, { credits: 600, idempotencyKey: "generation:concurrent-a" }),
+    store.reserveAiCredits(userId, { credits: 600, idempotencyKey: "generation:concurrent-b" }),
+  ]);
+  assert.equal(results.filter((result) => result.allowed).length, 1);
+  assert.equal(results.filter((result) => !result.allowed).length, 1);
+  const snapshot = await store.getAccountSnapshotData(userId);
+  assert.equal(snapshot.availableCredits, 400);
+});
+
+test("reservation idempotency keys cannot be reused for a different estimate", async () => {
+  const userId = await createFundedCreator();
+  await store.reserveAiCredits(userId, { credits: 100, idempotencyKey: "generation:fixed-estimate" });
+  await assert.rejects(
+    store.reserveAiCredits(userId, { credits: 101, idempotencyKey: "generation:fixed-estimate" }),
+    /different amount/,
+  );
+});
