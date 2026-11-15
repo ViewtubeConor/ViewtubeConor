@@ -95,7 +95,7 @@ export const StudioCalendarMultiDayBar: React.FC<StudioCalendarMultiDayBarProps>
   const classNames = ["vt-studio-calendar-multi-day-bar", className].filter(Boolean).join(" ")
   const attributes = {
     className: classNames,
-    "data-vt-studio-control": "true",\n    "data-vt-studio-control": "true",
+    "data-vt-studio-control": "true",
     "data-vt-library-component": "StudioCalendarMultiDayBar",
     "data-event-kind": kind,
     "data-event-status": status,
@@ -151,7 +151,7 @@ export const StudioCalendarThumbnailEventChip: React.FC<StudioCalendarThumbnailE
   )
   const attributes = {
     className: ["vt-studio-calendar-thumbnail-event-chip", className].filter(Boolean).join(" "),
-    "data-vt-studio-control": "true",\n    "data-vt-studio-control": "true",
+    "data-vt-studio-control": "true",
     "data-vt-library-component": "StudioCalendarThumbnailEventChip",
     "data-event-kind": kind,
     "data-event-status": status,
