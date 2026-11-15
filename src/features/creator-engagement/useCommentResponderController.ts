@@ -200,11 +200,9 @@ export const useCommentResponderController = (context: CreatorEngagementContext)
     availableVideos: candidateVideos.map((video) => ({ title: video.title, id: video.videoId })),
     existingReply: mode === "refine" ? replyText[currentId]?.trim() || "" : "",
    })
-   const suggestedVideoId = resolveSuggestedVideoId(result.suggestedVideoId, candidateVideos, sourceVideoId)
-   const reply = suggestedVideoId
-    ? `${result.reply}\n\nCheck this out for more details: https://youtu.be/${suggestedVideoId}`
-    : result.reply
-   setReplyTextById((current) => ({ ...current, [currentId]: reply }))
+   // Keep the generated reply as a draft. Video suggestions are surfaced separately
+   // so the creator can inspect and explicitly add a recommendation.
+   setReplyTextById((current) => ({ ...current, [currentId]: result.reply }))
   } catch (cause) {
    setError(cause instanceof Error ? cause.message : "ViewTube could not draft a reply. Try again.")
   } finally { setGenerating(currentId, false) }
@@ -265,6 +263,7 @@ export const useCommentResponderController = (context: CreatorEngagementContext)
    const text = replyText[currentId]
    const posted = await postSimpleCommentReply(parentId, text)
    setReplyTextById((current) => { const next = { ...current }; delete next[currentId]; return next })
+   setVideoRecommendationsByCommentId((current) => { const next = { ...current }; delete next[currentId]; return next })
    setThreads((current) => current.map((thread) => thread.id !== currentId ? thread : ({ ...thread, replies: { ...thread.replies, comments: [...(thread.replies?.comments || []), { ...posted, snippet: { ...posted?.snippet, authorChannelId: posted?.snippet?.authorChannelId || { value: context.channelId }, authorDisplayName: posted?.snippet?.authorDisplayName || context.channelName, authorProfileImageUrl: posted?.snippet?.authorProfileImageUrl || context.channelThumbnail, textDisplay: posted?.snippet?.textDisplay || text, publishedAt: posted?.snippet?.publishedAt || new Date().toISOString() } }] } })))
    setTab("history")
   } catch (cause) {
