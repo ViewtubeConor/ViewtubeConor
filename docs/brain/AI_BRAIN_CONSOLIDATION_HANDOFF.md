@@ -107,3 +107,11 @@ This is a durable handoff of the verified discovery work, not a claim that conso
 4. Recover Evidence Explorer as a read-only UI over canonical owners; do not create a second evidence store.
 5. Reconcile Gemini callsites and Composer tests; skip identical Composer TSX/CSS.
 6. Obtain a runnable checkout/test environment before claiming test results or opening a code PR.
+
+
+## 11. Complete PR register and evidence-owner coverage
+
+- Paged the full GitHub PR list: 1,270 PRs, 360 title-matched Brain/Gemini/Evidence/Context records, 76 unmerged (5 open, 71 closed-unmerged). Full head/base branch list and dispositions are in docs/brain/AI_BRAIN_UNMERGED_PR_DISPOSITION_REGISTER.md.
+- PR #657 learning receipts are already present on current target; PR #644's master resource and skill are already present at canonical docs paths; PR #522's required-context model-dispatch gate is absent and has been reproduced on the current target; PR #1241's context manifest and runtime provenance are absent and should be selectively recovered.
+- EvidenceIntelligenceResolver currently returns typed analytics-canon EvidenceRecords. CreatorAnswerEvidence is typed and turn-bound but outside the resolver envelope. Project, Vault and publishing have existing adapters/ledgers but are not typed resolver records. YouTube-read/comments/transcript/research/outcomes/experiment owner projection into the resolver remains unverified/incomplete.
+- Evidence Explorer donor is 10 commits ahead / 302 behind, no PR found, and should be selectively ported with an analytics-only coverage notice; do not imply universal owner coverage.
