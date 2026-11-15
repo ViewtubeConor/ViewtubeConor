@@ -79,6 +79,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - run: npm run test:account-credit-reservations
       - run: npm run test:public-page-resolver
       - run: npm run test:vault-operation-store
       - name: Verify Studio counter and dropdown regression contracts
