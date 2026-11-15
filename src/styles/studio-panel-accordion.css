@@ -11,7 +11,7 @@
   display: grid;
   grid-template-columns: var(--vt-studio-panel-rail) minmax(0, 1fr);
   align-items: stretch;
-  width: 100%;
+  width: auto;
   min-width: 0;
   border: 0;
   border-radius: var(--vt-studio-panel-radius);
@@ -144,7 +144,7 @@
   box-sizing: border-box;
   flex: 1 1 auto;
   align-self: stretch;
-  width: 100%;
+  width: auto;
   min-width: 0;
   min-height: var(--vt-studio-panel-rail);
   border-radius: 0 var(--vt-studio-panel-radius) var(--vt-studio-panel-radius) 0;
