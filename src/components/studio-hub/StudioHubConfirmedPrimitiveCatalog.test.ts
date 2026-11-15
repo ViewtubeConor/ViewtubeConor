@@ -160,3 +160,24 @@ describe("Studio field text and stroke contracts", () => {
     expect(css).toContain("inset 0 calc(-1 * var(--vt-top-split-stroke, 3px)) 0 #000")
   })
 })
+
+
+describe("Resource Split Button and compact module headers", () => {
+  it("lists Resource Split Button as an independent buttons-family primitive", () => {
+    const catalog = read("src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx")
+    const resource = catalog.indexOf('title="Resource Split Button"')
+    const representatives = catalog.indexOf('title="Primitive Representatives"')
+    expect(resource).toBeGreaterThan(representatives)
+    expect(catalog).toContain('data-vt-library-component="StudioResourceSplitButton"')
+    expect(read("src/components/studio-hub/confirmedCatalogTaxonomy.ts")).toContain('{ title: "Resource Split Button", family: "buttons" }')
+  })
+
+  it("keeps module headings concise rather than appending size matrices and variant inventories", () => {
+    const catalog = read("src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx")
+    for (const title of ["StudioTextInput", "StudioTextArea", "StudioTextBox", "Arrow Toggle", "Side Toggle", "Double Side Toggle", "Bar Toggle", "Panel Accordion", "Calendar Event Chips"]) {
+      expect(catalog).toContain('title="' + title + '"')
+    }
+    expect(catalog).not.toContain('title="Arrow Toggle · Five Sizes')
+    expect(catalog).not.toContain('title="Studio Text Box · Supreme')
+  })
+})
