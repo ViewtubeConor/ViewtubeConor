@@ -575,7 +575,7 @@ const ConfirmedStudioCounterFamily: React.FC = () => {
   const [microPrimary, setMicroPrimary] = React.useState(7)
   return (
     <Family
-      title="StudioCounter · Five Sizes"
+      title="StudioCounter"
       nonDefaultSettings={[
         "Uses button-only increment/decrement rails; no legacy stepper shell or nested numeric field.",
         "Both action rails use the secondary fill; the numeric value face remains primary across size variants.",
@@ -606,7 +606,7 @@ const ConfirmedStudioDoubleSplitSliderFamily: React.FC = () => {
   const [microA, setMicroA] = React.useState(7)
   return (
     <Family
-      title="StudioDoubleSplitSlider · Five Sizes"
+      title="StudioDoubleSplitSlider"
       nonDefaultSettings={[
         "Uses an L1 range track inside the double-split shell; the numeric readout is bound to the same slider value.",
         "Handle is white with a rounded corner radius and black structural stroke; the track has no black bar or inset stroke.",
@@ -635,7 +635,7 @@ const ConfirmedStudioSideCounterFamily: React.FC = () => {
   const labels = ["60px SUPREME", "44px STANDARD", "28px COMPACT", "20px MINI", "12px MICRO"]
   return (
     <Family
-      title="StudioSideCounter · Five Sizes"
+      title="StudioSideCounter"
       nonDefaultSettings={[
         "This is the right-rail numeric counter: increment/decrement actions sit on the right.",
         "The value face and square action rail use the shared Studio split-shell geometry.",
@@ -660,7 +660,7 @@ const ConfirmedStudioSideTextCounterFamily: React.FC = () => {
   const labels = ["60px SUPREME", "44px STANDARD", "28px COMPACT", "20px MINI", "12px MICRO"]
   return (
     <Family
-      title="StudioSideTextCounter · Five Sizes"
+      title="StudioSideTextCounter"
       nonDefaultSettings={[
         "The value face is the canonical single-line StudioTextInput; users can type arbitrary text or numeric values.",
         "The stacked right rail increments and decrements numeric text using the shared counter hold-repeat behavior.",
@@ -827,7 +827,7 @@ const ConfirmedStudioLeftWordCounterFamily: React.FC = () => {
     setter(current => current.map((previous, itemIndex) => itemIndex === index ? value : previous))
   return (
     <Family
-      title="StudioLeftWordCounter · Five Sizes"
+      title="StudioLeftWordCounter"
       nonDefaultSettings={[
         "Hold-repeat increment/decrement actions use the shared left-counter timing; disabled and focus states come from the shared counter primitive.",
         "Values wrap FOUR → ONE and ONE → FOUR; face states are primary, secondary, black/primary-text, and white/primary-text.",
@@ -1258,7 +1258,7 @@ const useConfirmedAdditionalPrimitiveSections = (): React.ReactNode[] => {
         </div>
       </Family>
 
-      <Family title="StudioSpectrumIcon / Metric Icons" nonDefaultSettings={[
+      <Family title="Spectrum / Metric Icons" nonDefaultSettings={[
         "The spectrum icon uses Studio-owned semantic color names and the canonical five-tier size contract.",
         "Metric glyph and color assignments are stable by semantic metric key; metric colors are not assigned locally by consumers.",
         "Icon-only specimens expose accessible names; decorative instances remain hidden from assistive technology.",
