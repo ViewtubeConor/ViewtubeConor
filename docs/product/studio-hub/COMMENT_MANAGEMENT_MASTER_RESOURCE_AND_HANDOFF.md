@@ -2,6 +2,7 @@
 
 **Production date:** 2026-11-15  
 **Class:** MASTER RESOURCE / IMPLEMENTATION HANDOFF  
+**Registry ID:** DOC-HANDOFF-COMMENT-MANAGEMENT-MASTER-20261115  
 **Status:** ACTIVE — implementation and verification in progress  
 **Repository:** `viewtube-dev/viewtube`  
 **PR:** [#1274 — Redesign Studio Hub Comment Management workspace](https://github.com/viewtube-dev/viewtube/pull/1274)  
