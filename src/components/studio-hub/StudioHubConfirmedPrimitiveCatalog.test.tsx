@@ -120,11 +120,15 @@ describe("confirmed composite primitive catalog", () => {
     }
   })
 
-  it("reveals the bar tooltip from the track and shortens its bar height", () => {
+  it("anchors the tooltip above the last full bar, moves it down, and enlarges text without enlarging the bubble", () => {
     const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-value-toggles.css"), "utf8")
     expect(css).toContain(".vt-studio-value-toggle__bars:hover .vt-studio-value-toggle__bar-tooltip")
-    expect(css).toContain("--vt-bar-height: calc(var(--vt-studio-control-font-size, 38px) * .5)")
+    expect(css).toContain("--vt-bar-height: calc(var(--vt-studio-control-font-size, 38px) * .75)")
     expect(css).toContain("--vt-bar-width: calc(var(--vt-studio-control-font-size, 38px) * .4)")
+    expect(css).toContain("bottom: calc(100% + 1px)")
+    expect(css).toContain("font: 1000 14px/1 Inter")
+    expect(css).toContain("height: 20px")
+    expect(css).toContain("padding: 0 8px")
   })
 
   it("renders the representative ledger as a single full-width row and groups all module primitives together", () => {
