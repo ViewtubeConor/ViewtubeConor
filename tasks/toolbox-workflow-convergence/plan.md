@@ -97,6 +97,41 @@ Audit and converge:
 - Daily Oracle;
 - Brain Hub;
 - Comment Operations;
+
+#### Comment Management / Comment Operations foundation
+
+The first implementation slice is tracked in [PR #1274](https://github.com/viewtube-dev/viewtube/pull/1274). This work extends the existing Comment Responder capability; it does not establish a new persistence or orchestration owner.
+
+**Current ownership contract**
+- Studio Hub's existing `ToolboxScaffold` owns the outer toolbox shell.
+- `CommentResponder.tsx` owns the Comment Management workspace presentation.
+- `useCommentResponderController.ts` remains the single UI/controller orchestration path for comment queues, selection, drafting, suggestions, and reply posting.
+- Existing YouTube services remain the transport/API boundary.
+- Existing `defaultBrainModelGateway` remains the model gateway for comment drafting and video recommendations.
+- Audience Pulse remains a read-only projection over loaded source records; review proposals use the existing ViewTubeActionPacket handoff.
+- The product direction may consolidate Comment Operations and Community Posts under Audience Studio, but that is a product-navigation/ownership decision requiring registry reconciliation—not permission to create parallel implementations.
+
+**First-slice UI contract**
+- One outer toolbox shell; no nested duplicate Comment Responder shell.
+- Selectable New / Replied inbox and an inspectable selected conversation.
+- Reply generation and refinement create drafts only.
+- Video recommendations expose the model match score, reason, and preview separately; the creator explicitly chooses whether to insert the link.
+- Posting a reply is an explicit creator action.
+- Audience Pulse inference remains labeled as heuristic/inferred and source-limited.
+
+**Next foundation work**
+1. Replace weak `any` presentation contracts with typed canonical YouTube comment/thread shapes.
+2. Pass only approved, source-attributed thread/video context into Brain drafting; preserve provenance and distinguish observed facts from inference.
+3. Add recommendation evaluation fixtures, including no-fit and invalid-ID cases.
+4. Extend audience intelligence through the existing evidence projection and proposal packet.
+5. Audit YouTube API scopes and product support before implementing moderation mutations or bulk actions.
+6. Complete responsive, accessibility, and state-matrix certification.
+
+**Hard boundaries**
+- No second comment store, controller, evidence store, or Brain runtime.
+- No autonomous replies or moderation mutations.
+- No fabricated sentiment, audience counts, or recommendation certainty.
+- No API scope expansion until capability and permission requirements are verified.
 - Longform Optimization;
 - Video Asset Engine;
 - Thumbnail Studio family.
