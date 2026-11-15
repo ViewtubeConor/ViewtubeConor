@@ -212,3 +212,45 @@ The requested seven deliverables are being satisfied without duplicating existin
 | `AI_BRAIN_CONSOLIDATION_HANDOFF.md` | `docs/brain/AI_BRAIN_CONSOLIDATION_HANDOFF.md` | Created; records exact continuation state |
 
 This crosswalk is a documentation decision, not a claim that all seven content domains are fully audited or certified.
+
+
+## 12. Expanded branch and PR discovery — 2026-11-14
+
+### Branch inventory coverage
+
+GitHub branch search was paged to completion for the broad brain and evidence terms:
+- brain: 343 matching branch names across four pages.
+- evidence: 71 matching branch names across two pages.
+- gemini: 29 matching branch names.
+- context: 39 matching branch names.
+These are overlapping name-search results, not counts of unique feature branches or fully audited commits. The brain search includes many UI, test, documentation, lifecycle and recovery branches; evidence/context sets overlap heavily. Creator discovery remains a separate broad sweep. Do not equate a branch-name match with unique unmerged work.
+
+### PR #1241 — exact current-base reconciliation
+
+PR #1241 (Add exact context provenance to Brain Gemini turns) remains OPEN and must not be merged wholesale.
+- Head: fix/brain-gemini-context-grounding-phases-2-5-rebased, SHA b339f5e8d2253c6109e1a431ce1edbf0bcb6b986.
+- PR base: master/consolidated-feature-integration, SHA a279e52e63e816c0409a02e2feb4807f20c56e4b.
+- Current target: 52c6e90f416aaac7d3690581e1faab9e4cfb0b1d.
+- Exact compare against current target: 1 commit ahead, 48 behind; merge base is stale a279e52e. PR text claiming current-head alignment is stale relative to the 2026-11-14 target.
+- The unique commit changes 35 files, primarily Brain trace/context/orchestrator/runtime snapshot/UI/tests plus evidence-plan documentation. It also includes Brain composer contract/test changes and shared Studio-contract assertions; review for cross-domain contamination.
+
+### PR #1241 code-level candidate gaps
+
+Comparing current target SHA directly with the PR head:
+- Target BrainContextBroker.ts does not expose includedSections/requestedSections on the context budget. The PR head adds these selected/requested section identifiers.
+- Target BrainTrace.ts lacks sectionsRequested, context scope identifiers (project/content-build), generationPath, fallbackReason, and validationReasons trace fields.
+- Target BrainOrchestrator.ts already has generation-path/fallback variables and model-input snapshots, but the PR adds exact included/requested section capture and explicit scope metadata to trace context.
+- Target BrainRuntimeSnapshot.ts lacks the PR's trace-summary projection of generation path, fallback reason, requested/included/dropped sections, validation/failure reasons, evidence returned/missing IDs and output reference.
+- Target BrainRuntimePanel.tsx lacks the donor's creator-facing “How this answer was produced” trace disclosure and associated provenance details.
+- Evidence ribbon and top-level Brain view have overlapping integrity/generation behavior already; review exact semantics before porting rather than transplanting whole components.
+- Target and donor BrainComposerDock.tsx and BrainComposerDock.css are byte-identical at inspected SHAs. Do not port those files. PR composer contract/test edits still need assertion-by-assertion review.
+
+### PR #1241 workflow failure evidence
+
+Workflow run 43004496051 for PR head b339f5e8 completed with failure:
+- Passed: Brain quality-loop, Gemini governance, production build, local smoke.
+- Failed: source-governance, focused-contracts, conversation-handoff-contract, full-suite, static-quality.
+- Source-governance stopped in audit:confirmed-catalog: missing src/styles/studio-split-text-input.css, missing P0 specimens StudioUsernameInput / StudioSplitLeftInput, failed field-focus, stacked/side toggle, and split-text-input catalog assertions.
+- Focused-contracts stopped after three Studio counter/dropdown assertions: counter-root-width formula, primary background ownership, and hard-coded fallback palette detection.
+- Typecheck in static-quality reported missing Studio exports/files and stale catalog contracts (including StudioUsernameInput, StudioSplitLeftInput, StudioChatActionGroup, StudioPanelAccordion, StudioLeftWordVariant), incompatible size variants and a missing @testing-library/react type/module.
+- Failures are a mixed integration-baseline / Studio-contract problem; they do not by themselves falsify Brain-specific context-manifest logic. Four passing jobs do not make the candidate release-ready.
