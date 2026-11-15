@@ -70,6 +70,7 @@ Do not merge a persistent analysis capability into an orchestration recipe merel
 - PR #1274 proves a proposed change set exists; it does not prove merge or release.
 - Workflow run 43677671858 is overall FAILURE.
 - Workflow [43688189005](https://github.com/viewtube-dev/viewtube/actions/runs/43688189005) was cancelled while subsequent documentation commits advanced the branch; it provides no final-head verification.
+- Final-head workflow [43688573163](https://github.com/viewtube-dev/viewtube/actions/runs/43688573163) was pending at last read; no result is claimed.
 - Build, local smoke, Brain quality-loop and Gemini governance jobs passed.
 - Typecheck, full suite, confirmed catalog audit, document audit and Studio counter/dropdown focused gate failed.
 - PR description says the dedicated Comment Management test step passed before the focused-contract job hit the Studio regression gate.
