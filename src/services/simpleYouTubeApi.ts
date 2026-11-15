@@ -1,3 +1,36 @@
+export interface SimpleYouTubeCommentSnippet {
+  authorChannelId?: { value?: string };
+  authorDisplayName?: string;
+  authorProfileImageUrl?: string;
+  likeCount?: number | string;
+  publishedAt?: string;
+  textDisplay?: string;
+  textOriginal?: string;
+  updatedAt?: string;
+}
+
+export interface SimpleYouTubeComment {
+  id: string;
+  snippet: SimpleYouTubeCommentSnippet;
+}
+
+export interface SimpleYouTubeCommentThread {
+  id: string;
+  snippet: {
+    videoId: string;
+    topLevelComment: SimpleYouTubeComment;
+    totalReplyCount?: number;
+  };
+  replies?: { comments: SimpleYouTubeComment[] };
+  /** False when the server could not hydrate every reply for this thread. */
+  repliesComplete?: boolean;
+}
+
+export interface SimpleYouTubeCommentThreadPage {
+  items?: SimpleYouTubeCommentThread[];
+  nextPageToken?: string;
+}
+
 const readApiJson = async (response: Response) => {
   const payload = await response.json().catch(() => null);
   if (!response.ok) {
@@ -10,17 +43,17 @@ const readApiJson = async (response: Response) => {
   return payload;
 };
 
-export const fetchSimpleCommentThreads = async (maxResults = 100, pageToken?: string) => {
+export const fetchSimpleCommentThreads = async (maxResults = 100, pageToken?: string): Promise<SimpleYouTubeCommentThreadPage> => {
   const params = new URLSearchParams({ maxResults: String(maxResults) });
   if (pageToken) params.set("pageToken", pageToken);
   const response = await fetch(`/api/youtube/comments/threads?${params.toString()}`, {
     credentials: "include",
     headers: { Accept: "application/json" },
   });
-  return readApiJson(response);
+  return await readApiJson(response) as SimpleYouTubeCommentThreadPage;
 };
 
-export const postSimpleCommentReply = async (parentId: string, text: string) => {
+export const postSimpleCommentReply = async (parentId: string, text: string): Promise<SimpleYouTubeComment> => {
   const response = await fetch("/api/youtube/comments/reply", {
     method: "POST",
     credentials: "include",
@@ -30,8 +63,8 @@ export const postSimpleCommentReply = async (parentId: string, text: string) => 
   return readApiJson(response);
 };
 
-export const fetchAllSimpleCommentThreads = async (maxResults = 100) => {
-  const items: any[] = [];
+export const fetchAllSimpleCommentThreads = async (maxResults = 100): Promise<SimpleYouTubeCommentThread[]> => {
+  const items: SimpleYouTubeCommentThread[] = [];
   let pageToken = "";
   do {
     const page = await fetchSimpleCommentThreads(maxResults, pageToken || undefined);
