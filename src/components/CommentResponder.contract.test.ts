@@ -84,6 +84,19 @@ describe("Comment Responder Studio Hub contract", () => {
   expect(view).not.toContain('SubToolbox title={`Reply History · ${replies.length}`}')
  })
 
+ it("keeps Brain video recommendations reviewable before inserting them into a reply", () => {
+  expect(view).toContain("data-comment-video-recommendation")
+  expect(view).toContain("Review before adding")
+  expect(view).toContain("Match score")
+  expect(view).toContain("Add recommendation to reply")
+  expect(view).toContain("comments.applyVideoRecommendation")
+  expect(view).toContain("comments.dismissVideoRecommendation")
+  expect(controller).toContain("videoRecommendationsByCommentId")
+  expect(controller).toContain("matchStrength: recommendation.matchStrength")
+  expect(controller).toContain("const applyVideoRecommendation")
+  expect(controller).toContain("const dismissVideoRecommendation")
+ })
+
  it("makes generation, refinement, and video suggestions explicit contextual actions", () => {
   expect(view).toContain('>Generate</StudioSplitLeftButton>')
   expect(view).toContain('comments.draftReply("generate")')
