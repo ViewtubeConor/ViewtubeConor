@@ -135,7 +135,32 @@ export { StudioArrowToggle, StudioSideToggle, StudioDoubleSideToggle, StudioBarT
 export { StudioPanelAccordion } from "./primitives/StudioPanelAccordion";
 export type { StudioPanelAccordionProps, StudioPanelAccordionItem } from "./primitives/StudioPanelAccordion";
 export type { StudioArrowToggleProps, StudioSideToggleProps, StudioDoubleSideToggleProps, StudioDoubleSplitWordCounterProps, StudioToggleAppearance } from "./primitives/StudioValueToggles";
-export { StudioComponentGrid, StudioComponentGridCell, StudioComponentGridRow } from "./primitives/StudioComponentGrid";
+export { StudioComponentGrid, StudioComponentGridCell, StudioComponentGridRow } from "./primitives/StudioComponentGrid"
+export {
+  StudioSpectrumIcon,
+  StudioIconBadge,
+  StudioMetricIcon,
+  StudioAccentRailModule,
+  StudioIconTitleModule,
+  StudioVideoModule,
+  StudioVideoSelector,
+  STUDIO_SPECTRUM_COLORS,
+  STUDIO_METRIC_ICON_SET,
+  STUDIO_DASHBOARD_MIGRATION_PRIMITIVES,
+} from "./primitives/StudioDashboardPrimitives"
+export type {
+  StudioSpectrumName,
+  StudioMetricKey,
+  StudioSpectrumIconProps,
+  StudioIconBadgeProps,
+  StudioMetricIconProps,
+  StudioModuleAction,
+  StudioAccentRailModuleProps,
+  StudioIconTitleModuleProps,
+  StudioVideoModuleProps,
+  StudioVideoOption,
+  StudioVideoSelectorProps,
+} from "./primitives/StudioDashboardPrimitives";
 export type { StudioComponentGridProps, StudioComponentGridCellProps, StudioGridSize, StudioGridCorners } from "./primitives/StudioComponentGrid";
 
 export { StudioDropdown } from "./primitives/StudioDropdown"
