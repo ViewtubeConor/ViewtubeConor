@@ -19,7 +19,7 @@ The visual language stays neo-brutalist and uses the canonical Studio controls f
 | Phase | Scope | Status | Completion evidence / remaining gate |
 |---|---|---|---|
 | 0. Branch/source reconciliation | Audit all identified calendar branches and PRs against the October 31 recovery branch; disposition stale, merged and unique work | **Complete — source audit** | Branch ledger below; #1244 is superseded, #1245–#1249 are merged, and no identified branch contains additional unmerged calendar commits beyond the merged recovery history |
-| 1. Source-owned event contract | Define canonical owners, stable record identity, date semantics and read-only projections for existing Project and task records | **Implemented; runtime verification pending** | `calendarEventContract.ts` plus `projectCalendarEvents.ts` and focused adapter tests; existing owner write paths remain unchanged |
+| 1. Source-owned event contract | Define canonical owners, stable record identity, date semantics and read-only projections for existing Project and task records | **Implemented; runtime verification pending** | `calendarEventContract.ts` plus `projectCalendarEvents.ts` and focused tests for Projects/tasks and verified Publisher schedules; existing owner write paths remain unchanged |
 | 2. Studio primitives | Mini event chips, multi-day bars, thumbnail event chips and media rails | **Implemented on recovery branch; integration/visual verification pending** | `StudioCalendarEventChip`, `StudioCalendarMultiDayBar`, `StudioCalendarThumbnailEventChip`, `StudioCalendarMediaRail`, exports and confirmed catalog |
 | 3. Confirmed primitive catalog | Actual production representatives and regression coverage | **Implemented on recovery branch; verification pending** | PRs #1245, #1248 and #1249 |
 | 4. Production calendar integration | Consume the event projection and render new Mini/bar/thumbnail primitives in `ProjectPlannerCalendar` | **Pending** | Current production calendar still projects project/task arrays inline and renders individual chips |
@@ -57,7 +57,7 @@ This completes the source/branch inventory and disposition. It does not certify 
 
 ## Phase 1 — source-owned event projection
 
-The shared event vocabulary remains in `src/services/calendar/calendarEventContract.ts`. The new pure adapter `src/services/calendar/projectCalendarEvents.ts` maps only existing Project and task records into that read model:
+The shared event vocabulary remains in `src/services/calendar/calendarEventContract.ts`. The pure adapters in `src/services/calendar/projectCalendarEvents.ts` map existing Project/task records and explicitly verified Publisher schedule metadata into that read model:
 
 - Project `publishDate` → `projects / project / publish`, one-day event.
 - Project `tasks[].dueDate` → `projects / project_task / task`, one-day event.
