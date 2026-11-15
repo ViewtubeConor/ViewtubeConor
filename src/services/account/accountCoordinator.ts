@@ -641,6 +641,26 @@ export const releaseUnifiedAiCredits = async (input: {
   return payload
 }
 
+export const recordUnifiedAiProviderUsage = async (input: {
+  provider: string
+  modelId: string
+  keySource: "byok" | "viewtube"
+  inputTokens: number
+  outputTokens: number
+  rawCostUsd: number
+  usageSource: "provider_reported" | "estimate"
+  idempotencyKey: string
+  metadata?: Record<string, unknown>
+}): Promise<{ recorded: boolean; duplicate: boolean }> => {
+  const response = await fetch(accountUrl("/api/account/ai-usage/record"), {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(input),
+  })
+  return readJson<{ recorded: boolean; duplicate: boolean }>(response)
+}
+
 export const consumeUnifiedAiCredits = async (input: {
   credits: number
   idempotencyKey: string
