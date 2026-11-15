@@ -107,37 +107,58 @@ PR description says the slice:
 - `tasks/toolbox-workflow-convergence/todo.md` — recorded explicit CI remediation and visual/API certification tasks.
 - This conversation intake package: `handoff.md`, `worklog.json`, `review.md`.
 
-## 6. Verification and blockers
+## 6. Verification and blockers — latest reconciliation (2026-11-15)
 
-Workflow run 43677671858 completed with overall failure. Retrieved job steps showed:
-- production-build: PASS;
-- local-smoke: PASS;
-- brain-quality-loop: PASS;
-- gemini-governance: PASS;
-- focused-contracts: FAIL at Studio counter/dropdown regression gate; PR description reports the dedicated Comment Management test step passed before that gate;
-- static-quality: FAIL at typecheck;
-- conversation-handoff-contract: handoff contract and document-system tests passed, document audit failed;
-- source-governance: confirmed-catalog audit failed;
-- full-suite: FAIL.
+The earlier run 43677671858 and pending/cancelled runs are historical. The latest completed implementation-head workflow is [43699044473](https://github.com/viewtube-dev/viewtube/actions/runs/43699044473), run against commit `9985f1ea5574bbc4126b8899e82645be0d5dd1e8`. It completed with overall FAILURE.
 
-Logs were retrieved. The two CommentResponder contract failures concern the compact textarea source assertion and Post Reply accessible-label source assertion. Other failures include broad Studio Controls/catalog regressions, multiple typecheck issues, document-audit competing P1 workstream authorities, and 298 full-suite failures including missing Studio files/dependencies and Brain evidence contract mismatches. Workflow 43688189005 was cancelled while docs commits advanced the branch. Do not assume baseline or branch regression without comparison against the exact target branch. The prior assistant's earlier statement that checks were merely running is superseded by this completed workflow result.
+**Passing evidence**
+- Production build: PASS.
+- Local smoke: PASS.
+- Brain quality-loop: PASS.
+- Gemini governance: PASS.
+- Dedicated Comment Management workspace/shared engagement contracts: PASS.
+- `CommentResponder.contract.test.ts`: 9 tests PASS.
+- `creatorEngagementParity.test.ts`: 4 tests PASS, including the new typed thread partition fixture.
+- The two previously reported CommentResponder assertions (compact textarea source contract and Post Reply accessible-label source contract) are now passing. Do not continue treating them as active failures.
 
+**Remaining failed gates**
+- Focused-contracts: the Comment Management tests pass, then the independent Studio counter/dropdown regression gate fails on three assertions: double-split counter root-width formula, dropdown expected primary/accent background ownership, and hard-coded palette colors.
+- Static-quality: `npm run typecheck` fails on cross-domain Brain evidence/test typing, StudioControls exports/size contracts, StudioValueToggles prop typing and missing `@testing-library/react`. No typecheck diagnostics were reported in the modified CommentResponder, creator-engagement controller/type, or simpleYouTubeApi comment-contract paths after the typed-contract change.
+- Source-governance: confirmed-catalog audit fails on missing `src/styles/studio-split-text-input.css`, missing `StudioUsernameInput` / `StudioSplitLeftInput` P0 specimens, and focused field/focus/toggle/split-input contract assertions.
+- Conversation-handoff-contract: handoff contract tests (7) and document-system tests (4) pass; document audit fails on six competing ACTIVE P1 workstream concern families (Brain Continuity, Gemini Governance, Unified Diagnostics, Priority-25 Runtime, Public Resolver, Studio Controls).
+- Full suite: 296 failed tests across 86 files; 585 tests passed across 671. CommentResponder contract and creator-engagement parity tests both pass in this run.
+
+**Target-branch comparison**
+- The PR branch compared with `master/consolidated-feature-integration` as 41 commits ahead / 0 behind at the pre-continuation comparison, with 14 changed files.
+- The Studio counter/dropdown, confirmed-catalog and document-audit source files implicated in the failures are not in the PR's changed-file list.
+- This narrows ownership but does not replace an actual target-branch workflow baseline. Do not claim the remaining failures are pre-existing until the same gates are run against the exact target branch SHA.
+
+**Test-first typed-contract work**
+- Test-only commit `f75e1125088cd3f45cfc38bb39bdb385322ee4e7` added typed YouTube comment-thread fixtures and partition behavior coverage. The resulting typecheck correctly failed because `SimpleYouTubeCommentThread` had not yet been exported (the intended RED).
+- Follow-up commits introduced the service-owned comment/thread/page types, typed controller state and metadata cache, typed Studio inbox/thread rendering, and optional comment-text guards.
+- Implementation-head run 43699044473 confirms the focused comment tests pass and reports no type errors in those modified paths.
+
+No merge, production deployment, visual screenshot certification, authenticated live YouTube API certification, or merge-ready status is claimed.
+ 
 ## 7. Planned / unfinished work
 
-Use `tasks/toolbox-workflow-convergence/todo.md` as the surviving task checklist. Priority next actions:
+Use `tasks/toolbox-workflow-convergence/todo.md` as the surviving implementation checklist. Completed in this continuation:
+- Reconciled the two old CommentResponder assertions; both now pass.
+- Added typed `SimpleYouTubeComment`, `SimpleYouTubeCommentThread`, and page contracts at the existing YouTube service boundary.
+- Typed shared controller thread state, video metadata state, reply partitioning and inbound-image bridge parsing.
+- Removed comment-flow `any` annotations from `useCommentResponderController.ts` and `CommentResponder.tsx`.
+- Added hydrated/incomplete-thread and creator-reply partition coverage.
+- Updated the surviving todo with the latest CI receipt.
 
-1. Verify current PR #1274 state, latest head SHA, changed files and new workflow runs.
-2. Retrieve detailed logs for typecheck, full suite, confirmed-catalog audit, document audit and Studio counter/dropdown gate.
-3. Determine baseline versus introduced failures; fix proven issues with tests.
-4. Run focused CommentResponder contract, creator-engagement parity and Brain comment-engagement tests.
-5. Replace remaining weak comment/thread `any` contracts with canonical YouTube transport/view types.
-6. Expand Brain context only with available, permitted, source-attributed thread/video evidence.
-7. Add recommendation fixtures for strong, weak/no-fit, excluded source video, invalid IDs and sparse metadata.
-8. Wire existing moderation routes only after permission/error/refresh tests and explicit confirmation UI; no unverified actions.
-9. Verify current official YouTube endpoint/scope/quota/policy details before publishing capability claims.
-10. Complete Audience Pulse sample coverage and heuristic limitations.
-11. Complete desktop/tablet/mobile visual, keyboard, focus, touch and accessibility certification.
-12. Update the feature specification, plan, todo, and handoff with actual results; do not mark DONE without required evidence.
+Next actions, in order:
+1. Run the exact target-branch baseline for the failed Studio counter/dropdown, typecheck, confirmed-catalog, document-audit and full-suite gates; if workflow dispatch is unavailable, use a controlled CI method that does not mutate the target branch or create a duplicate feature PR.
+2. Fix only proven branch-introduced regressions; keep Studio Controls/catalog work with its canonical owner and avoid broad unrelated fixes in PR #1274.
+3. Add Brain comment-context evidence only from approved, source-attributed thread/video records; retain the existing Brain gateway/service.
+4. Add recommendation fixtures for strong match, weak/no match, excluded source video, invalid IDs and sparse metadata.
+5. Validate existing moderation routes and permission/error/refresh behavior before exposing explicit-confirmation controls.
+6. Validate Audience Pulse sample coverage and heuristic limitations.
+7. Complete desktop/tablet/mobile visual, keyboard, focus, touch and connection-state certification.
+8. Update docs and run full release gates on the final implementation head before changing PR readiness.
 
 ## 8. Risks / open decisions
 
