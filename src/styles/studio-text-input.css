@@ -120,3 +120,14 @@ html body [data-vt-studio-control="true"] textarea:is(:focus, :focus-visible) {
   -webkit-text-fill-color: #000;
   -webkit-text-stroke-color: #000;
 }
+
+
+/* Named field exception: split Studio text inputs are editable values, not
+   centered split labels/counter panels. They inherit StudioTextInput paint and
+   typography while keeping their value left-aligned for every rail layout. */
+html body .vt-studio-split-text-input input.vt-studio-split-text-input__field,
+html body .vt-studio-split-text-input input.vt-studio-side-text-counter__input {
+  text-align: left;
+  padding-inline-start: calc(var(--vt-studio-control-stroke, 3px) * 2);
+  padding-inline-end: calc(var(--vt-studio-control-stroke, 3px) * 2);
+}
