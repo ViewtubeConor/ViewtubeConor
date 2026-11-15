@@ -21,6 +21,7 @@ import {
   initAccountStore,
   setServerSubscription,
 } from "./account-store.mjs";
+import { SUBSCRIPTION_PLAN_BILLING } from "../shared/subscriptionPlanBilling.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
