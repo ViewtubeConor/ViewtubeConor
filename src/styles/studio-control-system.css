@@ -5540,6 +5540,109 @@ button[data-vt-studio-button="true"][data-vt-studio-button-lines="two"][data-vt-
 }
 
 
+/* Resource Split Button: reusable document-index row built from the shared split-left shell. */
+button.vt-studio-resource-split-button[data-vt-studio-button="true"] {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 76px;
+  height: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #000;
+  text-align: left;
+  overflow: visible;
+}
+button.vt-studio-resource-split-button[data-vt-studio-button="true"] > [data-vt-studio-button-face] {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: var(--vt-studio-control-height, 44px) minmax(0, 1fr);
+  min-height: 76px;
+  height: auto;
+  border: var(--vt-studio-control-stroke, 3px) solid #000;
+  border-radius: var(--vt-studio-control-radius, 6px);
+  background: #fff;
+  overflow: hidden;
+}
+button.vt-studio-resource-split-button[data-vt-studio-button="true"] [data-vt-studio-split-rail] {
+  display: grid;
+  box-sizing: border-box;
+  width: var(--vt-studio-control-height, 44px);
+  min-width: var(--vt-studio-control-height, 44px);
+  height: var(--vt-studio-control-height, 44px);
+  aspect-ratio: 1 / 1;
+  align-self: center;
+  place-items: center;
+  border-right: var(--vt-studio-control-stroke, 3px) solid #000;
+  background: var(--vt-studio-control-secondary-fill, color-mix(in srgb, white 50%, var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b))));
+}
+button.vt-studio-resource-split-button[data-vt-studio-button="true"] [data-vt-studio-split-rail] svg {
+  width: var(--vt-studio-control-icon-size, 38px);
+  height: var(--vt-studio-control-icon-size, 38px);
+}
+button.vt-studio-resource-split-button[data-vt-studio-button="true"] [data-vt-studio-split-label] {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  background: #fff;
+  text-align: left;
+}
+button.vt-studio-resource-split-button.is-active[data-vt-studio-button="true"] [data-vt-studio-split-label] {
+  background: color-mix(in srgb, var(--vt-resource-pair-primary, var(--pair-a, #36e0f6)) 11%, white);
+}
+.vt-studio-resource-split-button__copy {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  padding: 8px 9px;
+  text-align: left;
+}
+.vt-studio-resource-split-button__category {
+  min-width: 0;
+  color: var(--vt-resource-pair-secondary, var(--pair-b, #ff7f6b));
+  font-size: calc(var(--vt-studio-control-font-size, 38px) * .22);
+  line-height: 1.1;
+  font-weight: var(--vt-studio-control-font-weight, 1000);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.vt-studio-resource-split-button__title {
+  min-width: 0;
+  overflow: hidden;
+  font-size: calc(var(--vt-studio-control-font-size, 38px) * .32);
+  line-height: 1.08;
+  font-weight: var(--vt-studio-control-font-weight, 1000);
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+}
+.vt-studio-resource-split-button__meta {
+  font-size: calc(var(--vt-studio-control-font-size, 38px) * .24);
+  line-height: 1.1;
+  font-weight: 800;
+  opacity: .6;
+}
+.vt-studio-resource-split-button__completed {
+  align-self: flex-start;
+  margin-top: 3px;
+  font-size: calc(var(--vt-studio-control-font-size, 38px) * .22);
+  font-weight: 1000;
+  text-transform: uppercase;
+}
+button.vt-studio-resource-split-button:hover,
+button.vt-studio-resource-split-button:focus-visible {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--vt-resource-pair-primary, var(--pair-a, #36e0f6)) 24%, transparent);
+}
+
 /* Collapsing split module: reuses the canonical split-module geometry and palette. */
 .vt-studio-collapsing-split-module > .vt-studio-collapsing-split-module__head {
   display: grid;
