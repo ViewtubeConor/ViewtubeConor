@@ -4550,7 +4550,7 @@ button.vt-studio-vertical-word-toggle[data-vt-studio-control="true"],
   position: relative;
   box-sizing: border-box;
   display: block;
-  width: 100%;
+  width: auto;
   min-width: 0;
   height: auto;
   min-height: var(--vt-studio-textarea-min-height, 92px);
