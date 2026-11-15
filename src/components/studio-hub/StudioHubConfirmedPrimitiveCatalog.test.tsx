@@ -1216,6 +1216,8 @@ describe("confirmed Studio toggle row-fill contract", () => {
       expect(css).toMatch(new RegExp(`data-vt-library-component=["']${primitive}["'][^}]*grid-template-columns: minmax\\(0, 1fr\\)`, "s"));
     }
     expect(css).toContain(".vt-confirmed-control-variants[data-vt-library-component]");
+    expect(css).toContain('.vt-confirmed-control-variants[data-vt-library-component="StudioWordToggle"]');
+    expect(css).toContain("grid-template-columns: minmax(0, 1fr)");
   });
 
   it("does not apply intrinsic-width or fixed-content sizing to switch, choice, or value-toggle primitives", () => {
@@ -1230,9 +1232,8 @@ describe("confirmed Studio toggle row-fill contract", () => {
       ".vt-studio-arrow-toggle",
       ".vt-studio-bar-toggle",
     ]) expect(intrinsic).not.toContain(selector);
-    expect(intrinsic).not.toContain("width: auto !important");
-    expect(intrinsic).not.toContain("max-width: max-content !important");
-    expect(intrinsic).not.toContain("flex: 0 0 auto !important");
+    const controlSystem = readStudioControlCss();
+    expect(controlSystem).toMatch(/button\\.vt-studio-44-switch,\\s*button\\.vt-studio-44-choice\\s*\\{[^}]*width:\\s*100%/s);
   });
 
   it("keeps word-toggle intrinsic sizing as the explicit documented exception", () => {
