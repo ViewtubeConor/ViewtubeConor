@@ -70,3 +70,31 @@ No migration is authorized by this matrix alone. Each row requires a final file-
 - PR #1256 head `a12059eed1b2f3e09b3d6539cb914fa399688070` is an ancestor of current target. The target promotion service resolves evidence from canonical, channel-scoped records actually returned on candidate traces.
 - Target `BrainTrace.ts` still states that the default sink is browser-local and capped; durable server-side trace storage, fresh-session hydration, server authorization and global idempotency remain separate gaps.
 - Workflow lookup returned no runs for current target SHA `52c6e90f...`; PR #1241 head has a completed release-gates workflow with conclusion `failure`. The failed job details were not inspected and no test pass is claimed for current target.
+
+
+## Additional source checks — 2026-11-14
+
+| Donor / PR | Target-side source verification | Decision |
+|---|---|---|
+| PR #1096 / workspace Phase 4 v2 | Target composer already has Context, Journal and a Clear draft action; target draft store is byte-identical to donor. Donor includes a bounded textarea resize callback and additional handoff behavior; target does not contain the same resize callback. | Preserve unique behavior only after component-level tests and mobile verification. Exclude Studio catalog/audit edits from this Brain migration. |
+| PR #1087 / #1084 / #1083 / #1079 | Target `aiBrainContext.ts` contains `legacyPatch` + `preserveExisting`; `CreatorAnswerEvidence.ts` contains `buildScopedCreatorAnswerEvidenceRecords`; `PromptEvidenceIntegrity.ts` contains `readCreatorAnswerEvidenceRecords`. | Core behavior already present. Compare assertions and edge cases; do not replay duplicated variants. |
+| PR #1053 | Target canonical context source has the later stale-profile patch logic. | Likely superseded in code; review any unique tests and event-notification semantics. |
+| PR #1197 | Head SHA `51d8f3957ab804b9d085ce7fd15c8afdf11ab455` is the compare merge-base and target is 0 commits ahead of that branch (branch is an ancestor). | Already represented in target history; verify active caller state rather than replaying. |
+| PR #1196 | Target and donor `src/services/gemini.ts` blob SHA both `56df81588d936a99d9423f41d54eef9d494b7c92`; target `creatorAssets.ts` and tag callers use governed asset generation. | Equivalent implementation exists; no replay of identical source. |
+| PR #1125 | Donor adds model-specific generation fallback validation. Target instead validates the credential through `models.list()`, classifies credential rejection separately, and saves locally on transient/model-catalog failures. | Donor helper is not automatically required; current target contract is intentionally model-independent. |
+| PR #1126 | PR base is `main`, not the requested integration target. | Separate-base reference only; no direct merge or cherry-pick. |
+
+### Gemini caller surface checkpoint
+
+The following requested target files were fetched from the current target:
+
+- `GenerationWorkflow.ts`: ContentBuild generation request/receipt orchestration; no direct provider SDK call found in the fetched source.
+- `creatorAssets.ts`: governed AssetGenerator strategy entry points exist, including tag strategy.
+- `MetadataMaster.tsx`: calls `generateVideoPublisherSeoPackage` from canonical `creatorAssets.ts`.
+- `SeoGenerator.tsx`: calls the same governed video-publisher SEO service.
+- `VideoManager.tsx`: calls `generateGovernedTagSuggestions`.
+- `TagGeneratorWidget.tsx`: calls `generateGovernedTagSuggestions`.
+- `TitleRewriterWidget.tsx`: imports `defaultBrainModelGateway`.
+- `VideoUploaderWidget.tsx`: calls governed tag, timestamp and SEO generation services.
+
+This is an import/call-surface check only. It does not yet prove all internal helpers use the canonical resolver, nor does it certify every execution path or release-gate job.
