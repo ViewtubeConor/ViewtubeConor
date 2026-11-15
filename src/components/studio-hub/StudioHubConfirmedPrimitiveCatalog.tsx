@@ -1998,99 +1998,61 @@ const ConfirmedStudioValueToggleFamily: React.FC = () => {
   const sizeLabels = ["60PX SUPREME", "44PX STANDARD", "28PX COMPACT", "20PX MINI", "12PX MICRO"] as const
   const options = ["ONE", "TWO", "THREE"] as const
   const sideOptions = ["LOW", "MID", "HIGH"] as const
-  const iconSides = ["left", "right", "double"] as const
-  const arrowSides = ["left", "right"] as const
-  const doubleSideVariants = [
-    { variant: "v1", appearance: "primary", label: "V1 · PRIMARY RIGHT" },
-    { variant: "v1", appearance: "secondary", label: "V1 · SECONDARY RIGHT" },
-    { variant: "v1", appearance: "black-primary-text", label: "V1 · BLACK / PRIMARY TEXT RIGHT" },
-    { variant: "v2", appearance: "primary", label: "V2 · PRIMARY RIGHT" },
-    { variant: "v2", appearance: "secondary", label: "V2 · SECONDARY RIGHT" },
-    { variant: "v2", appearance: "black-primary-text", label: "V2 · BLACK / PRIMARY TEXT RIGHT" },
-  ] as const
-  const [arrowValues, setArrowValues] = React.useState(Array(15).fill("ONE"))
-  const [sideValues, setSideValues] = React.useState(Array(10).fill("LOW"))
-  const [leftValues, setLeftValues] = React.useState(Array(30).fill("SOURCE"))
-  const [rightValues, setRightValues] = React.useState(Array(30).fill("TARGET"))
+  const [arrowValues, setArrowValues] = React.useState(Array(5).fill("ONE"))
+  const [sideValues, setSideValues] = React.useState(Array(5).fill("LOW"))
+  const [leftValues, setLeftValues] = React.useState(Array(5).fill("SOURCE"))
+  const [rightValues, setRightValues] = React.useState(Array(5).fill("TARGET"))
   const [barValues, setBarValues] = React.useState([25, 40, 55, 70, 85])
   const updateAt = <T,>(setter: React.Dispatch<React.SetStateAction<T[]>>, index: number, value: T) =>
     setter(current => current.map((previous, itemIndex) => itemIndex === index ? value : previous))
   return (
     <>
       <Family title="Arrow Toggle · Five Sizes × Left / Right / Double Rails" nonDefaultSettings={[
-        "Arrow Toggle covers left, right, and double square icon-rail layouts at all five canonical sizes."
-      ]} provenance={<Provenance primitive="StudioArrowToggle" tsx="src/studio-ui/primitives/StudioValueToggles.tsx" css="src/styles/studio-control-value-toggles.css" tokens="Five canonical Studio size tiers; shared token-owned split-shell geometry and focus behavior." imports={["src/studio-ui/primitives/StudioValueToggles.tsx", "src/styles/studio-control-value-toggles.css"]} />}>
-        <div className="vt-confirmed-toggle-subfamily">
-        <strong>ARROW TOGGLE · LEFT / RIGHT / DOUBLE ICON RAILS × FIVE SIZES</strong>
-        {sizes.map((size, sizeIndex) => <div className="vt-confirmed-control-row" key={"arrow-" + size}>
-          <strong>{sizeLabels[sizeIndex]}</strong>
-          <div className="vt-confirmed-control-variants" data-control-size={size} data-vt-library-component="StudioArrowToggle">
-            {iconSides.map((iconSide, variantIndex) => {
-              const index = sizeIndex * iconSides.length + variantIndex
-              return <div key={iconSide}>
-                <small>{iconSide.toUpperCase()} ICON RAIL</small>
-                <StudioArrowToggle size={size} iconSide={iconSide} value={arrowValues[index]} options={options}
-                  onValueChange={value => updateAt(setArrowValues, index, value)}
-                  ariaLabel={size + " arrow toggle " + iconSide + " rail"} />
-              </div>
-            })}
-          </div>
-        </div>)}
-      </div>
+        "Exactly one canonical specimen per size. The production primitive retains its left, right, and double-rail API; the library module does not multiply those options into extra specimens."
+      ]} provenance={<Provenance primitive="StudioArrowToggle" tsx="src/studio-ui/primitives/StudioValueToggles.tsx" css="src/styles/studio-control-value-toggles.css" tokens="Supreme / Standard / Compact / Mini / Micro; global automatic row width; canonical shared geometry and focus behavior." imports={["src/studio-ui/primitives/StudioValueToggles.tsx", "src/styles/studio-control-value-toggles.css"]} />}>
+        <div className="vt-confirmed-toggle-subfamily vt-confirmed-value-toggle-module" data-vt-library-module="StudioArrowToggle">
+          {sizes.map((size, index) => <div className="vt-confirmed-control-row vt-confirmed-value-toggle-row" key={"arrow-" + size} data-vt-library-component="StudioArrowToggle" data-control-size={size}>
+            <strong>{sizeLabels[index]}</strong>
+            <StudioArrowToggle size={size} value={arrowValues[index]} options={options}
+              onValueChange={value => updateAt(setArrowValues, index, value)}
+              ariaLabel={size + " arrow toggle"} />
+          </div>)}
+        </div>
       </Family>
       <Family title="Side Toggle · Five Sizes × Left / Right Arrow Orientation" nonDefaultSettings={[
-        "Side Toggle covers both left-rail and right-rail arrow orientations at all five canonical sizes."
-      ]} provenance={<Provenance primitive="StudioSideToggle" tsx="src/studio-ui/primitives/StudioValueToggles.tsx" css="src/styles/studio-control-value-toggles.css" tokens="Five canonical Studio size tiers; shared token-owned split-shell geometry and focus behavior." imports={["src/studio-ui/primitives/StudioValueToggles.tsx", "src/styles/studio-control-value-toggles.css"]} />}>
-        <div className="vt-confirmed-toggle-subfamily">
-        <strong>SIDE TOGGLE · LEFT / RIGHT ARROW ORIENTATION × FIVE SIZES</strong>
-        {sizes.map((size, sizeIndex) => <div className="vt-confirmed-control-row" key={"side-" + size}>
-          <strong>{sizeLabels[sizeIndex]}</strong>
-          <div className="vt-confirmed-control-variants" data-control-size={size} data-vt-library-component="StudioSideToggle">
-            {arrowSides.map((arrowSide, variantIndex) => {
-              const index = sizeIndex * arrowSides.length + variantIndex
-              return <div key={arrowSide}>
-                <small>{arrowSide.toUpperCase()} ACTION RAIL</small>
-                <StudioSideToggle size={size} arrowSide={arrowSide} value={sideValues[index]} options={sideOptions}
-                  onValueChange={value => updateAt(setSideValues, index, value)}
-                  ariaLabel={size + " side toggle " + arrowSide + " action rail"} />
-              </div>
-            })}
-          </div>
-        </div>)}
-      </div>
+        "Exactly one canonical specimen per size using the primitive's default arrow orientation. Left/right orientation remains a supported primitive prop, not a second catalog column."
+      ]} provenance={<Provenance primitive="StudioSideToggle" tsx="src/studio-ui/primitives/StudioValueToggles.tsx" css="src/styles/studio-control-value-toggles.css" tokens="Supreme / Standard / Compact / Mini / Micro; global automatic row width; canonical shared geometry and focus behavior." imports={["src/studio-ui/primitives/StudioValueToggles.tsx", "src/styles/studio-control-value-toggles.css"]} />}>
+        <div className="vt-confirmed-toggle-subfamily vt-confirmed-value-toggle-module" data-vt-library-module="StudioSideToggle">
+          {sizes.map((size, index) => <div className="vt-confirmed-control-row vt-confirmed-value-toggle-row" key={"side-" + size} data-vt-library-component="StudioSideToggle" data-control-size={size}>
+            <strong>{sizeLabels[index]}</strong>
+            <StudioSideToggle size={size} value={sideValues[index]} options={sideOptions}
+              onValueChange={value => updateAt(setSideValues, index, value)}
+              ariaLabel={size + " side toggle"} />
+          </div>)}
+        </div>
       </Family>
       <Family title="Double Side Toggle · Five Sizes × V1 / V2 × Three Right Faces" nonDefaultSettings={[
-        "Double Side Toggle covers V1 and V2 divider treatment plus primary, secondary, and black-primary-text right faces at all five sizes."
-      ]} provenance={<Provenance primitive="StudioDoubleSideToggle" tsx="src/studio-ui/primitives/StudioValueToggles.tsx" css="src/styles/studio-control-value-toggles.css" tokens="Five canonical Studio size tiers; shared token-owned split-shell geometry and focus behavior." imports={["src/studio-ui/primitives/StudioValueToggles.tsx", "src/styles/studio-control-value-toggles.css"]} />}>
-        <div className="vt-confirmed-toggle-subfamily">
-        <strong>DOUBLE SIDE TOGGLE · V1 / V2 × THREE RIGHT-FACE APPEARANCES × FIVE SIZES</strong>
-        {sizes.map((size, sizeIndex) => <div className="vt-confirmed-control-row" key={"double-side-" + size}>
-          <strong>{sizeLabels[sizeIndex]}</strong>
-          <div className="vt-confirmed-control-variants" data-control-size={size} data-vt-library-component="StudioDoubleSideToggle">
-            {doubleSideVariants.map(({ variant, appearance, label }, variantIndex) => {
-              const index = sizeIndex * doubleSideVariants.length + variantIndex
-              return <div key={variant + "-" + appearance}>
-                <small>{label}</small>
-                <StudioDoubleSideToggle size={size} variant={variant} rightAppearance={appearance}
-                  left={{ value: leftValues[index], options: ["SOURCE", "INPUT", "ORIGIN"], onValueChange: value => updateAt(setLeftValues, index, value), ariaLabel: size + " double side left " + label }}
-                  right={{ value: rightValues[index], options: ["TARGET", "OUTPUT", "DESTINATION"], onValueChange: value => updateAt(setRightValues, index, value), ariaLabel: size + " double side right " + label }} />
-              </div>
-            })}
-          </div>
-        </div>)}
-      </div>
+        "Exactly one canonical V1 / primary-right specimen per size. V2 and alternate right-face appearances remain supported primitive options, not extra catalog specimens."
+      ]} provenance={<Provenance primitive="StudioDoubleSideToggle" tsx="src/studio-ui/primitives/StudioValueToggles.tsx" css="src/styles/studio-control-value-toggles.css" tokens="Supreme / Standard / Compact / Mini / Micro; global automatic row width; canonical shared geometry and focus behavior." imports={["src/studio-ui/primitives/StudioValueToggles.tsx", "src/styles/studio-control-value-toggles.css"]} />}>
+        <div className="vt-confirmed-toggle-subfamily vt-confirmed-value-toggle-module" data-vt-library-module="StudioDoubleSideToggle">
+          {sizes.map((size, index) => <div className="vt-confirmed-control-row vt-confirmed-value-toggle-row" key={"double-side-" + size} data-vt-library-component="StudioDoubleSideToggle" data-control-size={size}>
+            <strong>{sizeLabels[index]}</strong>
+            <StudioDoubleSideToggle size={size} variant="v1" rightAppearance="primary"
+              left={{ value: leftValues[index], options: ["SOURCE", "INPUT", "ORIGIN"], onValueChange: value => updateAt(setLeftValues, index, value), ariaLabel: size + " double side left" }}
+              right={{ value: rightValues[index], options: ["TARGET", "OUTPUT", "DESTINATION"], onValueChange: value => updateAt(setRightValues, index, value), ariaLabel: size + " double side right" }} />
+          </div>)}
+        </div>
       </Family>
       <Family title="Bar Toggle · Five Sizes" nonDefaultSettings={[
-        "Bar Toggle has an independent controlled value at every size and exposes its percentage tooltip on track hover and keyboard focus."
-      ]} provenance={<Provenance primitive="StudioBarToggle" tsx="src/studio-ui/primitives/StudioValueToggles.tsx" css="src/styles/studio-control-value-toggles.css" tokens="Five canonical Studio size tiers; shared token-owned split-shell geometry and focus behavior." imports={["src/studio-ui/primitives/StudioValueToggles.tsx", "src/styles/studio-control-value-toggles.css"]} />}>
-        <div className="vt-confirmed-toggle-subfamily">
-        <strong>BAR TOGGLE · FIVE SIZES</strong>
-        {sizes.map((size, index) => <div className="vt-confirmed-control-row" key={"bar-" + size} data-vt-library-component="StudioBarToggle">
-          <strong>{sizeLabels[index]} · {barValues[index]}%</strong>
-          <StudioBarToggle size={size} value={barValues[index]} onValueChange={value => updateAt(setBarValues, index, value)}
-            ariaLabel={size + " bar toggle level"} />
-        </div>)}
-      </div>
+        "Exactly one independently controlled bar-toggle specimen per canonical size. Percentage tooltip remains available on track hover and keyboard focus."
+      ]} provenance={<Provenance primitive="StudioBarToggle" tsx="src/studio-ui/primitives/StudioValueToggles.tsx" css="src/styles/studio-control-value-toggles.css" tokens="Supreme / Standard / Compact / Mini / Micro; global automatic row width; canonical shared geometry and focus behavior." imports={["src/studio-ui/primitives/StudioValueToggles.tsx", "src/styles/studio-control-value-toggles.css"]} />}>
+        <div className="vt-confirmed-toggle-subfamily vt-confirmed-value-toggle-module" data-vt-library-module="StudioBarToggle">
+          {sizes.map((size, index) => <div className="vt-confirmed-control-row vt-confirmed-value-toggle-row" key={"bar-" + size} data-vt-library-component="StudioBarToggle" data-control-size={size}>
+            <strong>{sizeLabels[index]} · {barValues[index]}%</strong>
+            <StudioBarToggle size={size} value={barValues[index]} onValueChange={value => updateAt(setBarValues, index, value)}
+              ariaLabel={size + " bar toggle level"} />
+          </div>)}
+        </div>
       </Family>
     </>
   )
