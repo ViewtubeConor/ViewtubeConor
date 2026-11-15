@@ -153,3 +153,45 @@ No repository checkout or executable test environment was available through this
 - PR #1256 head `a12059eed1b2f3e09b3d6539cb914fa399688070` is likewise an ancestor of current target (0 ahead / 31 behind). Current target `AlgorithmLearningProfilePromotion.ts` imports `listBrainTraces`, `isEvidenceRecord`, and resolves candidate evidence only from canonical channel-scoped records actually returned on candidate traces.
 - Current target `BrainTrace.ts` still explicitly documents that the default sink is browser-local, capped, per-device, and not the durable server-side destination. Cross-session persistence and server authorization remain open, not solved by the merged promotion resolver.
 - Workflow lookup returned no runs for current target SHA `52c6e90f...`; PR #1241 head `b339f5e8...` has a completed release-gates workflow with conclusion `failure`. This does not identify the failing job details, and no test pass is claimed for the current target.
+
+
+## 10. Expanded branch and PR discovery checkpoint (2026-11-14)
+
+Branch search was expanded beyond the initial candidate list:
+
+- Query `brain`: 343 matching branch names.
+- Query `gemini`: 29 matching branch names.
+- Query `evidence`: 71 matching branch names.
+- Query `context`: 39 matching branch names.
+- Query `creator`: 37 matching branch names.
+- The union of the latter four result sets contains 159 names (queries overlap; this is not a count of unique candidate workstreams).
+- Many creator matches are unrelated Creator Workbench branches and must be excluded after scope classification. These counts are search-result counts, not completed branch audits.
+
+Additional high-relevance candidate branches discovered include:
+
+- Evidence/context lineage: `brain-phase-0-2-evidence-context`, `brain-phase-0-2-evidence-context-reconciled`, `feat/brain-evidence-unification-runtime`, `feat/brain-evidence-provenance-phase2-2026-10-19`, `feat/brain-evidence-phases-6-8-2026-10-15`, `feat/brain-turn-evidence-continuity-phase-3-2026-10-28`, `feat/brain-public-channel-evidence-integration-2026-10-27`, `feat/brain-live-attribution-project-context-2026-10-15`, `feat/brain-durable-learning-persistence-current-base-2026-10-15`, `feat/brain-durable-learning-persistence-integration-2026-10-15`, `feat/brain-durable-learning-persistence-phase13-2026-10-15`.
+- Context/profile continuity: `fix/brain-context-autosave-evidence-unification-2026-10-28`, `fix/brain-context-evidence-local-storage-2026-10-28`, `fix/brain-unified-context-evidence-current-base-2026-10-28`, `feat/brain-context-correction-governance-rebased-2026-10-22`, `fix/brain-project-context-current-base-2026-10-27`, `fix/brain-project-context-handoff-2026-10-27`, `fix/brain-project-context-identity-isolation-2026-10-15`, `fix/brain-required-context-truncation-2026-10-17`, `fix/brain-retry-active-context-2026-10-27`.
+- Gemini/provider: `feat/gemini-canonical-registry-phase-1-2-3`, `feat/gemini-governance-phases-0-3-reconciled-2026-10-28`, `feat/gemini-phase-4-secure-fallback-observability`, `feat/gemini-provider-execution-convergence-phase-4`, `feat/p1-gemini-governed-callers-final-2026-10-30`, `feat/p1-gemini-governance-expanded-callers-2026-10-30`, `fix/gemini-model-discovery-validation`, `fix/gemini-key-validation-model`.
+- Composer/workspace: `ai-brain-composer-redesign-2026-10-26`, `codex/ai-brain-mobile-composer-viewport-2026-10-24`, `feat/brain-composer-dock`, `feat/brain-local-composer-draft-recovery-2026-10-28`, `feat/brain-studio-workspace-phase3-reconciled-2026-10-28`, `fix/brain-composer-style-ownership-2026-10-29`, `fix/brain-composer-max-height-contract`.
+
+The branch-name search results are not a substitute for exact HEAD SHA capture or compare/diff review. Candidate branch SHA and PR ancestry capture remains in progress.
+
+### Additional PR discoveries
+
+The all-state PR listing was paged beyond the first page. Additional relevant PRs include:
+
+- **Gemini/provider:** #1168, #1145, #1142, #1134, #1131, #1126, #1125, #1124, #1123, #1120, #1116, #1109, #1197, #1196, #1195, #1194, #1192, #1191.
+- **Brain evidence/context/profile:** #1118, #1117, #1104, #1094, #1093, #1089, #1087, #1086, #1084, #1083, #1079, #1071, #1069, #1061, #1060, #1053, #1049, #1048, #1045, #1041, #1038, #1034, #1033, #1028, #1026, #1025, #1024, #1022, #1020.
+- **Composer/workspace/UI contracts:** #1161, #1157, #1148, #1147, #1103, #1101, #1100, #1098, #1096, #1095, #1017, #1015, #1014, #1012, #1011, #1009, #1007, #1004, #1001, #999, #997, #996, #995, #994.
+
+The first two PR pages contain numerous merged predecessors. Closed/unmerged PRs are not assumed to have no value; compare and source inspection is required. Several candidate branches are ancestors of current target even though their PRs are marked closed/unmerged. In particular, target source inspection confirms canonical profile patching, scoped creator evidence, and persisted creator-answer evidence validation are present.
+
+### Newly confirmed disposition details
+
+- PR #1096 is closed/unmerged and contains 17 commits / 14 files. Its donor adds composer draft attachment/clear behavior, handoff labels, bounded auto-resize, and workspace discovery behavior, but also modifies Studio primitive catalog/audit files. Do not port the whole branch. Current target composer already exposes Context and Journal and contains a Clear draft affordance; the draft store is byte-identical. Bounded textarea auto-resize remains a candidate behavior gap requiring exact UI/runtime verification.
+- PRs #1087, #1084, #1083 and #1079 are closed/unmerged divergent context/evidence attempts. Their patches overlap heavily. Current target already contains the later stale-profile protection in `aiBrainContext.ts`, scoped creator-answer evidence in `CreatorAnswerEvidence.ts`, and creator-answer snapshot validation in `PromptEvidenceIntegrity.ts`. Do not replay older variants wholesale. Verify current tests and edge cases before marking the behavior certified.
+- PR #1053 is closed/unmerged and contains canonical profile migration/persistence changes; current target source already has the later canonical profile patch behavior. Review the remaining unique tests/notification behavior before disposition.
+- PR #1197 is closed/unmerged but its head is an ancestor of current target; it is already represented by target history.
+- PR #1196 is closed/unmerged; its branch source for `src/services/gemini.ts` is byte-identical to target at blob `56df81588d936a99d9423f41d54eef9d494b7c92`. The target also has the governed tag strategy and migrated tag callers. No replay of identical code.
+- PR #1125's model-list/generation fallback helper is absent from target. However, target key validation already uses model-list discovery and explicitly separates credential acceptance from a guessed generation model. The donor fallback helper is not automatically required and appears superseded by the safer model-list validation contract; preserve the distinction and do not transplant it without a proven gap.
+- PR #1126 targets `main`, not the requested integration target; treat it as a separate-base donor and inspect only if it contains behavior not already represented by the target's current key-validation contract.
