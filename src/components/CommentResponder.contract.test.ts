@@ -67,7 +67,8 @@ describe("Comment Responder Studio Hub contract", () => {
  it("uses compact Studio control sizes throughout the unified comment responder", () => {
   expect(view).toContain('sizeVariant="compact"')
   expect(view).toContain('heightVariant="28"')
-  expect(view).toContain('sizeVariant="compact" className="min-h-[54px] flex-1"')
+  expect(view).toContain('sizeVariant="compact"')
+  expect(view).toContain('className="min-h-[54px] flex-1"')
  })
 
  it("renders the selected conversation with participant avatars and message bubbles", () => {
