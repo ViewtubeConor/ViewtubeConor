@@ -195,3 +195,20 @@ The first two PR pages contain numerous merged predecessors. Closed/unmerged PRs
 - PR #1196 is closed/unmerged; its branch source for `src/services/gemini.ts` is byte-identical to target at blob `56df81588d936a99d9423f41d54eef9d494b7c92`. The target also has the governed tag strategy and migrated tag callers. No replay of identical code.
 - PR #1125's model-list/generation fallback helper is absent from target. However, target key validation already uses model-list discovery and explicitly separates credential acceptance from a guessed generation model. The donor fallback helper is not automatically required and appears superseded by the safer model-list validation contract; preserve the distinction and do not transplant it without a proven gap.
 - PR #1126 targets `main`, not the requested integration target; treat it as a separate-base donor and inspect only if it contains behavior not already represented by the target's current key-validation contract.
+
+
+## 11. Deliverable crosswalk
+
+The requested seven deliverables are being satisfied without duplicating existing canonical authorities:
+
+| Requested deliverable | Repository artifact | Disposition |
+|---|---|---|
+| `AI_BRAIN_CONSOLIDATION_INVENTORY.md` | `docs/brain/AI_BRAIN_CONSOLIDATION_INVENTORY.md` | Created |
+| `AI_BRAIN_SOURCE_RECONCILIATION_MATRIX.md` | `docs/brain/AI_BRAIN_SOURCE_RECONCILIATION_MATRIX.md` | Created |
+| `AI_BRAIN_CANONICAL_ARCHITECTURE.md` | `docs/domains/BRAIN.md` | Existing canonical architecture authority; do not create a competing duplicate |
+| `AI_BRAIN_EVIDENCE_AND_CONTEXT_INTEGRATION_MAP.md` | `tasks/system-convergence/AI-BRAIN-PHASE-0-1-RECONCILIATION-2026-11-11.md` | Existing source-to-Brain map refreshed with current target baseline and findings |
+| `AI_BRAIN_GEMINI_CALLER_MIGRATION_STATUS.md` | `docs/architecture/GEMINI_MODEL_CALLSITE_INVENTORY.md` | Existing call-site authority updated with current-target caller checkpoint |
+| `AI_BRAIN_CONSOLIDATION_TEST_AND_VERIFICATION_REPORT.md` | `docs/brain/AI_BRAIN_CONSOLIDATION_TEST_AND_VERIFICATION_REPORT.md` | Created; records tests not run and current CI evidence |
+| `AI_BRAIN_CONSOLIDATION_HANDOFF.md` | `docs/brain/AI_BRAIN_CONSOLIDATION_HANDOFF.md` | Created; records exact continuation state |
+
+This crosswalk is a documentation decision, not a claim that all seven content domains are fully audited or certified.
