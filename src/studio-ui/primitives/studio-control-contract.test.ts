@@ -273,3 +273,15 @@ describe("Brain chat layout and prompt library contract", () => {
     expect(page).toContain("if (presentation.tone === \"ready\") return null");
   });
 });
+
+
+describe("Studio side-toggle text color contract", () => {
+  it("uses the active pair color at rest and preserves black focused text", () => {
+    const css = read("src/styles/studio-control-value-toggles.css");
+    expect(css).toContain(".vt-studio-value-toggle--side .vt-studio-value-toggle__face");
+    expect(css).toContain(".vt-studio-value-toggle--double .vt-studio-value-toggle__double-side .vt-studio-value-toggle__face");
+    expect(css).toContain("color: var(--vt-toggle-fill");
+    expect(css).toContain(".vt-studio-value-toggle--double .vt-studio-value-toggle__double-side:focus-within .vt-studio-value-toggle__face");
+    expect(css).toContain("-webkit-text-stroke-color: var(--vt-studio-number-active-stroke, #000)");
+  });
+});
