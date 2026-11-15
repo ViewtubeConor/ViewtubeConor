@@ -254,3 +254,12 @@ Workflow run 43004496051 for PR head b339f5e8 completed with failure:
 - Focused-contracts stopped after three Studio counter/dropdown assertions: counter-root-width formula, primary background ownership, and hard-coded fallback palette detection.
 - Typecheck in static-quality reported missing Studio exports/files and stale catalog contracts (including StudioUsernameInput, StudioSplitLeftInput, StudioChatActionGroup, StudioPanelAccordion, StudioLeftWordVariant), incompatible size variants and a missing @testing-library/react type/module.
 - Failures are a mixed integration-baseline / Studio-contract problem; they do not by themselves falsify Brain-specific context-manifest logic. Four passing jobs do not make the candidate release-ready.
+
+
+## 13. Complete title-matched PR register
+
+The GitHub REST PR listing was paged across all 1,270 repository PR records (13 full pages; pages 14–15 empty). Title matching Brain/Gemini/Evidence/Context found 360 PR records, of which 76 are unmerged: 5 open and 71 closed without a merge commit. The 76-entry register includes head/base branches and current-target disposition for the highest-priority items:
+
+- [AI_BRAIN_UNMERGED_PR_DISPOSITION_REGISTER.md](AI_BRAIN_UNMERGED_PR_DISPOSITION_REGISTER.md)
+
+Important open PRs: #1241 provenance (selective recovery), #522 required-context gate (missing behavior; regression now reproduced), #657 learning receipts (already present on target), #644 master resource/skill (already present at canonical target paths). One other title match (#5) is unrelated recovery work targeting main. Closed PR #1254 is already represented by later merged #1256. Superseded Gemini caller PRs #1191–#1197 are superseded by merged #1198.
