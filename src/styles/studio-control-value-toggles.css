@@ -212,3 +212,13 @@
     -webkit-text-stroke-color var(--vt-studio-focus-outline-fade-ms, 500ms) ease-out;
 }
 /* Double-side toggle uses the same unmodified side-counter rails and action cells. */
+
+
+/* Side and double-side toggles follow the shared value-control color lifecycle:
+   pair-colored label at rest; the focused half switches to black through the
+   shared focus rules above. The active pair follows each half's own fill. */
+.vt-studio-value-toggle--side .vt-studio-value-toggle__face {
+  color: var(--vt-toggle-fill, var(--pair-a));
+  -webkit-text-fill-color: currentColor;
+  -webkit-text-stroke-color: currentColor;
+}
