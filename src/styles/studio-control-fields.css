@@ -201,7 +201,7 @@ html body [data-vt-studio-control="true"] textarea:is(:focus, :focus-visible) {
   background-color: var(--vt-field-fill-focus, color-mix(in srgb, white 85%, var(--vt-field-primary, var(--vt-studio-control-accent, var(--pair-a, #36e0f6))) 15%));
   color: var(--vt-field-text-focus, #000);
   -webkit-text-fill-color: var(--vt-field-text-focus, #000);
-  -webkit-text-stroke-color: var(--vt-field-text-stroke-focus, #000);
+  -webkit-text-stroke: var(--vt-studio-textarea-glyph-stroke, 0.5px) #000;
   outline: var(--vt-field-focus-outline, calc(var(--vt-studio-control-stroke, 3px) * .65) solid var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b)));
   outline-offset: 0;
   caret-color: var(--vt-field-caret-focus, var(--vt-field-primary, var(--pair-a, #36e0f6)));
