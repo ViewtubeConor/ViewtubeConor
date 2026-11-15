@@ -34,7 +34,6 @@
   border-inline-end: var(--vt-studio-panel-stroke) solid #000;
   background: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
   overflow: visible;
-  /* Match outer shell radius on the left side so fill does not produce sharp corners */
   border-top-left-radius: var(--vt-studio-panel-radius);
   border-bottom-left-radius: var(--vt-studio-panel-radius);
 }
@@ -82,8 +81,7 @@
 }
 
 /* Shared speech-bubble tooltip: same shape and tokens as the bar toggle's value bubble.
-   Positioned outside the rail so it overflows the component's black border.
-   Made slightly taller with larger type per representative feedback. */
+   Positioned outside the rail so it overflows the component's black border. */
 .vt-studio-panel-accordion__tooltip {
   position: absolute;
   z-index: 60;
@@ -135,7 +133,6 @@
   padding: var(--vt-studio-space-unit, 4px);
   overflow-wrap: anywhere;
   background: color-mix(in srgb, white 85%, var(--vt-studio-control-accent, var(--pair-a, #36e0f6)) 15%);
-  /* Match outer shell radius on the right side */
   border-top-right-radius: var(--vt-studio-panel-radius);
   border-bottom-right-radius: var(--vt-studio-panel-radius);
 }
