@@ -56,7 +56,7 @@ The new `DOC-SPEC-COMMENT-MANAGEMENT` is a subordinate specification because the
 
 ## 5. Idea and opportunity valuation
 
-The 40 product improvements and 25 community workflows are preserved in the feature specification as candidate opportunities. They are not automatically accepted, tasks or claims of provider support.
+The 40 product improvements and 25 community workflows are preserved in the feature specification and registered as 65 source items under `IDEA-LIST-COMMENT-MANAGEMENT-001`, attached to the existing `IDEA-YT-004` survivor in `ideas/registry.json`. They remain candidate requirements, not automatically accepted implementation tasks or claims of provider support.
 
 Existing idea relationships remain:
 - Comment Response Campaign depends on Comment & Community Operations Toolbox.
