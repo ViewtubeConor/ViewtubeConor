@@ -120,6 +120,19 @@ export const CommentResponder: React.FC = () => {
      <StudioSplitLeftButton type="button" icon={<Sparkles size={14} />} sizeVariant="compact" tone="warning" disabled={!context.connected || !thread || comments.generating} onClick={() => comments.draftReply("generate")}>Generate</StudioSplitLeftButton>
      <StudioSplitLeftButton type="button" icon={<Link2 size={14} />} sizeVariant="compact" tone="accent" disabled={!context.connected || !thread || comments.generating} onClick={comments.suggestVideo}>Suggest Videos</StudioSplitLeftButton>
     </div>
+    {comments.videoRecommendation && <section data-comment-video-recommendation className="mt-3 rounded-xl border-2 border-black bg-[#E8F6FF] p-3" aria-label="Brain video recommendation for review">
+     <div className="flex flex-wrap items-center justify-between gap-2">
+      <p className="text-[9px] font-black uppercase tracking-wide opacity-60">Brain suggestion · Review before adding</p>
+      <span className="rounded-md border border-black bg-white px-2 py-1 text-[9px] font-black uppercase">Match score {comments.videoRecommendation.matchStrength}/100</span>
+     </div>
+     <h4 className="mt-2 text-sm font-black">{comments.videoRecommendation.title}</h4>
+     <p className="mt-1 text-xs font-semibold leading-snug">{comments.videoRecommendation.reason || "Brain did not provide an explanation for this match."}</p>
+     <a href={`https://youtu.be/${comments.videoRecommendation.videoId}`} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-1 text-[10px] font-black uppercase underline">Preview on YouTube <ExternalLink size={11} aria-hidden="true" /></a>
+     <div className="mt-3 flex flex-wrap gap-2">
+      <StudioButton type="button" tone="accent" onClick={comments.applyVideoRecommendation}>Add recommendation to reply</StudioButton>
+      <StudioButton type="button" tone="neutral" onClick={comments.dismissVideoRecommendation}>Dismiss</StudioButton>
+     </div>
+    </section>}
    </div>
    {comments.error && context.connected && <div role="alert" className="mt-3 rounded-lg border-[3px] border-black bg-[#FFB158] p-3 text-xs font-black">{comments.error}</div>}
   </section>
