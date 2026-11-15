@@ -51,6 +51,24 @@ describe("billing entitlement runtime", () => {
   expect(tierAtLeast("free", "medium")).toBe(false)
  })
 
+ it("uses the shared six-plan capability matrix for billing allowances", () => {
+  const now = new Date("2026-11-15T00:00:00.000Z")
+  const cases = [
+   ["basic", 0, 0],
+   ["beta", 0, 0],
+   ["creator", 1_000, 2_000],
+   ["creator_plus", 2_000, 4_000],
+   ["creator_pro", 4_000, 8_000],
+   ["executive", Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY],
+  ] as const
+
+  for (const [planId, monthlyCredits, rolloverCap] of cases) {
+   const entitlement = applyPlanToEntitlement(createDefaultEntitlement(now), planId, now)
+   expect(entitlement.monthlyCreditGrant, planId).toBe(monthlyCredits)
+   expect(entitlement.rolloverCap, planId).toBe(rolloverCap)
+  }
+ })
+
  it("resets medium token pool on period rollover", () => {
   const jan2 = new Date("2026-01-02T10:00:00.000Z")
   const state = applyPlanToEntitlement(createDefaultEntitlement(jan2), "creator_plus", jan2)
