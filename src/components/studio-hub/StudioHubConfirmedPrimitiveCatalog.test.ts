@@ -155,11 +155,16 @@ describe("Studio field text and stroke contracts", () => {
     expect(controls).toContain("same font family, size tier, weight, glyph stroke, color state, and field fill as StudioTextInput")
   })
 
-  it("leaves Arrow Toggle text paint to global defaults and left-aligns split text fields", () => {
+  it("shares Word Counter text states with Side/Double Side Toggle and leaves Arrow Toggle global", () => {
     const toggles = read("src/styles/studio-control-value-toggles.css")
-    const fields = read("src/styles/studio-control-fields.css")
+    const wordCounter = read("src/styles/studio-control-word-counter.css")
+    const toggleSource = read("src/studio-ui/primitives/StudioValueToggles.tsx")
     const textInput = read("src/styles/studio-text-input.css")
     expect(toggles).not.toContain(".vt-studio-value-toggle--arrow .vt-studio-value-toggle__face")
+    expect(toggleSource).not.toContain("textColor?: string")
+    expect(wordCounter).toContain(".vt-studio-value-toggle .vt-studio-word-counter__value")
+    expect(wordCounter).toContain(".vt-studio-value-toggle:not(.vt-studio-value-toggle--double):focus-within .vt-studio-word-counter__value")
+    expect(wordCounter).toContain(".vt-studio-value-toggle--double .vt-studio-value-toggle__double-side:focus-within .vt-studio-word-counter__value")
     expect(textInput).toContain("text-align: left")
   })
 
