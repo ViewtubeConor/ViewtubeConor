@@ -1506,6 +1506,36 @@ export const StudioSplitLeftButton = React.forwardRef<HTMLButtonElement, StudioS
 )
 StudioSplitLeftButton.displayName = "StudioSplitLeftButton"
 
+export interface StudioResourceSplitButtonProps extends Omit<StudioSplitLeftButtonProps, "children"> {
+  category: string
+  title: string
+  meta: string
+  completed?: boolean
+}
+
+/** Resource-index row built on the canonical split-left button; its face owns
+ * the resource card layout so consuming pages only provide content and palette. */
+export const StudioResourceSplitButton = React.forwardRef<HTMLButtonElement, StudioResourceSplitButtonProps>(
+  ({ category, title, meta, completed = false, className, icon, sizeVariant = "standard", ...props }, ref) => (
+    <StudioSplitLeftButton
+      ref={ref}
+      {...props}
+      icon={icon}
+      sizeVariant={sizeVariant}
+      className={studioClasses("vt-studio-resource-split-button", className)}
+      aria-pressed={props["aria-pressed"]}
+    >
+      <span className="vt-studio-resource-split-button__copy">
+        <span className="vt-studio-resource-split-button__category">{category}</span>
+        <strong className="vt-studio-resource-split-button__title">{title}</strong>
+        <small className="vt-studio-resource-split-button__meta">{meta}</small>
+        {completed ? <span className="vt-studio-resource-split-button__completed">COMPLETED</span> : null}
+      </span>
+    </StudioSplitLeftButton>
+  ),
+)
+StudioResourceSplitButton.displayName = "StudioResourceSplitButton"
+
 /** Double split button rebuilt around the same face/rail geometry as the confirmed split-left button and split badges. */
 export interface StudioDoubleSplitButtonProps extends Omit<StudioButtonProps, "faceLayout" | "children" | "icon"> {
   leftIcon: React.ReactNode
