@@ -193,3 +193,69 @@ Before implementation changes, continue with:
 This audit used read-only GitHub source retrieval at the frozen commit SHAs. It did not run TypeScript, lint, build, unit tests, browser tests, computed-style inspection, or assistive-technology testing.
 
 No implementation files were changed by this audit. The only changes on the reconciliation branch so far are documentation commits.
+
+
+## 11. Canonical document and token diff — master versus 10-31
+
+A direct line-level comparison was completed for the three canonical Studio documents and `src/studio-ui/tokens.ts` at the frozen source SHAs.
+
+### 11.1 Global defaults and exception index
+
+The master version is reviewed 2026-11-13; the 10-31 version predates the 2026-11-14 split-input quarantine decision.
+
+Master contains important newer contract changes:
+
+- It explicitly records that the legacy split text-input family is quarantined and not active.
+- It identifies `StudioSideTextCounterIcon` as the supported active editable single-icon split pattern.
+- It updates the split-input test checklist to test the active replacement rather than the quarantined implementation.
+- It adds exact dropdown option-row geometry requirements across all five tiers.
+- It adds split-left option-row leading-rail and centered-label requirements.
+- It explicitly requires empty controlled counter values to propagate as an empty string rather than restoring a fallback.
+- It records the newer split slider palette contract.
+
+The 10-31 version still contains older active split-input ownership notes and should not be restored over the master decisions.
+
+### 11.2 Component library source of truth
+
+The master version has a substantive 2026-11-14 quarantine addendum. It records that:
+
+- Generic split text input and the legacy left/right/double icon-rail text-input families are no longer active public exports or catalog entries.
+- Their source is retained for rollback/reference, not production use.
+- The dedicated legacy split-input modules are not active imports.
+- `StudioSideTextCounterIcon` is the active replacement for the supported single-icon editable split field.
+- Existing split buttons, badges, sliders, and word counters are not thereby retired.
+
+Master also updates the catalog/export coverage statement to 81 unique public Studio value exports across nine subfamilies. The earlier 10-31 version contains a historical representative inventory and should not be used as the current catalog contract without reconciling it against the actual target source.
+
+Master's five-face square icon group description is more precise about the API: five faces are the default/fallback representative, while caller-provided children may vary the count (two or more). The 10-31 version describes exactly five faces as the intrinsic width. Preserve the real API behavior; retain five faces as the canonical library specimen unless source inspection establishes a changed contract.
+
+Master also updates the double-split slider description to the current palette contract: secondary side rails, primary center track, and 50% white/secondary active progress fill.
+
+### 11.3 Values, tokens, styles, and settings hierarchy
+
+The two versions are nearly identical in substantive design-system hierarchy and size/field contracts. Differences found in this pass are:
+
+- Master review date updated from 2026-10-30 to 2026-11-13.
+- Master clarifies that the TextBox focus-state contract applies when the caller makes the otherwise read-only box focusable.
+
+The hierarchy document independently confirms Micro as 12px / 1px stroke / 2px radius / 10px type and explicitly rejects the obsolete 1.5px / 3px Micro interpretation. It therefore resolves the contradictory Micro row in the master global-defaults table in favor of the token values.
+
+### 11.4 Token-file difference
+
+The audited token files share the core five-tier size and field-default definitions. The only substantive difference surfaced by the line-level comparison in this pass is an eight-line `STUDIO_ICON_SIZE_COMPARISON` addition in the 10-31 token file, defining current and moderate Standard/Compact icon presets.
+
+This addition is not automatically approved for porting. Trace its consumers and compare it with the master square-icon and dropdown contracts before deciding whether it remains needed.
+
+## 12. Updated preservation decisions
+
+| Area | Decision |
+|---|---|
+| Master 2026-11-14 split-input quarantine | Preserve |
+| `StudioSideTextCounterIcon` active replacement contract | Preserve and verify implementation/catalog coverage |
+| Legacy split-input components/styles/catalog modules | Quarantine; do not reactivate |
+| Master dropdown option-row and empty-counter contracts | Preserve |
+| Master double-split slider palette contract | Preserve |
+| Master 81-export/nine-subfamily catalog coverage claim | Verify against the exact branch catalog/export source before treating as certified |
+| Square icon group | Preserve five-face default representative while respecting flexible custom-child API |
+| 10-31 icon comparison token addition | Investigate consumers before porting |
+| Micro size contract | 12 / 1 / 2 / 10; correct the contradictory global-defaults table |
