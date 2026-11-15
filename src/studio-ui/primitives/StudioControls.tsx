@@ -90,6 +90,14 @@ export const STUDIO_CONTROL_GLOBAL_RULE_EXCEPTIONS = {
     compactFontSize: 14,
     rationale: "Multiline reading/writing surface uses a dedicated type scale while retaining canonical field geometry.",
   },
+  splitTextInputAlignment: {
+    owner: "StudioSplitTextInput / StudioSplitLeftTextInput / StudioSplitRightTextInput / StudioDoubleSplitTextInput",
+    globalRuleException: true,
+    alignment: "left",
+    typography: "inherit the same font family, size tier, weight, glyph stroke, color state, and field fill as StudioTextInput",
+    focus: "primary text and primary glyph stroke at rest; black text and black glyph stroke on focus",
+    rationale: "Split text fields are editable input surfaces, not centered split-label or counter-value panels; their value must read from the left edge like standalone Studio text inputs.",
+  },
 } as const
 
 
@@ -110,8 +118,8 @@ export const STUDIO_COMPONENT_GLOBAL_DEFAULTS = {
   splitDividers: "single split has exactly one shared internal divider; double split has exactly two; dividers use the global border width and are never duplicated on label edges",
   globalSizeLattice: "supreme 60px / 3px border / 6px radius / 52px type and icon; standard 44px / 3px border / 6px radius / 38px type and icon; compact 28px / 2px border / 4px radius / 24px type and icon; mini 20px / 1.5px border / 3px radius / 17.5px type and icon; micro 12px / 1px border / 2px radius / 10px type and icon",
   globalTextWeight: 1000,
-  globalTextAlignment: "center for buttons, badges, split labels, icon faces, and side-text-counter/input value panels; standalone single-line text inputs and text areas align left",
-  textContainment: "Global rule for single-line text-bearing Studio primitives: split-left, split-right, and double-split labels center against the full component outer border box, independent of rail placement; side-text-counter and side-text-counter-icon value panels center within the text panel; standalone single-line text inputs remain left-aligned. Use overflow hidden, nowrap, and clip (never ellipsis); never overlap adjacent controls. Multiline textareas are excluded.",
+  globalTextAlignment: "center for buttons, badges, split labels, icon faces, and side-text-counter value panels; standalone and split editable text inputs plus text areas align left",
+  textContainment: "Global rule for single-line text-bearing Studio primitives: split button labels center against the full component outer border box, independent of rail placement; side-text-counter value panels center within the text panel; standalone and split editable text inputs remain left-aligned like StudioTextInput. Use overflow hidden, nowrap, and clip (never ellipsis); never overlap adjacent controls. Multiline textareas are excluded.",
   buttonVariantContract: {
     v1: "primary fill / black text",
     v2: "secondary fill / black text",
@@ -131,7 +139,7 @@ export const STUDIO_COMPONENT_GLOBAL_DEFAULTS = {
   strokeColor: "#000000",
   colorPairSystem: "primary = --pair-a; secondary = --pair-b",
   backgroundFill: "buttons and badges use the global primary/secondary color pair; text inputs and text areas use a 50% white + 50% primary fill by default and an 85% white + 15% primary fill on focus",
-  textColor: "editable text fields use primary text and primary glyph stroke at rest, black text and black glyph stroke on focus, with a persistent primary inset; display text boxes always use black text/stroke, primary inset, and secondary outline",
+  textColor: "editable text fields use primary text and primary glyph stroke at rest, black text and black glyph stroke on focus, with a persistent primary inset; display text boxes always use black text/stroke and a primary inset, with no focus state",
   textTransform: "uppercase",
   letterSpacing: "-0.02em",
   lineHeight: 1,
