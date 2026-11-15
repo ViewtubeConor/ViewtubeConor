@@ -39,13 +39,13 @@ test("confirmed catalog CSS owns layout, not production control faces", () => {
 });
 
 test("switch and choice skin families retain four-column rows at every viewport", () => {
-  assert.match(styles, /\.vt-confirmed-control-variants\s*\{[\s\S]*?grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
-  assert.match(styles, /\.vt-confirmed-control-family \.vt-confirmed-control-variants\s*\{\s*grid-template-columns: repeat\(4, minmax\(0, 1fr\)\) !important/);
-  assert.match(styles, /\.vt-confirmed-control-family \.vt-confirmed-control-variants,[\s\S]*?grid-template-columns: repeat\(4, minmax\(64px, 1fr\)\) !important;[\s\S]*?overflow-x: auto/);
+  assert.match(styles, /\.vt-confirmed-control-variants\s*\{[\s\S]*?grid-template-columns|gridTemplateColumns: repeat\(4, minmax\(0, 1fr\)\)/);
+  assert.match(styles, /\.vt-confirmed-control-family \.vt-confirmed-control-variants\s*\{\s*grid-template-columns|gridTemplateColumns: repeat\(4, minmax\(0, 1fr\)\) !important/);
+  assert.match(styles, /\.vt-confirmed-control-family \.vt-confirmed-control-variants,[\s\S]*?grid-template-columns|gridTemplateColumns: repeat\(4, minmax\(64px, 1fr\)\) !important;[\s\S]*?overflow-x: auto/);
 });
 
 test("standard button specimens span a row and compact default/neutral variants share two columns", () => {
-  assert.match(styles, /\.vt-confirmed-button-family > \.vt-confirmed-variants\s*\{\s*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\) !important/);
+  assert.match(styles, /\.vt-confirmed-button-family > \.vt-confirmed-variants\s*\{\s*grid-template-columns|gridTemplateColumns: repeat\(2, minmax\(0, 1fr\)\) !important/);
   assert.match(styles, /\.vt-confirmed-button-family > \.vt-confirmed-variants > \.vt-confirmed-variant\.is-full-row\s*\{\s*grid-column: 1 \/ -1 !important/);
   assert.ok(catalog.includes('28px compact · default'));
   assert.ok(catalog.includes('28px compact · neutral tone'));
@@ -208,13 +208,13 @@ test("word toggle library has three skins, one standard toggle per row, and cent
   const fieldCss = readFileSync("src/styles/studio-control-system.css", "utf8");
   assert.match(catalog, /const WORD_TOGGLE_SKINS = CANONICAL_SKINS\.slice\(0, 3\)/);
   assert.match(catalog, /Array\(6\)\.fill\(false\)/);
-  assert.match(styles, /\.vt-confirmed-word-toggle-family \.vt-confirmed-control-variants\[data-control-size="44"\][\s\S]*?grid-template-columns:\s*minmax\(0, 1fr\) !important/);
+  assert.match(styles, /\.vt-confirmed-word-toggle-family \.vt-confirmed-control-variants\[data-control-size="44"\][\s\S]*?grid-template-columns|gridTemplateColumns:\s*minmax\(0, 1fr\) !important/);
   assert.match(styles, /\.vt-confirmed-word-toggle-family \.vt-confirmed-control-variants\[data-control-size="28"\][\s\S]*?justify-items:\s*center/);
   assert.match(styles, /\.vt-confirmed-word-toggle-family \.vt-confirmed-control-variants\[data-control-size="28"\][\s\S]*?justify-self:\s*center !important/);
   assert.match(completeCatalog, /CONTROL_SKINS\.slice\(0, 3\)/);
   assert.match(completeCatalog, /Array\(6\)\.fill\(false\)/);
-  assert.match(fieldCss, /\.vt-complete-catalog \.vt-catalog-word-toggle-families \.vt-catalog-control-variants\.is-word-toggle-44\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0, 1fr\) !important/);
-  assert.match(fieldCss, /\.vt-complete-catalog \.vt-catalog-word-toggle-families \.vt-catalog-control-variants\.is-word-toggle-28\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\) !important/);
+  assert.match(fieldCss, /\.vt-complete-catalog \.vt-catalog-word-toggle-families \.vt-catalog-control-variants\.is-word-toggle-44\s*\{[\s\S]*?grid-template-columns|gridTemplateColumns:\s*minmax\(0, 1fr\) !important/);
+  assert.match(fieldCss, /\.vt-complete-catalog \.vt-catalog-word-toggle-families \.vt-catalog-control-variants\.is-word-toggle-28\s*\{[\s\S]*?grid-template-columns|gridTemplateColumns:\s*repeat\(3, minmax\(0, 1fr\)\) !important/);
   assert.match(fieldCss, /\.vt-complete-catalog \.vt-catalog-word-toggle-families \.vt-catalog-control-variant > small\s*\{[\s\S]*?text-align:\s*center/);
 });
 
@@ -289,8 +289,8 @@ test("confirmed Square Icon Button family catalogs every interaction effect at s
   assert.match(squareFamily, /44px standard · variants 1–4/);
   assert.match(squareFamily, /28px compact · variants 1–4/);
   assert.match(squareFamily, /StudioSquareIconButton · v1\/v2\/v3\/v4 \+ seven effects/);
-  assert.match(styles, /\.vt-confirmed-square-effect-grid\s*\{[\s\S]*?grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
-  assert.match(styles, /@media \(max-width: 520px\)\s*\{[\s\S]*?\.vt-confirmed-square-effect-grid\s*\{\s*grid-template-columns: minmax\(0, 1fr\)/);
+  assert.match(styles, /\.vt-confirmed-square-effect-grid\s*\{[\s\S]*?grid-template-columns|gridTemplateColumns: repeat\(2, minmax\(0, 1fr\)\)/);
+  assert.match(styles, /@media \(max-width: 520px\)\s*\{[\s\S]*?\.vt-confirmed-square-effect-grid\s*\{\s*grid-template-columns|gridTemplateColumns: minmax\(0, 1fr\)/);
   assert.match(controls, /squareIconButtonDefaults:[\s\S]*?rotatedToggle:[\s\S]*?flip:[\s\S]*?tooltip:[\s\S]*?morph:[\s\S]*?success:/);
 });
 
@@ -298,17 +298,17 @@ test("confirmed Square Icon Button family catalogs every interaction effect at s
 test("confirmed square icon button variants 1–4 are grouped into one standard row and one compact row", () => {
   assert.match(catalog, /vt-confirmed-square-variant-row[^]*?44px standard · variants 1–4[^]*?variant="v1" sizeVariant="standard"[^]*?variant="v4" sizeVariant="standard"/);
   assert.match(catalog, /vt-confirmed-square-variant-row[^]*?28px compact · variants 1–4[^]*?variant="v1" sizeVariant="compact"[^]*?variant="v4" sizeVariant="compact"/);
-  assert.match(styles, /\.vt-confirmed-square-variant-grid\s*\{[^}]*grid-template-columns:\s*repeat\(4, minmax\(0, max-content\)\)/);
+  assert.match(styles, /\.vt-confirmed-square-variant-grid\s*\{[^}]*grid-template-columns|gridTemplateColumns:\s*repeat\(4, minmax\(0, max-content\)\)/);
 });
 
 test("square icon interaction effect specimens preserve two effect cards per row", () => {
-  assert.match(styles, /\.vt-confirmed-square-effect-grid\s*\{[^}]*grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
-  assert.match(styles, /@media\s*\(max-width:\s*520px\)[\s\S]*?\.vt-confirmed-square-effect-grid\s*\{\s*grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
+  assert.match(styles, /\.vt-confirmed-square-effect-grid\s*\{[^}]*grid-template-columns|gridTemplateColumns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
+  assert.match(styles, /@media\s*\(max-width:\s*520px\)[\s\S]*?\.vt-confirmed-square-effect-grid\s*\{\s*grid-template-columns|gridTemplateColumns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
 });
 
 test("confirmed stepper standard and compact specimens share one comparison row", () => {
   assert.match(catalog, /vt-confirmed-stepper-row[^]*?44px standard · interactive[^]*?size="standard"[^]*?28px compact · interactive[^]*?size="compact"/);
-  assert.match(styles, /\.vt-confirmed-stepper-row-grid\s*\{[^}]*grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
+  assert.match(styles, /\.vt-confirmed-stepper-row-grid\s*\{[^}]*grid-template-columns|gridTemplateColumns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
 });
 
 test("confirmed spectrum tag gallery shows 50 alphabetically sorted production specimens", () => {
@@ -319,7 +319,7 @@ test("confirmed spectrum tag gallery shows 50 alphabetically sorted production s
   assert.deepEqual(labels, [...labels].sort((a, b) => a.localeCompare(b)), "tag labels stay in alphabetical order");
   assert.equal(new Set(labels).size, 50, "each specimen label is unique");
   for (const initial of "ABCDEFGHIJKLMNOPQRSTUVWXYZ") assert.ok(labels.some(label => label.startsWith(initial)), `spectrum gallery includes ${initial}`);
-  assert.match(styles, /\.vt-confirmed-spectrum-tag-grid\s*\{[^}]*grid-template-columns:\s*repeat\(5, minmax\(0, max-content\)\)/);
+  assert.match(styles, /\.vt-confirmed-spectrum-tag-grid\s*\{[^}]*grid-template-columns|gridTemplateColumns:\s*repeat\(5, minmax\(0, max-content\)\)/);
 });
 
 test("alphabetical tag colors interpolate continuously between canonical palette stops", () => {
@@ -410,7 +410,7 @@ test("confirmed primitive library layout uses a shared 4px grid rhythm", () => {
 });
 
 test("confirmed primitive library grids collapse responsively without fractional or negative spacing", () => {
-  assert.match(styles, /\.vt-confirmed-variants\s*\{[^}]*grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/s);
+  assert.match(styles, /\.vt-confirmed-variants\s*\{[^}]*grid-template-columns|gridTemplateColumns:\s*repeat\(2, minmax\(0, 1fr\)\)/s);
   const marker = "/* Confirmed Primitive Library 4px grid contract */";
   const gridContract = styles.slice(styles.lastIndexOf(marker));
   assert.match(gridContract, /@media\s*\(max-width:\s*560px\)[\s\S]*?\.vt-confirmed-variants\s*\{[^}]*min-width:\s*0/);
@@ -428,7 +428,7 @@ test("confirmed library keeps the shared 4px grid hierarchy without blanket nest
   assert.match(styles, /\.vt-confirmed-control-family\s*\{[^}]*gap:\s*var\(--vt-confirmed-space-3\)/s);
   assert.doesNotMatch(styles, /:where\(\[class\*="vt-confirmed-"\]:not\(\.vt-confirmed-catalog\)\)\s*\{[^}]*!important/s,
     "nested catalog selectors must not globally force every gap and padding to 4px");
-  assert.match(styles, /@media\s*\(max-width:\s*560px\)[\s\S]*?\.vt-confirmed-variants\s*\{[^}]*grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
+  assert.match(styles, /@media\s*\(max-width:\s*560px\)[\s\S]*?\.vt-confirmed-variants\s*\{[^}]*grid-template-columns|gridTemplateColumns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
 });
 
 
@@ -438,7 +438,7 @@ test("StudioButton library module applies the canonical 4px grid rhythm without 
   const moduleGrid = styles.slice(gridStart, gridEnd < 0 ? undefined : gridEnd);
   assert.ok(moduleGrid.length > 80, "the scoped StudioButton grid contract exists");
   assert.match(moduleGrid, /\.vt-confirmed-button-family\s*\{[^}]*gap:\s*var\(--vt-confirmed-grid-unit(?:,\s*4px)?\)/s);
-  assert.match(moduleGrid, /\.vt-confirmed-button-family\s*>\s*\.vt-confirmed-variants\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1fr\)[^}]*gap:\s*var\(--vt-confirmed-grid-unit(?:,\s*4px)?\)/s);
+  assert.match(moduleGrid, /\.vt-confirmed-button-family\s*>\s*\.vt-confirmed-variants\s*\{[^}]*grid-template-columns|gridTemplateColumns:\s*minmax\(0, 1fr\)[^}]*gap:\s*var\(--vt-confirmed-grid-unit(?:,\s*4px)?\)/s);
   assert.match(moduleGrid, /\.vt-confirmed-button-family\s*>\s*\.vt-confirmed-variants\s*>\s*\.vt-confirmed-variant\s*\{[^}]*gap:\s*var\(--vt-confirmed-grid-unit(?:,\s*4px)?\)/s);
   assert.match(moduleGrid, /\.vt-confirmed-button-family\s*>\s*\.vt-confirmed-variants\s*>\s*\.vt-confirmed-variant\.is-full-row\s*\{[^}]*grid-column:\s*1 \/ -1/s);
   assert.doesNotMatch(moduleGrid, /(?:height|min-height|font-size|border-width|border-radius|box-shadow)\s*:/, "catalog layout must not restyle production StudioButton geometry");
@@ -553,7 +553,7 @@ test("canonical grouped families do not render a second duplicate individual-con
   assert.doesNotMatch(catalog, /const ConfirmedIndividualPrimitiveSections\s*:/);
   assert.match(catalog, /<CanonicalControlFamilies\s*\/>/);
   assert.match(catalog, /<CanonicalWordToggleFamily\s*\/>/);
-  assert.match(catalog, /<ConfirmedStudioValueToggleFamily\\s*\\/>/);
+  assert.match(catalog, /<ConfirmedStudioValueToggleFamily\s*\/>/);
 });
 
 test("value-toggle modules expose five canonical full-row specimens and no variation matrix", () => {
@@ -569,9 +569,9 @@ test("value-toggle modules expose five canonical full-row specimens and no varia
     const module = family.slice(start, end);
     assert.ok(start >= 0, `${title} exists`);
     assert.equal((module.match(new RegExp(`data-vt-library-component="${primitive}"`, "g")) ?? []).length, 1);
-    assert.match(module, /sizes\\.map\\(\\(size, index\\)/);
+    assert.match(module, /sizes\.map\(\(size, index\)/);
     assert.match(module, /vt-confirmed-variant is-full-row/);
-    assert.doesNotMatch(module, /gridTemplateColumns|grid-template-columns|vt-confirmed-control-variants|style=\\{/);
+    assert.doesNotMatch(module, /grid-template-columns|gridTemplateColumns|grid-template-columns|gridTemplateColumns|vt-confirmed-control-variants|style=\\{/);
   }
   assert.match(family, /const sizes = \["supreme", "standard", "compact", "mini", "micro"\] as const/);
   assert.match(family, /iconSide="double"/);
