@@ -157,7 +157,8 @@ describe("Studio field text and stroke contracts", () => {
 
   it("leaves Arrow Toggle text paint to global defaults and left-aligns split text fields", () => {
     const toggles = read("src/styles/studio-control-value-toggles.css")
-    const fields = read("src/styles/studio-control-fields.css")\n    const textInput = read("src/styles/studio-text-input.css")
+    const fields = read("src/styles/studio-control-fields.css")
+    const textInput = read("src/styles/studio-text-input.css")
     expect(toggles).not.toContain(".vt-studio-value-toggle--arrow .vt-studio-value-toggle__face")
     expect(textInput).toContain("text-align: left")
   })
