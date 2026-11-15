@@ -581,34 +581,41 @@ describe("responsive Studio upload frame", () => {
   });
 
 
-  it("registers the Arrow, Side, Double Side, and Bar Toggle production specimens", () => {
-    const html = renderToStaticMarkup(<StudioHubConfirmedPrimitiveCatalog />)
-    expect(html).toContain('data-vt-library-component="StudioArrowToggle"')
-    expect(html).toContain('data-vt-studio-value-toggle="arrow"')
-    expect(html).toContain('data-vt-studio-value-toggle="side"')
-    expect(html).toContain('data-vt-studio-value-toggle="double"')
-    expect(html).toContain('data-vt-studio-value-toggle="bar"')
-    expect(html).toContain('data-right-appearance="primary"')
-    expect(html).toContain('data-right-appearance="secondary"')
-    expect(html).toContain('data-right-appearance="black-primary-text"')
-    expect(html).toContain("V1 · PRIMARY RIGHT")
-    expect(html).toContain("V1 · SECONDARY RIGHT")
-    expect(html).toContain("V1 · BLACK / PRIMARY TEXT RIGHT")
-    expect(html).toContain("V2 · PRIMARY RIGHT")
-    expect(html).toContain("V2 · SECONDARY RIGHT")
-    expect(html).toContain("V2 · BLACK / PRIMARY TEXT RIGHT")
-    expect(html).toContain('aria-valuenow="50"')
-    const source = readFileSync(resolve(process.cwd(), "src/studio-ui/primitives/StudioValueToggles.tsx"), "utf8")
-    const css = readStudioControlCss()
-    expect(source).toContain('variant?: "v1" | "v2"')
-    expect(source).not.toContain('variant?: "default" | "v2" | "v3" | "v4"')
-    expect(source).toContain('rightAppearance?: "primary" | "secondary" | "black-primary-text"')
-    expect(source).toContain('STUDIO_VALUE_TOGGLE_VARIANTS = ["v1", "v2"] as const')
-    expect(css).toContain(".vt-studio-value-toggle__bar")
-    expect(css).toContain("flex: 0 0 18px")
-    expect(css).toContain(".vt-studio-value-toggle--double:focus-within")
-    expect(css).toContain(".vt-studio-value-toggle--double .vt-studio-value-toggle__arrow:focus-visible")
-  })
+  it("renders exactly five full-row specimens for each value-toggle family", () => {
+    const html = renderToStaticMarkup(<StudioHubConfirmedPrimitiveCatalog />);
+    const source = readFileSync(resolve(process.cwd(), "src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx"), "utf8");
+    const familyStart = source.indexOf("const ConfirmedStudioValueToggleFamily");
+    const familyEnd = source.indexOf("type ConfirmedCatalogFamilyName", familyStart);
+    const family = source.slice(familyStart, familyEnd);
+    for (const primitive of ["StudioArrowToggle", "StudioSideToggle", "StudioDoubleSideToggle", "StudioBarToggle"]) {
+      expect((html.match(new RegExp('data-vt-library-component="' + primitive + '"', "g")) ?? [])).toHaveLength(5);
+    }
+    for (const size of ["supreme", "standard", "compact", "mini", "micro"]) {
+      expect((html.match(new RegExp('data-vt-library-size="' + size + '"', "g")) ?? [])).toHaveLength(4);
+    }
+    for (const kind of ["arrow", "side", "double", "bar"]) {
+      expect((html.match(new RegExp('data-vt-studio-value-toggle="' + kind + '"', "g")) ?? [])).toHaveLength(5);
+    }
+    expect(html).toContain('data-arrow-side="right"');
+    expect(html).toContain('data-variant="v1"');
+    expect(html).toContain('data-right-appearance="primary"');
+    expect(html).not.toContain('data-right-appearance="secondary"');
+    expect(html).not.toContain('data-right-appearance="black-primary-text"');
+    expect(html).toContain('aria-valuenow="50"');
+    expect(family).toContain('title="Arrow Toggle · Five Sizes × Left / Right / Double Rails"');
+    expect(family).toContain('title="Side Toggle · Five Sizes × Left / Right Arrow Orientation"');
+    expect(family).toContain('title="Double Side Toggle · Five Sizes × V1 / V2 × Three Right Faces"');
+    expect(family).toContain('title="Bar Toggle · Five Sizes"');
+    expect(family).not.toMatch(/gridTemplateColumns|grid-template-columns|vt-confirmed-control-variants|style=\{/);
+    expect(source).toContain("<ConfirmedStudioValueToggleFamily />");
+    const toggles = readFileSync(resolve(process.cwd(), "src/studio-ui/primitives/StudioValueToggles.tsx"), "utf8");
+    const css = readStudioControlCss();
+    expect(toggles).toContain('iconSide?: "left" | "right" | "double"');
+    expect(toggles).toContain('arrowSide?: "left" | "right"');
+    expect(toggles).toContain('variant?: "v1" | "v2"');
+    expect(toggles).toContain('rightAppearance?: "primary" | "secondary" | "black-primary-text"');
+    expect(css).toContain(".vt-studio-value-toggle__bar");
+  });
 
   it("registers StudioInterModule as a production primitive at compact, standard, and micro sizes", () => {
     const html = renderToStaticMarkup(<StudioHubConfirmedPrimitiveCatalog />)
