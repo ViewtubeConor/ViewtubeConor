@@ -174,10 +174,13 @@ describe("Studio value toggle primitives", () => {
     const { container, cleanup } = mount(<StudioBarToggle value={50} barCount={10} onValueChange={() => {}} />);
     const tooltip = container.querySelector(".vt-studio-value-toggle__bar-tooltip");
     expect(tooltip?.textContent).toBe("50%");
-    expect(tooltip?.parentElement?.classList.contains("vt-studio-value-toggle__bars")).toBe(true);
+    expect(tooltip?.parentElement?.classList.contains("vt-studio-value-toggle__bar")).toBe(true);
+    expect(tooltip?.parentElement?.getAttribute("data-active")).toBe("true");
     expect(container.querySelectorAll(".vt-studio-value-toggle__bar-tooltip")).toHaveLength(1);
     const zero = mount(<StudioBarToggle value={0} barCount={10} onValueChange={() => {}} />);
-    expect(zero.container.querySelector(".vt-studio-value-toggle__bar-tooltip")?.textContent).toBe("0%");
+    const zeroTooltip = zero.container.querySelector(".vt-studio-value-toggle__bar-tooltip");
+    expect(zeroTooltip?.textContent).toBe("0%");
+    expect(zeroTooltip?.parentElement?.classList.contains("vt-studio-value-toggle__bars")).toBe(true);
   });
 
   it("does not cancel pointer-down on bar controls so the rail can receive focus", () => {
