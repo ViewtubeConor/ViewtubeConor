@@ -23,3 +23,17 @@ describe("StudioPanelAccordion", () => {
     expect(html).toContain('data-size="compact"')
   })
 })
+
+
+describe("StudioPanelAccordion textbox contract", () => {
+  it("renders its active content through the canonical StudioTextBox primitive", () => {
+    const html = renderToStaticMarkup(<StudioPanelAccordion items={items} defaultActiveIndex={1} />);
+    expect(html).toContain('data-vt-studio-text-box="true"');
+    expect(html).toContain('data-vt-library-component="StudioTextBox"');
+  });
+
+  it("keeps a single vertical separator between the icon rail and text panel", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/styles/studio-panel-accordion.css"), "utf8");
+    expect(css).toContain("border-inline-end: var(--vt-studio-panel-stroke) solid #000");
+  });
+});
