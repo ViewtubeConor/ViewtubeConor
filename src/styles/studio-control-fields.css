@@ -377,16 +377,6 @@ html body .vt-studio-split-text-input .vt-studio-side-text-input__icon svg {
   display: block;
 }
 
-/* Split text fields are the documented exception to the centered split-face
-   layout: their editable value is left aligned like a standalone Studio input. */
-html body .vt-studio-split-text-input input.vt-studio-side-text-counter__input,
-html body .vt-studio-split-text-input input.vt-studio-split-text-input__field,
-html body .vt-studio-split-left-text-input input,
-html body .vt-studio-double-split-text-input input {
-  text-align: left !important;
-  padding-inline-start: calc(var(--vt-studio-control-stroke, 3px) * 2) !important;
-  padding-inline-end: calc(var(--vt-studio-control-stroke, 3px) * 2) !important;
-}
 html body .vt-studio-split-text-input input.vt-studio-side-text-counter__input:is(:focus, :focus-visible),
 html body .vt-studio-split-text-input input.vt-studio-split-text-input__field:is(:focus, :focus-visible) {
   background: var(--vt-field-fill-focus, color-mix(in srgb, white 85%, var(--vt-field-primary, var(--vt-studio-control-accent, var(--pair-a, #36e0f6))) 15%)) !important;
