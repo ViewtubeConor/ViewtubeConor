@@ -1830,7 +1830,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       </div>
     </Family>
     <Family
-      title="InterModule · Standard"
+      title="InterModule"
       nonDefaultSettings={[
         "Single standard-size representative only; nested category and prompt modules are intentionally documented separately from the top representative strip.",
         "Production intermodule component with collapsible content and inherited palette styling.",
