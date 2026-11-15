@@ -26,8 +26,8 @@
 | Channel profile scope continuity | `fix/brain-channel-profile-scope-continuity-2026-10-28` | 6 commits ahead, 1,651 behind; context rail, context service, tests, controls | Existing context and channel scope | Need to verify cross-channel isolation, project/content-build scope and UI continuity | Partially integrated / review pending | Existing channel/context owners |
 | Brain Evidence Explorer | `feat/brain-evidence-explorer-2026-10-30` | Donor-only component + test; 249-line component, 82-line test; target fetch 404 | Existing canonical analytics/evidence services; no explorer component on target | Dataset/record filters, status states, provenance, scope, missingness and source links; imports existing canonical owners | Unique missing functionality | Add one explorer panel and wire into existing Brain tabs/entry point |
 | Evidence identity/provenance and retry continuity | PR #1241 | 35-file PR; trace, snapshot, orchestrator, evidence ribbon, runtime panel, tests | Existing trace/snapshot/evidence ribbon | Donor adds manifest and exact lineage; live browser proof incomplete; PR base is stale | Divergent implementation requiring reconciliation | Existing BrainTrace, retry snapshot and runtime snapshot |
-| Learning evidence validation | PR #1254 | Closed, 4 commits, 4 files; merge state not proven | Current target ancestry not yet inspected for exact changes | Missing evidence refs should keep cohort insufficient; source PR status discrepancy | Blocked pending ancestry verification | Existing learning candidate derivation and promotion validation |
-| Learning evidence resolution before promotion | PR #1256 | Merged 2026-11-12; canonical trace EvidenceRecord resolution; fail-closed scope/returned-set checks | Expected on target by merge, but verify current source/test presence | Browser-local trace limitation; no claim of durable cross-session storage/server auth/global idempotency | Already integrated by PR merge; source verification pending | Existing learning governance and BrainTrace |
+| Learning evidence validation | PR #1254 | Closed, 4 commits, 4 files; head is ancestor of current target (0 ahead / 44 behind) | Target `AlgorithmLearningCandidates.ts` contains `hasCompleteEvidence` gate | Decisive outcomes without their own evidence refs keep cohort insufficient | Already integrated via target ancestry; PR metadata has no merged timestamp | Existing learning candidate derivation and tests |
+| Learning evidence resolution before promotion | PR #1256 | Merged 2026-11-12; head is ancestor of current target (0 ahead / 31 behind) | Target `AlgorithmLearningProfilePromotion.ts` imports `listBrainTraces` and `isEvidenceRecord`; canonical trace resolver present | Fail-closed scope/returned-set checks; browser-local trace limitation remains | Already integrated and source-verified | Existing learning governance and BrainTrace |
 | Evidence owner adapters | PR #1241 / Phase 0–1 audit | Project/ContentBuild, Vault and Publishing next; YouTube-read, Comments, Transcripts, Research, Outcomes, Experiments unaudited/unwired | Canonical domain owners exist or are expected; adapters not fully proven | Must preserve permission, scope, stable IDs, freshness and source snapshots | Partially integrated / blocked per owner | Read-only projections over each canonical owner |
 | Gemini gateway and model selection | Gemini governance PRs #1174/#1176/#1182/#1198; current gateway | Target `src/services/brain/runtime/BrainModelGateway.ts` exists | Existing gateway and provider layer | Ensure all caller routes use shared resolver; don't create a second gateway | Equivalent implementation exists; caller coverage incomplete | Existing gateway/provider owner |
 | Gemini follow-up callers | `feat/p1-gemini-followup-callers-2026-10-30` | 18 commits ahead, 960 behind; 13 changed files | Target has call-site inventory; caller-specific state not fully verified | Each caller requires individual gateway, key, readiness, error and output contract check | Partially integrated / divergent | Existing provider gateway and generation services |
@@ -53,7 +53,7 @@
 
 ## Safe migration order
 
-1. Refresh current target SHA and verify PR #1253/#1256/#1254 ancestry.
+1. Target SHA refreshed; PR #1253/#1256 are merged and PR #1254's head is verified as an ancestor of target. Verify #1253 documentation ancestry and exact target contents.
 2. Finish evidence-owner and context/provenance source-to-runtime map.
 3. Recover the Evidence Explorer as a thin projection over canonical owners, after import/permission/scope checks and focused tests.
 4. Reconcile canonical profile/channel scope and exact context manifest lineage.
@@ -62,3 +62,11 @@
 7. Run full test, governance, type, build and browser checks in an executable checkout; report baseline failures separately.
 
 No migration is authorized by this matrix alone. Each row requires a final file-level decision and regression evidence before code changes.
+
+
+## Follow-up verification — learning evidence ancestry (2026-11-14)
+
+- PR #1254 head `8a81f2dd25b4388fe6a02b90394ec03c86c2e9bc` is an ancestor of current target. The target's `AlgorithmLearningCandidates.ts` contains the decisive-row evidence completeness gate. Classify the feature as integrated even though the PR itself has no merged timestamp.
+- PR #1256 head `a12059eed1b2f3e09b3d6539cb914fa399688070` is an ancestor of current target. The target promotion service resolves evidence from canonical, channel-scoped records actually returned on candidate traces.
+- Target `BrainTrace.ts` still states that the default sink is browser-local and capped; durable server-side trace storage, fresh-session hydration, server authorization and global idempotency remain separate gaps.
+- Workflow lookup returned no runs for current target SHA `52c6e90f...`; PR #1241 head has a completed release-gates workflow with conclusion `failure`. The failed job details were not inspected and no test pass is claimed for current target.
