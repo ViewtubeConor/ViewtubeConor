@@ -1209,10 +1209,10 @@ button.vt-studio-44-choice {
   appearance: none !important;
   -webkit-appearance: none !important;
   position: relative;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  flex: none;
+  flex: 1 1 auto;
   margin: 0;
   padding: 0 !important;
   min-width: 0 !important;
@@ -1229,7 +1229,7 @@ button.vt-studio-44-choice {
 }
 
 button.vt-studio-44-switch {
-  width: 75.68px;
+  width: auto;
   background: var(--vt-studio-control-secondary, var(--pair-b));
 }
 button.vt-studio-44-switch.is-round { border-radius: 999px; }
