@@ -6,7 +6,6 @@ import { StudioSplitShell, STUDIO_LEFT_WORD_OPTIONS } from "./StudioControls";
 import type { StudioControlSize } from "../tokens";
 
 export type StudioToggleAppearance = {
-  textColor?: string;
   fillColor?: string;
   iconColor?: string;
   iconFillColor?: string;
@@ -43,7 +42,6 @@ export type StudioDoubleSideToggleProps = {
 };
 
 const appearanceStyle = (appearance?: StudioToggleAppearance): React.CSSProperties => ({
-  ...(appearance?.textColor ? { "--vt-toggle-text": appearance.textColor } : {}),
   ...(appearance?.fillColor ? { "--vt-toggle-fill": appearance.fillColor } : {}),
   ...(appearance?.iconColor ? { "--vt-toggle-icon": appearance.iconColor } : {}),
   ...(appearance?.iconFillColor ? { "--vt-toggle-icon-fill": appearance.iconFillColor } : {}),
@@ -114,10 +112,10 @@ export function StudioSideToggle(props: StudioSideToggleProps) {
 export function StudioDoubleSideToggle({ left, right, variant = "v1", rightAppearance = "primary", size = "standard", className }: StudioDoubleSideToggleProps) {
   const noDivider = variant === "v2";
   const rightAppearanceStyle: StudioToggleAppearance = rightAppearance === "secondary"
-    ? { fillColor: "var(--pair-b, #ff7f6b)", textColor: "#000" }
+    ? { fillColor: "var(--pair-b, #ff7f6b)" }
     : rightAppearance === "black-primary-text"
-      ? { fillColor: "#000", textColor: "var(--pair-a, #36e0f6)" }
-      : { fillColor: "var(--pair-a, #36e0f6)", textColor: "#000" };
+      ? { fillColor: "#000" }
+      : { fillColor: "var(--pair-a, #36e0f6)" };
   return <div className={["vt-studio-value-toggle", "vt-studio-value-toggle--double", className].filter(Boolean).join(" ")}
     data-vt-studio-control="true" data-vt-studio-value-toggle="double" data-variant={variant} data-right-appearance={rightAppearance} data-size={size}>
     <div className="vt-studio-value-toggle__double-side">
