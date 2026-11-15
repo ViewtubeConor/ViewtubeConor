@@ -78,6 +78,16 @@ import { StudioResponseMetaRow } from "../../studio-ui/primitives/StudioResponse
 import { StudioLedBadgeTab } from "../../studio-ui/primitives/StudioLedBadgeTab"
 import { StudioChatComposerDock } from "../../studio-ui/primitives/StudioChatComposerDock"
 import { StudioChatResponseShell } from "../../studio-ui/primitives/StudioChatResponseShell"
+import {
+  StudioSpectrumIcon,
+  StudioIconBadge,
+  StudioMetricIcon,
+  StudioAccentRailModule,
+  StudioIconTitleModule,
+  StudioVideoModule,
+  StudioVideoSelector,
+  STUDIO_METRIC_ICON_SET,
+} from "../../studio-ui/primitives/StudioDashboardPrimitives"
 import "./studio-hub-primitive-catalogs.css"
 import "../../styles/studio-confirmed-catalog-modules.css"
 import { ConfirmedFamilyModule } from "./ConfirmedCatalogModules"
@@ -1119,6 +1129,12 @@ const useConfirmedAdditionalPrimitiveSections = (): React.ReactNode[] => {
   const [choiceChecks, setChoiceChecks] = React.useState<boolean[]>(Array(5).fill(false))
   const [leftCounterValues, setLeftCounterValues] = React.useState([6, 6, 6, 6, 6])
   const [number, setNumber] = React.useState("12")
+  const [migrationVideoId, setMigrationVideoId] = React.useState("video-1")
+  const migrationVideos = [
+    { id: "video-1", title: "Building a Better Creator Workflow", duration: "12:42", metadata: "8.4K views", status: "Published" },
+    { id: "video-2", title: "The Studio Setup Tour", duration: "08:18", metadata: "3.1K views", status: "Published" },
+    { id: "video-3", title: "Planning the Next Upload", duration: "15:30", metadata: "Draft", status: "In progress" },
+  ]
   const dropdownOptions = [
     { value: "balanced", label: "BALANCED" },
     { value: "focused", label: "FOCUSED" },
@@ -1227,6 +1243,84 @@ const useConfirmedAdditionalPrimitiveSections = (): React.ReactNode[] => {
           <div className="vt-confirmed-counter-size-rows">
             {(["supreme", "standard", "compact", "mini", "micro"] as const).map((size, index) => <div className="vt-confirmed-counter-size-row" key={size}><small>{["60px SUPREME", "44px STANDARD", "28px COMPACT", "20px MINI", "12px MICRO"][index]}</small><div className="vt-confirmed-counter-pair"><StudioLeftCounter value={leftCounterValues[index]} onValueChange={next => setLeftCounterValues(current => current.map((value, item) => item === index ? next : value))} size={size} min={0} max={100} ariaLabel={size + " left counter dedicated specimen"} /></div></div>)}
           </div>
+        </div>
+      </Family>
+
+      <Family title="Studio Spectrum + Metric Icons · Semantic Icon System" nonDefaultSettings={[
+        "The spectrum icon uses Studio-owned semantic color names and the canonical five-tier size contract.",
+        "Metric glyph and color assignments are stable by semantic metric key; metric colors are not assigned locally by consumers.",
+        "Icon-only specimens expose accessible names; decorative instances remain hidden from assistive technology.",
+      ]} provenance={<Provenance primitive="StudioSpectrumIcon / StudioIconBadge / StudioMetricIcon" tsx="src/studio-ui/primitives/StudioDashboardPrimitives.tsx" css="src/styles/studio-dashboard-primitives.css" tokens="12 semantic spectrum hues · Supreme / Standard / Compact / Mini / Micro · square / circle / plain treatments" imports={["src/studio-ui/primitives/StudioDashboardPrimitives.tsx", "src/studio-ui/index.ts"]} />}>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSpectrumIcon">
+          <span>12 SPECTRUM ICONS · STANDARD</span>
+          <div className="flex flex-wrap items-center gap-2">
+            {(["rose", "coral", "orange", "yellow", "lime", "green", "teal", "cyan", "royal", "purple", "magenta", "pink"] as const).map(spectrum =>
+              <StudioSpectrumIcon key={spectrum} icon={<Info aria-hidden="true" />} spectrum={spectrum} size="standard" label={spectrum + " spectrum icon"} />)}
+          </div>
+        </div>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioMetricIcon">
+          <span>METRIC ICONS · CANONICAL SEMANTIC MAPPING</span>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {(Object.keys(STUDIO_METRIC_ICON_SET) as (keyof typeof STUDIO_METRIC_ICON_SET)[]).map(metric =>
+              <div className="flex items-center gap-2 min-w-0" key={metric}>
+                <StudioMetricIcon metric={metric} size="compact" />
+                <span>{STUDIO_METRIC_ICON_SET[metric].label}</span>
+              </div>)}
+          </div>
+        </div>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioIconBadge">
+          <span>ICON BADGE · ICON WITH TEXT LABEL</span>
+          <div className="flex flex-wrap items-center gap-3">
+            <StudioIconBadge icon={<Check aria-hidden="true" />} spectrum="green" size="compact">Verified</StudioIconBadge>
+            <StudioIconBadge icon={<Sparkles aria-hidden="true" />} spectrum="purple" size="standard">AI insight</StudioIconBadge>
+          </div>
+        </div>
+      </Family>
+      <Family title="Accent Rail + Icon Title Information Modules" nonDefaultSettings={[
+        "Accent rail is full-width and content-height; long or expanded content does not clip or force a fixed module height.",
+        "The action is the existing StudioSquareIconButton, not a dashboard-specific or catalog-only button.",
+        "Icon-title uses one monochromatic split-left surface with a semantic icon bay, flexible copy, and optional action slot.",
+      ]} provenance={<Provenance primitive="StudioAccentRailModule / StudioIconTitleModule" tsx="src/studio-ui/primitives/StudioDashboardPrimitives.tsx" css="src/styles/studio-dashboard-primitives.css" tokens="Studio 5-tier size contract · semantic spectrum rail · black outer stroke · square icon action" imports={["src/studio-ui/primitives/StudioDashboardPrimitives.tsx", "src/studio-ui/primitives/StudioControls.tsx"]} />}>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioAccentRailModule">
+          <span>DAILY ORACLE · FULL-WIDTH EXPANDABLE INFORMATION</span>
+          <StudioAccentRailModule spectrum="purple" title="Daily Oracle" subtitle="A creator insight based on the latest available signals." size="standard"
+            action={{ icon: <Sparkles aria-hidden="true" />, label: "Open Daily Oracle insight", onClick: () => undefined }}
+            collapsible defaultExpanded>
+            <p style={{ margin: 0 }}>Your recent uploads are building a stronger returning-viewer pattern. Review the latest audience signals before planning the next release.</p>
+          </StudioAccentRailModule>
+        </div>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioIconTitleModule">
+          <span>ICON + TITLE · MONOCHROMATIC INFORMATION SPLIT</span>
+          <StudioIconTitleModule spectrum="cyan" icon={<Info aria-hidden="true" />} title="Channel connection restored"
+            subtitle="Your creator workspace is ready to use." size="standard"
+            action={<StudioSquareIconButton icon={<Check aria-hidden="true" />} label="Acknowledge connection restored" sizeVariant="standard" />} />
+        </div>
+      </Family>
+      <Family title="Studio Video Module · Thumbnail + Text Anatomy" nonDefaultSettings={[
+        "The media frame retains a 16:9 ratio and uses object-fit cover; it is never stretched to fill arbitrary module height.",
+        "Eyebrow and title render above the thumbnail; supporting text, metadata, and footer render below it.",
+        "Missing thumbnails have an explicit fallback; selection state is optional and data remains caller-owned.",
+      ]} provenance={<Provenance primitive="StudioVideoModule" tsx="src/studio-ui/primitives/StudioDashboardPrimitives.tsx" css="src/styles/studio-dashboard-primitives.css" tokens="16:9 media frame · full-width content · responsive variable-height text regions" imports={["src/studio-ui/primitives/StudioDashboardPrimitives.tsx"]} />}>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioVideoModule">
+          <span>VIDEO MODULE · UPPER TITLE + THUMBNAIL + LOWER METADATA</span>
+          <StudioVideoModule eyebrow="LATEST UPLOAD" title="Building a Better Creator Workflow" supportingText="A practical walkthrough of the new creator process."
+            metadata="12:42 · 8.4K views · Published" footer="Video details supplied by the consuming feature." selected />
+        </div>
+      </Family>
+      <Family title="Studio Video Selector · Searchable Split-left Menu" nonDefaultSettings={[
+        "Controlled value and onValueChange keep selection state in the owning workflow; the selector owns only query and open-menu state.",
+        "Search field sits in the menu's top row; option rows contain thumbnail, title, duration, metadata, and status.",
+        "Arrow keys move between options, Enter selects, and Escape closes the menu. Loading and empty states are explicit.",
+        "Video records and thumbnail URLs are supplied by the consumer; the selector performs no network requests.",
+      ]} provenance={<Provenance primitive="StudioVideoSelector" tsx="src/studio-ui/primitives/StudioDashboardPrimitives.tsx" css="src/styles/studio-dashboard-primitives.css" tokens="Standard / Compact · split thumbnail rail · searchable listbox · controlled selection" imports={["src/studio-ui/primitives/StudioDashboardPrimitives.tsx", "src/studio-ui/index.ts"]} />}>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioVideoSelector">
+          <span>STANDARD · SEARCH AND SELECT A VIDEO</span>
+          <StudioVideoSelector label="Select a video" options={migrationVideos} value={migrationVideoId} onValueChange={setMigrationVideoId} />
+          <span aria-live="polite">SELECTED VIDEO: {migrationVideos.find(video => video.id === migrationVideoId)?.title ?? "None"}</span>
+        </div>
+        <div className="vt-confirmed-variant is-full-row">
+          <span>COMPACT · DISCONNECTED / EMPTY DATA</span>
+          <StudioVideoSelector label="No videos available" options={[]} value="" onValueChange={() => undefined} size="compact" emptyMessage="Connect a channel to browse videos." />
         </div>
       </Family>
     </>
