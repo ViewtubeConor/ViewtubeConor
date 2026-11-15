@@ -90,10 +90,10 @@ These are preliminary source dispositions, not implementation approvals. “Port
 | `scripts/emit-studio-control-vars.mjs` | PR #1271 / 10-31 | **RECONCILE TOKEN PIPELINE** | Compare generated output and emitter; one canonical token source, no duplicate token hierarchy. |
 | `src/components/analyticsVisualContextBar.test.tsx` | PR #1271 / 10-31 | **PRESERVE / RECONCILE TESTS** | Retain master metric tone and width-stability tests; add split-left DOM, explicit icon identity, rail width, localization, and compact-layout tests. |
 | `src/components/analyticsVisualContextBar.tsx` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Preserve master metric normalization, tones, and declared width reservations; selectively add split-left icon rail, explicit iconKey metadata, and rail-aware width reservation. Avoid label-substring icon inference. |
-| `src/components/brain/BrainComposerDock.contract.test.ts` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Keep master primitive/field ownership; recover only still-missing interactions and responsive behavior with tests. |
-| `src/components/brain/BrainComposerDock.css` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Keep master primitive/field ownership; recover only still-missing interactions and responsive behavior with tests. |
-| `src/components/brain/BrainComposerDock.test.tsx` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Keep master primitive/field ownership; recover only still-missing interactions and responsive behavior with tests. |
-| `src/components/brain/BrainComposerDock.tsx` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Keep master primitive/field ownership; recover only still-missing interactions and responsive behavior with tests. |
+| `src/components/brain/BrainComposerDock.contract.test.ts` | PR #1271 / 10-31 | **PRESERVE MASTER CONTRACT + EXTEND** | Retain master black outer border, primary inset, focus stroke/outline, and dock separator ownership tests; preserve source layout-only CSS constraints. |
+| `src/components/brain/BrainComposerDock.css` | PR #1271 / 10-31 | **RECONCILE BOTH** | Keep CSS layout-only and master field styling ownership; evaluate source container-query toolbar layout against actual dock widths before changing inline-actions. |
+| `src/components/brain/BrainComposerDock.test.tsx` | PR #1271 / 10-31 | **PRESERVE / RECONCILE TESTS** | Preserve master send/status behavior and add source clear-draft safety, optional Tools/Journal, keyboard, responsive, and accessibility coverage. |
+| `src/components/brain/BrainComposerDock.tsx` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Keep master page/Studio integration and field contract; selectively recover clear-draft busy safety, real optional Tools/Journal callbacks, and bounded growth after caller/layout review. See Brain Composer audit. |
 | `src/components/studio-hub/ConfirmedCatalogChrome.tsx` | PR #1271 / 10-31 | **PORT SELECTIVELY / RECONCILE** | Candidate Studio work; verify public export, active consumer, canonical CSS ownership, tier geometry, and mobile behavior. |
 | `src/components/studio-hub/ConfirmedCatalogModules.tsx` | PR #1271 / 10-31 | **PORT SELECTIVELY / RECONCILE** | Candidate Studio work; verify public export, active consumer, canonical CSS ownership, tier geometry, and mobile behavior. |
 | `src/components/studio-hub/confirmedCatalogTaxonomy.test.ts` | PR #1271 / 10-31 | **PORT / RECONCILE TEST COVERAGE** | Use tests as acceptance contract only after updating them to current master API and quarantine decisions. |
@@ -177,6 +177,7 @@ These are preliminary source dispositions, not implementation approvals. “Port
 - [Calendar projection and primitive audit](VIEWTUBE_CALENDAR_PROJECTION_AND_PRIMITIVE_RECONCILIATION_AUDIT_2026-11-15.md)
 - [Resource Library Studio row audit](VIEWTUBE_RESOURCE_LIBRARY_STUDIO_ROW_RECONCILIATION_AUDIT_2026-11-15.md)
 - [Analytics metric rail audit](VIEWTUBE_ANALYTICS_METRIC_RAIL_RECONCILIATION_AUDIT_2026-11-15.md)
+- [Brain Composer Dock audit](VIEWTUBE_BRAIN_COMPOSER_DOCK_RECONCILIATION_AUDIT_2026-11-15.md)
 
 ## 5. Cross-cutting preservation rules
 
