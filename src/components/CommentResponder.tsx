@@ -1,6 +1,6 @@
 import React from "react"
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ChevronLeft, ChevronRight, ExternalLink, Link2, Loader2, MessagesSquare, RefreshCw, Send, Sparkles } from "lucide-react"
+import { ChevronLeft, ChevronRight, ExternalLink, Link2, Loader2, RefreshCw, Send, Sparkles } from "lucide-react"
 import { buildYouTubeCommentUrl } from "../services/youtube/commentHandoff"
 import { SubToolbox, SubToolboxGridActionButton } from "./Toolbox"
 import { StudioButton, StudioSquareIconButton, StudioSplitLeftButton, StudioTextArea } from "../studio-ui"
