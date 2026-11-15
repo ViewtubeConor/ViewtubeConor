@@ -149,7 +149,7 @@ const CanonicalControlFamilies: React.FC = () => {
     Component: React.ComponentType<any>,
     shape: "round" | "rect",
   ) => (
-    <Family title={title + " · Five Sizes × Four Skins"} nonDefaultSettings={[
+    <Family title={title} nonDefaultSettings={[
       "One production control per specimen row; all five canonical sizes and four documented skins remain independently interactive.",
       "The control uses the global automatic width default and the module row provides the available layout width.",
     ]} provenance={<Provenance primitive={primitive} tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css" tokens="Supreme / Standard / Compact / Mini / Micro × four canonical skins; global width auto." imports={["src/studio-ui/primitives/StudioControls.tsx"]} />}>
@@ -178,7 +178,7 @@ const CanonicalControlFamilies: React.FC = () => {
 const CanonicalSplitBadgeFamily: React.FC = () => (
   <>
     <Family
-      title="Split-left Badge · Standard + Compact + Micro"
+      title="Split-left Badges"
       nonDefaultSettings={[
         "Informational split-left badge, not an action button.",
         "Informational split-left badge supports the global Micro tier: 12px height, Mini-matched 1.5px stroke / 3px radius, and 10px type/icons.",
@@ -443,7 +443,7 @@ const ConfirmedDirectPrimitiveRows: React.FC = () => {
   ]
   return (
     <Family
-      title="Direct Imported Primitive Representatives · Standard" defaultOpen
+      title="Primitive Representatives" defaultOpen
       nonDefaultSettings={[
         "Standard-size examples are the production components themselves; the catalog only supplies representative content and state.",
         "The double-split face uses two square rails and one divider; module and accordion geometry is documented in the dedicated families.",
@@ -575,7 +575,7 @@ const ConfirmedStudioCounterFamily: React.FC = () => {
   const [microPrimary, setMicroPrimary] = React.useState(7)
   return (
     <Family
-      title="StudioCounter · Supreme + Standard + Compact + Mini + Micro"
+      title="StudioCounter · Five Sizes"
       nonDefaultSettings={[
         "Uses button-only increment/decrement rails; no legacy stepper shell or nested numeric field.",
         "Both action rails use the secondary fill; the numeric value face remains primary across size variants.",
@@ -606,7 +606,7 @@ const ConfirmedStudioDoubleSplitSliderFamily: React.FC = () => {
   const [microA, setMicroA] = React.useState(7)
   return (
     <Family
-      title="StudioDoubleSplitSlider · Supreme + Standard + Compact + Mini + Micro"
+      title="StudioDoubleSplitSlider · Five Sizes"
       nonDefaultSettings={[
         "Uses an L1 range track inside the double-split shell; the numeric readout is bound to the same slider value.",
         "Handle is white with a rounded corner radius and black structural stroke; the track has no black bar or inset stroke.",
@@ -635,7 +635,7 @@ const ConfirmedStudioSideCounterFamily: React.FC = () => {
   const labels = ["60px SUPREME", "44px STANDARD", "28px COMPACT", "20px MINI", "12px MICRO"]
   return (
     <Family
-      title="StudioSideCounter · Supreme + Standard + Compact + Mini + Micro"
+      title="StudioSideCounter · Five Sizes"
       nonDefaultSettings={[
         "This is the right-rail numeric counter: increment/decrement actions sit on the right.",
         "The value face and square action rail use the shared Studio split-shell geometry.",
@@ -660,7 +660,7 @@ const ConfirmedStudioSideTextCounterFamily: React.FC = () => {
   const labels = ["60px SUPREME", "44px STANDARD", "28px COMPACT", "20px MINI", "12px MICRO"]
   return (
     <Family
-      title="StudioSideTextCounter · Editable Text + Numeric Stepper · Five Sizes"
+      title="StudioSideTextCounter · Five Sizes"
       nonDefaultSettings={[
         "The value face is the canonical single-line StudioTextInput; users can type arbitrary text or numeric values.",
         "The stacked right rail increments and decrements numeric text using the shared counter hold-repeat behavior.",
@@ -827,7 +827,7 @@ const ConfirmedStudioLeftWordCounterFamily: React.FC = () => {
     setter(current => current.map((previous, itemIndex) => itemIndex === index ? value : previous))
   return (
     <Family
-      title="StudioLeftWordCounter · Four-State Cycle + Five Sizes"
+      title="StudioLeftWordCounter · Five Sizes"
       nonDefaultSettings={[
         "Hold-repeat increment/decrement actions use the shared left-counter timing; disabled and focus states come from the shared counter primitive.",
         "Values wrap FOUR → ONE and ONE → FOUR; face states are primary, secondary, black/primary-text, and white/primary-text.",
@@ -855,7 +855,7 @@ const ConfirmedStudioDoubleSplitWordCounterFamily: React.FC = () => {
   const updateAt = (index: number, value: number) => setValues(current => current.map((previous, itemIndex) => itemIndex === index ? value : previous))
   return (
     <Family
-      title="StudioDoubleSplitWordCounter · Two Chevron Rails + Four-State Word Cycle"
+      title="StudioDoubleSplitWordCounter"
       nonDefaultSettings={[
         "Both square rails step the same four-state word sequence; the left rail moves backward and the right rail moves forward.",
         "One primary-palette specimen per size; inverse color variants are not part of the primitive contract.",
@@ -881,7 +881,7 @@ const ConfirmedStudioLeftWordSliderFamily: React.FC = () => {
   const updateAt = (index: number, value: number) => setValues(current => current.map((previous, itemIndex) => itemIndex === index ? value : previous))
   return (
     <Family
-      title="StudioLeftWordSlider · Slider + Numeric Right Rail"
+      title="StudioLeftWordSlider"
       nonDefaultSettings={[
         "Slider and counter share one integer value in the 1–4 range; counter buttons use the shared accelerated hold behavior.",
         "The slider position and right-hand numeric readout always represent the same value.",
@@ -1082,7 +1082,7 @@ const ConfirmedCatalogFamilyGroups: React.FC<{ children: React.ReactNode }> = ({
         ? (node.props as { title: string }).title
         : ""
 
-    if (title === "Direct Imported Primitive Representatives · Standard") {
+    if (title === "Primitive Representatives" || title === "Direct Imported Primitive Representatives · Standard") {
       representatives.push(node)
       continue
     }
@@ -1508,7 +1508,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       </div>
     </Family>
     <Family
-      title="Square Icon Button Groups · Five Joined Squares · Standard + Compact"
+      title="Square Icon Groups"
       nonDefaultSettings={[
         "Each group contains five joined square faces and retains intrinsic content width.",
         "V3 is the primary-to-secondary selectable skin: four specimens begin in the primary state and one begins selected in secondary.",
@@ -1538,7 +1538,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
     
     
     <Family
-      title="Top Split Module · Left / Right / Double / None"
+      title="Top Split Module"
       nonDefaultSettings={[
         "The canonical module composes a split-control header with a white content body; it does not replace the retired split-rail accordion.",
         "Header rails use the secondary pair color and remain square; the body is a separate white content region.",
@@ -1562,7 +1562,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       </div>
     </Family>
     <Family
-      title="Split-left Button · Standard + Compact"
+      title="Split-left Button"
       nonDefaultSettings={[
         "Canonical split-left button with an independent leading icon rail and stationary outer shell.",
         "The two compact examples share one row and retain their individual accessible names.",
@@ -1579,7 +1579,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       </div>
     </Family>
     <Family
-      title="Play/Pause Split-left Button · 44px + 28px"
+      title="Play/Pause Button"
       nonDefaultSettings={[
         "Reserves label width so Play/Pause does not resize the control.",
         "Supports uncontrolled or parent-controlled playback state.",
@@ -1596,7 +1596,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       </div>
     </Family>
     <Family
-      title="Circle Icon Button · 44px + 28px"
+      title="Circle Icon Button"
       nonDefaultSettings={[
         "Circular shape uses 80% of the canonical large icon preset: 30.4px / 1.9 stroke standard and 19.2px / 2.0 compact.",
       ]}
@@ -1625,7 +1625,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
     </Family>
 
     <Family
-      title="StudioSpectrumTag · Vault Metadata Exception"
+      title="StudioSpectrumTag"
       nonDefaultSettings={[
         "Dense metadata exception: 15px height, spectrum-derived border/text, 35% color fill, and opt-in selected glow.",
       ]}
@@ -1699,7 +1699,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       </div>
     </Family>
     <Family
-      title="StudioCloseableBadge · Fixed 20px Exception"
+      title="StudioCloseableBadge"
       nonDefaultSettings={[
         "Fixed 20px metadata pill with a secondary-pair close affordance and explicit close feedback.",
         "This metadata badge is an intentional family exception, not an ordinary size-tier control.",
@@ -1716,7 +1716,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       </div>
     </Family>
     <Family
-      title="StudioTagEditor · Tokenized Actions"
+      title="StudioTagEditor"
       nonDefaultSettings={[
         "Dedicated tag editor section with its own add, confirm, remove, and action-size contract.",
         "The editor's action geometry follows the registered exception tokens; tag chips are not promoted to the top primitive ledger.",
@@ -1729,7 +1729,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       </div>
     </Family>
     <Family
-      title="Upload Frame · Standard + Compact"
+      title="Upload Frame"
       nonDefaultSettings={[
         "Canvas component uses a 16:9 frame at every breakpoint.",
         "Conic border, breathing layers, and image preview derive their colors from the active primary/secondary pair.",
@@ -1745,7 +1745,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       </div>
     </Family>
     <Family
-      title="Publishing Card · 5:7 Compound Composition"
+      title="Publishing Card"
       nonDefaultSettings={[
         "Composition built from canonical Studio Controls primitives; it is a composition, not a new primitive family.",
         "Outer shell maintains a 5:7 ratio with a black 3px border, 6px radius, and 25% secondary-pair fill.",
@@ -1816,7 +1816,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       </div>)}
     </Family>
     <Family
-      title="Split Accordion · Train Motion"
+      title="Split Accordion"
       nonDefaultSettings={[
         "Independent single-open accordion with square secondary-color icon rails and primary-color content panels.",
         "Uses buildTri-style staggered width animation with 1000ms segment duration and reduced-motion snapping.",
@@ -1845,7 +1845,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       </div>
     </Family>
     <Family
-      title="Collapsing Split Module · Standard + Compact"
+      title="Collapsing Split Module"
       nonDefaultSettings={[
         "Production collapsible split module is catalogued separately from the intermodule and multi-section split accordion.",
         "The top imported-primitive ledger stays limited to one standard-size representative per primitive; size comparisons belong here.",
@@ -1866,7 +1866,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       </div>
     </Family>
     <Family
-      title="Collapsing Two-Line Module · Standard"
+      title="Two-Line Collapsing Module"
       nonDefaultSettings={[
         "Dedicated production specimen for the two-line collapsing module; kept separate from the top direct-control ledger and the ordinary collapsing split module.",
         "The title and description are rendered by the canonical StudioCollapsingTwoLineModule primitive.",
@@ -1881,7 +1881,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       </div>
     </Family>
     <Family
-      title="Status / navigation · LED badge and tab system"
+      title="LED Badge / Tab"
       nonDefaultSettings={[
         "Borderless metadata/status exception; LED is smaller than the label height and sits before the text.",
         "Dark appearance uses black fill/white text; tinted appearance uses a light tone-matched fill/black text.",
@@ -1991,7 +1991,7 @@ const ConfirmedStudioNumericStepperFamily: React.FC = () => {
     setter(current => current.map((previous, itemIndex) => itemIndex === index ? value : previous))
   return (
     <Family
-      title="Studio Numeric Steppers · Inline + Split"
+      title="Numeric Steppers"
       nonDefaultSettings={[
         "The production APIs support Standard and Compact only; Supreme, Mini, and Micro are intentionally not advertised.",
         "Inline Stepper places decrement/increment actions around an editable number field.",
