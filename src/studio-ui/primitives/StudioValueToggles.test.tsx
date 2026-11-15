@@ -200,3 +200,17 @@ describe("Studio value toggle primitives", () => {
     expect(container.querySelectorAll(".vt-studio-value-toggle__measure")).toHaveLength(2);
   });
 });
+
+
+describe("Side Toggle text-style parity", () => {
+  it("uses the exact word-counter value class for default and focus text styling", () => {
+    const side = renderToStaticMarkup(<StudioSideToggle options={["LOW", "HIGH"]} value="LOW" onValueChange={() => {}} />);
+    const double = renderToStaticMarkup(<StudioDoubleSideToggle
+      left={{ options: ["ONE", "TWO"], value: "ONE", onValueChange: () => {} }}
+      right={{ options: ["THREE", "FOUR"], value: "THREE", onValueChange: () => {} }} />);
+    expect(side).toMatch(/class="[^"]*vt-studio-word-counter__value/);
+    expect(double.match(/vt-studio-word-counter__value/g)?.length).toBe(2);
+    const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-value-toggles.css"), "utf8");
+    expect(css).not.toMatch(/\.vt-studio-value-toggle--side \.vt-studio-value-toggle__face,\s*\.vt-studio-value-toggle--double[^}]+\{[^}]*color:\s*var\(--vt-toggle-fill/s);
+  });
+});
