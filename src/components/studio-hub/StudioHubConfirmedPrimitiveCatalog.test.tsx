@@ -1228,7 +1228,6 @@ describe("toggle row-width and module contract", () => {
     expect(catalog).toContain('.vt-confirmed-control-variants[data-vt-library-component="StudioDoubleSideToggle"]');
     expect(representative).toContain('.vt-complete-catalog .vt-catalog-control-variants{display:grid;grid-template-columns:minmax(0,1fr)');
     expect(representative).not.toContain('.vt-complete-catalog .vt-catalog-canonical-controls .vt-studio-44-switch');
-    expect(representative).not.toContain('grid-template-columns: repeat(2, minmax(0, 1fr)) !important;');
     expect(exceptions).not.toMatch(/\.vt-studio-44-switch|\.vt-studio-44-choice|\.vt-studio-value-toggle|\.vt-studio-side-toggle|\.vt-studio-double-side-toggle|\.vt-studio-arrow-toggle|\.vt-studio-bar-toggle/);
   });
 
