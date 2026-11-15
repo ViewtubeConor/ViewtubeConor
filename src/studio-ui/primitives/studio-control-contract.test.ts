@@ -327,3 +327,21 @@ describe("Studio size-bracketed selection and icon geometry", () => {
     expect(css).toContain("pointer-events: none");
   });
 });
+
+
+describe("Studio primitive row-width ownership", () => {
+  it("does not force switches, radios, or checkboxes into content-width sizing", () => {
+    const css = read("src/styles/studio-control-system.css");
+    const start = css.indexOf("/* Content-width exemptions:");
+    const end = css.indexOf("/* The joined group is content-width", start);
+    expect(start).toBeGreaterThanOrEqual(0);
+    expect(end).toBeGreaterThan(start);
+    const exemptions = css.slice(start, end);
+    expect(exemptions).not.toContain(".vt-studio-44-switch");
+    expect(exemptions).not.toContain(".vt-studio-44-choice");
+    expect(exemptions).toContain(".vt-studio-44-word-toggle");
+    expect(exemptions).toContain(".vt-studio-vertical-word-toggle");
+    expect(exemptions).not.toContain("width: max-content !important");
+    expect(exemptions).not.toContain("flex: 0 0 auto !important");
+  });
+});
