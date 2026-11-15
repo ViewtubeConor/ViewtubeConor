@@ -2,9 +2,9 @@
 
 **Date:** 2026-10-29  
 **PR target branch:** `fix/studio-controls-regression-recovery-2026-10-31`  
-**Implementation branch:** `feat/calendar-resource-analytics-consolidation-2026-11-11`  
+**Implementation branch:** `feat/projects-calendar-phase-0-1-source-integration-2026-11-15`  
 **Canonical data owner:** Projects / Project records; no second calendar store  
-**Status:** Phases 0–3 implementation in progress on the recovery-targeted branch; runtime verification and release gates remain open
+**Status:** Phases 0–1 source/branch reconciliation and read-only Projects event projection are implemented on the recovery-based feature branch; runtime verification remains open. Phases 2–5 remain pending.
 
 ## Product contract
 
@@ -18,16 +18,58 @@ The visual language stays neo-brutalist and uses the canonical Studio controls f
 
 | Phase | Scope | Status | Completion evidence / remaining gate |
 |---|---|---|---|
-| 1. Source audit | Inspect the current Projects page, Board/Calendar owner, project date/task fields, and canonical Studio controls | **Complete** | `ProjectCalendarPage` → `ProjectBoardWorkspace` → `EmbeddedPublishingSchedule` → `ProjectPlannerCalendar`; schedule writes use the canonical project record |
-| 2. Standalone workbench | Preserve the standalone interaction/design workbench before production migration | **Complete** | `docs/ui/prototypes/VIEWTUBE_STUDIO_CALENDAR_STUDIO_PRIMITIVE_LIBRARY.html` is checked in |
-| 3. Studio primitives | Add reusable event-chip and 16:9/9:16 media-rail compositions; expose and catalogue them | **Implemented; verification pending** | `StudioCalendarEventChip`, `StudioCalendarMediaRail`, public exports, confirmed-library specimens, and focused regression test added |
-| 4. Validation | Run focused tests, CSS parsing, typecheck, production build, full suite, and mobile/browser checks | **Pending** | CI must confirm tests and typecheck; manually inspect desktop, narrow phone, portrait/landscape media rails, keyboard focus, and reduced motion |
-| 5. Projects integration | Use Studio primitives in the existing calendar without replacing its state/data owner | **Implemented; verification pending** | Calendar controls use Studio button, square icon button, dropdown, closeable badge, event-chip and media-rail primitives; inline styles moved to `ProjectPlannerCalendar.css` |
-| 6. Development workflow/data | Preserve project opening, schedule edits, task dates, and identity; reconcile external publishing state only through existing owners | **Integrated locally; external refresh remains pending** | Current Project `publishDate` and `tasks` remain canonical; saved ContentBuild YouTube binding status is displayed and schedule-date drift is surfaced. This is a read-only saved-state view, not a live YouTube API refresh. Post-publish checkpoints remain outside this phase |
-| 7. Docs, regression, PR | Record copy contract, add tests/catalog coverage, run gates, open PR | **In progress** | This document and focused tests are added; CI/browser review and PR creation remain |
+| 0. Branch/source reconciliation | Audit all identified calendar branches and PRs against the October 31 recovery branch; disposition stale, merged and unique work | **Complete — source audit** | Branch ledger below; #1244 is superseded, #1245–#1249 are merged, and no identified branch contains additional unmerged calendar commits beyond the merged recovery history |
+| 1. Source-owned event contract | Define canonical owners, stable record identity, date semantics and read-only projections for existing Project and task records | **Implemented; runtime verification pending** | `calendarEventContract.ts` plus `projectCalendarEvents.ts` and focused adapter tests; existing owner write paths remain unchanged |
+| 2. Studio primitives | Mini event chips, multi-day bars, thumbnail event chips and media rails | **Implemented on recovery branch; integration/visual verification pending** | `StudioCalendarEventChip`, `StudioCalendarMultiDayBar`, `StudioCalendarThumbnailEventChip`, `StudioCalendarMediaRail`, exports and confirmed catalog |
+| 3. Confirmed primitive catalog | Actual production representatives and regression coverage | **Implemented on recovery branch; verification pending** | PRs #1245, #1248 and #1249 |
+| 4. Production calendar integration | Consume the event projection and render new Mini/bar/thumbnail primitives in `ProjectPlannerCalendar` | **Pending** | Current production calendar still projects project/task arrays inline and renders individual chips |
+| 5. Interaction and owner writes | Drag/drop, range movement, task/publish interactions and owner-correct persistence | **Pending** | Preserve existing `updateProject` paths; add only owner-supported workflows |
+| 6. Verification and release | Focused tests, Studio gate, typecheck, build, full suite and desktop/mobile accessibility checks | **Pending** | Must run in repository-capable CI/runtime; do not claim visual certification before browser inspection |
 
 
-## Recovery-branch execution record — phases 0–3
+## Branch and PR disposition ledger — audited 2026-11-15
+
+Comparison target: `fix/studio-controls-regression-recovery-2026-10-31`. The audit compared each named branch against that exact target; it did not compare or merge the 534-commit-diverged master history.
+
+| Identified branch | Comparison result | PR / disposition |
+|---|---|---|
+| `feat/calendar-phases-0-3-studio-recovery-2026-11-11` | 11 commits ahead in its stale pre-sync snapshot | PR #1244 closed unmerged as superseded by #1245. Its code snapshot is not to be cherry-picked over the recovery branch; #1245 carries the refreshed implementation |
+| `feat/calendar-phases-0-3-studio-recovery-sync-2026-11-11` | No unique commits ahead | PR #1245 merged into recovery; authoritative Phase 0–3 calendar delivery |
+| `feat/calendar-resource-analytics-consolidation-2026-11-11` | No unique commits ahead in branch comparison | PRs #1246 and #1247 merged; calendar consolidation is present, while Resource Index/Analytics changes are outside this calendar scope |
+| `feat/confirmed-calendar-primitives-coverage-2026-11-11` | No unique commits ahead | PR #1248 merged; catalog regression coverage recovered |
+| `fix/calendar-catalog-event-kind-typing-2026-11-11` | No unique commits ahead | PR #1249 merged; invalid catalog event kinds corrected |
+| `feat/studio-calendar-controls-integration-2026-10-29` | No unique commits ahead | Historical source; PR #1160 records the merged Studio primitive integration |
+| `feat/studio-calendar-catalog-representatives-2026-10-29` | No unique commits ahead | Historical source; PR #1166 records the merged catalog representatives |
+| `master/calendar-toolbox-status-badges-2026-10-11` | No unique commits ahead | Historical master-lineage source; PRs #23 and #24 record the merged early calendar foundation |
+
+### PR state and recovery rules
+
+- **Merged to the October 31 recovery branch:** #1245, #1246, #1247, #1248 and #1249. Their unique changes are already part of the recovery lineage; do not replay them.
+- **Superseded, not independently merged:** #1244. It contains an older snapshot; its replacement is #1245, which was refreshed against the latest recovery head.
+- **Historical merged foundations:** #23 and #24 are on the master integration lineage; #1160 and #1166 are represented in the recovery branch's calendar source. Preserve their functionality; do not replay historical branches.
+- **No additional unmerged calendar-only code was identified** on the eight named branches after accounting for the superseding/merged PR lineage.
+- The #1246/#1247 PRs include Resource Index and Analytics changes. Those are not to be copied into a future calendar-only PR.
+- Branch deletion is intentionally deferred until the final calendar migration is verified and no open PR or other work depends on those refs.
+
+### Phase 0 completion boundary
+
+This completes the source/branch inventory and disposition. It does not certify tests, runtime rendering, or the later calendar redesign phases. The recovery branch remains the safe base for calendar continuation; master remains a separate integration destination for a later selective port.
+
+## Phase 1 — source-owned event projection
+
+The shared event vocabulary remains in `src/services/calendar/calendarEventContract.ts`. The new pure adapter `src/services/calendar/projectCalendarEvents.ts` maps only existing Project and task records into that read model:
+
+- Project `publishDate` → `projects / project / publish`, one-day event.
+- Project `tasks[].dueDate` → `projects / project_task / task`, one-day event.
+- Stable IDs are derived from owner, source record ID and event role.
+- Completed tasks project as `completed`; open tasks project as `planned`.
+- Invalid/impossible dates and unscheduled records are omitted.
+- Project/task inputs are read-only and never mutated.
+- Project/task scheduling writes remain in the existing Projects owner path; this adapter does not write records.
+
+The contract still reserves Publisher/ContentBuild, Asset Engine/Vault and Analytics owners. Their projections must be added only from verified owner records and stable IDs. The current Project Planner's saved ContentBuild badge is a read-only publication-state display; it is not evidence of a live YouTube refresh or a complete Publisher event feed. Explicit owner-managed date ranges remain mandatory for multi-day events.
+
+## Recovery-branch execution record — historical implementation
 
 ### Phase 0 — source and branch reconciliation
 
