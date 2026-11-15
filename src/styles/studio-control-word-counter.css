@@ -1,4 +1,25 @@
 /* Default word counter inherits the global field/counter 50% primary treatment. */
+/* Shared value face used by Word Counter, Side Toggle, and both Double Side Toggle halves. */
+.vt-studio-word-counter__value {
+  --vt-studio-number-background: var(--vt-studio-control-accent, var(--pair-a));
+  --vt-studio-number-rest-color: color-mix(in srgb, #fff var(--vt-studio-number-default-white-mix, 50%), var(--vt-studio-number-background));
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  line-height: 1;
+  text-align: center;
+  color: var(--vt-studio-number-rest-color);
+  -webkit-text-fill-color: var(--vt-studio-number-rest-color);
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, 1px) var(--vt-studio-number-rest-color);
+  transition:
+    color var(--vt-studio-focus-outline-fade-ms, 500ms) ease-out,
+    -webkit-text-fill-color var(--vt-studio-focus-outline-fade-ms, 500ms) ease-out,
+    -webkit-text-stroke-color var(--vt-studio-focus-outline-fade-ms, 500ms) ease-out;
+}
 .vt-studio-left-word-counter {
   --vt-studio-number-background: var(--pair-a);
 }
