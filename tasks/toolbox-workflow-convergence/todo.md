@@ -110,7 +110,16 @@
 - [ ] Video Autopsy capability matrix.
 - [ ] Daily Oracle capability matrix.
 - [ ] Brain Hub capability matrix.
-- [ ] Comment Operations capability matrix.
+- [x] Comment Operations capability matrix — first implementation slice is tracked in PR #1274.
+- [x] Comment Management workspace shell and inbox redesign; preserve the existing creator-engagement controller and ToolboxScaffold owner.
+- [x] Make AI video recommendations reviewable before explicit insertion into a reply.
+- [x] Add an independent CI contract-test step for Comment Management.
+- [ ] Replace weak comment/thread presentation `any` contracts with canonical typed YouTube thread/view types; keep transport ownership in the existing YouTube service.
+- [ ] Expand Brain reply context with approved thread/video evidence and explicit source references; do not create a second Brain runtime.
+- [ ] Add recommendation evaluation fixtures for strong match, weak/no match, excluded source video, unknown IDs, and sparse video metadata.
+- [ ] Extend Audience Pulse only through its existing read-only projection and evidence proposal packet; validate sample coverage and heuristic limitations.
+- [ ] Audit YouTube API scopes and supported moderation operations before adding delete, hide, hold, pin, heart, or bulk moderation controls.
+- [ ] Certify desktop, tablet, mobile portrait/landscape, loading, empty, disconnected, error, keyboard, focus, and touch states.
 - [ ] Longform Optimization capability matrix.
 - [ ] Video Asset Engine capability matrix.
 - [ ] Thumbnail Studio family capability matrix.
