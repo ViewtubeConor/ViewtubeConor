@@ -2223,17 +2223,9 @@
 }
 
 
-.vt-confirmed-control-family .vt-confirmed-control-variants {
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-}
 /* Confirmed Library layout contract — phases 1–3 (2026-10-15).
    Four-skin control sets remain in one row; standard specimens occupy one row,
    with compact A/B sharing the next row. These rules affect gallery layout only. */
-.vt-confirmed-word-toggle-family .vt-confirmed-control-variants[data-control-size="44"],
-.vt-confirmed-word-toggle-family .vt-confirmed-control-variants[data-control-size="standard"],
-.vt-confirmed-word-toggle-family .vt-confirmed-control-variants[data-control-size="28"] {
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-}
 .vt-confirmed-button-family > .vt-confirmed-variants {
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
 }
@@ -2248,14 +2240,6 @@
 .vt-confirmed-defaults-explainer p { margin: 0; }
 .vt-confirmed-defaults-explainer b { font-weight: 1000; }
 @media (max-width: 560px) {
-  .vt-confirmed-control-family .vt-confirmed-control-variants,
-  .vt-confirmed-word-toggle-family .vt-confirmed-control-variants[data-control-size="44"],
-  .vt-confirmed-word-toggle-family .vt-confirmed-control-variants[data-control-size="standard"],
-  .vt-confirmed-word-toggle-family .vt-confirmed-control-variants[data-control-size="28"] {
-    grid-template-columns: repeat(4, minmax(64px, 1fr)) !important;
-    overflow-x: auto;
-    scrollbar-width: thin;
-  }
 }
 
 
@@ -2818,15 +2802,17 @@
   letter-spacing: -.02em;
 }
 .vt-confirmed-vertical-word-toggle-standard,
-.vt-confirmed-vertical-word-toggle-compact {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+.vt-confirmed-vertical-word-toggle-compact,
+.vt-confirmed-vertical-word-toggle-micro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
   gap: 8px;
+  width: auto;
   min-width: 0;
 }
 .vt-confirmed-vertical-word-toggle-specimen {
-  width: max-content;
+  width: auto;
   max-width: 100%;
 }
 .vt-confirmed-vertical-word-toggle-specimen {
@@ -2853,11 +2839,11 @@
   max-width: none;
 }
 .vt-confirmed-vertical-word-toggle-micro {
-  width: max-content;
+  width: auto;
   max-width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
   gap: 5px;
   min-width: 0;
 }
@@ -3434,4 +3420,55 @@
   width: 100%;
   min-width: 0;
   max-width: none;
+}
+
+
+/* Toggle-family specimens are stacked: one variant per row, with natural
+   grid-item stretching rather than fixed or forced 100% primitive widths. */
+.vt-confirmed-choice-family {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+  min-width: 0;
+}
+.vt-confirmed-choice-family > .vt-confirmed-control-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: stretch;
+  gap: 4px;
+  min-width: 0;
+}
+.vt-confirmed-control-variants[data-vt-library-component="StudioArrowToggle"],
+.vt-confirmed-control-variants[data-vt-library-component="StudioSideToggle"],
+.vt-confirmed-control-variants[data-vt-library-component="StudioDoubleSideToggle"] {
+  grid-template-columns: minmax(0, 1fr);
+}
+.vt-confirmed-control-variants[data-vt-library-component="StudioArrowToggle"] > div,
+.vt-confirmed-control-variants[data-vt-library-component="StudioSideToggle"] > div,
+.vt-confirmed-control-variants[data-vt-library-component="StudioDoubleSideToggle"] > div {
+  grid-template-rows: auto auto;
+  justify-items: stretch;
+  min-width: 0;
+}
+.vt-confirmed-control-variants[data-vt-library-component="StudioArrowToggle"] .vt-studio-value-toggle,
+.vt-confirmed-control-variants[data-vt-library-component="StudioSideToggle"] .vt-studio-value-toggle,
+.vt-confirmed-control-variants[data-vt-library-component="StudioDoubleSideToggle"] .vt-studio-value-toggle {
+  width: auto;
+  max-width: 100%;
+  min-width: 0;
+}
+.vt-confirmed-word-toggle-family .vt-confirmed-control-variants {
+  grid-template-columns: minmax(0, 1fr);
+  overflow: visible;
+}
+.vt-confirmed-word-toggle-family .vt-confirmed-control-variants > div {
+  justify-items: start;
+  width: auto;
+}
+.vt-confirmed-vertical-word-toggle-family .vt-confirmed-vertical-word-toggle-size-row,
+.vt-confirmed-vertical-word-toggle-family .vt-confirmed-vertical-word-toggle-standard,
+.vt-confirmed-vertical-word-toggle-family .vt-confirmed-vertical-word-toggle-compact,
+.vt-confirmed-vertical-word-toggle-family .vt-confirmed-vertical-word-toggle-micro {
+  grid-template-columns: minmax(0, 1fr);
+  width: auto;
 }
