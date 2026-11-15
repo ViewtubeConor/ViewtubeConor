@@ -792,7 +792,7 @@ export const settleAiCreditReservation = async (userId, input = {}) => {
     }
     if (!reservation.unlimited && adjustment !== 0) db.aiLedger.push({
       id: `aic_${crypto.randomUUID().replace(/-/g, "")}`, viewtubeUserId: userId,
-      entryType: "settlement_adjustment", deltaCredits: adjustment, idempotencyKey: `settle:${idempotencyKey}`,
+      entryType: "settlement_adjustment", deltaCredits: adjustment, idempotencyKey: `settle:${reservationId}:${idempotencyKey}`,
       metadata: { reservationId, reservedCredits: Number(reservation.reservedCredits), actualCredits }, createdAt: nowIso(),
     });
     reservation.status = "settled";
