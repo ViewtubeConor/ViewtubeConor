@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { draftCommentReply, recommendVideoForComment } from "../../services/brain/commentEngagement"
 import { fetchAllSimpleCommentThreads, fetchSimpleOwnedVideo, postSimpleCommentReply, toSimpleVideoDetails } from "../../services/simpleYouTubeApi"
 import { readBrainUserControls } from "../../services/brain/BrainUserControls"
-import type { CommentResponderController, CommentResponderTab, CreatorEngagementContext } from "./types"
+import type { CommentResponderController, CommentResponderTab, CommentVideoRecommendation, CreatorEngagementContext } from "./types"
 import { audiencePulseSignalToBrainClaim, buildAudiencePulseSignals, projectCommentThreadsToAudienceFeedback } from "./audiencePulse"
 import { buildAudiencePulseProposalPacket } from "./audiencePulseHandoff"
 import { loadViewTubeActionPacket, persistViewTubeActionPacket } from "../../services/viewTubeToolChains"
@@ -37,6 +37,7 @@ export const useCommentResponderController = (context: CreatorEngagementContext)
  const [generatingIds, setGeneratingIds] = useState<Set<string>>(new Set())
  const [currentIndex, setCurrentIndex] = useState(0)
  const [fetchedVideoData, setFetchedVideoData] = useState<Record<string, any>>({})
+ const [videoRecommendationsByCommentId, setVideoRecommendationsByCommentId] = useState<Record<string, CommentVideoRecommendation>>({})
  const [inboundImageUrl, setInboundImageUrl] = useState<string | null>(null)
  const [proposedAudienceSignalIds, setProposedAudienceSignalIds] = useState<Set<string>>(new Set())
  const fetchedRef = useRef<Record<string, any>>({})
@@ -234,14 +235,20 @@ export const useCommentResponderController = (context: CreatorEngagementContext)
     candidateVideos,
     sourceVideoId,
    )
-   if (!suggestedVideoId) {
+   const suggestedVideo = candidateVideos.find((video) => video.videoId === suggestedVideoId)
+   if (!suggestedVideoId || !suggestedVideo) {
     setError("Brain did not find a different channel video relevant enough to recommend.")
     return
    }
-   const bridge = recommendation.bridgePhrase?.trim() || "You might also enjoy this related video:"
-   setReplyTextById((current) => ({
+   setVideoRecommendationsByCommentId((current) => ({
     ...current,
-    [currentId]: `${current[currentId]?.trim() ? `${current[currentId].trim()}\n\n` : ""}${bridge} https://youtu.be/${suggestedVideoId}`,
+    [currentId]: {
+     videoId: suggestedVideoId,
+     title: suggestedVideo.title,
+     matchStrength: recommendation.matchStrength,
+     reason: recommendation.reason,
+     bridgePhrase: recommendation.bridgePhrase?.trim() || "You might also enjoy this related video:",
+    },
    }))
   } catch (cause) {
    setError(cause instanceof Error ? cause.message : "ViewTube could not suggest a video. Try again.")
@@ -265,9 +272,34 @@ export const useCommentResponderController = (context: CreatorEngagementContext)
   } finally { setLoading(false) }
  }
 
+ const videoRecommendation = currentId ? videoRecommendationsByCommentId[currentId] || null : null
+ const applyVideoRecommendation = () => {
+  if (!currentId || !videoRecommendation) return
+  const link = `https://youtu.be/${videoRecommendation.videoId}`
+  const addition = `${videoRecommendation.bridgePhrase} ${link}`
+  setReplyTextById((current) => ({
+   ...current,
+   [currentId]: `${current[currentId]?.trim() ? `${current[currentId].trim()}\n\n` : ""}${addition}`,
+  }))
+  setVideoRecommendationsByCommentId((current) => {
+   const next = { ...current }
+   delete next[currentId]
+   return next
+  })
+ }
+ const dismissVideoRecommendation = () => {
+  if (!currentId) return
+  setVideoRecommendationsByCommentId((current) => {
+   const next = { ...current }
+   delete next[currentId]
+   return next
+  })
+ }
+
  return {
   tab, setTab, loading, error, threads, audienceSignals, audienceEvidenceClaims, isAudienceSignalProposed, proposeAudienceSignal, displayThreads, currentThread, currentIndex: safeIndex, setCurrentIndex,
   replyText: currentId ? replyText[currentId] || "" : "",
+  videoRecommendation, applyVideoRecommendation, dismissVideoRecommendation,
   setReplyText: (value) => currentId && setReplyTextById((current) => ({ ...current, [currentId]: value })),
   generating: generatingIds.has(currentId), fetchedVideoData, inboundImageUrl,
   canPostReply: context.canPostComments, refresh, draftReply, suggestVideo, postReply, reconnect: context.reconnect,
