@@ -124,7 +124,6 @@
   min-width: var(--vt-bar-width);
   max-width: var(--vt-bar-width);
   height: var(--vt-bar-height);
-  position: relative;
   border: 0;
   border-radius: var(--vt-bar-radius);
   box-sizing: border-box;
@@ -175,7 +174,6 @@
   z-index: 60;
   left: 50%;
   bottom: calc(100% + (var(--vt-studio-control-font-size, 38px) * .125) + 1px);
-  display: block;
   visibility: hidden;
   opacity: 0;
   box-sizing: border-box;
@@ -198,6 +196,9 @@
   transform-origin: bottom center;
   transition: opacity 120ms ease-out;
   pointer-events: none;
+}
+.vt-studio-value-toggle__bar-tooltip--empty {
+  bottom: calc(100% + 1px);
 }
 .vt-studio-value-toggle__bars:hover .vt-studio-value-toggle__bar-tooltip,
 .vt-studio-value-toggle--bar:focus-within .vt-studio-value-toggle__bar-tooltip {
