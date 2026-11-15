@@ -1,33 +1,14 @@
-// QUARANTINED 2026-11-14: retained for rollback/reference only; not a public Studio primitive.
-import React from "react"
-import type { StudioControlSize } from "../tokens"
-import "../../styles/studio-control-entry.css"
-import { StudioSplitLeftBadge, StudioSplitRightBadge, StudioDoubleSplitBadge } from "./StudioControls"
-import { StudioTextInput } from "./StudioTextInput"
-import "./studio-split-text-input.css"
-
-export interface StudioSplitTextInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size" | "children" | "type"> {
-  split?: "left" | "right" | "double"
-  sizeVariant?: StudioControlSize
-  type?: "text" | "search" | "email" | "url" | "tel" | "password"
-  leftIcon?: React.ReactNode
-  rightIcon?: React.ReactNode
-  inputClassName?: string
-}
-
-/** Badge-owned perimeter and rails; the real simple input owns editing. */
-export const StudioSplitTextInput = React.forwardRef<HTMLInputElement, StudioSplitTextInputProps>(
-  ({ split = "left", sizeVariant = "standard", leftIcon, rightIcon, className, style, inputClassName, ...props }, ref) => {
-    const input = <StudioTextInput {...props} ref={ref} variant="simple" sizeVariant={sizeVariant} className={inputClassName} />
-    return (
-      <span className={["vt-studio-split-text-input", className].filter(Boolean).join(" ")} data-vt-studio-control="true" data-size={sizeVariant} data-split={split} style={style}>
-        {split === "double"
-          ? <StudioDoubleSplitBadge data-vt-studio-split-input="true" sizeVariant={sizeVariant} leftIcon={leftIcon} rightIcon={rightIcon}>{input}</StudioDoubleSplitBadge>
-          : split === "right"
-            ? <StudioSplitRightBadge data-vt-studio-split-input="true" sizeVariant={sizeVariant} icon={rightIcon}>{input}</StudioSplitRightBadge>
-            : <StudioSplitLeftBadge data-vt-studio-split-input="true" sizeVariant={sizeVariant} icon={leftIcon}>{input}</StudioSplitLeftBadge>}
-      </span>
-    )
-  },
-)
-StudioSplitTextInput.displayName = "StudioSplitTextInput"
+/**
+ * Split / double-split text inputs — foundation is StudioSideTextCounter /
+ * StudioSideTextCounterIcon (StudioSplitShell + StudioTextInput).
+ * Implementation lives in StudioControls.tsx so it shares the same shell, rails,
+ * and single primary inset field contract.
+ */
+export {
+  StudioSplitTextInput,
+  StudioSplitLeftTextInput,
+  StudioSplitRightTextInput,
+  StudioDoubleSplitTextInput,
+  type StudioSplitTextInputProps,
+  type StudioSplitTextInputLayout,
+} from "./StudioControls"

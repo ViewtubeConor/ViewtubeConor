@@ -2594,136 +2594,120 @@ export const StudioSideTextCounterIcon = React.forwardRef<HTMLInputElement, Stud
 StudioSideTextCounterIcon.displayName = "StudioSideTextCounterIcon";
 
 
-/** QUARANTINED 2026-11-14: retained source only; not exported or registered. */
-/** Editable centered text field with one square icon rail instead of numeric step controls. */
-interface StudioSideTextInputProps extends Omit<
+
+/** Split text inputs — same foundation as SideTextCounter / SideTextCounterIcon:
+ *  StudioSplitShell owns the black perimeter + square icon rails;
+ *  StudioTextInput owns the field face with a single primary inset (no double border).
+ */
+export type StudioSplitTextInputLayout = "left" | "right" | "double"
+
+export interface StudioSplitTextInputProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   "size" | "value" | "defaultValue" | "onChange" | "type" | "className" | "style"
 > {
-  value: string;
-  onValueChange: (value: string) => void;
-  icon: React.ReactNode;
-  iconLabel?: string;
-  onIconClick?: () => void;
-  size?: StudioControlSize;
-  disabled?: boolean;
-  ariaLabel?: string;
-  className?: string;
-  inputClassName?: string;
-  inputStyle?: React.CSSProperties;
+  value?: string
+  defaultValue?: string
+  onValueChange?: (value: string) => void
+  type?: React.HTMLInputTypeAttribute
+  split?: StudioSplitTextInputLayout
+  leftIcon?: React.ReactNode
+  rightIcon?: React.ReactNode
+  leftIconLabel?: string
+  rightIconLabel?: string
+  onLeftIconClick?: () => void
+  onRightIconClick?: () => void
+  size?: StudioControlSize
+  sizeVariant?: StudioControlSize
+  disabled?: boolean
+  ariaLabel?: string
+  className?: string
+  inputClassName?: string
+  inputStyle?: React.CSSProperties
 }
 
-const StudioSideTextInput = React.forwardRef<HTMLInputElement, StudioSideTextInputProps>(({
-  value, onValueChange, icon, iconLabel = "Activate icon action", onIconClick,
-  size = "standard", disabled = false, ariaLabel = "Text",
-  className, inputClassName, inputStyle, ...inputProps
-}, ref) => {
-  const interactionFocus = useStudioInteractionFocus();
-  const iconContent = onIconClick
-    ? <button
+const renderSplitTextRailIcon = (
+  icon: React.ReactNode | undefined,
+  label: string,
+  onClick: (() => void) | undefined,
+  disabled: boolean,
+  pulse: () => void,
+) => {
+  if (!icon) return null
+  if (onClick) {
+    return (
+      <button
         type="button"
         className="vt-studio-side-text-input__icon-button"
-        data-vt-studio-side-text-input-icon
-        aria-label={iconLabel}
+        data-vt-studio-split-text-rail-icon
+        aria-label={label}
         disabled={disabled}
-        onClick={() => { onIconClick(); interactionFocus.pulse(); }}
-      >{icon}</button>
-    : <span className="vt-studio-side-text-input__icon" data-vt-studio-side-text-input-icon aria-hidden="true">{icon}</span>;
-
+        onClick={() => { onClick(); pulse() }}
+      >
+        {icon}
+      </button>
+    )
+  }
   return (
-    <StudioSplitShell
-      layout="right"
-      fieldSlot
-      sizeVariant={size}
-      className={studioClasses("vt-studio-side-text-input", interactionFocus.active && "is-interaction-focus", `is-${size}`, className)}
-      railClassName="vt-studio-side-counter__rail"
-      rightRailContent={iconContent}
-      shellProps={{
-        "data-vt-interaction-focus": interactionFocus.active ? "true" : undefined,
-        onPointerDownCapture: interactionFocus.start,
-        onPointerUpCapture: interactionFocus.end,
-        onPointerCancelCapture: interactionFocus.end,
-        role: "group",
-        "aria-label": ariaLabel,
-        "data-vt-studio-control-family": "text-input",
-        "data-vt-studio-control-kind": "studio-side-text-input",
-        "data-vt-library-component": "StudioSideTextInput",
-      }}
-    >
-      <StudioTextInput
-        {...inputProps}
-        ref={ref}
-        type="text"
-        value={value}
-        onChange={event => onValueChange(event.currentTarget.value)}
-        aria-label={inputProps["aria-label"] ?? ariaLabel}
-        disabled={disabled}
-        inputMode={inputProps.inputMode ?? "text"}
-        sizeVariant={size}
-        className={["vt-studio-side-text-input__input", inputClassName].filter(Boolean).join(" ")}
-        style={inputStyle}
-      />
-    </StudioSplitShell>
-  );
-});
-StudioSideTextInput.displayName = "StudioSideTextInput";
-
-/** QUARANTINED 2026-11-14: retained source only; not exported or registered. */
-/** Editable centered text field with independent square icon rails on both sides. */
-interface StudioDoubleSplitTextInputProps extends Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  "size" | "value" | "defaultValue" | "onChange" | "type" | "className" | "style"
-> {
-  value: string;
-  onValueChange: (value: string) => void;
-  leftIcon: React.ReactNode;
-  rightIcon: React.ReactNode;
-  leftIconLabel?: string;
-  rightIconLabel?: string;
-  onLeftIconClick?: () => void;
-  onRightIconClick?: () => void;
-  size?: StudioControlSize;
-  disabled?: boolean;
-  ariaLabel?: string;
-  className?: string;
-  inputClassName?: string;
-  inputStyle?: React.CSSProperties;
+    <span className="vt-studio-side-text-input__icon" data-vt-studio-split-text-rail-icon aria-hidden="true">
+      {icon}
+    </span>
+  )
 }
 
-const StudioDoubleSplitTextInput = React.forwardRef<HTMLInputElement, StudioDoubleSplitTextInputProps>(({
-  value, onValueChange, leftIcon, rightIcon,
-  leftIconLabel = "Activate left icon action",
-  rightIconLabel = "Activate right icon action",
-  onLeftIconClick, onRightIconClick,
-  size = "standard", disabled = false, ariaLabel = "Text",
-  className, inputClassName, inputStyle, ...inputProps
+export const StudioSplitTextInput = React.forwardRef<HTMLInputElement, StudioSplitTextInputProps>(({
+  value,
+  defaultValue,
+  onValueChange,
+  split = "left",
+  leftIcon,
+  rightIcon,
+  leftIconLabel = "Leading action",
+  rightIconLabel = "Trailing action",
+  onLeftIconClick,
+  onRightIconClick,
+  size,
+  sizeVariant,
+  disabled = false,
+  ariaLabel = "Text",
+  className,
+  inputClassName,
+  inputStyle,
+  ...inputProps
 }, ref) => {
-  const interactionFocus = useStudioInteractionFocus();
-  const renderIcon = (icon: React.ReactNode, label: string, onClick: (() => void) | undefined, side: "left" | "right") =>
-    onClick
-      ? <button
-          type="button"
-          className="vt-studio-side-text-input__icon-button"
-          data-vt-studio-double-split-text-input-icon={side}
-          aria-label={label}
-          disabled={disabled}
-          onClick={() => { onClick(); interactionFocus.pulse(); }}
-        >{icon}</button>
-      : <span
-          className="vt-studio-side-text-input__icon"
-          data-vt-studio-double-split-text-input-icon={side}
-          aria-hidden="true"
-        >{icon}</span>;
+  const interactionFocus = useStudioInteractionFocus()
+  const resolvedSize = sizeVariant ?? size ?? "standard"
+  const isControlled = value !== undefined
+  const [uncontrolled, setUncontrolled] = React.useState(defaultValue ?? "")
+  const textValue = isControlled ? String(value ?? "") : uncontrolled
+  const setText = (next: string) => {
+    if (!isControlled) setUncontrolled(next)
+    onValueChange?.(next)
+  }
+
+  const leftRail = split !== "right"
+    ? renderSplitTextRailIcon(leftIcon, leftIconLabel, onLeftIconClick, disabled, interactionFocus.pulse)
+    : undefined
+  const rightRail = split !== "left"
+    ? renderSplitTextRailIcon(rightIcon, rightIconLabel, onRightIconClick, disabled, interactionFocus.pulse)
+    : undefined
 
   return (
     <StudioSplitShell
-      layout="double"
+      layout={split}
       fieldSlot
-      sizeVariant={size}
-      className={studioClasses("vt-studio-side-text-input", "vt-studio-double-split-text-input", interactionFocus.active && "is-interaction-focus", `is-${size}`, className)}
+      sizeVariant={resolvedSize}
+      className={studioClasses(
+        "vt-studio-side-counter",
+        "vt-studio-side-text-counter",
+        "vt-studio-side-text-input",
+        "vt-studio-split-text-input",
+        interactionFocus.active && "is-interaction-focus",
+        `is-${resolvedSize}`,
+        className,
+      )}
       railClassName="vt-studio-side-counter__rail"
-      leftRailContent={renderIcon(leftIcon, leftIconLabel, onLeftIconClick, "left")}
-      rightRailContent={renderIcon(rightIcon, rightIconLabel, onRightIconClick, "right")}
+      leftRailContent={leftRail}
+      rightRailContent={rightRail}
       shellProps={{
         "data-vt-interaction-focus": interactionFocus.active ? "true" : undefined,
         onPointerDownCapture: interactionFocus.start,
@@ -2731,33 +2715,44 @@ const StudioDoubleSplitTextInput = React.forwardRef<HTMLInputElement, StudioDoub
         onPointerCancelCapture: interactionFocus.end,
         role: "group",
         "aria-label": ariaLabel,
-        "data-vt-studio-control-family": "text-input",
-        "data-vt-studio-control-kind": "studio-double-split-text-input",
-        "data-vt-library-component": "StudioDoubleSplitTextInput",
+        "data-vt-studio-control-family": "field",
+        "data-vt-studio-control-kind": "studio-split-text-input",
+        "data-vt-library-component": "StudioSplitTextInput",
+        "data-split": split,
       }}
     >
       <StudioTextInput
         {...inputProps}
         ref={ref}
-        type="text"
-        value={value}
-        onChange={event => onValueChange(event.currentTarget.value)}
+        type={inputProps.type ?? "text"}
+        value={textValue}
+        onChange={event => setText(event.currentTarget.value)}
         aria-label={inputProps["aria-label"] ?? ariaLabel}
         disabled={disabled}
         inputMode={inputProps.inputMode ?? "text"}
-        sizeVariant={size}
-        className={["vt-studio-double-split-text-input__input", inputClassName].filter(Boolean).join(" ")}
+        sizeVariant={resolvedSize}
+        className={["vt-studio-side-text-counter__input", "vt-studio-split-text-input__field", inputClassName].filter(Boolean).join(" ")}
         style={inputStyle}
       />
     </StudioSplitShell>
-  );
-});
-StudioDoubleSplitTextInput.displayName = "StudioDoubleSplitTextInput";
+  )
+})
+StudioSplitTextInput.displayName = "StudioSplitTextInput"
 
+export const StudioSplitLeftTextInput = React.forwardRef<HTMLInputElement, Omit<StudioSplitTextInputProps, "split" | "rightIcon" | "rightIconLabel" | "onRightIconClick">>(
+  (props, ref) => <StudioSplitTextInput ref={ref} {...props} split="left" />,
+)
+StudioSplitLeftTextInput.displayName = "StudioSplitLeftTextInput"
 
+export const StudioSplitRightTextInput = React.forwardRef<HTMLInputElement, Omit<StudioSplitTextInputProps, "split" | "leftIcon" | "leftIconLabel" | "onLeftIconClick">>(
+  (props, ref) => <StudioSplitTextInput ref={ref} {...props} split="right" />,
+)
+StudioSplitRightTextInput.displayName = "StudioSplitRightTextInput"
 
-
-
+export const StudioDoubleSplitTextInput = React.forwardRef<HTMLInputElement, Omit<StudioSplitTextInputProps, "split">>(
+  (props, ref) => <StudioSplitTextInput ref={ref} {...props} split="double" />,
+)
+StudioDoubleSplitTextInput.displayName = "StudioDoubleSplitTextInput"
 
 
 export const StudioLeftCounter: React.FC<StudioLeftCounterProps> = ({
