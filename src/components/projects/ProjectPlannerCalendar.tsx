@@ -8,9 +8,10 @@ import {
 import { useBrain } from "../../context/useBrain"
 import { getContentBuild } from "../../services/asset-engine/ContentBuildRepository"
 import { getProjectCalendarPublicationBadge } from "./projectCalendarPublicationState"
+import { projectProjectsToCalendarEvents } from "../../services/calendar/projectCalendarEvents"
 import type { DayTask, Project } from "../../types"
 import { SubToolboxSection, SubToolboxStack } from "../subtoolbox/SubToolboxLayouts"
-import { StudioButton, StudioCheckbox, StudioCloseableBadge, StudioDropdown, StudioSplitLeftButton, StudioSquareIconButton, StudioCalendarEventChip, StudioCalendarMediaRail } from "../../studio-ui"
+import { StudioButton, StudioCheckbox, StudioCloseableBadge, StudioDropdown, StudioSplitLeftButton, StudioSquareIconButton, StudioCalendarEventChip, StudioCalendarMediaRail, StudioCalendarThumbnailEventChip, StudioCalendarMultiDayBar } from "../../studio-ui"
 import "../../styles/toolbox-entry.css"
 import "./ProjectPlannerCalendar.css"
 
@@ -88,27 +89,30 @@ const ProjectPlannerCalendar: React.FC<ProjectPlannerCalendarProps> = ({ onOpenP
     }
   }
 
+  const calendarEvents = useMemo(() => projectProjectsToCalendarEvents(projects), [projects])
+  const projectById = useMemo(() => new Map(projects.map(project => [project.id, project])), [projects])
   const scheduledProjects = useMemo(
-    () => projects.filter(project => Boolean(parseDate(project.publishDate))),
-    [projects],
+    () => projects.filter(project => calendarEvents.some(event => event.source.recordType === "project" && event.source.recordId === project.id)),
+    [projects, calendarEvents],
   )
   const unscheduledProjects = useMemo(
-    () => projects.filter(project => !parseDate(project.publishDate)),
-    [projects],
+    () => projects.filter(project => !calendarEvents.some(event => event.source.recordType === "project" && event.source.recordId === project.id)),
+    [projects, calendarEvents],
   )
-  const projectsForDate = (key: string) =>
-    scheduledProjects.filter(project => { const date = parseDate(project.publishDate); return date ? dateKey(date) === key : false })
-  const tasksForDate = (key: string) => projects.flatMap(project =>
-    (project.tasks || []).filter((task: DayTask) => {
-      const due = parseDate(task.dueDate)
-      return Boolean(due && dateKey(due) === key)
-    }).map((task: DayTask) => ({ ...task, projectId: project.id, projectTitle: projectTitle(project) }))
-  )
-  const selectedProjects = useMemo(
-    () => projectsForDate(selectedDate),
-    [scheduledProjects, selectedDate],
-  )
-  const selectedTasks = useMemo(() => tasksForDate(selectedDate), [projects, selectedDate])
+  const eventsForDate = (key: string) => calendarEvents.filter(event => event.startDate === key || (event.endDate != null && event.startDate <= key && event.endDate >= key))
+  const projectsForDate = (key: string) => eventsForDate(key)
+    .filter(event => event.source.recordType === "project")
+    .map(event => projectById.get(event.source.recordId))
+    .filter((project): project is Project => Boolean(project))
+  const tasksForDate = (key: string) => eventsForDate(key)
+    .filter(event => event.source.recordType === "project_task")
+    .flatMap(event => {
+      const project = event.source.projectId ? projectById.get(event.source.projectId) : undefined
+      const task = project?.tasks?.find(item => item.id === event.source.recordId)
+      return project && task ? [{ ...task, projectId: project.id, projectTitle: projectTitle(project) }] : []
+    })
+  const selectedProjects = useMemo(() => projectsForDate(selectedDate), [calendarEvents, selectedDate, projectById])
+  const selectedTasks = useMemo(() => tasksForDate(selectedDate), [calendarEvents, selectedDate, projectById])
   const days = useMemo(() => {
     const first = new Date(cursor.getFullYear(), cursor.getMonth(), 1)
     const gridStart = addDays(first, -first.getDay())
@@ -212,10 +216,13 @@ const ProjectPlannerCalendar: React.FC<ProjectPlannerCalendarProps> = ({ onOpenP
                 const key = dateKey(day)
                 const dayProjects = projectsForDate(key)
                 const dayTasks = tasksForDate(key)
-                const dayItems = [
-                  ...dayProjects.map(project => ({ id: project.id, label: projectTitle(project), type: "project" as const, color: project.color })),
-                  ...dayTasks.map(task => ({ id: `${task.projectId}-${task.id}`, label: `TASK · ${task.text}`, type: "task" as const, color: undefined })),
-                ]
+                const dayItems = eventsForDate(key).map(event => ({
+                  event,
+                  id: event.id,
+                  label: event.title,
+                  type: event.kind === "publish" ? "project" as const : "task" as const,
+                  status: event.status,
+                }))
                 const currentMonth = day.getMonth() === cursor.getMonth()
                 return (
                   <section key={key} className={`vt-project-planner-calendar__day-wrap`} style={{ minWidth: 0 }}>
@@ -234,9 +241,19 @@ const ProjectPlannerCalendar: React.FC<ProjectPlannerCalendarProps> = ({ onOpenP
                     >
                       <span className={`vt-project-planner-calendar__day-number ${key === todayKey ? "is-today" : ""}`}>{day.getDate()}</span>
                       <span className="vt-project-planner-calendar__markers" aria-hidden="true">
-                        {dayItems.slice(0, 2).map(item => (
-                          <StudioCalendarEventChip key={item.id} label={item.label} kind={item.type === "project" ? "publish" : "task"} status={item.type === "project" ? "scheduled" : "task"} className="vt-project-planner-calendar__marker" />
-                        ))}
+                        {dayItems.slice(0, 2).map(item => {
+                          const hasRange = Boolean(item.event.endDate && item.event.endDate > item.event.startDate)
+                          if (hasRange) {
+                            const startsSegment = key === item.event.startDate || day.getDay() === 0
+                            const endsSegment = key === item.event.endDate || day.getDay() === 6
+                            const segment = startsSegment && endsSegment ? "single" : startsSegment ? "start" : endsSegment ? "end" : "middle"
+                            return <StudioCalendarMultiDayBar key={item.id} label={item.label} kind={item.event.kind === "publish" ? "publish" : "task"} status={item.status} segment={segment} className="vt-project-planner-calendar__marker" />
+                          }
+                          const project = item.event.source.projectId ? projectById.get(item.event.source.projectId) : projectById.get(item.event.source.recordId)
+                          return item.type === "project"
+                            ? <StudioCalendarThumbnailEventChip key={item.id} label={item.label} thumbnailSrc={project?.thumbnailUrl} kind="publish" status={item.status} className="vt-project-planner-calendar__marker" />
+                            : <StudioCalendarEventChip key={item.id} label={item.label} kind="task" status={item.status} sizeVariant="mini" className="vt-project-planner-calendar__marker" />
+                        })}
                         {dayItems.length > 2 ? <StudioCalendarEventChip label={`+${dayItems.length - 2} MORE`} kind="reminder" className="vt-project-planner-calendar__marker" /> : null}
                       </span>
                     </button>
