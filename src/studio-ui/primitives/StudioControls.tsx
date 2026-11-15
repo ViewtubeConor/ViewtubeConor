@@ -1590,7 +1590,7 @@ export const StudioSquareIconButtonGroup = React.forwardRef<HTMLDivElement, Stud
       return React.cloneElement(item as React.ReactElement<StudioSquareIconButtonProps>, {
         variant: "v3",
         selected: selectedDefaultIndex === index,
-        onSelectedChange: selected => setSelectedDefaultIndex(selected ? index : -1),
+        onSelectedChange: selected => { if (selected) setSelectedDefaultIndex(index) },
         sizeVariant,
       })
     }) : [
