@@ -28,8 +28,9 @@ The conversation also requested:
 - Target/base: `master/consolidated-feature-integration`
 - Feature branch: `feat/comment-management-studio-redesign-2026-11-14`
 - PR: [#1274 — Redesign Studio Hub Comment Management workspace](https://github.com/viewtube-dev/viewtube/pull/1274)
-- PR state at last available search: open PR result; verify current live state before acting.
-- Latest verified workflow at handoff: [run 43677671858](https://github.com/viewtube-dev/viewtube/actions/runs/43677671858), overall FAILURE.
+- PR state at last verification: OPEN, DRAFT, mergeable=true, merged=false; 27 commits, 13 changed files at that read. Verify again before acting.
+- Earlier completed workflow: [run 43677671858](https://github.com/viewtube-dev/viewtube/actions/runs/43677671858), overall FAILURE.
+- Documentation/handoff commits advanced PR head to `ec267ef42ae26568b3999dee48fc70be0e2f1b03`; [run 43688189005](https://github.com/viewtube-dev/viewtube/actions/runs/43688189005) was queued/in progress at last read. Its Comment Management contract step and document audit have not yet reported results.
 - No merge is recorded by this handoff.
 - Do not start a second branch/PR for the same feature; continue PR #1274 unless reconciliation proves it is closed/superseded.
 
