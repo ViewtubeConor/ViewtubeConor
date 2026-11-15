@@ -1,6 +1,8 @@
 import React from "react"
 import { describe, expect, it } from "vitest"
-import { renderToStaticMarkup } from "react-dom/server"\nimport { readFileSync } from "node:fs"\nimport { resolve } from "node:path"
+import { renderToStaticMarkup } from "react-dom/server"
+import { readFileSync } from "node:fs"
+import { resolve } from "node:path"
 import { StudioPanelAccordion } from "./StudioPanelAccordion"
 
 const items = [
@@ -34,6 +36,9 @@ describe("StudioPanelAccordion textbox contract", () => {
 
   it("keeps a single vertical separator between the icon rail and text panel", () => {
     const css = readFileSync(resolve(process.cwd(), "src/styles/studio-panel-accordion.css"), "utf8");
-    expect(css).toContain(".vt-studio-panel-accordion__textbox");\n    const fields = readFileSync(resolve(process.cwd(), "src/styles/studio-control-fields.css"), "utf8");\n    expect(fields).toContain("border: var(--vt-studio-control-stroke, 3px) solid #000");\n    expect(fields).toContain("box-shadow: inset 0 0 0 var(--vt-studio-control-stroke, 3px)");
+    expect(css).toContain(".vt-studio-panel-accordion__textbox");
+    const fields = readFileSync(resolve(process.cwd(), "src/styles/studio-control-fields.css"), "utf8");
+    expect(fields).toContain("border: var(--vt-studio-control-stroke, 3px) solid #000");
+    expect(fields).toContain("box-shadow: inset 0 0 0 var(--vt-studio-control-stroke, 3px)");
   });
 });
