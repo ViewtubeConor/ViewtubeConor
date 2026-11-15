@@ -97,7 +97,7 @@ type Matcher = { family: ConfirmedCatalogFamilyId; title?: RegExp; componentName
 const CLASSIFIERS: Matcher[] = [
   { family: "representatives", title: /Direct Imported Primitive Representatives|Primitive Representatives · Standard/ },
   { family: "choice-toggles", title: /Switches, Radios & Checkboxes|Word Toggles|Vertical Word Toggle|Arrow \/ Side \/ Double Side \/ Bar Toggles|Arrow Toggle|Side Toggle|Double Side Toggle|Bar Toggle|StudioSwitch|StudioRadio|StudioCheckbox|StudioXCheckbox|StudioWordToggle|StudioVerticalWordToggle|StudioArrowToggle|StudioSideToggle|StudioDoubleSideToggle|StudioBarToggle|StudioChoice|Compatibility Controls/, componentNames: ["CanonicalControlFamilies", "CanonicalWordToggleFamily", "ConfirmedStudioValueToggleFamily"] },
-  { family: "split-text-fields", title: /StudioSideTextCounterIcon|Icon Rail Text Inputs|Icon Button Rail Text Inputs|SplitTextInput|SplitLeftInput|SearchInput|SideTextCounter/ },
+  { family: "split-text-fields", title: /StudioSideTextCounterIcon|StudioSplitLeftTextInput|StudioSplitRightTextInput|StudioDoubleSplitTextInput|Icon Rail Text Inputs|Icon Button Rail Text Inputs|SplitTextInput|SplitLeftInput|SearchInput|SideTextCounter/ },
   { family: "text-fields", title: /Studio Text Input|Studio Text Area|Studio Text Box|StudioTextInput|StudioTextArea|StudioTextBox|UsernameInput|NumberInput|Compatibility Fields|Compatibility Field Exports/ },
   { family: "icon-buttons", title: /Square Icon Button|Square Icon Groups|Circle Icon Button|StudioIconButton|Icon Button ·/ },
   { family: "badges", title: /Split-left Badge|Split-right Badge|Double-split Badge|StudioSplitLeftBadge|StudioSplitRightBadge|StudioDoubleSplitBadge|Closeable Badge|StudioCloseableBadge/, componentNames: ["CanonicalSplitBadgeFamily"] },
