@@ -22,6 +22,7 @@ const makeSnapshot = () => buildAIBrainContextSnapshot({
  vtSyncSnapshot: getVtSyncSnapshot({
   source: "vt-sync",
   snapshotId: "orchestrator-snapshot",
+  channelId: "orchestrator-channel",
   channelName: "History Workshop",
   videos: [
    { id: "best", title: "Alder's Cavalry Explained", tags: ["alder", "military", "history"], metrics: { views: 120000 } },
