@@ -1578,9 +1578,22 @@ export interface StudioSquareIconButtonGroupProps extends React.HTMLAttributes<H
 
 export const StudioSquareIconButtonGroup = React.forwardRef<HTMLDivElement, StudioSquareIconButtonGroupProps>(
   ({ children, sizeVariant = "standard", className, "aria-label": ariaLabel = "Actions", ...rest }, ref) => {
-    const [selectedDefaultIndex, setSelectedDefaultIndex] = React.useState(-1)
     const suppliedItems = React.Children.toArray(children).filter(Boolean)
-    const items = suppliedItems.length ? suppliedItems : [
+    const [selectedDefaultIndex, setSelectedDefaultIndex] = React.useState(() =>
+      suppliedItems.findIndex(item => React.isValidElement(item) && Boolean(
+        (item.props as StudioSquareIconButtonProps).selected ??
+        (item.props as StudioSquareIconButtonProps).defaultSelected
+      ))
+    )
+    const items = suppliedItems.length ? suppliedItems.map((item, index) => {
+      if (!React.isValidElement(item)) return item
+      return React.cloneElement(item as React.ReactElement<StudioSquareIconButtonProps>, {
+        variant: "v3",
+        selected: selectedDefaultIndex === index,
+        onSelectedChange: selected => { if (selected) setSelectedDefaultIndex(index) },
+        sizeVariant,
+      })
+    }) : [
       { icon: <Bell />, label: "Notifications" },
       { icon: <HeartIcon />, label: "Favorites" },
       { icon: <Plus />, label: "Add" },
@@ -1593,7 +1606,7 @@ export const StudioSquareIconButtonGroup = React.forwardRef<HTMLDivElement, Stud
         label={item.label}
         variant="v3"
         selected={selectedDefaultIndex === index}
-        onSelectedChange={selected => setSelectedDefaultIndex(selected ? index : -1)}
+        onSelectedChange={selected => { if (selected) setSelectedDefaultIndex(index) }}
         sizeVariant={sizeVariant}
       />
     ))

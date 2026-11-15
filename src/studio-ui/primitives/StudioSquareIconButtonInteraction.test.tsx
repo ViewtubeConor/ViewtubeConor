@@ -3,7 +3,7 @@
 import React, { act } from "react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import { createRoot, type Root } from "react-dom/client"
-import { StudioSquareIconButton } from "./StudioControls"
+import { StudioSquareIconButton, StudioSquareIconButtonGroup } from "./StudioControls"
 
 describe("StudioSquareIconButton interactions", () => {
   let host: HTMLDivElement
@@ -256,3 +256,26 @@ describe("StudioSquareIconButton interactions", () => {
   })
 
 })
+
+
+describe("StudioSquareIconButtonGroup exclusive selection", () => {
+  it("lays out supplied buttons in one horizontal group and permits only one selected face", async () => {
+    await act(async () => {
+      root.render(<StudioSquareIconButtonGroup aria-label="Exclusive actions">
+        <StudioSquareIconButton label="One" icon={<span>1</span>} variant="v3" defaultSelected />
+        <StudioSquareIconButton label="Two" icon={<span>2</span>} variant="v3" />
+        <StudioSquareIconButton label="Three" icon={<span>3</span>} variant="v3" />
+      </StudioSquareIconButtonGroup>);
+    });
+    const group = host.querySelector('[data-vt-studio-icon-button-group="true"]');
+    const buttons = [...(group?.querySelectorAll("button") ?? [])];
+    expect(group?.classList.contains("vt-studio-square-icon-button-group")).toBe(true);
+    expect(buttons.filter(button => button.getAttribute("aria-pressed") === "true")).toHaveLength(1);
+    await act(async () => { buttons[1]?.dispatchEvent(new MouseEvent("click", { bubbles: true })) });
+    expect(buttons.map(button => button.getAttribute("aria-pressed"))).toEqual(["false", "true", "false"]);
+    await act(async () => { buttons[1]?.dispatchEvent(new MouseEvent("click", { bubbles: true })) });
+    expect(buttons.map(button => button.getAttribute("aria-pressed"))).toEqual(["false", "true", "false"]);
+    await act(async () => { buttons[2]?.dispatchEvent(new MouseEvent("click", { bubbles: true })) });
+    expect(buttons.map(button => button.getAttribute("aria-pressed"))).toEqual(["false", "false", "true"]);
+  });
+});

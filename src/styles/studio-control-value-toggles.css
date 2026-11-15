@@ -353,24 +353,17 @@
 }
 
 
-/* Resting face text for arrow/side toggles uses global default (black). */
-.vt-studio-value-toggle--arrow .vt-studio-value-toggle__face,
-.vt-studio-value-toggle--side .vt-studio-value-toggle__face {
+/* Arrow Toggle keeps its global black label. Side Toggle faces use the
+   word-counter value class as their sole text-style owner. */
+.vt-studio-value-toggle--arrow .vt-studio-value-toggle__face {
   color: var(--vt-toggle-text, #000);
   -webkit-text-fill-color: var(--vt-toggle-text, #000);
   -webkit-text-stroke-color: var(--vt-toggle-text, #000);
 }
 
 
-/* Side-toggle labels use the pair fill as their resting text color.
-   Existing focus-within rules below/above retain black focused text. */
-.vt-studio-value-toggle--side .vt-studio-value-toggle__face,
-.vt-studio-value-toggle--double .vt-studio-value-toggle__double-side .vt-studio-value-toggle__face {
-  color: var(--vt-toggle-fill, var(--vt-studio-control-accent, var(--pair-a)));
-  -webkit-text-fill-color: currentColor;
-  -webkit-text-stroke-color: currentColor;
-}
-
+/* Side Toggle and Double Side Toggle use the exact word-counter value class;
+   default paint, focus paint, and fade timing have one shared owner. */
 
 /* Bar meters occupy only the middle split face. Rails retain their own paint
    and divider edges; the meter's width is bounded by the center grid track. */

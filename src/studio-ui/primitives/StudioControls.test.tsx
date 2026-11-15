@@ -1627,3 +1627,33 @@ describe("legacy split text-input quarantine", () => {
     expect(existsSync(resolve(process.cwd(), "src/studio-ui/primitives/StudioIconRailTextInput.tsx"))).toBe(true);
   });
 });
+
+
+describe("StudioCircleIconButton shape consistency", () => {
+  it("keeps the outer button, border layer, and face circular at all five canonical sizes", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-system.css"), "utf8");
+    expect(css).toContain('button.vt-studio-square-icon-button.vt-studio-circle-icon-button[data-vt-studio-circle-icon-button="true"]');
+    expect(css).toContain("aspect-ratio: 1 / 1");
+    expect(css).toContain('button.vt-studio-circle-icon-button[data-size="supreme"]');
+    expect(css).toContain('button.vt-studio-circle-icon-button[data-size="mini"]');
+    expect(css).toContain('button.vt-studio-circle-icon-button[data-size="micro"]');
+    const html = (["supreme", "standard", "compact", "mini", "micro"] as const).map(size =>
+      renderToStaticMarkup(<StudioCircleIconButton sizeVariant={size} icon={<span>+</span>} label={size + " circle"} />),
+    );
+    for (const size of ["supreme", "standard", "compact", "mini", "micro"]) {
+      expect(html[["supreme", "standard", "compact", "mini", "micro"].indexOf(size)]).toContain('data-size="' + size + '"');
+    }
+    expect(css).toContain('button.vt-studio-circle-icon-button[data-size="supreme"]');
+    expect(css).toContain('button.vt-studio-circle-icon-button[data-size="mini"]');
+    expect(css).toContain('button.vt-studio-circle-icon-button[data-size="micro"]');
+  });
+});
+
+
+describe("StudioSquareIconButtonGroup horizontal layout contract", () => {
+  it("keeps the five square faces in one non-wrapping horizontal flex row", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-system.css"), "utf8");
+    expect(css).toContain('div.vt-studio-square-icon-button-group[data-vt-studio-icon-button-group="true"]');
+    expect(css).toMatch(/div\.vt-studio-square-icon-button-group\[data-vt-studio-icon-button-group="true"\]\s*\{[^}]*display:\s*flex;[^}]*flex-direction:\s*row;[^}]*flex-wrap:\s*nowrap;/s);
+  });
+});

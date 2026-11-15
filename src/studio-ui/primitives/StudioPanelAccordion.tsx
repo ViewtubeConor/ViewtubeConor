@@ -2,6 +2,7 @@ import React from "react"
 import type { StudioControlSize } from "../tokens"
 import "../../styles/studio-control-entry.css"
 import "../../styles/studio-panel-accordion.css"
+import { StudioTextBox } from "./StudioControls"
 
 export interface StudioPanelAccordionItem {
   icon: React.ReactNode
@@ -75,7 +76,7 @@ export const StudioPanelAccordion: React.FC<StudioPanelAccordionProps> = ({
       </div>
       {activeItem ? (
         <div id={`${id}-panel-${safeIndex}`} className="vt-studio-panel-accordion__panel" role="region" aria-label={activeItem.label}>
-          {activeItem.content}
+          <StudioTextBox className="vt-studio-panel-accordion__textbox" size={size}>{activeItem.content}</StudioTextBox>
         </div>
       ) : null}
     </section>
