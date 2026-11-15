@@ -309,7 +309,7 @@ Typed transport models belong to YouTube service boundaries; presentation models
 
 ## 10. Opportunity catalog — 40 Comment Management improvements
 
-These are candidate opportunities, not accepted commitments or proof of provider support. Route each through the Ideas Registry and Task Authority before implementation.
+These are candidate opportunities, not accepted commitments or proof of provider support. The 65 source items are registered under `IDEA-LIST-COMMENT-MANAGEMENT-001` and attached as requirements to the existing `IDEA-YT-004` survivor in `ideas/registry.json`. Route each through Task Authority before implementation.
 
 1. Unified inbox across comments and supported community interactions.
 2. Smart priority sorting using unanswered age, creator-defined rules and observable signals.
@@ -493,4 +493,4 @@ A green build is not visual proof. A passing contract test is not authenticated 
 
 | Date | Change | Evidence / status |
 |---|---|---|
-| 2026-11-15 | Consolidated conversation requirements, first-slice implementation evidence, workspace UX contract, Brain/Video Inspector/Audience Pulse seams, provider/security gates, 40 product opportunities and 25 community interaction workflows | PR #1274; workflow run 43677671858; detailed failures remain open |
+| 2026-11-15 | Consolidated conversation requirements, first-slice implementation evidence, workspace UX contract, Brain/Video Inspector/Audience Pulse seams, provider/security gates, 40 product opportunities and 25 community interaction workflows; registered all 65 source items under IDEA-LIST-COMMENT-MANAGEMENT-001 and IDEA-YT-004 | PR #1274; workflow runs 43677671858 and 43688189005; detailed failures remain open |
