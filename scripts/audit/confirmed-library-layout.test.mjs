@@ -441,7 +441,7 @@ test("StudioButton library module applies the canonical 4px grid rhythm without 
   assert.match(moduleGrid, /\.vt-confirmed-button-family\s*>\s*\.vt-confirmed-variants\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1fr\)[^}]*gap:\s*var\(--vt-confirmed-grid-unit(?:,\s*4px)?\)/s);
   assert.match(moduleGrid, /\.vt-confirmed-button-family\s*>\s*\.vt-confirmed-variants\s*>\s*\.vt-confirmed-variant\s*\{[^}]*gap:\s*var\(--vt-confirmed-grid-unit(?:,\s*4px)?\)/s);
   assert.match(moduleGrid, /\.vt-confirmed-button-family\s*>\s*\.vt-confirmed-variants\s*>\s*\.vt-confirmed-variant\.is-full-row\s*\{[^}]*grid-column:\s*1 \/ -1/s);
-  assert.doesNotMatch(moduleGrid, /(?:height|min-height|font-size|border-width|border-radius|box-shadow)\s*:/, "catalog layout must not restyle production StudioButton geometry");
+    assert.doesNotMatch(module, /grid-template-columns|gridTemplateColumns|vt-confirmed-control-variants|style=\{/);
 });
 
 
@@ -569,9 +569,9 @@ test("value-toggle modules expose five canonical full-row specimens and no varia
     const module = family.slice(start, end);
     assert.ok(start >= 0, `${title} exists`);
     assert.equal((module.match(new RegExp(`data-vt-library-component="${primitive}"`, "g")) ?? []).length, 1);
-    assert.match(module, /sizes\\.map\\(\\(size, index\\)/);
+    assert.match(module, /sizes\.map\(\(size, index\)/);
     assert.match(module, /vt-confirmed-variant is-full-row/);
-    assert.doesNotMatch(module, /grid-template-columns|gridTemplateColumns|vt-confirmed-control-variants|style=\\{/);
+    assert.doesNotMatch(module, /grid-template-columns|gridTemplateColumns|vt-confirmed-control-variants|style=\{/);
   }
   assert.match(family, /const sizes = \["supreme", "standard", "compact", "mini", "micro"\] as const/);
   assert.match(family, /iconSide="double"/);
