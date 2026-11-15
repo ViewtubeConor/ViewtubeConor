@@ -120,7 +120,7 @@ Workflow run 43677671858 completed with overall failure. Retrieved job steps sho
 - source-governance: confirmed-catalog audit failed;
 - full-suite: FAIL.
 
-Exact diagnostic output was not retrieved. Do not assume failures are unrelated or pre-existing. Retrieve logs, diagnose each failure against the target-branch baseline, and fix only proven regressions. The prior assistant's earlier statement that checks were merely running is superseded by this completed workflow result.
+Logs were retrieved. The two CommentResponder contract failures concern the compact textarea source assertion and Post Reply accessible-label source assertion. Other failures include broad Studio Controls/catalog regressions, multiple typecheck issues, document-audit competing P1 workstream authorities, and 298 full-suite failures including missing Studio files/dependencies and Brain evidence contract mismatches. Workflow 43688189005 was cancelled while docs commits advanced the branch. Do not assume baseline or branch regression without comparison against the exact target branch. The prior assistant's earlier statement that checks were merely running is superseded by this completed workflow result.
 
 ## 7. Planned / unfinished work
 
