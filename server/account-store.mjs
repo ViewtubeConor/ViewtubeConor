@@ -414,6 +414,7 @@ export const deleteAccountRecord = async (userId) => {
       if (session.viewtubeUserId === userId) delete db.sessions[tokenHash];
     }
     db.aiLedger = db.aiLedger.filter((entry) => entry.viewtubeUserId !== userId);
+    db.aiReservations = Object.fromEntries(Object.entries(db.aiReservations || {}).filter(([, entry]) => entry.viewtubeUserId !== userId));
     return { deleted: true, reason: null };
   });
 };
