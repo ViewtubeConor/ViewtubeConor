@@ -7,6 +7,7 @@ const unifiedAccountSnapshot = vi.hoisted(() => vi.fn())
 const reserveUnifiedAiCredits = vi.hoisted(() => vi.fn())
 const settleUnifiedAiCredits = vi.hoisted(() => vi.fn())
 const releaseUnifiedAiCredits = vi.hoisted(() => vi.fn())
+const recordUnifiedAiProviderUsage = vi.hoisted(() => vi.fn().mockResolvedValue({ recorded: true, duplicate: false }))
 
 vi.mock("@google/genai", () => ({
  GoogleGenAI: class {
@@ -25,6 +26,7 @@ vi.mock("../account/accountCoordinator", () => ({
  reserveUnifiedAiCredits,
  settleUnifiedAiCredits,
  releaseUnifiedAiCredits,
+ recordUnifiedAiProviderUsage,
  fetchUnifiedAccountSnapshot: unifiedAccountSnapshot,
  isUnifiedAccountServerEnabled: unifiedServerEnabled,
 }))
@@ -52,6 +54,8 @@ describe("Gemini custom-key access", () => {
   reserveUnifiedAiCredits.mockReset()
   settleUnifiedAiCredits.mockReset()
   releaseUnifiedAiCredits.mockReset()
+  recordUnifiedAiProviderUsage.mockReset()
+  recordUnifiedAiProviderUsage.mockResolvedValue({ recorded: true, duplicate: false })
   unifiedServerEnabled.mockReturnValue(true)
   unifiedAccountSnapshot.mockResolvedValue({
    authentication: { status: "authenticated" },
@@ -77,6 +81,7 @@ describe("Gemini custom-key access", () => {
   expect(reserveUnifiedAiCredits).not.toHaveBeenCalled()
   expect(settleUnifiedAiCredits).not.toHaveBeenCalled()
   expect(releaseUnifiedAiCredits).not.toHaveBeenCalled()
+  expect(recordUnifiedAiProviderUsage).toHaveBeenCalledWith(expect.objectContaining({ keySource: "byok", provider: "google" }))
  })
 
  it("still blocks a signed-out creator from using a custom key", async () => {
@@ -110,6 +115,7 @@ describe("Gemini custom-key access", () => {
 
   expect(chunks).toEqual([{ text: "creator-specific streamed answer" }])
   expect(providerGenerateContentStream).toHaveBeenCalledTimes(1)
+  expect(recordUnifiedAiProviderUsage).toHaveBeenCalledWith(expect.objectContaining({ keySource: "byok", provider: "google" }))
   expect(reserveUnifiedAiCredits).not.toHaveBeenCalled()
   expect(settleUnifiedAiCredits).not.toHaveBeenCalled()
   expect(releaseUnifiedAiCredits).not.toHaveBeenCalled()
