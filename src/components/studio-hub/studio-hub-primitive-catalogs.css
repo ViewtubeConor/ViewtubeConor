@@ -3435,3 +3435,19 @@
   min-width: 0;
   max-width: none;
 }
+
+/* Confirmed value-toggle specimens are a simple five-row ledger. This is catalog layout only:
+   production geometry, size, rails, faces, color, and interaction remain primitive-owned. */
+.vt-confirmed-value-toggle-module > .vt-confirmed-primitive-body > .vt-confirmed-variants {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  min-width: 0;
+}
+.vt-confirmed-value-toggle-module .vt-confirmed-variant.is-full-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  min-width: 0;
+}
