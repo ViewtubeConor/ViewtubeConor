@@ -86,9 +86,12 @@ export const STUDIO_CONTROL_GLOBAL_RULE_EXCEPTIONS = {
   },
   textareaTypography: {
     globalRuleException: true,
+    supremeFontSize: 24.55,
     standardFontSize: 18,
     compactFontSize: 14,
-    rationale: "Multiline reading/writing surface uses a dedicated type scale while retaining canonical field geometry.",
+    miniFontSize: 17.5,
+    microFontSize: 10,
+    rationale: "Multiline writing surfaces and display text boxes use one documented five-tier type scale while retaining canonical field geometry.",
   },
   splitTextInputAlignment: {
     owner: "StudioSplitTextInput / StudioSplitLeftTextInput / StudioSplitRightTextInput / StudioDoubleSplitTextInput",
@@ -130,8 +133,8 @@ export const STUDIO_COMPONENT_GLOBAL_DEFAULTS = {
     v7: "primary fill / white text; split icon rails use secondary fill and white icons",
   },
 
-  width: "full-row by default; data-width=content is an explicit opt-in exception",
-  labelAlignment: "centered by default for all primitive labels",
+  width: "auto by default; one-column/grid rows stretch naturally; data-width=content is an explicit opt-in exception",
+  labelAlignment: "centered for buttons, badges, and split labels; editable input values align left",
   primaryColor: "--pair-a is the global primary fill",
   secondaryColor: "--pair-b is the global secondary fill and alternate rail",
   fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif",
