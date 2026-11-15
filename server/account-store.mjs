@@ -29,7 +29,7 @@ export const withVerifiedPostgresSslMode = (connectionString) => {
 
 const emptyFileDb = () => ({
   users: {}, googleIdentities: {}, sessions: {}, oauthStates: {},
-  onboarding: {}, subscriptions: {}, aiLedger: [], aiReservations: {}, webhookEvents: {},
+  onboarding: {}, subscriptions: {}, aiLedger: [], aiReservations: {}, aiUsageEvents: [], webhookEvents: {},
 });
 
 let fileWriteQueue = Promise.resolve();
@@ -92,6 +92,21 @@ CREATE TABLE IF NOT EXISTS viewtube_ai_credit_reservations (
   metadata JSONB NOT NULL DEFAULT '{}',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE(viewtube_user_id, idempotency_key)
+);
+CREATE TABLE IF NOT EXISTS viewtube_ai_provider_usage (
+  id TEXT PRIMARY KEY,
+  viewtube_user_id TEXT NOT NULL REFERENCES viewtube_users(id) ON DELETE CASCADE,
+  idempotency_key TEXT NOT NULL,
+  provider TEXT NOT NULL,
+  model_id TEXT NOT NULL,
+  key_source TEXT NOT NULL,
+  input_tokens BIGINT NOT NULL DEFAULT 0,
+  output_tokens BIGINT NOT NULL DEFAULT 0,
+  raw_cost_usd NUMERIC(18,8) NOT NULL DEFAULT 0,
+  usage_source TEXT NOT NULL,
+  metadata JSONB NOT NULL DEFAULT '{}',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   UNIQUE(viewtube_user_id, idempotency_key)
 );
 CREATE TABLE IF NOT EXISTS viewtube_webhook_events (
@@ -415,6 +430,7 @@ export const deleteAccountRecord = async (userId) => {
     }
     db.aiLedger = db.aiLedger.filter((entry) => entry.viewtubeUserId !== userId);
     db.aiReservations = Object.fromEntries(Object.entries(db.aiReservations || {}).filter(([, entry]) => entry.viewtubeUserId !== userId));
+    db.aiUsageEvents = (db.aiUsageEvents || []).filter((entry) => entry.viewtubeUserId !== userId);
     return { deleted: true, reason: null };
   });
 };
@@ -854,6 +870,46 @@ export const releaseAiCreditReservation = async (userId, input = {}) => {
     reservation.status = "released";
     reservation.updatedAt = nowIso();
     return { released: true, duplicate: false, availableCredits: ledgerAvailableCredits(db.aiLedger, userId), unlimited: Boolean(reservation.unlimited) };
+  });
+};
+
+
+export const recordAiProviderUsage = async (userId, input = {}) => {
+  await initAccountStore();
+  const provider = String(input.provider || "").trim().slice(0, 48);
+  const modelId = String(input.modelId || "").trim().slice(0, 120);
+  const keySource = String(input.keySource || "");
+  const usageSource = String(input.usageSource || "");
+  const inputTokens = Number(input.inputTokens ?? 0);
+  const outputTokens = Number(input.outputTokens ?? 0);
+  const rawCostUsd = Number(input.rawCostUsd ?? 0);
+  const idempotencyKey = normalizeIdempotencyKey(input.idempotencyKey, "AI provider usage");
+  if (!provider || !modelId) throw new Error("AI provider usage requires provider and model identifiers.");
+  if (!["byok", "viewtube"].includes(keySource)) throw new Error("AI provider usage keySource must be byok or viewtube.");
+  if (!["provider_reported", "estimate"].includes(usageSource)) throw new Error("AI provider usage source must be provider_reported or estimate.");
+  if (!Number.isSafeInteger(inputTokens) || inputTokens < 0 || !Number.isSafeInteger(outputTokens) || outputTokens < 0) {
+    throw new Error("AI provider usage token counts must be non-negative safe integers.");
+  }
+  if (!Number.isFinite(rawCostUsd) || rawCostUsd < 0) throw new Error("AI provider usage cost must be a finite non-negative number.");
+  const entry = {
+    id: `aiu_${crypto.randomUUID().replace(/-/g, "")}`, viewtubeUserId: userId, idempotencyKey,
+    provider, modelId, keySource, inputTokens, outputTokens, rawCostUsd, usageSource,
+    metadata: input.metadata && typeof input.metadata === "object" ? input.metadata : {}, createdAt: nowIso(),
+  };
+  if (usePostgres()) {
+    const result = await pool.query(
+      "INSERT INTO viewtube_ai_provider_usage(id,viewtube_user_id,idempotency_key,provider,model_id,key_source,input_tokens,output_tokens,raw_cost_usd,usage_source,metadata) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11::jsonb) ON CONFLICT (viewtube_user_id,idempotency_key) DO NOTHING RETURNING id",
+      [entry.id, userId, idempotencyKey, provider, modelId, keySource, inputTokens, outputTokens, rawCostUsd, usageSource, JSON.stringify(entry.metadata)],
+    );
+    return { ...entry, inserted: result.rowCount > 0 };
+  }
+  return updateFileDb((db) => {
+    db.aiUsageEvents ||= [];
+    if (db.aiUsageEvents.some((item) => item.viewtubeUserId === userId && item.idempotencyKey === idempotencyKey)) {
+      return { ...entry, inserted: false };
+    }
+    db.aiUsageEvents.push(entry);
+    return { ...entry, inserted: true };
   });
 };
 
