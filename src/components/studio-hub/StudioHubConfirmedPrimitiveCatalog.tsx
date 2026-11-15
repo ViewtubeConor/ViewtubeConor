@@ -30,6 +30,10 @@ import {
   StudioCounter,
   StudioDoubleSplitSlider,
   StudioSideCounter,
+  StudioSideTextCounter,
+  StudioSideTextCounterIcon,
+  StudioInlineStepper,
+  StudioSplitStepper,
   StudioLeftCounter,
   StudioLeftWordCounter,
   StudioLeftWordSlider,
@@ -66,13 +70,15 @@ import {
 } from "../../studio-ui/primitives/StudioControls"
 import { StudioDoubleSplitWordCounter } from "../../studio-ui/primitives/StudioValueToggles"
 import { StudioSplitAccordion } from "../../studio-ui/primitives/StudioSplitAccordion"
-import { StudioCalendarEventChip, StudioCalendarMediaRail } from "../../studio-ui/primitives/StudioCalendarPrimitives"
+import { StudioPanelAccordion } from "../../studio-ui/primitives/StudioPanelAccordion"
+import { StudioCalendarEventChip, StudioCalendarMultiDayBar, StudioCalendarThumbnailEventChip, StudioCalendarMediaRail } from "../../studio-ui/primitives/StudioCalendarPrimitives"
 import { StudioDropdown } from "../../studio-ui/primitives/StudioDropdown"
 import { StudioInterModule, StudioTwoLineInterModule } from "../../studio-ui/primitives/StudioInterModule"
 import { StudioResponseMetaRow } from "../../studio-ui/primitives/StudioResponseMetaRow"
 import { StudioLedBadgeTab } from "../../studio-ui/primitives/StudioLedBadgeTab"
 import { StudioChatComposerDock } from "../../studio-ui/primitives/StudioChatComposerDock"
 import { StudioChatResponseShell } from "../../studio-ui/primitives/StudioChatResponseShell"
+import { StudioSpectrumIcon, StudioIconBadge, StudioMetricIcon, StudioAccentRailModule, StudioIconTitleModule, StudioVideoModule, StudioVideoSelector, STUDIO_METRIC_ICON_SET } from "../../studio-ui/primitives/StudioDashboardPrimitives"
 import "./studio-hub-primitive-catalogs.css"
 import "../../styles/studio-confirmed-catalog-modules.css"
 import { ConfirmedFamilyModule } from "./ConfirmedCatalogModules"
@@ -949,13 +955,32 @@ const ConfirmedCatalogFamilyGroups: React.FC<{ children: React.ReactNode }> = ({
 
 const useConfirmedAdditionalPrimitiveSections = (): React.ReactNode[] => {
   const [choiceChecks, setChoiceChecks] = React.useState<boolean[]>(Array(5).fill(false))
-  const [leftCounterValue, setLeftCounterValue] = React.useState(6)
+  const [leftCounterValues, setLeftCounterValues] = React.useState([6, 6, 6, 6, 6])
   const [number, setNumber] = React.useState("12")
+  const [migrationVideoId, setMigrationVideoId] = React.useState("video-1")
+  const migrationVideos = [
+    { id: "video-1", title: "Building a Better Creator Workflow", duration: "12:42", metadata: "8.4K views", status: "Published" },
+    { id: "video-2", title: "The Studio Setup Tour", duration: "08:18", metadata: "3.1K views", status: "Published" },
+    { id: "video-3", title: "Planning the Next Upload", duration: "15:30", metadata: "Draft", status: "In progress" },
+  ]
   const dropdownOptions = [
     { value: "balanced", label: "BALANCED" },
     { value: "focused", label: "FOCUSED" },
     { value: "explore", label: "EXPLORE" },
   ]
+  const [sideTextCounterValues, setSideTextCounterValues] = React.useState(["36", "36", "36", "36", "36"])
+  const sideTextCounterSizes = ["supreme", "standard", "compact", "mini", "micro"] as const
+  const sideTextCounterLabels = ["60px SUPREME", "44px STANDARD", "28px COMPACT", "20px MINI", "12px MICRO"]
+  const [sideTextCounterIconValues, setSideTextCounterIconValues] = React.useState(["36", "36", "36", "36", "36"])
+  const [sideTextCounterIconActionCount, setSideTextCounterIconActionCount] = React.useState(0)
+  const sideTextCounterIconSizes = ["supreme", "standard", "compact", "mini", "micro"] as const
+  const sideTextCounterIconLabels = ["60px SUPREME", "44px STANDARD", "28px COMPACT", "20px MINI", "12px MICRO"]
+  const activateSideTextCounterIcon = () => setSideTextCounterIconActionCount(count => count + 1)
+  const numericStepperSizes = ["standard", "compact"] as const
+  const [inlineStepperValues, setInlineStepperValues] = React.useState([12, 8])
+  const [splitStepperValues, setSplitStepperValues] = React.useState([12, 8])
+  const updateNumericStepperAt = (setter: React.Dispatch<React.SetStateAction<number[]>>, index: number, value: number) =>
+    setter(current => current.map((previous, itemIndex) => itemIndex === index ? value : previous))
   const content = (
     <>
       <Family title="StudioChatComposerDock · Message Composer Layout" nonDefaultSettings={[
@@ -1054,12 +1079,296 @@ const useConfirmedAdditionalPrimitiveSections = (): React.ReactNode[] => {
         </div>
       </Family>
 
-      <Family title="StudioLeftCounter · Standard" defaultOpen nonDefaultSettings={["Left-action counter variant with the same 2:1 numeric display as the standard counter."]} provenance={<Provenance primitive="StudioLeftCounter" tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css" tokens="Square action rail and 2:1 value region." imports={["src/studio-ui/primitives/StudioControls.tsx"]} />}>
-        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioLeftCounter"><span>STANDARD · LEFT ACTION RAIL</span><StudioLeftCounter value={leftCounterValue} onValueChange={setLeftCounterValue} size="standard" min={0} max={100} ariaLabel="Left counter dedicated specimen" /></div>
+      <Family title="StudioLeftCounter · Supreme + Standard + Compact + Mini + Micro" nonDefaultSettings={["Left-action counter variant with the same shared 2:1 numeric display at all five canonical sizes."]} provenance={<Provenance primitive="StudioLeftCounter" tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css" tokens="60px / 44px / 28px / 20px / 12px · left square action rail and 2:1 value region." imports={["src/studio-ui/primitives/StudioControls.tsx"]} />}>
+        <div className="vt-confirmed-variant is-full-row vt-confirmed-counter-row" data-vt-library-component="StudioLeftCounter">
+          <div className="vt-confirmed-counter-size-rows">
+            {(["supreme", "standard", "compact", "mini", "micro"] as const).map((size, index) => <div className="vt-confirmed-counter-size-row" key={size}><small>{["60px SUPREME", "44px STANDARD", "28px COMPACT", "20px MINI", "12px MICRO"][index]}</small><div className="vt-confirmed-counter-pair"><StudioLeftCounter value={leftCounterValues[index]} onValueChange={next => setLeftCounterValues(current => current.map((value, item) => item === index ? next : value))} size={size} min={0} max={100} ariaLabel={size + " left counter dedicated specimen"} /></div></div>)}
+          </div>
+        </div>
+      </Family>
+
+      <Family title="Studio Spectrum + Metric Icons · Semantic Icon System" nonDefaultSettings={[
+        "The spectrum icon uses Studio-owned semantic color names and the canonical five-tier size contract.",
+        "Metric glyph and color assignments are stable by semantic metric key; metric colors are not assigned locally by consumers.",
+        "Icon-only specimens expose accessible names; decorative instances remain hidden from assistive technology.",
+      ]} provenance={<Provenance primitive="StudioSpectrumIcon / StudioIconBadge / StudioMetricIcon" tsx="src/studio-ui/primitives/StudioDashboardPrimitives.tsx" css="src/styles/studio-dashboard-primitives.css" tokens="12 semantic spectrum hues · Supreme / Standard / Compact / Mini / Micro · square / circle / plain treatments" imports={["src/studio-ui/primitives/StudioDashboardPrimitives.tsx", "src/studio-ui/index.ts"]} />}>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSpectrumIcon">
+          <span>12 SPECTRUM ICONS · STANDARD</span>
+          <div className="flex flex-wrap items-center gap-2">
+            {(["rose", "coral", "orange", "yellow", "lime", "green", "teal", "cyan", "royal", "purple", "magenta", "pink"] as const).map(spectrum =>
+              <StudioSpectrumIcon key={spectrum} icon={<Info aria-hidden="true" />} spectrum={spectrum} size="standard" label={spectrum + " spectrum icon"} />)}
+          </div>
+        </div>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioMetricIcon">
+          <span>METRIC ICONS · CANONICAL SEMANTIC MAPPING</span>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {(Object.keys(STUDIO_METRIC_ICON_SET) as (keyof typeof STUDIO_METRIC_ICON_SET)[]).map(metric =>
+              <div className="flex items-center gap-2 min-w-0" key={metric}>
+                <StudioMetricIcon metric={metric} size="compact" />
+                <span>{STUDIO_METRIC_ICON_SET[metric].label}</span>
+              </div>)}
+          </div>
+        </div>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioIconBadge">
+          <span>ICON BADGE · ICON WITH TEXT LABEL</span>
+          <div className="flex flex-wrap items-center gap-3">
+            <StudioIconBadge icon={<Check aria-hidden="true" />} spectrum="green" size="compact">Verified</StudioIconBadge>
+            <StudioIconBadge icon={<Sparkles aria-hidden="true" />} spectrum="purple" size="standard">AI insight</StudioIconBadge>
+          </div>
+        </div>
+      </Family>
+      <Family title="Accent Rail + Icon Title Information Modules" nonDefaultSettings={[
+        "Accent rail is full-width and content-height; long or expanded content does not clip or force a fixed module height.",
+        "The action is the existing StudioSquareIconButton, not a dashboard-specific or catalog-only button.",
+        "Icon-title uses one monochromatic split-left surface with a semantic icon bay, flexible copy, and optional action slot.",
+      ]} provenance={<Provenance primitive="StudioAccentRailModule / StudioIconTitleModule" tsx="src/studio-ui/primitives/StudioDashboardPrimitives.tsx" css="src/styles/studio-dashboard-primitives.css" tokens="Studio 5-tier size contract · semantic spectrum rail · black outer stroke · square icon action" imports={["src/studio-ui/primitives/StudioDashboardPrimitives.tsx", "src/studio-ui/primitives/StudioControls.tsx"]} />}>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioAccentRailModule">
+          <span>DAILY ORACLE · FULL-WIDTH EXPANDABLE INFORMATION</span>
+          <StudioAccentRailModule spectrum="purple" title="Daily Oracle" subtitle="A creator insight based on the latest available signals." size="standard"
+            action={{ icon: <Sparkles aria-hidden="true" />, label: "Open Daily Oracle insight", onClick: () => undefined }}
+            collapsible defaultExpanded>
+            <p style={{ margin: 0 }}>Your recent uploads are building a stronger returning-viewer pattern. Review the latest audience signals before planning the next release.</p>
+          </StudioAccentRailModule>
+        </div>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioIconTitleModule">
+          <span>ICON + TITLE · MONOCHROMATIC INFORMATION SPLIT</span>
+          <StudioIconTitleModule spectrum="cyan" icon={<Info aria-hidden="true" />} title="Channel connection restored"
+            subtitle="Your creator workspace is ready to use." size="standard"
+            action={<StudioSquareIconButton icon={<Check aria-hidden="true" />} label="Acknowledge connection restored" sizeVariant="standard" />} />
+        </div>
+      </Family>
+      <Family title="Studio Video Module · Thumbnail + Text Anatomy" nonDefaultSettings={[
+        "The media frame retains a 16:9 ratio and uses object-fit cover; it is never stretched to fill arbitrary module height.",
+        "Eyebrow and title render above the thumbnail; supporting text, metadata, and footer render below it.",
+        "Missing thumbnails have an explicit fallback; selection state is optional and data remains caller-owned.",
+      ]} provenance={<Provenance primitive="StudioVideoModule" tsx="src/studio-ui/primitives/StudioDashboardPrimitives.tsx" css="src/styles/studio-dashboard-primitives.css" tokens="16:9 media frame · full-width content · responsive variable-height text regions" imports={["src/studio-ui/primitives/StudioDashboardPrimitives.tsx"]} />}>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioVideoModule">
+          <span>VIDEO MODULE · UPPER TITLE + THUMBNAIL + LOWER METADATA</span>
+          <StudioVideoModule eyebrow="LATEST UPLOAD" title="Building a Better Creator Workflow" supportingText="A practical walkthrough of the new creator process."
+            metadata="12:42 · 8.4K views · Published" footer="Video details supplied by the consuming feature." selected />
+        </div>
+      </Family>
+      <Family title="Studio Video Selector · Searchable Split-left Menu" nonDefaultSettings={[
+        "Controlled value and onValueChange keep selection state in the owning workflow; the selector owns only query and open-menu state.",
+        "Search field sits in the menu's top row; option rows contain thumbnail, title, duration, metadata, and status.",
+        "Arrow keys move between options, Enter selects, and Escape closes the menu. Loading and empty states are explicit.",
+        "Video records and thumbnail URLs are supplied by the consumer; the selector performs no network requests.",
+      ]} provenance={<Provenance primitive="StudioVideoSelector" tsx="src/studio-ui/primitives/StudioDashboardPrimitives.tsx" css="src/styles/studio-dashboard-primitives.css" tokens="Standard / Compact · split thumbnail rail · searchable listbox · controlled selection" imports={["src/studio-ui/primitives/StudioDashboardPrimitives.tsx", "src/studio-ui/index.ts"]} />}>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioVideoSelector">
+          <span>STANDARD · SEARCH AND SELECT A VIDEO</span>
+          <StudioVideoSelector label="Select a video" options={migrationVideos} value={migrationVideoId} onValueChange={setMigrationVideoId} />
+          <span aria-live="polite">SELECTED VIDEO: {migrationVideos.find(video => video.id === migrationVideoId)?.title ?? "None"}</span>
+        </div>
+        <div className="vt-confirmed-variant is-full-row">
+          <span>COMPACT · DISCONNECTED / EMPTY DATA</span>
+          <StudioVideoSelector label="No videos available" options={[]} value="" onValueChange={() => undefined} size="compact" emptyMessage="Connect a channel to browse videos." />
+        </div>
+      </Family>
+
+      <Family
+      title="StudioSideTextCounter · Editable Text + Numeric Stepper · Five Sizes"
+      nonDefaultSettings={[
+        "The value face is the canonical single-line StudioTextInput; users can type arbitrary text or numeric sideTextCounterValues.",
+        "The stacked right rail increments and decrements numeric text using the shared counter hold-repeat behavior.",
+        "All five canonical size tiers inherit the global field border, inset stroke, typography, fill, caret, and focus contract.",
+      ]}
+      provenance={<Provenance primitive="StudioSideTextCounter" tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css + src/styles/studio-control-fields.css" tokens="60px / 44px / 28px / 20px / 12px · editable text face · right square counter rail." imports={["src/studio-ui/primitives/StudioControls.tsx", "src/styles/studio-control-fields.css"]} />}
+    >
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSideTextCounter">
+        <div className="vt-confirmed-counter-size-rows">
+          {sideTextCounterSizes.map((size, index) => <div className="vt-confirmed-counter-size-row" key={size}><small>{sideTextCounterLabels[index]}</small><StudioSideTextCounter value={sideTextCounterValues[index]} onValueChange={next => setSideTextCounterValues(current => current.map((value, item) => item === index ? next : value))} size={size} min={0} max={100} step={1} ariaLabel={size + " side text counter specimen"} placeholder="TYPE TEXT OR NUMBER" /></div>)}
+        </div>
+      </div>
+    </Family>
+      <Family title="StudioSideTextCounterIcon · Editable Text + Single Icon Rail · Five Sizes"
+      nonDefaultSettings={[
+        "The editable text face, centered alignment, sizing, borders, inset stroke, fill, caret, and focus behavior match StudioSideTextCounter.",
+        "Only the right split rail changes: the stacked increment/decrement buttons are replaced by one standard square icon rail.",
+        "The icon is decorative unless an onIconClick callback is supplied; all five canonical size tiers reuse the shared Studio split-shell and icon-rail tokens.",
+      ]}
+      provenance={<Provenance primitive="StudioSideTextCounterIcon" tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css + src/styles/studio-control-fields.css" tokens="60px / 44px / 28px / 20px / 12px · editable centered text face · single square right icon rail." imports={["src/studio-ui/primitives/StudioControls.tsx", "src/styles/studio-control-fields.css"]} />}
+    >
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSideTextCounterIcon">
+        <div className="vt-confirmed-counter-size-rows">
+          {sideTextCounterIconSizes.map((size, index) => <div className="vt-confirmed-counter-size-row" key={size}><small>{sideTextCounterIconLabels[index]}</small><StudioSideTextCounterIcon value={sideTextCounterIconValues[index]} onValueChange={next => setSideTextCounterIconValues(current => current.map((value, item) => item === index ? next : value))} icon={<Search aria-hidden="true" />} iconLabel={size + " side text counter icon action"} onIconClick={activateSideTextCounterIcon} size={size} ariaLabel={size + " side text counter icon specimen"} placeholder="TYPE TEXT OR NUMBER" /></div>)}
+        </div>
+        <span aria-live="polite">ICON ACTIONS TRIGGERED: {sideTextCounterIconActionCount}</span>
+      </div>
+    </Family>
+      <Family
+      title="Studio Numeric Steppers · Inline + Split"
+      nonDefaultSettings={[
+        "The production APIs support Standard and Compact only; Supreme, Mini, and Micro are intentionally not advertised.",
+        "Inline Stepper places decrement/increment actions around an editable number field.",
+        "Split Stepper keeps the editable number field beside one secondary action rail.",
+        "Each size and layout has independent controlled value state with the same min/max and step behavior.",
+      ]}
+      provenance={<Provenance primitive="StudioInlineStepper / StudioSplitStepper" tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css" tokens="44px Standard / 28px Compact · editable numeric value · bounded increment/decrement actions" imports={["src/studio-ui/primitives/StudioControls.tsx", "src/studio-ui/tokens.ts"]} />}
+    >
+      <div className="vt-confirmed-toggle-subfamily">
+        <strong>INLINE STEPPER · STANDARD / COMPACT</strong>
+        {numericStepperSizes.map((size, index) => <div className="vt-confirmed-variant is-full-row" key={"inline-" + size} data-vt-library-component="StudioInlineStepper">
+          <span>INLINE STEPPER · {size.toUpperCase()}</span>
+          <StudioInlineStepper size={size} value={inlineStepperValues[index]} onValueChange={value => updateNumericStepperAt(setInlineStepperValues, index, value)}
+            min={0} max={100} step={1} ariaLabel={size + " inline stepper value"} />
+        </div>)}
+      </div>
+      <div className="vt-confirmed-toggle-subfamily">
+        <strong>SPLIT STEPPER · STANDARD / COMPACT</strong>
+        {numericStepperSizes.map((size, index) => <div className="vt-confirmed-variant is-full-row" key={"split-" + size} data-vt-library-component="StudioSplitStepper">
+          <span>SPLIT STEPPER · {size.toUpperCase()}</span>
+          <StudioSplitStepper size={size} value={splitStepperValues[index]} onValueChange={value => updateNumericStepperAt(setSplitStepperValues, index, value)}
+            min={0} max={100} step={1} ariaLabel={size + " split stepper value"} />
+        </div>)}
+      </div>
+    </Family>
+      <Family title="Panel Accordion · StudioPanelAccordion · Standard + Compact" nonDefaultSettings={[
+        "Single active panel with square icon rails and an accessible selected-panel region.",
+        "Standard and compact sizes use the same production component; disabled rails remain non-selectable.",
+      ]} provenance={<Provenance primitive="StudioPanelAccordion" tsx="src/studio-ui/primitives/StudioPanelAccordion.tsx" css="src/styles/studio-panel-accordion.css" tokens="Standard / Compact · controlled or uncontrolled active index · accessible button rails and labeled panel region" imports={["src/studio-ui/primitives/StudioPanelAccordion.tsx","src/styles/studio-panel-accordion.css"]} />}>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioPanelAccordion">
+          <span>STANDARD · SINGLE ACTIVE PANEL</span>
+          <StudioPanelAccordion size="standard" items={[
+            {label:"OVERVIEW",icon:<Home aria-hidden="true" />,content:<p>Overview panel content rendered by StudioPanelAccordion.</p>},
+            {label:"SETTINGS",icon:<Settings2 aria-hidden="true" />,content:<p>Settings panel content rendered by StudioPanelAccordion.</p>},
+            {label:"STATUS",icon:<Info aria-hidden="true" />,content:<p>Status panel content rendered by StudioPanelAccordion.</p>},
+          ]}/>
+        </div>
+        <div className="vt-confirmed-variant is-full-row">
+          <span>COMPACT · SAME ANATOMY</span>
+          <StudioPanelAccordion size="compact" items={[
+            {label:"DETAILS",icon:<Info aria-hidden="true" />,content:<p>Compact panel detail.</p>},
+            {label:"ACTIONS",icon:<Settings2 aria-hidden="true" />,content:<p>Compact panel actions.</p>},
+          ]}/>
+        </div>
+      </Family>
+      <Family title="Chat Response Shell + Response Metadata Row" nonDefaultSettings={[
+        "The response shell owns metadata, response body, evidence, and action slots without owning message state.",
+        "The metadata row supports status, supporting metadata, and a trailing action at standard, compact, and micro sizes.",
+      ]} provenance={<Provenance primitive="StudioChatResponseShell / StudioResponseMetaRow" tsx="src/studio-ui/primitives/StudioChatResponseShell.tsx + src/studio-ui/primitives/StudioResponseMetaRow.tsx" css="src/styles/studio-chat-response-shell.css + src/styles/studio-response-meta-row.css" tokens="Standard / Compact / Micro · optional metadata, evidence, and action slots" imports={["src/studio-ui/primitives/StudioChatResponseShell.tsx","src/studio-ui/primitives/StudioResponseMetaRow.tsx"]} />}>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioChatResponseShell">
+          <span>STANDARD · RESPONSE + EVIDENCE + ACTIONS</span>
+          <StudioChatResponseShell
+            sizeVariant="standard"
+            metadata={<StudioResponseMetaRow title="CREATOR INSIGHT" status={<StudioBrainStatusBadge label="READY" tone="green" appearance="tinted" sizeVariant="micro" />} metadata="2 public sources" trailing={<StudioSquareIconButton icon={<Check aria-hidden="true" />} label="Acknowledge insight" sizeVariant="compact" />} />}
+            evidence={<p>Evidence and source references are supplied by the consuming feature.</p>}
+            actions={<StudioButton sizeVariant="compact">COPY RESPONSE</StudioButton>}
+          >
+            <p>Review the latest audience signals before planning the next release.</p>
+          </StudioChatResponseShell>
+        </div>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioResponseMetaRow">
+          <span>MICRO · COMPACT RESPONSE METADATA</span>
+          <StudioResponseMetaRow title="PUBLIC HANDLE" status="READY" metadata="2 videos · refreshed" sizeVariant="micro" />
+        </div>
+      </Family>
+      <Family title="Calendar Event Chips + Multi-day Bars + Thumbnail Events" nonDefaultSettings={[
+        "Event chips cover semantic event kinds and status/selection states; multi-day bars expose single/start/middle/end segments.",
+        "Thumbnail event chips retain a 16:9 media segment beside the event label and status.",
+        "Calendar state and publish dates remain owned by Projects; these are presentation primitives only.",
+      ]} provenance={<Provenance primitive="StudioCalendarEventChip / StudioCalendarMultiDayBar / StudioCalendarThumbnailEventChip" tsx="src/studio-ui/primitives/StudioCalendarPrimitives.tsx" css="src/studio-ui/primitives/studio-calendar-primitives.css" tokens="Semantic event kinds · Mini timeline bars · 16:9 thumbnail event split" imports={["src/studio-ui/primitives/StudioCalendarPrimitives.tsx","src/studio-ui/primitives/studio-calendar-primitives.css"]} />}>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioCalendarMultiDayBar">
+          <span>MINI MULTI-DAY BAR · SINGLE / START / MIDDLE / END</span>
+          <div className="grid grid-cols-1 gap-1">
+            <StudioCalendarMultiDayBar label="SINGLE-DAY EVENT" segment="single" kind="publish" status="ready" />
+            <StudioCalendarMultiDayBar label="WEEK ONE · START" segment="start" kind="milestone" />
+            <StudioCalendarMultiDayBar label="WEEK TWO · MIDDLE" segment="middle" kind="milestone" />
+            <StudioCalendarMultiDayBar label="WEEK THREE · END" segment="end" kind="milestone" status="in progress" />
+          </div>
+        </div>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioCalendarThumbnailEventChip">
+          <span>MINI THUMBNAIL EVENT CHIP · LEFT 16:9 SPLIT</span>
+          <div className="grid grid-cols-1 gap-1">
+            <StudioCalendarThumbnailEventChip label="NEW EPISODE" kind="publish" status="scheduled" />
+            <StudioCalendarThumbnailEventChip label="THUMBNAIL READY" kind="task" status="approved" />
+          </div>
+        </div>
       </Family>
     </>
   )
   return React.Children.toArray((content as React.ReactElement<{ children?: React.ReactNode }>).props.children)
+}
+
+
+const RecoveredDirectPrimitiveRows: React.FC = () => {
+  const [sideTextValue, setSideTextValue] = React.useState("36")
+  const [sideTextIconValue, setSideTextIconValue] = React.useState("36")
+  const [inlineStepperValue, setInlineStepperValue] = React.useState(12)
+  const [splitStepperValue, setSplitStepperValue] = React.useState(8)
+  const [videoId, setVideoId] = React.useState("video-1")
+  const videos = [
+    { id: "video-1", title: "Building a Better Creator Workflow", duration: "12:42", metadata: "8.4K views", status: "Published" },
+    { id: "video-2", title: "The Studio Setup Tour", duration: "08:18", metadata: "3.1K views", status: "Published" },
+  ]
+  return (
+    <div className="vt-confirmed-direct-primitive-rows" data-vt-confirmed-representatives="true" aria-label="Recovered canonical Studio primitive representatives">
+      <h4 className="vt-confirmed-representative-heading">RESTORED PUBLIC STUDIO PRIMITIVES · STANDARD</h4>
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSideTextCounter">
+        <span>SIDE TEXT COUNTER · EDITABLE VALUE + NUMERIC RAIL</span>
+        <StudioSideTextCounter value={sideTextValue} onValueChange={setSideTextValue} size="standard" min={0} max={100} ariaLabel="Side text counter representative" placeholder="TYPE TEXT OR NUMBER" />
+      </div>
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSideTextCounterIcon">
+        <span>SIDE TEXT COUNTER ICON · EDITABLE VALUE + ACTION RAIL</span>
+        <StudioSideTextCounterIcon value={sideTextIconValue} onValueChange={setSideTextIconValue} icon={<Search aria-hidden="true" />} iconLabel="Search" onIconClick={() => undefined} size="standard" ariaLabel="Side text counter icon representative" placeholder="TYPE TEXT OR NUMBER" />
+      </div>
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioInlineStepper">
+        <span>INLINE STEPPER · STANDARD</span>
+        <StudioInlineStepper size="standard" value={inlineStepperValue} onValueChange={setInlineStepperValue} min={0} max={100} step={1} ariaLabel="Inline stepper representative" />
+      </div>
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSplitStepper">
+        <span>SPLIT STEPPER · STANDARD</span>
+        <StudioSplitStepper size="standard" value={splitStepperValue} onValueChange={setSplitStepperValue} min={0} max={100} step={1} ariaLabel="Split stepper representative" />
+      </div>
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioPanelAccordion">
+        <span>PANEL ACCORDION · STANDARD</span>
+        <StudioPanelAccordion size="standard" items={[
+          { label: "OVERVIEW", icon: <Home aria-hidden="true" />, content: <p>Overview panel content.</p> },
+          { label: "SETTINGS", icon: <Settings2 aria-hidden="true" />, content: <p>Settings panel content.</p> },
+          { label: "STATUS", icon: <Info aria-hidden="true" />, content: <p>Status panel content.</p> },
+        ]} />
+      </div>
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSpectrumIcon">
+        <span>SPECTRUM ICON + METRIC ICON + ICON BADGE</span>
+        <div className="flex flex-wrap items-center gap-2">
+          <StudioSpectrumIcon icon={<Info aria-hidden="true" />} spectrum="cyan" size="standard" label="Information spectrum icon" />
+          <StudioMetricIcon metric="views" size="standard" />
+          <StudioIconBadge icon={<Check aria-hidden="true" />} spectrum="green" size="standard">Verified</StudioIconBadge>
+        </div>
+      </div>
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioAccentRailModule">
+        <span>DAILY ORACLE · EXPANDABLE ACCENT RAIL</span>
+        <StudioAccentRailModule spectrum="purple" title="Daily Oracle" subtitle="A creator insight based on available signals." size="standard" collapsible defaultExpanded>
+          <p style={{ margin: 0 }}>Review the latest audience signals before planning the next release.</p>
+        </StudioAccentRailModule>
+      </div>
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioIconTitleModule">
+        <span>ICON + TITLE · MONOCHROMATIC INFORMATION SPLIT</span>
+        <StudioIconTitleModule spectrum="cyan" icon={<Info aria-hidden="true" />} title="Channel connection restored" subtitle="Your creator workspace is ready to use." size="standard" />
+      </div>
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioVideoModule">
+        <span>VIDEO MODULE · 16:9 THUMBNAIL + TEXT</span>
+        <StudioVideoModule eyebrow="LATEST UPLOAD" title="Building a Better Creator Workflow" supportingText="A practical walkthrough of the new creator process." metadata="12:42 · 8.4K views · Published" />
+      </div>
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioVideoSelector">
+        <span>VIDEO SELECTOR · SEARCHABLE SPLIT-LEFT MENU</span>
+        <StudioVideoSelector label="Select a video" options={videos} value={videoId} onValueChange={setVideoId} />
+      </div>
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioChatResponseShell">
+        <span>CHAT RESPONSE SHELL + RESPONSE METADATA</span>
+        <StudioChatResponseShell sizeVariant="standard" metadata={<StudioResponseMetaRow title="CREATOR INSIGHT" status="READY" metadata="2 public sources" sizeVariant="compact" />} evidence={<span>Source details are supplied by the owning feature.</span>} actions={<StudioButton sizeVariant="compact">COPY RESPONSE</StudioButton>}>
+          <p>Review the latest audience signals before planning the next release.</p>
+        </StudioChatResponseShell>
+      </div>
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioCalendarMultiDayBar">
+        <span>CALENDAR MULTI-DAY BAR · MINI</span>
+        <StudioCalendarMultiDayBar label="CAMPAIGN WINDOW" kind="milestone" status="DAY 1–3" segment="start" channelWide />
+      </div>
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioCalendarThumbnailEventChip">
+        <span>CALENDAR THUMBNAIL EVENT CHIP · MINI</span>
+        <StudioCalendarThumbnailEventChip label="NEW VIDEO · CREATOR UPDATE" kind="publish" status="SCHEDULED" selected />
+      </div>
+    </div>
+  )
 }
 
 export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
@@ -1069,6 +1378,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
     <div className="vt-confirmed-catalog">
       <ConfirmedPrimitiveGridOverview />
       <ConfirmedDirectPrimitiveRows />
+      <RecoveredDirectPrimitiveRows />
     </div>
     <ConfirmedCatalogFamilyGroups>
     <details className="vt-confirmed-family vt-confirmed-defaults-combined" data-vt-confirmed-family="defaults">
