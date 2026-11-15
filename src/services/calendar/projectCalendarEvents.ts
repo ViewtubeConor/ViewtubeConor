@@ -115,3 +115,49 @@ export const projectProjectsToCalendarEvents = (
 
   return events
 }
+
+export interface PublisherCalendarScheduleSource {
+  recordId: string
+  projectId?: string
+  title: string
+  scheduledAt?: string | Date | number | null
+  verifiedAt?: string | Date | number | null
+  status?: "scheduled" | "published"
+}
+
+const toVerifiedTimestamp = (value?: string | Date | number | null): string | null => {
+  if (value == null || value === "") return null
+  const date = value instanceof Date ? value : new Date(value)
+  return Number.isNaN(date.getTime()) ? null : date.toISOString()
+}
+
+/**
+ * Projects a Publisher/ContentBuild schedule only when both the external
+ * schedule timestamp and its verification timestamp are present and valid.
+ * An unverified or missing remote schedule is deliberately not an event.
+ */
+export const publisherScheduleToCalendarEvent = (
+  source: PublisherCalendarScheduleSource,
+): CalendarEventProjection | null => {
+  const externalScheduledAt = toVerifiedTimestamp(source.scheduledAt)
+  const externalVerifiedAt = toVerifiedTimestamp(source.verifiedAt)
+  const startDate = toCalendarDateKey(source.scheduledAt)
+  if (!externalScheduledAt || !externalVerifiedAt || !startDate) return null
+
+  return {
+    id: `publisher:${source.recordId}:publish`,
+    source: {
+      owner: "publisher",
+      recordType: "content_build",
+      recordId: source.recordId,
+      projectId: source.projectId,
+      contentBuildId: source.recordId,
+    },
+    kind: "publish",
+    title: source.title.trim() || "Scheduled publication",
+    status: source.status ?? "scheduled",
+    startDate,
+    externalScheduledAt,
+    externalVerifiedAt,
+  }
+}
