@@ -163,3 +163,18 @@
 .vt-specimen-layout-row--panels > .vt-specimen-panel:last-child {
   padding-right: 0;
 }
+
+/* Confirmed library: never compact specimens into parallel size columns.
+   Stack every tier/slot full width so modules can expand with the host. */
+.vt-confirmed-catalog .vt-specimen-row--2,
+.vt-confirmed-catalog .vt-specimen-row--3,
+.vt-confirmed-catalog .vt-specimen-row--4,
+.vt-confirmed-catalog .vt-specimen-size-comparison,
+.vt-confirmed-catalog .vt-specimen-tier-grid,
+.vt-confirmed-catalog-root .vt-specimen-row--2,
+.vt-confirmed-catalog-root .vt-specimen-row--3,
+.vt-confirmed-catalog-root .vt-specimen-row--4,
+.vt-confirmed-catalog-root .vt-specimen-size-comparison,
+.vt-confirmed-catalog-root .vt-specimen-tier-grid {
+  grid-template-columns: minmax(0, 1fr) !important;
+}

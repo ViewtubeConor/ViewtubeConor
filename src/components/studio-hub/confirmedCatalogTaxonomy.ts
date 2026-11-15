@@ -35,6 +35,11 @@ export const CONFIRMED_CATALOG_MODULE_INVENTORY: ReadonlyArray<{ title: string; 
   { title: "Switches, Radios & Checkboxes", family: "choice-toggles", combined: true },
   { title: "Word Toggles · Standard + Compact + Vertical", family: "choice-toggles", combined: true },
   { title: "Arrow / Side / Double Side / Bar Toggles", family: "choice-toggles", combined: true },
+  { title: "Arrow Toggle · Five Sizes × Left / Right / Double Rails", family: "choice-toggles", combined: true },
+  { title: "Side Toggle · Five Sizes × Left / Right Arrow Orientation", family: "choice-toggles", combined: true },
+  { title: "Double Side Toggle · Five Sizes × V1 / V2 × Three Right Faces", family: "choice-toggles", combined: true },
+  { title: "Bar Toggle · Five Sizes", family: "choice-toggles", combined: true },
+  { title: "StudioDoubleSplitWordCounter · Two Chevron Rails + Four-State Word Cycle", family: "counters" },
   { title: "Split-left Badge · Standard + Compact + Micro", family: "badges" },
   { title: "Direct Imported Primitive Representatives · Standard", family: "representatives" },
   { title: "StudioSideTextCounterIcon · Editable Text + Single Icon Rail · Five Sizes", family: "split-text-fields" },
@@ -65,21 +70,22 @@ export const CONFIRMED_CATALOG_REQUIRED_EXPORTS: readonly string[] = [
 ] as const
 
 export const isAllowedCombinedModuleTitle = (title: string): boolean =>
-  /^(?:Switches, Radios & Checkboxes|Word Toggles · Standard \+ Compact \+ Vertical|Arrow \/ Side \/ Double Side \/ Bar Toggles|StudioChoice · All Five Sizes|Split Button Family · All Sizes × Left \/ Right \/ Double \/ Two-Line|Split-left Badge · Standard \+ Compact \+ Micro)$/.test(title)
+  /^(?:Switches, Radios & Checkboxes|Word Toggles ·|Arrow \/ Side \/ Double Side \/ Bar Toggles|Arrow Toggle ·|Side Toggle ·|Double Side Toggle ·|Bar Toggle ·|StudioChoice ·|Split Button Family ·|Split-left Badge ·)/.test(title)
 
 type Matcher = { family: ConfirmedCatalogFamilyId; title?: RegExp; componentNames?: string[] }
 const CLASSIFIERS: Matcher[] = [
-  { family: "choice-toggles", title: /Switches, Radios & Checkboxes|Word Toggles|Arrow \/ Side \/ Double Side \/ Bar Toggles|StudioSwitch|StudioRadio|StudioCheckbox|StudioXCheckbox|StudioWordToggle|StudioVerticalWordToggle|StudioArrowToggle|StudioSideToggle|StudioDoubleSideToggle|StudioBarToggle|StudioChoice|Compatibility Control Exports/, componentNames: ["CanonicalControlFamilies", "CanonicalWordToggleFamily", "ConfirmedStudioValueToggleFamily"] },
+  { family: "representatives", title: /Direct Imported Primitive Representatives|Primitive Representatives · Standard/ },
+  { family: "choice-toggles", title: /Switches, Radios & Checkboxes|Word Toggles|Arrow \/ Side \/ Double Side \/ Bar Toggles|Arrow Toggle|Side Toggle|Double Side Toggle|Bar Toggle|StudioSwitch|StudioRadio|StudioCheckbox|StudioXCheckbox|StudioWordToggle|StudioVerticalWordToggle|StudioArrowToggle|StudioSideToggle|StudioDoubleSideToggle|StudioBarToggle|StudioChoice|Compatibility Control Exports/, componentNames: ["CanonicalControlFamilies", "CanonicalWordToggleFamily", "ConfirmedStudioValueToggleFamily"] },
   { family: "split-text-fields", title: /StudioSideTextCounterIcon|Icon Rail Text Inputs|Icon Button Rail Text Inputs|SplitTextInput|SplitLeftInput|SearchInput|SideTextCounter/ },
   { family: "text-fields", title: /Studio Text Input|Studio Text Area|Studio Text Box|StudioTextInput|StudioTextArea|StudioTextBox|UsernameInput|NumberInput|Compatibility Field Exports/ },
   { family: "icon-buttons", title: /Square Icon Button|Circle Icon Button|StudioIconButton|Icon Button ·/ },
   { family: "badges", title: /Split-left Badge|Split-right Badge|Double-split Badge|StudioSplitLeftBadge|StudioSplitRightBadge|StudioDoubleSplitBadge|Closeable Badge|StudioCloseableBadge/, componentNames: ["CanonicalSplitBadgeFamily"] },
   { family: "tags-status", title: /SpectrumTag|TagEditor|Tag Editor|Spectrum Tags|Ranked Metadata Tag|Brain Status|StudioBrainStatusBadge|StudioBrainStatusIndicator|StudioLedBadgeTab|Status \/ navigation|LED/ },
-  { family: "counters", title: /StudioCounter|StudioSideCounter|StudioLeftCounter|StudioLeftWordCounter|Double Split Word|Side Counter|Left Word Counter/, componentNames: ["ConfirmedStudioCounterFamily", "ConfirmedStudioSideCounterFamily", "ConfirmedStudioLeftWordCounterFamily", "ConfirmedStudioDoubleSplitWordCounterFamily"] },
+  { family: "counters", title: /StudioCounter|StudioSideCounter|StudioLeftCounter|StudioLeftWordCounter|StudioDoubleSplitWordCounter|DoubleSplitWordCounter|Double Split Word|Side Counter|Left Word Counter/, componentNames: ["ConfirmedStudioCounterFamily", "ConfirmedStudioSideCounterFamily", "ConfirmedStudioLeftWordCounterFamily", "ConfirmedStudioDoubleSplitWordCounterFamily"] },
   { family: "steppers-sliders", title: /StudioDoubleSplitSlider|Double Split Slider|Stepper|StudioInlineStepper|StudioSplitStepper|LeftWordSlider|StudioLeftWordSlider|Slider/, componentNames: ["ConfirmedStudioDoubleSplitSliderFamily", "ConfirmedStudioNumericStepperFamily", "ConfirmedStudioLeftWordSliderFamily"] },
   { family: "dropdowns", title: /Dropdown/, componentNames: ["ConfirmedStudioDropdownFamily"] },
   { family: "buttons", title: /Button ·|Prominent Action|Two-Line Button|Split-left Button|Split Button Family|Play\/Pause|StudioSplitLeftButton|StudioDoubleSplitButton|StudioSplitRightButton|StudioActionButton|StudioTwoLineButton|StudioSplitTwoLineButton/, componentNames: ["ConfirmedStudioButtonFamily", "ConfirmedStudioSplitButtonFamily"] },
-  { family: "modules-frames", title: /Top Split Module|Collapsing|InterModule|Upload Frame/ },
+  { family: "modules-frames", title: /Top Split Module|Collapsing|InterModule|Upload Frame|StudioUploadFrame|Two-Line InterModule|Collapsing Two-Line/ },
   { family: "accordions-layout", title: /Split Accordion|Panel Accordion|Component Grid/ },
   { family: "chat-meta", title: /StudioChatComposerDock|StudioChatResponseShell|Response Meta Row|StudioResponseMetaRow/ },
   { family: "calendar", title: /Calendar Event|Multi-day|Thumbnail Event|Media Rail|StudioCalendar/ },
