@@ -29,7 +29,7 @@ export const withVerifiedPostgresSslMode = (connectionString) => {
 
 const emptyFileDb = () => ({
   users: {}, googleIdentities: {}, sessions: {}, oauthStates: {},
-  onboarding: {}, subscriptions: {}, aiLedger: [], webhookEvents: {},
+  onboarding: {}, subscriptions: {}, aiLedger: [], aiReservations: {}, webhookEvents: {},
 });
 
 let fileWriteQueue = Promise.resolve();
@@ -81,6 +81,19 @@ CREATE TABLE IF NOT EXISTS viewtube_ai_credit_ledger (
 );
 CREATE UNIQUE INDEX IF NOT EXISTS viewtube_ai_credit_idempotency_key
   ON viewtube_ai_credit_ledger(viewtube_user_id, idempotency_key) WHERE idempotency_key IS NOT NULL;
+CREATE TABLE IF NOT EXISTS viewtube_ai_credit_reservations (
+  id TEXT PRIMARY KEY,
+  viewtube_user_id TEXT NOT NULL REFERENCES viewtube_users(id) ON DELETE CASCADE,
+  idempotency_key TEXT NOT NULL,
+  reserved_credits BIGINT NOT NULL,
+  settled_credits BIGINT,
+  status TEXT NOT NULL DEFAULT 'reserved',
+  unlimited BOOLEAN NOT NULL DEFAULT FALSE,
+  metadata JSONB NOT NULL DEFAULT '{}',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE(viewtube_user_id, idempotency_key)
+);
 CREATE TABLE IF NOT EXISTS viewtube_webhook_events (
   event_id TEXT PRIMARY KEY, event_type TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'processing',
   last_error TEXT, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(), updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -615,6 +628,229 @@ export const consumeAiCredits = async (userId, input) => {
       createdAt: nowIso(),
     });
     return { allowed: true, duplicate: false, availableCredits: available - credits, unlimited: false };
+  });
+};
+
+
+const normalizePositiveCredits = (value, fieldName) => {
+  const credits = Number(value);
+  if (!Number.isSafeInteger(credits) || credits <= 0) {
+    throw new Error(`${fieldName} must be a positive safe integer.`);
+  }
+  return credits;
+};
+
+const normalizeIdempotencyKey = (value, fieldName) => {
+  const key = String(value || "").trim().slice(0, 160);
+  if (!key) throw new Error(`${fieldName} requires an idempotency key.`);
+  return key;
+};
+
+const ledgerAvailableCredits = (entries, userId) => Math.max(0, entries
+  .filter((entry) => entry.viewtubeUserId === userId)
+  .reduce((sum, entry) => sum + Number(entry.deltaCredits || 0), 0));
+
+export const reserveAiCredits = async (userId, input = {}) => {
+  await initAccountStore();
+  const credits = normalizePositiveCredits(input.credits, "AI credit reservation");
+  const idempotencyKey = normalizeIdempotencyKey(input.idempotencyKey, "AI credit reservation");
+  const reservationId = `air_${crypto.randomUUID().replace(/-/g, "")}`;
+  if (usePostgres()) {
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query("SELECT pg_advisory_xact_lock(hashtext($1))", [userId]);
+      const existing = await client.query(
+        "SELECT id,reserved_credits,status,unlimited FROM viewtube_ai_credit_reservations WHERE viewtube_user_id=$1 AND idempotency_key=$2 FOR UPDATE",
+        [userId, idempotencyKey],
+      );
+      if (existing.rowCount) {
+        const row = existing.rows[0];
+        if (Number(row.reserved_credits) !== credits) throw new Error("AI credit reservation idempotency key was reused with a different amount.");
+        const balance = await client.query(
+          "SELECT COALESCE(SUM(delta_credits),0) AS available FROM viewtube_ai_credit_ledger WHERE viewtube_user_id=$1",
+          [userId],
+        );
+        await client.query("COMMIT");
+        return { allowed: row.status === "reserved" || row.status === "settled", duplicate: true,
+          reservationId: row.id, status: row.status, availableCredits: Math.max(0, Number(balance.rows[0]?.available || 0)),
+          unlimited: Boolean(row.unlimited) };
+      }
+      const account = await client.query(
+        "SELECT s.plan_id,COALESCE(SUM(l.delta_credits),0) AS available FROM viewtube_subscriptions s LEFT JOIN viewtube_ai_credit_ledger l ON l.viewtube_user_id=s.viewtube_user_id WHERE s.viewtube_user_id=$1 GROUP BY s.plan_id",
+        [userId],
+      );
+      const unlimited = account.rows[0]?.plan_id === "executive";
+      const available = Math.max(0, Number(account.rows[0]?.available || 0));
+      if (!unlimited && available < credits) {
+        await client.query("ROLLBACK");
+        return { allowed: false, duplicate: false, reservationId: null, availableCredits: available, unlimited: false };
+      }
+      await client.query(
+        "INSERT INTO viewtube_ai_credit_reservations(id,viewtube_user_id,idempotency_key,reserved_credits,status,unlimited,metadata) VALUES($1,$2,$3,$4,'reserved',$5,$6::jsonb)",
+        [reservationId, userId, idempotencyKey, credits, unlimited, JSON.stringify(input.metadata || {})],
+      );
+      if (!unlimited) {
+        await client.query(
+          "INSERT INTO viewtube_ai_credit_ledger(id,viewtube_user_id,entry_type,delta_credits,idempotency_key,metadata) VALUES($1,$2,'reserve',$3,$4,$5::jsonb)",
+          [`aic_${crypto.randomUUID().replace(/-/g, "")}`, userId, -credits, `reserve:${idempotencyKey}`, JSON.stringify({ reservationId, ...(input.metadata || {}) })],
+        );
+      }
+      await client.query("COMMIT");
+      return { allowed: true, duplicate: false, reservationId, status: "reserved",
+        availableCredits: unlimited ? available : available - credits, unlimited };
+    } catch (error) {
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+  return updateFileDb((db) => {
+    db.aiReservations ||= {};
+    const existing = Object.values(db.aiReservations).find((item) => item.viewtubeUserId === userId && item.idempotencyKey === idempotencyKey);
+    if (existing) {
+      if (Number(existing.reservedCredits) !== credits) throw new Error("AI credit reservation idempotency key was reused with a different amount.");
+      return { allowed: existing.status === "reserved" || existing.status === "settled", duplicate: true,
+        reservationId: existing.id, status: existing.status, availableCredits: ledgerAvailableCredits(db.aiLedger, userId),
+        unlimited: Boolean(existing.unlimited) };
+    }
+    const unlimited = db.subscriptions[userId]?.planId === "executive";
+    const available = ledgerAvailableCredits(db.aiLedger, userId);
+    if (!unlimited && available < credits) return { allowed: false, duplicate: false, reservationId: null, availableCredits: available, unlimited: false };
+    const reservation = { id: reservationId, viewtubeUserId: userId, idempotencyKey, reservedCredits: credits,
+      settledCredits: null, status: "reserved", unlimited, metadata: input.metadata || {}, createdAt: nowIso(), updatedAt: nowIso() };
+    db.aiReservations[reservationId] = reservation;
+    if (!unlimited) db.aiLedger.push({ id: `aic_${crypto.randomUUID().replace(/-/g, "")}`, viewtubeUserId: userId,
+      entryType: "reserve", deltaCredits: -credits, idempotencyKey: `reserve:${idempotencyKey}`,
+      metadata: { reservationId, ...(input.metadata || {}) }, createdAt: nowIso() });
+    return { allowed: true, duplicate: false, reservationId, status: "reserved",
+      availableCredits: unlimited ? available : available - credits, unlimited };
+  });
+};
+
+export const settleAiCreditReservation = async (userId, input = {}) => {
+  await initAccountStore();
+  const reservationId = String(input.reservationId || "").trim();
+  if (!reservationId) throw new Error("AI credit settlement requires a reservation ID.");
+  const actualCredits = input.actualCredits === 0 ? 0 : normalizePositiveCredits(input.actualCredits, "Actual AI usage");
+  const idempotencyKey = normalizeIdempotencyKey(input.idempotencyKey, "AI credit settlement");
+  if (usePostgres()) {
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query("SELECT pg_advisory_xact_lock(hashtext($1))", [userId]);
+      const result = await client.query("SELECT * FROM viewtube_ai_credit_reservations WHERE id=$1 AND viewtube_user_id=$2 FOR UPDATE", [reservationId, userId]);
+      if (!result.rowCount) throw new Error("AI credit reservation was not found.");
+      const row = result.rows[0];
+      const balanceResult = await client.query("SELECT COALESCE(SUM(delta_credits),0) AS available FROM viewtube_ai_credit_ledger WHERE viewtube_user_id=$1", [userId]);
+      const available = Math.max(0, Number(balanceResult.rows[0]?.available || 0));
+      if (row.status === "settled") {
+        if (Number(row.settled_credits) !== actualCredits) throw new Error("AI credit reservation was already settled with different usage.");
+        await client.query("COMMIT");
+        return { settled: true, duplicate: true, availableCredits: available, unlimited: Boolean(row.unlimited) };
+      }
+      if (row.status !== "reserved") throw new Error(`AI credit reservation cannot be settled from status: ${row.status}.`);
+      const reserved = Number(row.reserved_credits);
+      const adjustment = reserved - actualCredits;
+      if (!row.unlimited && adjustment < 0 && available < Math.abs(adjustment)) {
+        await client.query("ROLLBACK");
+        return { settled: false, duplicate: false, reason: "insufficient_balance", availableCredits: available, unlimited: false };
+      }
+      if (!row.unlimited && adjustment !== 0) {
+        await client.query(
+          "INSERT INTO viewtube_ai_credit_ledger(id,viewtube_user_id,entry_type,delta_credits,idempotency_key,metadata) VALUES($1,$2,'settlement_adjustment',$3,$4,$5::jsonb)",
+          [`aic_${crypto.randomUUID().replace(/-/g, "")}`, userId, adjustment, `settle:${idempotencyKey}`, JSON.stringify({ reservationId, reservedCredits: reserved, actualCredits })],
+        );
+      }
+      await client.query("UPDATE viewtube_ai_credit_reservations SET status='settled',settled_credits=$2,updated_at=NOW() WHERE id=$1", [reservationId, actualCredits]);
+      const finalBalance = await client.query("SELECT COALESCE(SUM(delta_credits),0) AS available FROM viewtube_ai_credit_ledger WHERE viewtube_user_id=$1", [userId]);
+      await client.query("COMMIT");
+      return { settled: true, duplicate: false, availableCredits: Math.max(0, Number(finalBalance.rows[0]?.available || 0)), unlimited: Boolean(row.unlimited) };
+    } catch (error) {
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+  return updateFileDb((db) => {
+    db.aiReservations ||= {};
+    const reservation = db.aiReservations[reservationId];
+    if (!reservation || reservation.viewtubeUserId !== userId) throw new Error("AI credit reservation was not found.");
+    const available = ledgerAvailableCredits(db.aiLedger, userId);
+    if (reservation.status === "settled") {
+      if (Number(reservation.settledCredits) !== actualCredits) throw new Error("AI credit reservation was already settled with different usage.");
+      return { settled: true, duplicate: true, availableCredits: available, unlimited: Boolean(reservation.unlimited) };
+    }
+    if (reservation.status !== "reserved") throw new Error(`AI credit reservation cannot be settled from status: ${reservation.status}.`);
+    const adjustment = Number(reservation.reservedCredits) - actualCredits;
+    if (!reservation.unlimited && adjustment < 0 && available < Math.abs(adjustment)) {
+      return { settled: false, duplicate: false, reason: "insufficient_balance", availableCredits: available, unlimited: false };
+    }
+    if (!reservation.unlimited && adjustment !== 0) db.aiLedger.push({
+      id: `aic_${crypto.randomUUID().replace(/-/g, "")}`, viewtubeUserId: userId,
+      entryType: "settlement_adjustment", deltaCredits: adjustment, idempotencyKey: `settle:${idempotencyKey}`,
+      metadata: { reservationId, reservedCredits: Number(reservation.reservedCredits), actualCredits }, createdAt: nowIso(),
+    });
+    reservation.status = "settled";
+    reservation.settledCredits = actualCredits;
+    reservation.updatedAt = nowIso();
+    return { settled: true, duplicate: false, availableCredits: ledgerAvailableCredits(db.aiLedger, userId), unlimited: Boolean(reservation.unlimited) };
+  });
+};
+
+export const releaseAiCreditReservation = async (userId, input = {}) => {
+  await initAccountStore();
+  const reservationId = String(input.reservationId || "").trim();
+  if (!reservationId) throw new Error("AI credit release requires a reservation ID.");
+  const idempotencyKey = normalizeIdempotencyKey(input.idempotencyKey, "AI credit release");
+  if (usePostgres()) {
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query("SELECT pg_advisory_xact_lock(hashtext($1))", [userId]);
+      const result = await client.query("SELECT * FROM viewtube_ai_credit_reservations WHERE id=$1 AND viewtube_user_id=$2 FOR UPDATE", [reservationId, userId]);
+      if (!result.rowCount) throw new Error("AI credit reservation was not found.");
+      const row = result.rows[0];
+      const balanceResult = await client.query("SELECT COALESCE(SUM(delta_credits),0) AS available FROM viewtube_ai_credit_ledger WHERE viewtube_user_id=$1", [userId]);
+      const available = Math.max(0, Number(balanceResult.rows[0]?.available || 0));
+      if (row.status === "released") {
+        await client.query("COMMIT");
+        return { released: true, duplicate: true, availableCredits: available, unlimited: Boolean(row.unlimited) };
+      }
+      if (row.status !== "reserved") throw new Error(`AI credit reservation cannot be released from status: ${row.status}.`);
+      if (!row.unlimited) await client.query(
+        "INSERT INTO viewtube_ai_credit_ledger(id,viewtube_user_id,entry_type,delta_credits,idempotency_key,metadata) VALUES($1,$2,'reservation_release',$3,$4,$5::jsonb)",
+        [`aic_${crypto.randomUUID().replace(/-/g, "")}`, userId, Number(row.reserved_credits), `release:${idempotencyKey}`, JSON.stringify({ reservationId, reason: String(input.reason || "cancelled").slice(0, 120) })],
+      );
+      await client.query("UPDATE viewtube_ai_credit_reservations SET status='released',updated_at=NOW() WHERE id=$1", [reservationId]);
+      const finalBalance = await client.query("SELECT COALESCE(SUM(delta_credits),0) AS available FROM viewtube_ai_credit_ledger WHERE viewtube_user_id=$1", [userId]);
+      await client.query("COMMIT");
+      return { released: true, duplicate: false, availableCredits: Math.max(0, Number(finalBalance.rows[0]?.available || 0)), unlimited: Boolean(row.unlimited) };
+    } catch (error) {
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+  return updateFileDb((db) => {
+    db.aiReservations ||= {};
+    const reservation = db.aiReservations[reservationId];
+    if (!reservation || reservation.viewtubeUserId !== userId) throw new Error("AI credit reservation was not found.");
+    const available = ledgerAvailableCredits(db.aiLedger, userId);
+    if (reservation.status === "released") return { released: true, duplicate: true, availableCredits: available, unlimited: Boolean(reservation.unlimited) };
+    if (reservation.status !== "reserved") throw new Error(`AI credit reservation cannot be released from status: ${reservation.status}.`);
+    if (!reservation.unlimited) db.aiLedger.push({
+      id: `aic_${crypto.randomUUID().replace(/-/g, "")}`, viewtubeUserId: userId,
+      entryType: "reservation_release", deltaCredits: Number(reservation.reservedCredits),
+      idempotencyKey: `release:${idempotencyKey}`,
+      metadata: { reservationId, reason: String(input.reason || "cancelled").slice(0, 120) }, createdAt: nowIso(),
+    });
+    reservation.status = "released";
+    reservation.updatedAt = nowIso();
+    return { released: true, duplicate: false, availableCredits: ledgerAvailableCredits(db.aiLedger, userId), unlimited: Boolean(reservation.unlimited) };
   });
 };
 
