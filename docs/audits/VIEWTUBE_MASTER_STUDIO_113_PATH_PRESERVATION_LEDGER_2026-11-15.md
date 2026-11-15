@@ -103,11 +103,11 @@ These are preliminary source dispositions, not implementation approvals. “Port
 | `src/components/studio-hub/StudioHubConfirmedSplitTextInputCatalog.tsx` | PR #1271 / 10-31 | **PORT SELECTIVELY / RECONCILE** | Candidate Studio work; verify public export, active consumer, canonical CSS ownership, tier geometry, and mobile behavior. |
 | `src/components/StudioHubConfirmedPrimitiveCatalog.tsx` | PR #1271 / 10-31 | **PORT SELECTIVELY / RECONCILE** | Candidate Studio work; verify public export, active consumer, canonical CSS ownership, tier geometry, and mobile behavior. |
 | `src/context/GeminiKeyContext.test.ts` | PR #1272 / master-only | **PRESERVE MASTER** | Master-specific Gemini key context regression coverage. |
-| `src/features/resource-library/resource-library.css` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Keep registry/content architecture; evaluate source Studio split-left row/tag treatment and tests. |
-| `src/features/resource-library/ResourceDocumentRenderer.tsx` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Keep registry/content architecture; evaluate source Studio split-left row/tag treatment and tests. |
-| `src/features/resource-library/ResourceLibrary.contract.test.tsx` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Keep registry/content architecture; evaluate source Studio split-left row/tag treatment and tests. |
-| `src/features/resource-library/ResourceLibrary.tsx` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Keep registry/content architecture; evaluate source Studio split-left row/tag treatment and tests. |
-| `src/features/resource-library/resourceLibrarySpectrumTag.contract.test.ts` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Keep registry/content architecture; evaluate source Studio split-left row/tag treatment and tests. |
+| `src/features/resource-library/resource-library.css` | PR #1271 / 10-31 | **PORT SELECTIVELY / RECONCILE** | Keep row layout CSS scoped to Resource Library; verify 44px rail, 76px row, full-width mobile behavior, palette variable ownership, and actual Studio button slots. |
+| `src/features/resource-library/ResourceDocumentRenderer.tsx` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Keep canonical Markdown rendering; adopt SpectrumTag metadata/topic tags only after master SpectrumTag gains the verified proportional 20px API. |
+| `src/features/resource-library/ResourceLibrary.contract.test.tsx` | PR #1271 / 10-31 | **PRESERVE / RECONCILE TESTS** | Retain guide-rendering coverage and add DOM/behavior assertions for the split-left row, nested controls, progress, and responsive truncation. |
+| `src/features/resource-library/ResourceLibrary.tsx` | PR #1271 / 10-31 | **PRESERVE MASTER + SELECTIVE PORT** | Keep master registry/search/learning-path/progress architecture; selectively adopt full-width StudioSplitLeftButton rows and scoped CSS after verifying DOM slots and mobile width. See Resource Library audit. |
+| `src/features/resource-library/resourceLibrarySpectrumTag.contract.test.ts` | PR #1271 / 10-31 | **PORT / UPDATE TESTS** | Port only with the canonical SpectrumTag 15px/20px API and CSS; source test currently assumes a size prop absent from frozen master. |
 | `src/features/vault-workbench/capabilities.test.ts` | PR #1271 / 10-31 | **RECONCILE SAFETY CONTRACTS** | Keep master workspace/resolution behavior; selectively restore source policy-gated action eligibility/restore guard with tests. |
 | `src/services/__tests__/vaultBrainSearch.test.ts` | PR #1271 / 10-31 | **RECONCILE SAFETY CONTRACTS** | Keep master workspace/resolution behavior; selectively restore source policy-gated action eligibility/restore guard with tests. |
 | `src/services/__tests__/vaultRecovery.test.ts` | PR #1271 / 10-31 | **RECONCILE SAFETY CONTRACTS** | Keep master workspace/resolution behavior; selectively restore source policy-gated action eligibility/restore guard with tests. |
@@ -171,6 +171,11 @@ These are preliminary source dispositions, not implementation approvals. “Port
 | `src/styles/studio-control-value-toggles.css` | BOTH PRs | **RECONCILE BOTH** | Merge only current divider, rail, tooltip, and focus behavior; fix tooltip DOM/CSS mismatch and tier geometry under canonical tokens. |
 | `src/styles/studio-panel-accordion.css` | BOTH PRs | **RECONCILE BOTH** | Reconcile CSS ownership and accessible tooltip/focus treatment; avoid duplicate split-rail patterns. |
 | `studio-control-system.css` | BOTH PRs | **INVESTIGATE / RECONCILE** | Root-level stylesheet is distinct from imported `src/styles` system; identify every consumer before editing or removal. |
+
+## 4.2 Follow-on source audits
+
+- [Calendar projection and primitive audit](VIEWTUBE_CALENDAR_PROJECTION_AND_PRIMITIVE_RECONCILIATION_AUDIT_2026-11-15.md)
+- [Resource Library Studio row audit](VIEWTUBE_RESOURCE_LIBRARY_STUDIO_ROW_RECONCILIATION_AUDIT_2026-11-15.md)
 
 ## 5. Cross-cutting preservation rules
 
