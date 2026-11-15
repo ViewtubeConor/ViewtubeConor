@@ -262,8 +262,8 @@ const ProjectPlannerCalendar: React.FC<ProjectPlannerCalendarProps> = ({ onOpenP
                         event.preventDefault()
                         const projectId = event.dataTransfer.getData("text/plain") || draggedProjectId
                         const project = projects.find(item => item.id === projectId)
-                        const moved = projectId ? moveProjectToCalendarDate({
-                          projectId,
+                        const moved = project ? moveProjectToCalendarDate({
+                          projectId: project.id,
                           date: key,
                           updateProject,
                         }) : false
