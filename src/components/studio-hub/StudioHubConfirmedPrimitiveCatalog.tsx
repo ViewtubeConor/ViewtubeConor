@@ -139,30 +139,38 @@ const VERTICAL_WORD_TOGGLE_VARIANTS = [
 ]
 const CanonicalControlFamilies: React.FC = () => {
   const sizes = ["supreme", "standard", "compact", "mini", "micro"] as const
-  const [switches, setSwitches] = React.useState<boolean[]>(Array(40).fill(false))
-  const [choices, setChoices] = React.useState<boolean[]>(Array(60).fill(false))
-  const flip = (setter: React.Dispatch<React.SetStateAction<boolean[]>>, index: number, value?: boolean) => setter(current => current.map((old, i) => i === index ? (value ?? !old) : old))
-  return <>
-    <Family title="Switches, Radios & Checkboxes" nonDefaultSettings={[
-        "Every supported size tier is shown for both switch shapes, radio, checkmark checkbox, and X-checkbox.",
-        "Each size is paired with all four canonical skins: solid, color-swap, black-indicator, and white-indicator.",
-        "Each example has independent checked state and native accessible-name semantics.",
-      ]} provenance={<Provenance primitive="StudioSwitch / StudioRadio / StudioCheckbox / StudioXCheckbox" tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css" tokens="Supreme / Standard / Compact / Mini / Micro × four canonical skins." imports={["src/studio-ui/primitives/StudioControls.tsx"]} />}>
-      <div className="vt-confirmed-choice-module">
-        <div className="vt-confirmed-choice-names" aria-label="Component names">
-          <span>ROUND SWITCH</span><span>RECTANGULAR SWITCH</span><span>RADIO BUTTON</span><span>CHECKMARK CHECKBOX</span><span>X CHECKBOX</span>
-        </div>
-        {sizes.map((size, sizeIndex) => <React.Fragment key={size}>
-          <div className="vt-confirmed-choice-variant-headings" aria-label={size + " palette variants"}>
-            <strong>{size.toUpperCase()}</strong>{CANONICAL_SKINS.map(skin => <span key={skin.skin}>{skin.label}</span>)}
+  const [states, setStates] = React.useState<Record<string, boolean>>({})
+  const toggle = (key: string) => setStates(current => ({ ...current, [key]: !current[key] }))
+
+  const family = (
+    title: string,
+    primitive: string,
+    Component: React.ComponentType<any>,
+    shape: "round" | "rect",
+  ) => (
+    <Family title={title + " · Five Sizes × Four Skins"} nonDefaultSettings={[
+      "One production control per specimen row; all five canonical sizes and four documented skins remain independently interactive.",
+      "The control uses the global automatic width default and the module row provides the available layout width.",
+    ]} provenance={<Provenance primitive={primitive} tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css" tokens="Supreme / Standard / Compact / Mini / Micro × four canonical skins; global width auto." imports={["src/studio-ui/primitives/StudioControls.tsx"]} />}>
+      <div className="vt-confirmed-choice-family" data-vt-library-component={primitive}>
+        {sizes.flatMap(size => CANONICAL_SKINS.map(skin => {
+          const key = [primitive, size, skin.skin].join(":")
+          return <div className="vt-confirmed-control-row vt-confirmed-control-row--single" data-vt-library-component={primitive} data-control-size={size} key={key}>
+            <strong>{size.toUpperCase()} · {skin.label}</strong>
+            <Component shape={shape} skin={skin.skin} sizeVariant={size} checked={!!states[key]}
+              aria-label={title + " " + size + " " + skin.label} onClick={() => toggle(key)} />
           </div>
-          <div className="vt-confirmed-choice-examples">
-            {(["round", "rect"] as const).map((shape, row) => <div className="vt-confirmed-choice-example-row" key={size + "-switch-" + shape} aria-label={size + " " + shape + " switch examples"}>{CANONICAL_SKINS.map((skin, col) => { const index = sizeIndex * 8 + row * 4 + col; return <div key={skin.skin}><StudioSwitch shape={shape} skin={skin.skin} sizeVariant={size} checked={switches[index]} aria-label={size + " " + shape + " switch " + skin.label} onClick={() => flip(setSwitches, index)} /></div> })}</div>)}
-            {([{Component:StudioRadio,label:"radio button",shape:"round" as const},{Component:StudioCheckbox,label:"checkmark checkbox",shape:"rect" as const},{Component:StudioXCheckbox,label:"X checkbox",shape:"rect" as const}]).map((item,row) => { const ChoiceComponent = item.Component; return <div className="vt-confirmed-choice-example-row" key={size + "-" + item.label} aria-label={size + " " + item.label + " examples"}>{CHOICE_SKINS.map((skin,col) => { const index = sizeIndex * 12 + row * 4 + col; return <div key={skin.skin}><ChoiceComponent shape={item.shape} skin={skin.skin} sizeVariant={size} checked={choices[index]} aria-label={size + " " + item.label + " " + skin.label} onClick={() => flip(setChoices, index)} /></div> })}</div> })}
-          </div>
-        </React.Fragment>)}
+        }))}
       </div>
     </Family>
+  )
+
+  return <>
+    {family("Round Switch", "StudioSwitch", StudioSwitch, "round")}
+    {family("Rectangular Switch", "StudioSwitch", StudioSwitch, "rect")}
+    {family("Radio Button", "StudioRadio", StudioRadio, "round")}
+    {family("Checkmark Checkbox", "StudioCheckbox", StudioCheckbox, "rect")}
+    {family("X Checkbox", "StudioXCheckbox", StudioXCheckbox, "rect")}
   </>
 }
 
