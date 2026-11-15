@@ -1606,7 +1606,7 @@ export const StudioSquareIconButtonGroup = React.forwardRef<HTMLDivElement, Stud
         label={item.label}
         variant="v3"
         selected={selectedDefaultIndex === index}
-        onSelectedChange={selected => setSelectedDefaultIndex(selected ? index : -1)}
+        onSelectedChange={selected => { if (selected) setSelectedDefaultIndex(index) }}
         sizeVariant={sizeVariant}
       />
     ))
