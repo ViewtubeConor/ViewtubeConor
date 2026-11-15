@@ -67,7 +67,7 @@ describe("Studio Calendar control compositions", () => {
     expect(calendar).toContain("StudioSquareIconButton")
     expect(calendar).toContain("StudioDropdown")
     const catalog = readFileSync(resolve(process.cwd(), "src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx"), "utf8")
-    expect(catalog).toContain("Calendar Event & Media Rails")
+    expect(catalog).toContain('title="Calendar Event Chips"')
     expect(catalog).toContain("StudioCalendarEventChip")
     expect(catalog).toContain("StudioCalendarMediaRail")
     expect(calendar).toContain("updateProject(project.id, { publishDate: selectedDate")
