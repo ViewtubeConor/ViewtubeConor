@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { draftCommentReply, recommendVideoForComment } from "../../services/brain/commentEngagement"
+import type { SimpleYouTubeCommentThread, SimpleVideoDetails } from "../../services/simpleYouTubeApi"
 import { fetchAllSimpleCommentThreads, fetchSimpleOwnedVideo, postSimpleCommentReply, toSimpleVideoDetails } from "../../services/simpleYouTubeApi"
 import { readBrainUserControls } from "../../services/brain/BrainUserControls"
 import type { CommentResponderController, CommentResponderTab, CommentVideoRecommendation, CreatorEngagementContext } from "./types"
@@ -18,10 +18,10 @@ export const resolveSuggestedVideoId = (
  return videos.some((video) => video.videoId === candidate) ? candidate : null
 }
 
-export const partitionCommentThreads = (threads: any[], channelId: string) => {
+export const partitionCommentThreads = (threads: readonly SimpleYouTubeCommentThread[], channelId: string) => {
  const complete = threads.filter((thread) => thread.repliesComplete !== false)
- const hasChannelReply = (thread: any) => (thread.replies?.comments || [])
-  .some((reply: any) => reply.snippet?.authorChannelId?.value === channelId)
+ const hasChannelReply = (thread: SimpleYouTubeCommentThread) => (thread.replies?.comments || [])
+  .some((reply) => reply.snippet.authorChannelId?.value === channelId)
  return {
   unreplied: complete.filter((thread) => !hasChannelReply(thread)),
   replied: complete.filter(hasChannelReply),
@@ -32,21 +32,21 @@ export const useCommentResponderController = (context: CreatorEngagementContext)
  const [tab, setTabState] = useState<CommentResponderTab>("unreplied")
  const [loading, setLoading] = useState(false)
  const [error, setError] = useState<string | null>(null)
- const [threads, setThreads] = useState<any[]>([])
+ const [threads, setThreads] = useState<SimpleYouTubeCommentThread[]>([])
  const [replyText, setReplyTextById] = useState<Record<string, string>>({})
  const [generatingIds, setGeneratingIds] = useState<Set<string>>(new Set())
  const [currentIndex, setCurrentIndex] = useState(0)
- const [fetchedVideoData, setFetchedVideoData] = useState<Record<string, any>>({})
+ const [fetchedVideoData, setFetchedVideoData] = useState<Record<string, SimpleVideoDetails>>({})
  const [videoRecommendationsByCommentId, setVideoRecommendationsByCommentId] = useState<Record<string, CommentVideoRecommendation>>({})
  const [inboundImageUrl, setInboundImageUrl] = useState<string | null>(null)
  const [proposedAudienceSignalIds, setProposedAudienceSignalIds] = useState<Set<string>>(new Set())
- const fetchedRef = useRef<Record<string, any>>({})
+ const fetchedRef = useRef<Record<string, SimpleVideoDetails>>({})
  const metadataInFlight = useRef(new Set<string>())
  const requestGeneration = useRef(0)
  const requestAbort = useRef<AbortController | null>(null)
 
- const syncMetadata = useCallback(async (nextThreads: any[]) => {
-  const videoIds = Array.from(new Set<string>(nextThreads.map((thread) => thread.snippet?.videoId).filter(Boolean)))
+ const syncMetadata = useCallback(async (nextThreads: readonly SimpleYouTubeCommentThread[]) => {
+  const videoIds = Array.from(new Set(nextThreads.map((thread) => thread.snippet.videoId).filter((id): id is string => Boolean(id))))
   const missing = videoIds.filter((id) => {
    const canonical = context.videoAssets.find((video) => video.videoId === id)
    const fetched = fetchedRef.current[id]
@@ -66,7 +66,7 @@ export const useCommentResponderController = (context: CreatorEngagementContext)
      return null
     }
    }))
-   const details = Object.fromEntries(entries.filter((entry): entry is readonly [string, any] => Boolean(entry)))
+   const details = Object.fromEntries(entries.filter((entry): entry is readonly [string, SimpleVideoDetails] => Boolean(entry)))
    fetchedRef.current = { ...fetchedRef.current, ...details }
    setFetchedVideoData((current) => ({ ...current, ...details }))
   } finally { missing.forEach((id) => metadataInFlight.current.delete(id)) }
@@ -117,15 +117,22 @@ export const useCommentResponderController = (context: CreatorEngagementContext)
  }, [context.connected, refresh])
 
  useEffect(() => {
-  const apply = (payload: any) => payload?.imageUrl && setInboundImageUrl(String(payload.imageUrl))
+  const apply = (payload: unknown) => {
+   if (typeof payload !== "object" || payload === null || !("imageUrl" in payload)) return
+   const imageUrl = payload.imageUrl
+   if (imageUrl) setInboundImageUrl(String(imageUrl))
+  }
   const onBridge = (event: Event) => {
-   const detail = (event as CustomEvent<any>).detail
-   if (detail?.targetWidget === "comment-replier") apply(detail)
+   const detail = (event as CustomEvent<unknown>).detail
+   if (typeof detail === "object" && detail !== null && "targetWidget" in detail && detail.targetWidget === "comment-replier") apply(detail)
   }
   window.addEventListener("vt_dashboard_generated_image", onBridge as EventListener)
   try {
    const cached = localStorage.getItem("vt_bridge_image_comment-replier")
-   if (cached) apply(JSON.parse(cached))
+   if (cached) {
+    const parsed: unknown = JSON.parse(cached)
+    apply(parsed)
+   }
   } catch { /* Ignore malformed bridge cache and keep the tool usable. */ }
   return () => window.removeEventListener("vt_dashboard_generated_image", onBridge as EventListener)
  }, [])
