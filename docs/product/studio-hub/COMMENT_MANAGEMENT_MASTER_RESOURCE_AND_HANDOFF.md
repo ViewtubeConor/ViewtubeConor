@@ -7,11 +7,12 @@
 **Repository:** `viewtube-dev/viewtube`  
 **PR:** [#1274 — Redesign Studio Hub Comment Management workspace](https://github.com/viewtube-dev/viewtube/pull/1274)  
 **Working branch:** `feat/comment-management-studio-redesign-2026-11-14`  
-**Target:** `master/consolidated-feature-integration`  
+**Requested / previously recorded target:** `master/consolidated-feature-integration`  
+**Current PR base returned by GitHub metadata:** `fix/studio-controls-regression-recovery-2026-10-31` (base SHA `e0527fb1841cd3e847ac1a4a11d12ccb3333ff4f`) — this conflicts with the requested/recorded target and must be resolved before merge; this handoff does not silently retarget it.  
 **Implementation head covered by the latest recorded implementation workflow:** `7e8e5dbe5850e37e16407d82c8a0f504cf2fb21b`  
-**Master handoff documentation commit:** `bd852de9caadda6cfa7511a7bcbd54d3dc7f2b0e` (this documentation-only commit advances the PR branch; no workflow run was returned for it at verification time).  
+**Master handoff documentation commits:** initial creation `bd852de9caadda6cfa7511a7bcbd54d3dc7f2b0e`; follow-up updates include `a6872b3c36c056a14009d303413b982fc31b62a1`. No workflow run was returned for the documentation-only commits at verification time.  
 **Latest completed implementation workflow recorded by PR:** [43699978637](https://github.com/viewtube-dev/viewtube/actions/runs/43699978637) — FAILURE  
-**Merge / production:** Not claimed. PR remains draft and is not merge-ready.
+**Current PR state returned by GitHub:** OPEN, not draft, not merged, mergeable=false. No production deployment is claimed.
 
 > This is the navigation and resumption document for the Comment Management workflow. It does not replace the feature specification, the Toolbox Workflow Convergence plan/todo, Task Authority, or the conversation intake package. It consolidates their relationships, system boundaries, process, implementation phases, evidence and next actions so a new developer or agent can resume without reconstructing the conversation.
 
@@ -185,8 +186,9 @@ Use the following process for every continuation. It follows the repository's Co
 
 ### Step A — Re-establish truth before editing
 
-1. Fetch PR #1274 metadata, current head SHA, base SHA, draft/open state and changed files.
-2. Fetch current target branch SHA and compare it with the PR base.
+1. Fetch PR #1274 metadata, current head SHA, base SHA, open/draft state and changed files.
+2. Resolve the base mismatch: requested/recorded target is `master/consolidated-feature-integration`, while current GitHub metadata reports `fix/studio-controls-regression-recovery-2026-10-31`. Do not merge or assume either target until the intended base is confirmed; inspect the exact branch ancestry and PR history.
+3. Fetch current SHA for the intended target branch and compare it with the PR base.
 3. Read this master reference, the feature specification, convergence plan/todo, handoff, worklog and review.
 4. Inspect current code/tests at the exact PR head; do not rely on stale conversation summaries.
 5. Fetch the latest workflow runs for the exact head and inspect failing job logs.
@@ -226,7 +228,7 @@ Use the following process for every continuation. It follows the repository's Co
 - Update conversation worklog/review when a new conversation contributes durable work or changes disposition.
 - Update this master resource only when navigation, ownership, phase order, evidence pointer or resume instructions materially change.
 - Resolve task allocation through Task Authority; do not invent permanent VT IDs.
-- Keep PR draft until all required acceptance and verification gates pass.
+- Keep PR non-mergeable / not-ready until all required acceptance and verification gates pass; current GitHub metadata reports `draft=false`, so do not describe it as draft without refreshing metadata.
 - Never merge or deploy without explicit authorization and verified readiness.
 
 ## 7. Implementation phases and acceptance gates
@@ -400,7 +402,7 @@ Relationship rules:
 ## 13. Next-agent resume checklist
 
 - [ ] Fetch current PR #1274 metadata and verify current head/base/state.
-- [ ] Fetch current target branch SHA.
+- [ ] Resolve PR base mismatch and fetch the exact intended target branch SHA.
 - [ ] Fetch latest workflow runs for current head and inspect failed job logs.
 - [ ] Confirm this document and linked resources still exist at current branch head.
 - [ ] Read the complete current convergence todo before choosing a task.
@@ -408,6 +410,6 @@ Relationship rules:
 - [ ] Fix only proven owned regressions; add regression coverage first.
 - [ ] Continue Brain, moderation, Audience Pulse and responsive/accessibility phases in the order above.
 - [ ] Update canonical todo and evidence receipts.
-- [ ] Keep PR draft until full acceptance and verification are satisfied.
+- [ ] Do not merge while the base mismatch and failed gates remain. Current metadata reports `draft=false`; readiness must be judged from current evidence, not draft flag alone.
 
 **Resume command:** Continue PR #1274 from its current head. Start with an exact target-branch baseline for the remaining failed CI gates; do not create a new branch or parallel PR. The two CommentResponder-specific assertions are already reported fixed and passing—do not redo or weaken them. Use `tasks/toolbox-workflow-convergence/todo.md` as the live task checklist and this file as the master navigation/system/process handoff.
