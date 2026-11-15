@@ -102,6 +102,7 @@ PR description says the slice:
 
 - `docs/product/studio-hub/COMMENT_MANAGEMENT_WORKSPACE.md` — registered feature specification including UX, ownership, Brain/Video Inspector/Audience Pulse seams, API/security gates, phased acceptance, 40 feature ideas and 25 audience/community interaction ideas.
 - `docs/registry.json` — registered `DOC-SPEC-COMMENT-MANAGEMENT`.
+- `ideas/registry.json` — registered `IDEA-LIST-COMMENT-MANAGEMENT-001` with all 65 source items attached as retained requirements to existing `IDEA-YT-004`; no duplicate master idea was created.
 - `tasks/toolbox-workflow-convergence/plan.md` — linked the new spec and recorded CI evidence.
 - `tasks/toolbox-workflow-convergence/todo.md` — recorded explicit CI remediation and visual/API certification tasks.
 - This conversation intake package: `handoff.md`, `worklog.json`, `review.md`.
