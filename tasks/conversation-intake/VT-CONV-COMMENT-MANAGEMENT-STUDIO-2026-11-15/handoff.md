@@ -28,11 +28,13 @@ The conversation also requested:
 - Target/base: `master/consolidated-feature-integration`
 - Feature branch: `feat/comment-management-studio-redesign-2026-11-14`
 - PR: [#1274 — Redesign Studio Hub Comment Management workspace](https://github.com/viewtube-dev/viewtube/pull/1274)
-- PR state at last verification: OPEN, DRAFT, mergeable=true, merged=false; 27 commits, 13 changed files at that read. Verify again before acting.
-- Earlier completed workflow: [run 43677671858](https://github.com/viewtube-dev/viewtube/actions/runs/43677671858), overall FAILURE.
-- Latest PR metadata read: 39 commits, 14 changed files; head `76c5bc0d41b2e8b409a0e82c8450acdb0637f4c0`; [run 43688573163](https://github.com/viewtube-dev/viewtube/actions/runs/43688573163) was pending and had not exposed job results at the latest read. The previous run 43688189005 was cancelled while commits advanced.
-- No merge is recorded by this handoff.
-- Do not start a second branch/PR for the same feature; continue PR #1274 unless reconciliation proves it is closed/superseded.
+- Current PR state at 2026-11-15 09:31 UTC: OPEN, DRAFT, merged=false; target unchanged.
+- Latest recorded PR head: `fc7f827a5914c139c32ec92080b3d78085280d91` (documentation/verification receipt update).
+- Latest branch comparison: 51 commits ahead / 0 behind target; 16 changed files.
+- Latest completed implementation-head workflow: [43699044473](https://github.com/viewtube-dev/viewtube/actions/runs/43699044473), tested commit `9985f1ea5574bbc4126b8899e82645be0d5dd1e8`, overall FAILURE.
+- Latest completed documentation-head workflow: [43699635582](https://github.com/viewtube-dev/viewtube/actions/runs/43699635582), tested PR head `fc7f827a5914c139c32ec92080b3d78085280d91`, overall FAILURE with the same gate pattern and same full-suite totals (296 failed / 585 passed across 671).
+- No merge or production deployment is recorded.
+- Continue PR #1274; do not create another branch/PR for this feature.
 
 ## 3. Read first
 
@@ -138,7 +140,7 @@ The earlier run 43677671858 and pending/cancelled runs are historical. The lates
 - Follow-up commits introduced the service-owned comment/thread/page types, typed controller state and metadata cache, typed Studio inbox/thread rendering, and optional comment-text guards.
 - Implementation-head run 43699044473 confirms the focused comment tests pass and reports no type errors in those modified paths.
 
-No merge, production deployment, visual screenshot certification, authenticated live YouTube API certification, or merge-ready status is claimed.
+No merge, production deployment, visual screenshot certification, authenticated live YouTube API certification, or merge-ready status is claimed. The documentation-head run 43699635582 also completed with the same outstanding failures: Studio counter/dropdown, typecheck, document audit, confirmed catalog audit and full suite (296 failed / 585 passed); the CommentResponder contract (9 tests) and creator-engagement parity (4 tests) still pass.
  
 ## 7. Planned / unfinished work
 
