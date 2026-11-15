@@ -14,14 +14,15 @@ import {
  validateBrainResponse,
 } from "../brain/BrainOrchestrator"
 
-const makeSnapshot = () => buildAIBrainContextSnapshot({
+const makeSnapshot = (channelId = "orchestrator-channel") => buildAIBrainContextSnapshot({
  brain: fallbackContext.brain,
  authState: { ...fallbackContext.authState, channelName: "History Workshop" },
  channelConnection: { ...fallbackContext.channelConnection, isConnected: true },
  brainMemory: fallbackContext.getBrainMemory(),
  vtSyncSnapshot: getVtSyncSnapshot({
   source: "vt-sync",
-  snapshotId: "orchestrator-snapshot",
+  snapshotId: `orchestrator-snapshot-${channelId}`,
+  channelId,
   channelName: "History Workshop",
   videos: [
    { id: "best", title: "Alder's Cavalry Explained", tags: ["alder", "military", "history"], metrics: { views: 120000 } },
@@ -94,7 +95,7 @@ describe("BrainOrchestrator", () => {
   const traces: BrainTrace[] = []
   setBrainTraceSink({ write: (trace) => traces.push(trace), list: () => traces })
   try {
-   const snapshot = makeSnapshot()
+   const snapshot = makeSnapshot("trace-channel")
    const growthContext = buildCreatorGrowthContext(snapshot, [], [])
    const result = await runBrainTurn({
     channelId: "trace-channel",
@@ -127,7 +128,7 @@ describe("BrainOrchestrator", () => {
 
 
  it("records the provider-reported served model when the gateway exposes it", async () => {
-  const snapshot = makeSnapshot()
+  const snapshot = makeSnapshot("served-model-channel")
   const growthContext = buildCreatorGrowthContext(snapshot, [], [])
   const result = await runBrainTurn({
    channelId: "served-model-channel",
@@ -159,7 +160,7 @@ describe("BrainOrchestrator", () => {
  })
 
  it("preserves the exact prompt in the captured learning event", async () => {
-  const snapshot = makeSnapshot()
+  const snapshot = makeSnapshot("raw-learning-channel")
   const growthContext = buildCreatorGrowthContext(snapshot, [], [])
   const rawUserMessage = "The API failed with an error — keep these exact words."
   const result = await runBrainTurn({
@@ -182,7 +183,7 @@ describe("BrainOrchestrator", () => {
 
 
  it("repairs a repeated generic model answer with an evidence-backed fallback", async () => {
-  const snapshot = makeSnapshot()
+  const snapshot = makeSnapshot("repeat-channel")
   const growthContext = buildCreatorGrowthContext(snapshot, [], [])
   const repeatedTurn = {
    id: "prior-turn",
@@ -229,7 +230,7 @@ describe("BrainOrchestrator", () => {
  })
 
  it("accepts one materially improved repair response", async () => {
-  const snapshot = makeSnapshot()
+  const snapshot = makeSnapshot("repair-success-channel")
   const growthContext = buildCreatorGrowthContext(snapshot, [], [])
   const modelGenerator = vi.fn()
    .mockResolvedValueOnce({
@@ -271,7 +272,7 @@ describe("BrainOrchestrator", () => {
  })
 
  it("records provider and model-disabled fallback reasons without extra model calls", async () => {
-  const snapshot = makeSnapshot()
+  const snapshot = makeSnapshot("provider-error-channel")
   const growthContext = buildCreatorGrowthContext(snapshot, [], [])
   const provider = vi.fn(async () => { throw new Error("provider unavailable") })
   const failed = await runBrainTurn({
@@ -284,11 +285,13 @@ describe("BrainOrchestrator", () => {
    nicheResolver: vi.fn(async () => nicheProfile),
    modelGenerator: provider,
   })
+  const disabledSnapshot = makeSnapshot("model-disabled-channel")
+  const disabledGrowthContext = buildCreatorGrowthContext(disabledSnapshot, [], [])
   const disabled = await runBrainTurn({
    channelId: "model-disabled-channel",
    userText: "Give me a strategy",
-   snapshot,
-   growthContext,
+   snapshot: disabledSnapshot,
+   growthContext: disabledGrowthContext,
    systemPrompt: "Use evidence.",
    allowModel: false,
    nicheResolver: vi.fn(async () => nicheProfile),
@@ -302,7 +305,7 @@ describe("BrainOrchestrator", () => {
  })
 
  it("uses local guidance when the single repair call errors", async () => {
-  const snapshot = makeSnapshot()
+  const snapshot = makeSnapshot("repair-error-channel")
   const growthContext = buildCreatorGrowthContext(snapshot, [], [])
   const modelGenerator = vi.fn()
    .mockResolvedValueOnce({ headline: "Generic", keyInsight: "Be consistent.", body: "Expect 999999 views.", mode: "strategy_brief", modules: [], actions: [] })
@@ -326,7 +329,7 @@ describe("BrainOrchestrator", () => {
  })
 
  it("does not call the model when required context cannot fit the available budget", async () => {
-  const snapshot = makeSnapshot()
+  const snapshot = makeSnapshot("required-context-budget-channel")
   const growthContext = buildCreatorGrowthContext(snapshot, [], [])
   const modelGenerator = vi.fn(async () => ({
    headline: "Should not run",
