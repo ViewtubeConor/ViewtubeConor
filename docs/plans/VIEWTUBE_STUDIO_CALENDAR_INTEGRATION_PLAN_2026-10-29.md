@@ -6,7 +6,7 @@
 **Phase 5–7 continuation PR:** #1280  
 **Implementation branch:** `feat/projects-calendar-phases-5-7-2026-11-15`  
 **Canonical data owner:** Projects / Project records; no second calendar store  
-**Status:** Phases 0–5 implementation is present on a branch based on the current recovery head. Phase 6 test/build/browser certification is not yet complete. Phase 7 selective master handoff and branch cleanup are documented and gated on Phase 6.
+**Status:** Phases 0–4 are merged to the recovery branch; Phase 5 owner-backed scheduling interactions are implemented in PR #1280. Phase 6 is blocked pending a repository-capable test/build/browser run. Phase 7 selective master integration and Phase 8 release closeout are prepared but gated on Phase 6.
 
 ## Product contract
 
@@ -25,8 +25,10 @@ The visual language stays neo-brutalist and uses the canonical Studio controls f
 | 2. Studio primitives | Mini event chips, multi-day bars, thumbnail event chips and media rails | **Implemented; visual verification pending** | `StudioCalendarEventChip`, `StudioCalendarMultiDayBar`, `StudioCalendarThumbnailEventChip`, `StudioCalendarMediaRail`, public exports and shared tokens |
 | 3. Confirmed primitive catalog | Actual production representatives and regression coverage | **Implemented on recovery branch; verification pending** | PRs #1245, #1248 and #1249 |
 | 4. Production calendar integration | Consume the event projection and render new Mini/bar/thumbnail primitives in `ProjectPlannerCalendar` | **Implemented; runtime verification pending** | `ProjectPlannerCalendar` now consumes `projectProjectsToCalendarEvents`, resolves owner records by stable source identity, uses thumbnail Mini chips for publication markers, Mini chips for tasks, and week-segmented bars only for explicit source-owned ranges |
-| 5. Interaction and owner writes | Drag/drop, range movement, task/publish interactions and owner-correct persistence | **Pending** | Preserve existing `updateProject` paths; add drag/drop or range movement only when owner APIs and persisted range fields are explicitly supported |
-| 6. Verification and release | Focused tests, Studio gate, typecheck, build, full suite and desktop/mobile accessibility checks | **Pending** | Must run in repository-capable CI/runtime; do not claim visual certification before browser inspection |
+| 5. Interaction and owner writes | Drag/drop, task/publish interactions and owner-correct persistence | **Implemented; verification pending** | PR #1280 implements drag/drop and selector scheduling through the existing `updateProject` owner callback; range writes remain excluded because the Project model has no approved range fields |
+| 6. Verification and release | Focused tests, Studio gate, typecheck, build, full suite and desktop/mobile accessibility checks | **Blocked — not certified** | No successful Actions run is associated with the PR head in the recorded inspection; Vercel provider checks reported build-rate-limit failures. Requires repository-capable CI/runtime and browser inspection |
+| 7. Selective master integration | Port verified calendar-only changes to master and audit the master-target diff/CI | **Prepared; gated on Phase 6** | Selective PR only after Phase 6 passes; no wholesale merge of the divergent recovery branch |
+| 8. Release closeout and branch hygiene | Verify final master merge/deployment, publish evidence, and retire obsolete branches | **Planned; gated on Phase 7** | Closeout requires merged SHAs, successful checks, deployment/rollback state, dependency audit, and confirmation no open PR depends on a branch before deletion |
 
 
 ## Branch and PR disposition ledger — audited 2026-11-15
@@ -150,6 +152,19 @@ This is the final convergence phase, not permission to merge the divergent maste
 - Final handoff must record merged SHAs, test run URLs, known owner limitations, release/deployment state and branch cleanup evidence.
 
 **Current Phase 7 status:** handoff criteria and migration sequence are documented; actual master PR, merge and branch deletion are gated on Phase 6. No merge or deployment is claimed.
+
+### Phase 8 — release closeout and branch hygiene
+
+This phase begins only after the selective master PR from Phase 7 has passed its own CI and review. It does not authorize cleanup based only on branch age or apparent duplication.
+
+- Confirm the master PR contains only the verified calendar contract, adapter, owner-backed scheduling interaction, production calendar integration, required tests and canonical plan changes.
+- Record the recovery PR and master PR merge SHAs, exact CI run URLs, test commands/results, review disposition and any accepted limitations.
+- Verify the deployed commit and preview/production URL where deployment is intended; record whether deployment succeeded, failed, was rolled back, or was intentionally not requested. Do not infer deployment from a merge.
+- Audit every candidate calendar branch against merged PRs and open PR dependencies. Preserve any branch with unique unmerged work or an active PR.
+- Delete only stale branches whose complete changes are merged or explicitly superseded and whose deletion cannot strand another PR. Record each deletion.
+- Close the handoff with the remaining owner/schema limitations, including the absence of persisted Project date ranges and any Publisher integration gaps.
+
+**Current Phase 8 status:** not started; gated on successful Phase 7 master integration and release verification. No master merge, production deployment or branch deletion is claimed.
 
 ## Creator-facing copy contract
 
