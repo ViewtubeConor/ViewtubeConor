@@ -26,7 +26,7 @@
   --vt-studio-panel-radius: var(--vt-studio-compact-radius, 4px);
   --vt-studio-panel-rail: var(--vt-studio-panel-size);
 }
-/* Left button stack: one vertical divider between the stack and the text body. */
+/* Left button stack; the adjacent canonical text-box border owns the divider. */
 .vt-studio-panel-accordion__rails {
   display: flex;
   flex-direction: column;
