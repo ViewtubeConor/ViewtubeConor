@@ -13,7 +13,7 @@
   align-items: stretch;
   width: 100%;
   min-width: 0;
-  border: var(--vt-studio-panel-stroke) solid #000;
+  border: 0;
   border-radius: var(--vt-studio-panel-radius);
   /* Tooltips must escape the shell, so the shell cannot clip. */
   overflow: visible;
@@ -31,6 +31,8 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
+  border: var(--vt-studio-panel-stroke) solid #000;
+  border-right: 0;
   background: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
   overflow: visible;
   border-top-left-radius: var(--vt-studio-panel-radius);
