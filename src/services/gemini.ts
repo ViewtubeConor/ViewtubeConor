@@ -639,6 +639,15 @@ export const getAiClient = () => {
      reservationId,
      actualCredits: finalQuote.creditDebitEstimate,
      idempotencyKey: `${generationId}:settle`,
+     metadata: {
+      modelId: effectiveCanonicalModel,
+      inputTokens: inputTokens > 0 ? inputTokens : quote.inputTokensEstimate,
+      outputTokens: outputTokens > 0 ? outputTokens : quote.outputTokensEstimate,
+      providerReportedUsage: inputTokens > 0 || outputTokens > 0,
+      reason: inputTokens > 0 || outputTokens > 0 ? "usage_metadata" : "fallback_estimate",
+      rawCostUsd: finalQuote.rawCostUsd,
+      meterCostUsd: finalQuote.meterCostUsd,
+     },
     })
    } else {
     const charge = applyMeterChargeEvent({
@@ -789,6 +798,15 @@ export const getAiClient = () => {
        reservationId,
        actualCredits: finalQuote.creditDebitEstimate,
        idempotencyKey: `${generationId}:settle`,
+       metadata: {
+        modelId: effectiveCanonicalModel,
+        inputTokens: inputTokens > 0 ? inputTokens : quote.inputTokensEstimate,
+        outputTokens: outputTokens > 0 ? outputTokens : quote.outputTokensEstimate,
+        providerReportedUsage: inputTokens > 0 || outputTokens > 0,
+        reason: inputTokens > 0 || outputTokens > 0 ? "usage_metadata" : "fallback_estimate",
+        rawCostUsd: finalQuote.rawCostUsd,
+        meterCostUsd: finalQuote.meterCostUsd,
+       },
       })
      } else {
       const charge = applyMeterChargeEvent({
