@@ -704,10 +704,10 @@ describe("confirmed live primitive grid inventory", () => {
     expect(end).toBeGreaterThan(start);
     const grid = source.slice(start, end);
     expect(grid).toContain('data-vt-confirmed-primitive-grid="true"');
-    expect(grid).toContain("<StudioComponentGrid cols={3} rows={6}");
+    expect(grid).toContain("<StudioComponentGrid cols={1} rows={8}");
     for (const primitive of [
       "StudioButton", "StudioSplitLeftButton", "StudioDropdown", "StudioTextInput", "StudioTextArea",
-      "StudioCounter", "StudioSideCounter", "StudioDoubleSplitSlider", "StudioArrowToggle",
+      "StudioCounter", "StudioSideCounter", "StudioDoubleSplitSlider",
       "StudioDoubleSplitButton", "StudioSplitLeftDropdown", "StudioLegendMultiDropdown",
       "StudioDoubleSplitBadge", "StudioWordToggle", "StudioSwitch", "StudioUploadFrame",
       "StudioSplitAccordion", "StudioInterModule",
