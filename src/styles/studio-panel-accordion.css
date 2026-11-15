@@ -31,7 +31,6 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  border-inline-end: var(--vt-studio-panel-stroke) solid #000;
   background: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
   overflow: visible;
   border-top-left-radius: var(--vt-studio-panel-radius);
