@@ -360,3 +360,123 @@
   -webkit-text-fill-color: var(--vt-toggle-text, #000);
   -webkit-text-stroke-color: var(--vt-toggle-text, #000);
 }
+
+
+/* Side-toggle labels use the pair fill as their resting text color.
+   Existing focus-within rules below/above retain black focused text. */
+.vt-studio-value-toggle--side .vt-studio-value-toggle__face,
+.vt-studio-value-toggle--double .vt-studio-value-toggle__double-side .vt-studio-value-toggle__face {
+  color: var(--vt-toggle-fill, var(--vt-studio-control-accent, var(--pair-a)));
+  -webkit-text-fill-color: currentColor;
+  -webkit-text-stroke-color: currentColor;
+}
+
+
+/* Bar meters occupy only the middle split face. Rails retain their own paint
+   and divider edges; the meter's width is bounded by the center grid track. */
+.vt-studio-value-toggle--bar > [data-vt-studio-split-label] {
+  grid-column: 2;
+  min-width: 0;
+  max-width: 100%;
+}
+.vt-studio-value-toggle--bar .vt-studio-value-toggle__bars {
+  grid-column: 2;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  justify-self: stretch;
+  overflow: visible;
+  pointer-events: none;
+}
+.vt-studio-value-toggle--bar .vt-studio-value-toggle__bar {
+  box-sizing: border-box;
+  flex: 0 1 var(--vt-bar-width);
+  min-width: 0;
+  max-width: 100%;
+  border-radius: var(--vt-bar-radius);
+  pointer-events: none;
+}
+.vt-studio-value-toggle--bar [data-vt-studio-split-rail] {
+  box-sizing: border-box;
+  min-width: var(--vt-studio-control-height, 44px);
+  max-width: var(--vt-studio-control-height, 44px);
+  overflow: hidden;
+  z-index: 2;
+}
+
+
+/* Keep the bar visualization inside the center label's grid track.
+   The label is the only center column; side rails remain separate siblings. */
+.vt-studio-split-shell.vt-studio-value-toggle--bar {
+  grid-template-columns: var(--vt-studio-control-height, 44px) minmax(0, 1fr) var(--vt-studio-control-height, 44px);
+}
+.vt-studio-value-toggle--bar > [data-vt-studio-split-label] {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+}
+.vt-studio-value-toggle--bar > [data-vt-studio-split-rail] {
+  grid-row: 1;
+  box-sizing: border-box;
+  width: var(--vt-studio-control-height, 44px);
+  min-width: var(--vt-studio-control-height, 44px);
+  max-width: var(--vt-studio-control-height, 44px);
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  z-index: 2;
+}
+.vt-studio-value-toggle--bar .vt-studio-value-toggle__bars {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  height: 100%;
+  padding-inline: calc(var(--vt-studio-control-stroke, 3px) * 1.5);
+  overflow: hidden;
+  clip-path: inset(0);
+  pointer-events: none;
+}
+.vt-studio-value-toggle--bar .vt-studio-value-toggle__bar {
+  flex: 0 1 var(--vt-bar-width);
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+
+/* Keep the tooltip's vertical escape while clipping the bar track horizontally
+   to the center face. The side rails are sibling grid tracks, never bar space. */
+.vt-studio-value-toggle--bar > [data-vt-studio-split-label] {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  max-width: 100%;
+  overflow: visible !important;
+}
+.vt-studio-value-toggle--bar .vt-studio-value-toggle__bars {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: visible;
+  clip-path: inset(-36px 0 -12px 0);
+  pointer-events: none;
+}
+.vt-studio-value-toggle--bar .vt-studio-value-toggle__bar {
+  overflow: visible;
+}
+.vt-studio-value-toggle--bar > [data-vt-studio-split-rail] {
+  grid-row: 1;
+  z-index: 2;
+  overflow: hidden;
+}

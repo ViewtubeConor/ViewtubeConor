@@ -273,3 +273,57 @@ describe("Brain chat layout and prompt library contract", () => {
     expect(page).toContain("if (presentation.tone === \"ready\") return null");
   });
 });
+
+
+describe("Studio side-toggle text color contract", () => {
+  it("uses the active pair color at rest and preserves black focused text", () => {
+    const css = read("src/styles/studio-control-value-toggles.css");
+    expect(css).toContain(".vt-studio-value-toggle--side .vt-studio-value-toggle__face");
+    expect(css).toContain(".vt-studio-value-toggle--double .vt-studio-value-toggle__double-side .vt-studio-value-toggle__face");
+    expect(css).toContain("color: var(--vt-toggle-fill");
+    expect(css).toContain(".vt-studio-value-toggle--double .vt-studio-value-toggle__double-side:focus-within .vt-studio-value-toggle__face");
+    expect(css).toContain("-webkit-text-stroke-color: var(--vt-studio-number-active-stroke, #000)");
+  });
+});
+
+
+describe("Studio size-bracketed selection and icon geometry", () => {
+  it("maps switch, radio, and checkbox radii to every canonical size bracket", () => {
+    const css = read("src/styles/studio-control-system.css");
+    for (const tier of ["supreme", "standard", "compact", "mini", "micro"]) {
+      expect(css).toContain(`button.vt-studio-44-switch[data-size="${tier}"]`);
+      expect(css).toContain(`button.vt-studio-44-choice[data-size="${tier}"]`);
+    }
+    expect(css).toContain("border-radius: var(--vt-studio-control-radius)");
+    expect(css).toContain("border-radius: 50%");
+    for (const radius of ["6px", "4px", "3px", "2px"]) expect(css).toContain(`--vt-studio-control-radius: ${radius}`);
+    expect(css).toContain("--vt-studio-control-stroke: 1px");
+  });
+
+  it("keeps square icon stages clipped while tooltips animate outside the button face", () => {
+    const css = read("src/styles/studio-control-system.css");
+    expect(css).toContain("button.vt-studio-square-icon-button");
+    expect(css).toContain("[data-vt-square-icon-stage]");
+    expect(css).toContain("[data-vt-square-tooltip]");
+    expect(css).toContain("@keyframes vt-studio-square-tooltip-enter");
+    expect(css).toContain("overflow: visible");
+    expect(css).toContain("prefers-reduced-motion: reduce");
+  });
+
+  it("makes circular icon-button faces circular without changing their square footprint", () => {
+    const css = read("src/styles/studio-control-system.css");
+    expect(css).toContain("button.vt-studio-circle-icon-button");
+    expect(css).toContain("aspect-ratio: 1 / 1");
+    expect(css).toContain("border-radius: 50%");
+    expect(css).toContain("> [data-vt-studio-button-face]");
+  });
+
+  it("confines bar-toggle tracks to the center face and keeps rails clear", () => {
+    const css = read("src/styles/studio-control-value-toggles.css");
+    expect(css).toContain(".vt-studio-value-toggle--bar > [data-vt-studio-split-label]");
+    expect(css).toContain("grid-column: 2");
+    expect(css).toContain(".vt-studio-value-toggle--bar [data-vt-studio-split-rail]");
+    expect(css).toContain("overflow: hidden");
+    expect(css).toContain("pointer-events: none");
+  });
+});
