@@ -89,3 +89,21 @@ Additional verification-report and handoff commits will be recorded after creati
 ## 8. Final status
 
 This is a durable handoff of the verified discovery work, not a claim that consolidation is complete. No product code was changed, no PR was opened, and no tests were run in this checkpoint.
+
+
+## 9. New findings from the continued 2026-11-14 pass
+
+- Branch-name discovery is now paged to completion for brain (343 matches) and evidence (71 matches); gemini (29) and context (39) searches also completed. These overlapping name results still require per-branch ancestry/diff classification.
+- PR #1241 is 48 commits behind the current target, despite its earlier PR-body claim of 0 behind. Its single unique commit contains potentially valuable context-manifest and runtime-provenance behavior, but also Studio contract changes. Selectively forward-port only Brain-owned logic.
+- Current target lacks the PR's exact requested/included context section capture, trace scope/generation metadata, and runtime trace summary/UI projection. Target already has generation/fallback locals and model-input snapshots, so migration should extend canonical contracts rather than add another runtime or snapshot store.
+- Target and donor BrainComposerDock TSX/CSS are byte-identical; no component/style port is needed there.
+- PR #1241 exact-head CI: Brain quality-loop, Gemini governance, production build and local smoke passed; source-governance, focused-contracts, conversation-handoff-contract, full-suite and static-quality failed. Studio catalog/control/typecheck failures dominate retrieved failure detail.
+
+## 10. Next execution sequence
+
+1. Finish remaining PR/branch ancestry and unique-diff classification, including the complete creator/Gemini caller branch families.
+2. Inspect current-target evidence-owner coverage and the Evidence Explorer donor; finalize the source-owner matrix.
+3. Selectively recover PR #1241 context manifest/trace/snapshot/UI fields on the audit branch, with focused tests and explicit legacy behavior.
+4. Recover Evidence Explorer as a read-only UI over canonical owners; do not create a second evidence store.
+5. Reconcile Gemini callsites and Composer tests; skip identical Composer TSX/CSS.
+6. Obtain a runnable checkout/test environment before claiming test results or opening a code PR.
