@@ -308,6 +308,7 @@ export function StudioVideoSelector({
   const [open, setOpen] = React.useState(false)
   const [query, setQuery] = React.useState("")
   const searchId = React.useId()
+  const triggerRef = React.useRef<HTMLButtonElement | null>(null)
   const selected = options.find(option => option.id === value)
   const filtered = options.filter(option =>
     option.title.toLocaleLowerCase().includes(query.trim().toLocaleLowerCase()),
@@ -316,11 +317,13 @@ export function StudioVideoSelector({
     onValueChange(id)
     setOpen(false)
     setQuery("")
+    triggerRef.current?.focus()
   }
   const handleMenuKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Escape") {
       event.preventDefault()
       setOpen(false)
+      triggerRef.current?.focus()
       return
     }
     if (event.key === "ArrowDown" || event.key === "ArrowUp") {
@@ -345,6 +348,7 @@ export function StudioVideoSelector({
           </span>
         ) : null}
         <button
+          ref={triggerRef}
           type="button"
           className="vt-studio-video-selector__trigger"
           aria-haspopup="listbox"
@@ -361,7 +365,7 @@ export function StudioVideoSelector({
             <label className="vt-studio-video-selector__search" htmlFor={searchId}>
               <span aria-hidden="true">⌕</span>
               <input id={searchId} type="search" value={query} placeholder={searchPlaceholder}
-                onChange={event => setQuery(event.currentTarget.value)} autoComplete="off" />
+                onChange={event => setQuery(event.currentTarget.value)} autoComplete="off" autoFocus />
             </label>
             <div id={searchId + "-list"} className="vt-studio-video-selector__options"
               role="listbox" aria-label={label} aria-busy={loading}>
