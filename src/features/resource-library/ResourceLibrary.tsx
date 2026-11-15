@@ -4,7 +4,7 @@ import { Link, useSearchParams } from "react-router-dom"
 import { SubToolbox, ToolboxScaffold } from "../../components/Toolbox"
 import { VT_SPECTRUM_PALETTE_06, getToolboxPaletteColors } from "../../styles/toolboxPalette"
 import ResourceDocumentRenderer from "./ResourceDocumentRenderer"
-import { StudioSplitLeftButton, StudioSpectrumTag } from "../../studio-ui"
+import { StudioResourceSplitButton } from "../../studio-ui"
 import {
   RESOURCE_LIBRARY_ENTRIES,
   RESOURCE_LEARNING_PATHS,
@@ -206,25 +206,20 @@ const ResourceLibrary: React.FC = () => {
                 {filteredResources.map((resource) => {
                   const active = selectedResource?.id === resource.id
                   return (
-                    <StudioSplitLeftButton
+                    <StudioResourceSplitButton
                       key={resource.id}
                       type="button"
                       sizeVariant="standard"
                       icon={<FileText aria-hidden="true" />}
-                      className={`vt-resource-card ${active ? "is-active" : ""}`}
+                      category={resource.category}
+                      title={resource.shortTitle}
+                      meta={resource.readTime + " · " + resource.difficulty}
+                      completed={completedResources.includes(resource.id)}
+                      className={active ? "is-active" : undefined}
                       style={getResourcePaletteStyle(resource.accentPaletteIndex)}
                       onClick={() => selectResource(resource.id)}
                       aria-pressed={active}
-                    >
-                      <div className="vt-resource-card-copy">
-                        <span className="vt-resource-card-category">{resource.category}</span>
-                        <strong>{resource.shortTitle}</strong>
-                        <small>{resource.readTime} · {resource.difficulty}</small>
-                        {completedResources.includes(resource.id) ? (
-                          <StudioSpectrumTag label="COMPLETED" spectrumKey="completed" className="vt-resource-complete-tag" />
-                        ) : null}
-                      </div>
-                    </StudioSplitLeftButton>
+                    />udioSplitLeftButton>
                   )
                 })}
 
