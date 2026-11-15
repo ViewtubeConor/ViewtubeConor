@@ -1976,14 +1976,6 @@ button[data-vt-studio-circle-icon-button="true"]::before,
 button[data-vt-studio-circle-icon-button="true"] > [data-vt-studio-button-face] {
   border-radius: 9999px !important;
 }
-button[data-vt-studio-circle-icon-button="true"][data-size="standard"] {
-  --vt-studio-control-icon-size: 38px;
-  --vt-studio-control-icon-stroke: 1.9;
-}
-button[data-vt-studio-circle-icon-button="true"][data-size="compact"] {
-  --vt-studio-control-icon-size: 24px;
-  --vt-studio-control-icon-stroke: 2;
-}
 /* Scale the rendered glyph itself, not its full-size stage, so the circular
    button gets an 80% icon while preserving the canonical stroke preset. */
 button[data-vt-studio-circle-icon-button="true"] [data-vt-square-icon-current] svg {
@@ -6697,4 +6689,45 @@ button.vt-studio-square-icon-button:is(:hover, :focus-visible) [data-vt-square-t
     transition-duration: 0s;
     animation: none;
   }
+}
+
+
+/* Final circle-button geometry: the outer hit target, perimeter layer, and
+   visible face share one square footprint and a circular silhouette at every
+   token size. The icon size continues to come from the five-tier size map. */
+button.vt-studio-square-icon-button.vt-studio-circle-icon-button[data-vt-studio-circle-icon-button="true"],
+button.vt-studio-square-icon-button.vt-studio-circle-icon-button[data-vt-studio-circle-icon-button="true"]::before,
+button.vt-studio-square-icon-button.vt-studio-circle-icon-button[data-vt-studio-circle-icon-button="true"] > [data-vt-studio-button-face] {
+  box-sizing: border-box;
+  width: var(--vt-studio-control-height, 44px);
+  min-width: var(--vt-studio-control-height, 44px);
+  max-width: var(--vt-studio-control-height, 44px);
+  height: var(--vt-studio-control-height, 44px);
+  min-height: var(--vt-studio-control-height, 44px);
+  max-height: var(--vt-studio-control-height, 44px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50% !important;
+}
+button.vt-studio-square-icon-button.vt-studio-circle-icon-button[data-vt-studio-circle-icon-button="true"] {
+  flex: 0 0 var(--vt-studio-control-height, 44px);
+  padding: 0;
+}
+button.vt-studio-square-icon-button.vt-studio-circle-icon-button[data-vt-studio-circle-icon-button="true"] [data-vt-square-icon-current] svg {
+  width: calc(var(--vt-studio-control-icon-size, 28px) * .8);
+  height: calc(var(--vt-studio-control-icon-size, 28px) * .8);
+}
+
+/* The joined icon group is always a single horizontal row. This more specific
+   owner prevents generic Studio control layout rules from turning the toolbar
+   into a vertical stack; the five faces retain their own token-sized squares. */
+div.vt-studio-square-icon-button-group[data-vt-studio-icon-button-group="true"] {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 0;
+  width: max-content;
+  max-width: 100%;
+  height: var(--vt-icon-group-size, 44px);
+  min-height: var(--vt-icon-group-size, 44px);
 }
