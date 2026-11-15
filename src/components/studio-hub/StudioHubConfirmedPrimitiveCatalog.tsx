@@ -482,8 +482,6 @@ const ConfirmedDirectPrimitiveRows: React.FC = () => {
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSideTextCounter"><span>Side Text Counter · STANDARD</span><StudioSideTextCounter value={sideTextCounterValue} onValueChange={setSideTextCounterValue} size="standard" ariaLabel="Standard side text counter representative" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSideTextCounterIcon"><span>Side Text Counter + Icon Rail · STANDARD</span><StudioSideTextCounterIcon value={sideTextCounterIconValue} onValueChange={setSideTextCounterIconValue} icon={<Search aria-hidden="true" />} size="standard" ariaLabel="Standard side text counter icon representative" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioDoubleSplitWordCounter"><span>Double-Split Word Counter · STANDARD</span><StudioDoubleSplitWordCounter size="standard" value={doubleWordCounterValue} onValueChange={setDoubleWordCounterValue} ariaLabel="Double-split word counter standard representative" /></div>
-        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioInlineStepper"><span>Inline Numeric Stepper · STANDARD</span><StudioInlineStepper value={inlineStepperValue} onValueChange={setInlineStepperValue} min={0} max={100} size="standard" ariaLabel="Inline numeric stepper standard representative" /></div>
-        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSplitStepper"><span>Split Numeric Stepper · STANDARD</span><StudioSplitStepper value={splitStepperValue} onValueChange={setSplitStepperValue} min={0} max={100} size="standard" ariaLabel="Split numeric stepper standard representative" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioDoubleSplitSlider"><span>Double Split Slider · STANDARD</span><StudioDoubleSplitSlider size="standard" value={sliderValue} onValueChange={setSliderValue} min={0} max={100} ariaLabel="Double split slider standard specimen" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioLeftWordSlider"><span>Left Word Slider · STANDARD</span><StudioLeftWordSlider size="standard" value={leftWordSliderValue} onValueChange={setLeftWordSliderValue} ariaLabel="Left word slider standard representative" /></div>
         <h4 className="vt-confirmed-representative-heading">BADGES & STATUS INDICATORS</h4>
@@ -1553,7 +1551,6 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
         </div>)}
       </div>
     </Family>
-    <ConfirmedStudioNumericStepperFamily />
     <ConfirmedStudioValueToggleFamily />
     <ConfirmedStudioCounterFamily />
     <ConfirmedStudioSideCounterFamily />
