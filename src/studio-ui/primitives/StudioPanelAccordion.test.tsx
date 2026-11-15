@@ -34,6 +34,6 @@ describe("StudioPanelAccordion textbox contract", () => {
 
   it("keeps a single vertical separator between the icon rail and text panel", () => {
     const css = readFileSync(resolve(process.cwd(), "src/styles/studio-panel-accordion.css"), "utf8");
-    expect(css).toContain("border-inline-end: var(--vt-studio-panel-stroke) solid #000");
+    expect(css).toContain(".vt-studio-panel-accordion__textbox");\n    const fields = readFileSync(resolve(process.cwd(), "src/styles/studio-control-fields.css"), "utf8");\n    expect(fields).toContain("border: var(--vt-studio-control-stroke, 3px) solid #000");\n    expect(fields).toContain("box-shadow: inset 0 0 0 var(--vt-studio-control-stroke, 3px)");
   });
 });
