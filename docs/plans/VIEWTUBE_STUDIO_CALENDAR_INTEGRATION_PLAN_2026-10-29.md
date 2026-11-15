@@ -2,7 +2,9 @@
 
 **Date:** 2026-10-29  
 **PR target branch:** `fix/studio-controls-regression-recovery-2026-10-31`  
-**Implementation branch:** `feat/projects-calendar-phase-0-1-source-integration-2026-11-15`  
+**Phase 0–4 merged PR:** #1278 (merge commit `c26396aa7cb0c27ceb5bbd0d79c07207eca25989`)  
+**Phase 5–7 continuation PR:** #1280  
+**Implementation branch:** `feat/projects-calendar-phases-5-7-2026-11-15`  
 **Canonical data owner:** Projects / Project records; no second calendar store  
 **Status:** Phases 0–5 implementation is present on a branch based on the current recovery head. Phase 6 test/build/browser certification is not yet complete. Phase 7 selective master handoff and branch cleanup are documented and gated on Phase 6.
 
