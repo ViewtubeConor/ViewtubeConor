@@ -3,6 +3,9 @@ import { SUBSCRIPTION_PLAN_BILLING } from "../shared/subscriptionPlanBilling.mjs
 import {
   consumeOAuthState,
   consumeAiCredits,
+  reserveAiCredits,
+  settleAiCreditReservation,
+  releaseAiCreditReservation,
   createAccountSession,
   deleteAccountRecord,
   getAccountSnapshotData,
@@ -953,6 +956,49 @@ export const handleAccountRoute = async ({ req, res, method, pathname, parsedUrl
     if (!FREE_PLAN_IDS.has(planId)) return json(res, 400, { error: "Paid plans require Stripe Checkout." }), true;
     await setServerSubscription(userId, { status: "active", planId });
     return json(res, 200, await buildSnapshot(userId)), true;
+  }
+
+  if (method === "POST" && pathname === "/api/account/ai-credits/reserve") {
+    const userId = await sessionUserId(req);
+    if (!userId) return json(res, 401, { error: "Authentication required." }), true;
+    const payload = await readJsonBody(req, readBody);
+    const credits = Number(payload.credits);
+    if (!Number.isSafeInteger(credits) || credits <= 0) return json(res, 400, { error: "credits must be a positive safe integer." }), true;
+    const result = await reserveAiCredits(userId, {
+      credits,
+      idempotencyKey: payload.idempotencyKey,
+      metadata: payload.metadata || {},
+    });
+    if (!result.allowed) return json(res, 409, { error: "Insufficient AI credits.", ...result }), true;
+    return json(res, 200, { ...result, snapshot: await buildSnapshot(userId) }), true;
+  }
+
+  if (method === "POST" && pathname === "/api/account/ai-credits/settle") {
+    const userId = await sessionUserId(req);
+    if (!userId) return json(res, 401, { error: "Authentication required." }), true;
+    const payload = await readJsonBody(req, readBody);
+    const actualCredits = Number(payload.actualCredits);
+    if (!Number.isSafeInteger(actualCredits) || actualCredits < 0) return json(res, 400, { error: "actualCredits must be a non-negative safe integer." }), true;
+    const result = await settleAiCreditReservation(userId, {
+      reservationId: payload.reservationId,
+      actualCredits,
+      idempotencyKey: payload.idempotencyKey,
+    });
+    if (!result.settled) return json(res, 409, { error: "Actual usage exceeds the available credit balance.", ...result }), true;
+    return json(res, 200, { ...result, snapshot: await buildSnapshot(userId) }), true;
+  }
+
+  if (method === "POST" && pathname === "/api/account/ai-credits/release") {
+    const userId = await sessionUserId(req);
+    if (!userId) return json(res, 401, { error: "Authentication required." }), true;
+    const payload = await readJsonBody(req, readBody);
+    const result = await releaseAiCreditReservation(userId, {
+      reservationId: payload.reservationId,
+      idempotencyKey: payload.idempotencyKey,
+      reason: payload.reason,
+    });
+    if (!result.released) return json(res, 409, { error: "AI credit reservation could not be released.", ...result }), true;
+    return json(res, 200, { ...result, snapshot: await buildSnapshot(userId) }), true;
   }
 
   if (method === "POST" && pathname === "/api/account/ai-credits/consume") {
