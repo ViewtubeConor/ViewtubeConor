@@ -63,6 +63,10 @@ export const CONFIRMED_CATALOG_MODULE_INVENTORY: ReadonlyArray<{ title: string; 
   { title: "Prominent Action · 60px Supreme", family: "buttons" },
   { title: "Square Icon Button · Standard + Compact", family: "icon-buttons" },
   { title: "Calendar Event Chips & Multi-day Bars · Mini Representatives", family: "calendar" },
+  { title: "Studio Spectrum + Metric Icons · Semantic Icon System", family: "tags-status" },
+  { title: "Accent Rail + Icon Title Information Modules", family: "modules-frames" },
+  { title: "Studio Video Module · Thumbnail + Text Anatomy", family: "modules-frames" },
+  { title: "Studio Video Selector · Searchable Split-left Menu", family: "dropdowns" },
 ]
 
 export const CONFIRMED_CATALOG_REQUIRED_EXPORTS: readonly string[] = [
@@ -71,6 +75,8 @@ export const CONFIRMED_CATALOG_REQUIRED_EXPORTS: readonly string[] = [
   "StudioSplitLeftButton", "StudioDoubleSplitSlider", "StudioInterModule", "StudioCollapsingSplitModule",
   "StudioTopSplitModule", "StudioUploadFrame", "StudioSpectrumTag", "StudioCloseableBadge",
   "StudioChatComposerDock", "StudioChatResponseShell", "StudioResponseMetaRow",
+  "StudioSpectrumIcon", "StudioIconBadge", "StudioMetricIcon", "StudioAccentRailModule",
+  "StudioIconTitleModule", "StudioVideoModule", "StudioVideoSelector",
 ] as const
 
 export const isAllowedCombinedModuleTitle = (title: string): boolean =>
@@ -84,12 +90,12 @@ const CLASSIFIERS: Matcher[] = [
   { family: "text-fields", title: /Studio Text Input|Studio Text Area|Studio Text Box|StudioTextInput|StudioTextArea|StudioTextBox|UsernameInput|NumberInput|Compatibility Field Exports/ },
   { family: "icon-buttons", title: /Square Icon Button|Circle Icon Button|StudioIconButton|Icon Button ·/ },
   { family: "badges", title: /Split-left Badge|Split-right Badge|Double-split Badge|StudioSplitLeftBadge|StudioSplitRightBadge|StudioDoubleSplitBadge|Closeable Badge|StudioCloseableBadge/, componentNames: ["CanonicalSplitBadgeFamily"] },
-  { family: "tags-status", title: /SpectrumTag|TagEditor|Tag Editor|Spectrum Tags|Ranked Metadata Tag|Brain Status|StudioBrainStatusBadge|StudioBrainStatusIndicator|StudioLedBadgeTab|Status \/ navigation|LED/ },
+  { family: "tags-status", title: /SpectrumTag|TagEditor|Tag Editor|Spectrum Tags|Ranked Metadata Tag|Brain Status|StudioBrainStatusBadge|StudioBrainStatusIndicator|StudioLedBadgeTab|Status \/ navigation|LED|StudioSpectrumIcon|StudioIconBadge|StudioMetricIcon/ },
   { family: "counters", title: /StudioCounter|StudioSideCounter|StudioLeftCounter|StudioLeftWordCounter|StudioDoubleSplitWordCounter|DoubleSplitWordCounter|Double Split Word|Side Counter|Left Word Counter/, componentNames: ["ConfirmedStudioCounterFamily", "ConfirmedStudioSideCounterFamily", "ConfirmedStudioLeftWordCounterFamily", "ConfirmedStudioDoubleSplitWordCounterFamily"] },
   { family: "steppers-sliders", title: /StudioDoubleSplitSlider|Double Split Slider|Stepper|StudioInlineStepper|StudioSplitStepper|LeftWordSlider|StudioLeftWordSlider|Slider/, componentNames: ["ConfirmedStudioDoubleSplitSliderFamily", "ConfirmedStudioNumericStepperFamily", "ConfirmedStudioLeftWordSliderFamily"] },
-  { family: "dropdowns", title: /Dropdown/, componentNames: ["ConfirmedStudioDropdownFamily"] },
+  { family: "dropdowns", title: /Dropdown|StudioVideoSelector/, componentNames: ["ConfirmedStudioDropdownFamily"] },
   { family: "buttons", title: /Button ·|Prominent Action|Two-Line Button|Split-left Button|Split Button Family|Play\/Pause|StudioSplitLeftButton|StudioDoubleSplitButton|StudioSplitRightButton|StudioActionButton|StudioTwoLineButton|StudioSplitTwoLineButton/, componentNames: ["ConfirmedStudioButtonFamily", "ConfirmedStudioSplitButtonFamily"] },
-  { family: "modules-frames", title: /Top Split Module|Collapsing|InterModule|Upload Frame|StudioUploadFrame|Two-Line InterModule|Collapsing Two-Line/ },
+  { family: "modules-frames", title: /Top Split Module|Collapsing|InterModule|Upload Frame|StudioUploadFrame|Two-Line InterModule|Collapsing Two-Line|Accent Rail|Icon Title|StudioAccentRailModule|StudioIconTitleModule|StudioVideoModule/ },
   { family: "accordions-layout", title: /Split Accordion|Panel Accordion|Component Grid/ },
   { family: "chat-meta", title: /StudioChatComposerDock|StudioChatResponseShell|Response Meta Row|StudioResponseMetaRow/ },
   { family: "calendar", title: /Calendar Event|Multi-day|Thumbnail Event|Media Rail|StudioCalendar/ },
