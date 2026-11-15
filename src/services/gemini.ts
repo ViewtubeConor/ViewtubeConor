@@ -65,6 +65,7 @@ import {
  reserveUnifiedAiCredits,
  settleUnifiedAiCredits,
  releaseUnifiedAiCredits,
+ recordUnifiedAiProviderUsage,
  fetchUnifiedAccountSnapshot,
  isUnifiedAccountServerEnabled,
 } from "./account/accountCoordinator"
@@ -626,6 +627,28 @@ export const getAiClient = () => {
   const outputTokens = Number(
    usage.candidatesTokenCount ?? usage.outputTokenCount ?? usage.totalTokenCount ?? 0,
   )
+  if (keySource === "custom" && unifiedSnapshot?.authentication.status === "authenticated") {
+   const byokQuote = estimateMeterQuote({
+    modelId: effectiveCanonicalModel,
+    inputTokensEstimate: inputTokens > 0 ? inputTokens : quote.inputTokensEstimate,
+    outputTokensEstimate: outputTokens > 0 ? outputTokens : quote.outputTokensEstimate,
+   })
+   try {
+    await recordUnifiedAiProviderUsage({
+     provider: "google",
+     modelId: effectiveCanonicalModel,
+     keySource: "byok",
+     inputTokens: inputTokens > 0 ? inputTokens : quote.inputTokensEstimate,
+     outputTokens: outputTokens > 0 ? outputTokens : quote.outputTokensEstimate,
+     rawCostUsd: byokQuote.rawCostUsd,
+     usageSource: inputTokens > 0 || outputTokens > 0 ? "provider_reported" : "estimate",
+     idempotencyKey: `${generationId}:usage`,
+     metadata: { providerReportedUsage: inputTokens > 0 || outputTokens > 0, reason: "byok_usage_tracking" },
+    })
+   } catch {
+    // BYOK telemetry is best-effort and must never discard a completed provider response.
+   }
+  }
   if (keySource !== "custom") {
    const finalQuote = estimateMeterQuote({
     modelId: effectiveCanonicalModel,
@@ -784,6 +807,29 @@ export const getAiClient = () => {
      yield chunk
     }
    } finally {
+    if (keySource === "custom" && unifiedSnapshot?.authentication.status === "authenticated") {
+     const effectiveCanonicalModel = inferCanonicalFromProvider(effectiveProviderModel)
+     const byokQuote = estimateMeterQuote({
+      modelId: effectiveCanonicalModel,
+      inputTokensEstimate: inputTokens > 0 ? inputTokens : quote.inputTokensEstimate,
+      outputTokensEstimate: outputTokens > 0 ? outputTokens : quote.outputTokensEstimate,
+     })
+     try {
+      await recordUnifiedAiProviderUsage({
+       provider: "google",
+       modelId: effectiveCanonicalModel,
+       keySource: "byok",
+       inputTokens: inputTokens > 0 ? inputTokens : quote.inputTokensEstimate,
+       outputTokens: outputTokens > 0 ? outputTokens : quote.outputTokensEstimate,
+       rawCostUsd: byokQuote.rawCostUsd,
+       usageSource: inputTokens > 0 || outputTokens > 0 ? "provider_reported" : "estimate",
+       idempotencyKey: `${generationId}:usage`,
+       metadata: { providerReportedUsage: inputTokens > 0 || outputTokens > 0, reason: "byok_stream_usage_tracking" },
+      })
+     } catch {
+      // BYOK telemetry is best-effort and must never break a completed or partially consumed stream.
+     }
+    }
     if (keySource !== "custom") {
      const effectiveCanonicalModel = inferCanonicalFromProvider(effectiveProviderModel)
      const finalQuote = estimateMeterQuote({
