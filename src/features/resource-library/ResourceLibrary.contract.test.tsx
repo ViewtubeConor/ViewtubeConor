@@ -16,7 +16,7 @@ describe("Resource Library production reader", () => {
     )
     const css = readFileSync(resolve(process.cwd(), "src/features/resource-library/resource-library.css"), "utf8")
 
-    expect(html).toContain('data-vt-library-component="StudioSplitLeftButton"')
+    expect(html).toContain('data-vt-library-component="StudioResourceSplitButton"')
     expect(html).toContain('data-vt-studio-split="left"')
     expect(html).toContain('data-rail="start"')
     expect(html).toContain("vt-studio-resource-split-button__copy")
