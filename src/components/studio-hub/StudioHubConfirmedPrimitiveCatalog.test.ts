@@ -117,3 +117,46 @@ describe("confirmed specimen tier contract", () => {
     }
   })
 })
+
+
+describe("Confirmed Panel Accordion module", () => {
+  it("renders Panel Accordion as its own accordions-family module, not only a representative", () => {
+    const catalog = read("src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx")
+    const additional = catalog.indexOf("const useConfirmedAdditionalPrimitiveSections")
+    const panel = catalog.indexOf('title="Panel Accordion"')
+    const representatives = catalog.indexOf('data-vt-representatives="true"')
+    expect(panel).toBeGreaterThan(additional)
+    expect(panel).toBeGreaterThan(representatives)
+    expect(catalog).not.toContain("Panel Accordion · STANDARD")
+    expect(catalog).toContain('data-vt-library-component="StudioPanelAccordion"')
+  })
+})
+
+describe("Studio field text and stroke contracts", () => {
+  it("uses black textarea text and glyph stroke in focus mode for every tier", () => {
+    const css = read("src/styles/studio-control-fields.css")
+    expect(css).toContain("-webkit-text-stroke: var(--vt-studio-textarea-glyph-stroke, 0.5px) #000")
+    expect(css).toContain('--vt-studio-textarea-glyph-stroke: var(--vt-studio-textarea-compact-text-stroke, 0.35px)')
+    expect(css).toContain('--vt-studio-textarea-glyph-stroke: var(--vt-studio-textarea-mini-text-stroke, 0.4px)')
+  })
+
+  it("keeps TextBox black text and black glyph stroke at all five global size tiers", () => {
+    const css = read("src/styles/studio-control-fields.css")
+    expect(css).toContain("-webkit-text-stroke: var(--vt-studio-control-text-stroke, 1px) #000")
+    expect(css).toContain("box-shadow: inset 0 0 0 var(--vt-studio-control-stroke, 3px)")
+    expect(css).not.toContain(".vt-studio-text-box[data-vt-studio-control=\"true\"]:is(:focus")
+  })
+
+  it("leaves Arrow Toggle text paint to global defaults and left-aligns split text fields", () => {
+    const toggles = read("src/styles/studio-control-value-toggles.css")
+    const fields = read("src/styles/studio-control-fields.css")
+    expect(toggles).not.toContain(".vt-studio-value-toggle--arrow .vt-studio-value-toggle__face")
+    expect(fields).toContain("text-align: left !important")
+  })
+
+  it("draws a bottom divider on expanded collapsing split icon rails", () => {
+    const css = readStudioControlCss()
+    expect(css).toContain('.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head')
+    expect(css).toContain("inset 0 calc(-1 * var(--vt-top-split-stroke, 3px)) 0 #000")
+  })
+})
