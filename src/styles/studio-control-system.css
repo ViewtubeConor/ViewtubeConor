@@ -5637,10 +5637,9 @@ button.vt-studio-resource-split-button.is-active[data-vt-studio-button="true"] [
   font-weight: 1000;
   text-transform: uppercase;
 }
-button.vt-studio-resource-split-button:hover,
 button.vt-studio-resource-split-button:focus-visible {
-  transform: translate(-1px, -1px);
-  box-shadow: 4px 4px 0 color-mix(in srgb, var(--vt-resource-pair-primary, var(--pair-a, #36e0f6)) 24%, transparent);
+  outline: calc(var(--vt-studio-control-stroke, 3px) * .65) solid var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
+  outline-offset: 0;
 }
 
 /* Collapsing split module: reuses the canonical split-module geometry and palette. */
