@@ -164,7 +164,7 @@ describe("Studio field text and stroke contracts", () => {
   it("draws a bottom divider on expanded collapsing split icon rails", () => {
     const css = readStudioControlCss()
     expect(css).toContain('.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head')
-    expect(css).toContain("inset 0 calc(-1 * var(--vt-top-split-stroke, 3px)) 0 #000")
+    expect(css).toContain("border-bottom: var(--vt-top-split-stroke, 3px) solid #000")
   })
 })
 
