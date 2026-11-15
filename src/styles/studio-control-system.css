@@ -3277,6 +3277,18 @@ button[data-vt-studio-button="true"][data-size="compact"]:is([data-split-left="t
   max-width: 100%;
 }
 
+/* Switches, radios, and checkboxes are row controls, not intrinsic-size icons.
+   Their own primitive source owns face geometry; the containing row owns width. */
+button.vt-studio-44-switch,
+button.vt-studio-44-choice {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  align-self: stretch;
+}
+
 /* Canonical Studio primitives remain flat and motionless. */
 button[data-vt-studio-button="true"],
 button[data-vt-studio-button="true"]:not(.vt-studio-square-icon-button) > [data-vt-studio-button-face],
