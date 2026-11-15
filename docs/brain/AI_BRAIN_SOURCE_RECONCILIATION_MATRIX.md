@@ -118,3 +118,26 @@ The PR is a single-commit donor but is 48 commits behind current target (merge b
 ### PR #1241 CI interpretation
 
 The exact-head workflow run passed Brain quality-loop, Gemini governance, production build and local smoke. It failed source-governance, focused-contracts, conversation-handoff-contract, full-suite and static-quality. The first two failures are explicitly Studio catalog/control contracts; static-quality includes missing Studio exports/files, invalid size variants and a missing test dependency. Treat those as cross-domain blockers requiring exact-target reconciliation, not as evidence that the context-manifest code itself failed. The PR remains unsuitable for wholesale merge.
+
+
+## Canonical evidence-owner coverage in current target
+
+The current target defines an EvidenceRecord owner union broader than the records currently projected by the shared EvidenceIntelligenceResolver. The distinction between a declared owner type and an integrated typed projection is important:
+
+| Owner | Current inspected source | Current integration into EvidenceIntelligenceResolver / Evidence Explorer | Disposition |
+|---|---|---|---|
+| analytics-canon | analytics-canon bundle; projectCanonicalEvidenceRecords; BrainEvidenceQuality | Implemented. Stable IDs include snapshot/dataset/metric; scope mismatch fails closed; missing metrics are explicit MISSING records, never zero. | Canonical source for current Explorer panel. |
+| creator-confirmed | CreatorAnswerEvidence.ts; scoped builder and merge into Brain evidence pack | Typed EvidenceRecord projections are used in prompt/turn-specific evidence, but are not merged into resolver envelope.evidenceRecords. | Preserve turn-bound identity; do not imply Explorer currently shows these records. |
+| project | BrainProjectContext.ts; Projects/ContentBuild identity and lifecycle | Project context is a separate AlgorithmProjectContext projection, not an EvidenceRecord stream in the shared resolver. | Adapter/projection work remains. |
+| vault | BrainVaultAdapter.ts over canonical vaultAdapter | Read-only adapter returns BrainEvidenceItem metadata; not typed EvidenceRecord in the shared resolver. | Keep Vault as source owner; no shadow file store. |
+| publishing | BrainPublicationOutcomeBridge.ts over AlgorithmIntelligenceEventLedger | Verified publication identity receipt is stored in the existing event ledger; not currently an EvidenceRecord projection in the resolver. | Project/ContentBuild and approved snapshot lineage remain authoritative. |
+| outcomes / experiment | BrainOutcomeLedger.ts and AlgorithmIntelligenceEventLedger.ts | Existing outcome/evaluation/learning event contracts exist; no unified typed EvidenceRecord projection was verified in the resolver. | Extend existing ledgers via projections, not a new evidence ledger. |
+| youtube-read / comments / transcript / research | Owner values exist in EvidenceRecord.ts; separate YouTube, comments, transcript and research services exist | No adapter from these owners into resolver.envelope.evidenceRecords was verified in this pass. | Continue owner-by-owner source and permission audit before claiming Explorer coverage. |
+
+### Evidence Explorer donor disposition
+
+Branch feat/brain-evidence-explorer-2026-10-30 compares 10 commits ahead / 302 behind current target, with six changed files and no associated PR found. It adds BrainEvidenceExplorerPanel.tsx + tests, an Evidence tab in BrainPageTabs, and one route-state/render branch in AIBrainCommandInterface. The panel reads resolveEvidenceIntelligence and envelope.evidenceRecords; it does not create a new store. The current target does not contain the component or Evidence tab.
+
+The donor UI correctly distinguishes unscoped, restricted, error and unavailable states; preserves available/partial/stale/failed/unavailable dataset statuses; and renders missing values as Unknown rather than zero. It explicitly says rechecking the view does not refresh upstream data and that current snapshot records are not necessarily the records used by a past answer.
+
+**Required adaptation before port:** the panel currently exposes only analytics-canon records because that is all the resolver returns. Its heading/copy must say so, or a clear owner-coverage notice must be added. Do not label it a universal evidence explorer until creator-confirmed, project, Vault, publishing, YouTube-read, comments, transcript, research, outcome and experiment projections are integrated. Review native select/button controls against the target Studio primitive contract and add scope/permission/status/accessibility tests.
