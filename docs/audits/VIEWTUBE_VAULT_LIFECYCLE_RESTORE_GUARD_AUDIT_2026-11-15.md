@@ -94,3 +94,18 @@ Do not replace the full Vault workspace file.
 The exact PR #1271 patches for `vaultAdapter.ts`, `CreatorVaultOS.tsx`, and `CreatorVaultOS.laneB.test.ts` were inspected, along with frozen master/source versions of the adapter, policy, and recovery tests.
 
 No tests were executed. No implementation changes were made. This is a source-level audit and implementation gate, not a test pass or authorization to merge.
+
+
+## 8. Caller inventory refinement
+
+A repository search for the three mutation APIs found these additional call-site families:
+
+- `updateVaultAsset` is used by `vaultCustomFields.ts` to update custom-field metadata and by `vaultTextDocuments.ts` to update document metadata.
+- `CreatorVaultOS.tsx` uses `updateVaultAsset` for tags, names, project associations, captions, preview URLs, and other asset metadata.
+- Lifecycle changes in the inspected CreatorVaultOS source go through `setVaultAssetLifecycle`.
+- Recovery/archive/trash UI uses `setVaultAssetState`.
+- The existing batch-operations and organization tests exercise general metadata updates.
+
+The inspected custom-field and text-document call sites do not show lifecycle-marker edits in the relevant snippets. The broad CreatorVaultOS caller set still needs a complete patch-by-patch review before changing the generic updater.
+
+**Refined recommendation:** Keep ordinary metadata updates supported. Establish an explicit reserved lifecycle-key boundary so callers cannot directly mutate `archivedAt`, `trashedAt`, or `previousLifecycle` outside the lifecycle/state API. If the generic updater must remain public for non-lifecycle metadata, implement that boundary without breaking legitimate `lifecycle` updates through the dedicated lifecycle setter. Add tests for both allowed metadata changes and rejected direct lifecycle-marker changes.
