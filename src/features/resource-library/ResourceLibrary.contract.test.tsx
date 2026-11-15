@@ -5,7 +5,7 @@ import { renderToStaticMarkup } from "react-dom/server"
 import { MemoryRouter } from "react-router-dom"
 import { describe, expect, it } from "vitest"
 import ResourceLibrary from "./ResourceLibrary"
-import { StudioSpectrumTag } from "../../studio-ui"
+import { StudioResourceSplitButton, StudioSpectrumTag } from "../../studio-ui"
 
 describe("Resource Library production reader", () => {
   it("restores the original Resource Index row treatment while keeping a square canonical split-left rail", () => {
@@ -19,14 +19,15 @@ describe("Resource Library production reader", () => {
     expect(html).toContain('data-vt-library-component="StudioSplitLeftButton"')
     expect(html).toContain('data-vt-studio-split="left"')
     expect(html).toContain('data-rail="start"')
-    expect(html).toContain("vt-resource-card-copy")
-    expect(html).toContain("vt-resource-card-category")
+    expect(html).toContain("vt-studio-resource-split-button__copy")
+    expect(html).toContain("vt-studio-resource-split-button__category")
     expect(html).toContain("YouTube Strategy")
-    expect(css).toContain("min-height: 76px")
-    expect(css).toContain("border-radius: 10px")
-    expect(css).toContain("aspect-ratio: 1 / 1")
-    expect(css).toContain("width: var(--vt-studio-control-height, 44px)")
-    expect(css).toContain("height: var(--vt-studio-control-height, 44px)")
+    const primitiveCss = readFileSync(resolve(process.cwd(), "src/styles/studio-control-system.css"), "utf8")
+    expect(primitiveCss).toContain("button.vt-studio-resource-split-button[data-vt-studio-button=\"true\"]")
+    expect(primitiveCss).toContain("min-height: 76px")
+    expect(primitiveCss).toContain("width: var(--vt-studio-control-height, 44px)")
+    expect(primitiveCss).toContain("aspect-ratio: 1 / 1")
+    expect(css).not.toContain(".vt-resource-card[data-vt-studio-button")
   })
 
   it("uses the canonical Spectrum tag for completed document status", () => {
@@ -97,4 +98,18 @@ describe("Resource Library production reader", () => {
     expect(html).toContain("vt-resource-flow")
   })
 
+})
+
+
+describe("StudioResourceSplitButton primitive", () => {
+  it("owns its resource-index anatomy without requiring page-level layout classes", () => {
+    const html = renderToStaticMarkup(
+      <StudioResourceSplitButton icon={<span>R</span>} category="GUIDE" title="CREATOR STRATEGY" meta="8 MIN · BEGINNER" />,
+    )
+    expect(html).toContain('data-vt-library-component="StudioSplitLeftButton"')
+    expect(html).toContain("CREATOR STRATEGY")
+    expect(html).toContain("GUIDE")
+    expect(html).toContain("8 MIN · BEGINNER")
+    expect(html).toContain("vt-studio-resource-split-button")
+  })
 })
