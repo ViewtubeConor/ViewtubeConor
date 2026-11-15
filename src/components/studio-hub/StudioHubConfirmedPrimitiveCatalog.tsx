@@ -36,6 +36,7 @@ import {
   StudioLeftWordCounter,
   StudioLeftWordSlider,
   StudioSplitLeftButton,
+  StudioResourceSplitButton,
   StudioDoubleSplitButton,
   StudioSplitLeftBadge,
   StudioSplitRightBadge,
@@ -1788,6 +1789,19 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
     <ConfirmedStudioLeftWordCounterFamily />
     <ConfirmedStudioDoubleSplitWordCounterFamily />
     <ConfirmedStudioLeftWordSliderFamily />
+    <Family
+      title="Resource Split Button"
+      nonDefaultSettings={[
+        "Resource index row with a shared square icon rail, compact metadata hierarchy, and selected pair tint.",
+        "The primitive owns its layout and styling; consuming pages provide resource content and semantic palette only.",
+      ]}
+      provenance={<Provenance primitive="StudioResourceSplitButton" tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css" tokens="Standard 44px icon rail · global stroke/radius/font tokens · pair-derived selected surface" imports={["src/studio-ui/primitives/StudioControls.tsx", "src/styles/studio-control-system.css"]} />}
+    >
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioResourceSplitButton">
+        <span>STANDARD</span>
+        <StudioResourceSplitButton icon={<Home aria-hidden="true" />} category="GUIDE" title="CREATOR STRATEGY" meta="8 MIN · BEGINNER" />
+      </div>
+    </Family>
     <Family
       title="Panel Accordion"
       nonDefaultSettings={[
