@@ -495,21 +495,6 @@
 .vt-confirmed-catalog [data-vt-studio-icon-button="true"],
 .vt-confirmed-catalog .vt-studio-square-icon-button,
 .vt-confirmed-catalog [data-vt-studio-circle-icon-button="true"],
-.vt-confirmed-catalog .vt-studio-44-switch,
-.vt-confirmed-catalog .vt-studio-44-choice,
-.vt-confirmed-catalog [data-vt-studio-control="true"].vt-studio-44-switch,
-.vt-confirmed-catalog [data-vt-studio-control="true"].vt-studio-44-choice,
-.vt-confirmed-catalog .vt-studio-value-toggle,
-.vt-confirmed-catalog .vt-studio-side-toggle,
-.vt-confirmed-catalog .vt-studio-double-side-toggle,
-.vt-confirmed-catalog .vt-studio-arrow-toggle,
-.vt-confirmed-catalog .vt-studio-bar-toggle {
-  width: auto !important;
-  max-width: max-content !important;
-  min-width: 0 !important;
-  justify-self: start !important;
-  flex: 0 0 auto !important;
-}
 
 .vt-confirmed-catalog .vt-studio-square-icon-button-group {
   width: max-content !important;
