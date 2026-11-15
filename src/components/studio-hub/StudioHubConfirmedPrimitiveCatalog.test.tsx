@@ -585,7 +585,7 @@ describe("responsive Studio upload frame", () => {
     const html = renderToStaticMarkup(<StudioHubConfirmedPrimitiveCatalog />);
     const source = readFileSync(resolve(process.cwd(), "src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx"), "utf8");
     const familyStart = source.indexOf("const ConfirmedStudioValueToggleFamily");
-    const familyEnd = source.indexOf("type ConfirmedCatalogFamilyName", familyStart);
+    const familyEnd = source.indexOf("const CanonicalSplitBadgeFamily", familyStart);
     const family = source.slice(familyStart, familyEnd);
     for (const primitive of ["StudioArrowToggle", "StudioSideToggle", "StudioDoubleSideToggle", "StudioBarToggle"]) {
       expect((html.match(new RegExp('data-vt-library-component="' + primitive + '"', "g")) ?? [])).toHaveLength(5);
@@ -688,7 +688,10 @@ describe("confirmed primitive family taxonomy", () => {
     expect(source).toContain('title="Studio Text Area · Standalone + Simple + Floating + Fixed Label"')
     expect(source).toContain('title="Studio Text Box · Supreme + Standard + Compact + Mini + Micro"')
     expect(source).toContain('title="StudioLeftCounter · Standard"')
-    expect(source).toContain('title="Arrow / Side / Double Side / Bar Toggles"')
+    expect(source).toContain('title="Arrow Toggle · Five Sizes × Left / Right / Double Rails"')
+    expect(source).toContain('title="Side Toggle · Five Sizes × Left / Right Arrow Orientation"')
+    expect(source).toContain('title="Double Side Toggle · Five Sizes × V1 / V2 × Three Right Faces"')
+    expect(source).toContain('title="Bar Toggle · Five Sizes"')
   })
 })
 
