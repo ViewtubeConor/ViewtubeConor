@@ -138,10 +138,10 @@ export const StudioCalendarThumbnailEventChip: React.FC<StudioCalendarThumbnailE
 }) => {
   const content = (
     <>
-      <span className="vt-studio-calendar-thumbnail-event-chip__media" data-thumbnail-ratio="16:9" data-has-thumbnail-art={thumbnailSrc || thumbnail ? "true" : undefined}>
+      <span className="vt-studio-calendar-thumbnail-event-chip__media" data-thumbnail-ratio="16:9" data-has-thumbnail-art="true">
         {thumbnailSrc
           ? <img src={thumbnailSrc} alt={thumbnailAlt ?? ""} loading="lazy" />
-          : thumbnail ?? <ImageIcon aria-hidden="true" />}
+          : thumbnail ?? <svg viewBox="0 0 160 90" role="img" aria-label="Video thumbnail artwork"><rect width="160" height="90" fill="var(--vt-studio-control-accent, var(--pair-a, #36e0f6))" /><circle cx="119" cy="23" r="20" fill="var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b))" /><path d="M0 70 42 38 73 61 106 34 160 72V90H0Z" fill="#000" opacity=".78" /><path d="M65 27 65 63 98 45Z" fill="#fff" stroke="#000" strokeWidth="3" /></svg>}
       </span>
       <span className="vt-studio-calendar-thumbnail-event-chip__body">
         <span className="vt-studio-calendar-thumbnail-event-chip__label">{label}</span>
