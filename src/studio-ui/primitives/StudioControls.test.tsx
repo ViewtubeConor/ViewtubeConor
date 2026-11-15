@@ -1627,3 +1627,21 @@ describe("legacy split text-input quarantine", () => {
     expect(existsSync(resolve(process.cwd(), "src/studio-ui/primitives/StudioIconRailTextInput.tsx"))).toBe(true);
   });
 });
+
+
+describe("StudioCircleIconButton shape consistency", () => {
+  it("keeps the outer button, border layer, and face circular at all five canonical sizes", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-system.css"), "utf8");
+    const html = (["supreme", "standard", "compact", "mini", "micro"] as const).map(size =>
+      renderToStaticMarkup(<StudioCircleIconButton sizeVariant={size} icon={<span>+</span>} label={size + " circle"} />),
+    );
+    for (const size of ["supreme", "standard", "compact", "mini", "micro"]) {
+      expect(html[["supreme", "standard", "compact", "mini", "micro"].indexOf(size)]).toContain('data-size="' + size + '"');
+    }
+    expect(css).toMatch(/button\[data-vt-studio-circle-icon-button="true"\]\s*\{[^}]*border-radius:\s*9999px/s);
+    expect(css).toMatch(/button\[data-vt-studio-circle-icon-button="true"\]\s*\{[^}]*aspect-ratio:\s*1\s*\/\s*1/s);
+    expect(css).toContain('button[data-vt-studio-circle-icon-button="true"][data-size="supreme"]');
+    expect(css).toContain('button[data-vt-studio-circle-icon-button="true"][data-size="mini"]');
+    expect(css).toContain('button[data-vt-studio-circle-icon-button="true"][data-size="micro"]');
+  });
+});
