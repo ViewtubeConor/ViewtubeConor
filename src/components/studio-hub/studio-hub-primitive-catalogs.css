@@ -1771,16 +1771,16 @@
   grid-template-columns: minmax(0, 1fr) !important;
 }
 .vt-complete-catalog .vt-catalog-control-variants.is-word-toggle-28 {
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-columns: minmax(0, 1fr);
 }
 .vt-complete-catalog .vt-catalog-control-variants.is-word-toggle-44 .vt-catalog-control-variant,
 .vt-complete-catalog .vt-catalog-control-variants.is-word-toggle-28 .vt-catalog-control-variant {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+  align-items: stretch;
+  justify-content: flex-start;
+  width: auto;
   min-width: 0;
   max-width: 100%;
   padding: 6px;
@@ -1799,11 +1799,12 @@
 }
 .vt-complete-catalog .vt-catalog-control-variants.is-word-toggle-44 .vt-studio-44-word-toggle,
 .vt-complete-catalog .vt-catalog-control-variants.is-word-toggle-28 .vt-studio-44-word-toggle {
-  flex: 0 1 auto;
+  flex: initial;
   width: max-content;
   max-width: 100%;
   min-width: 0;
-  margin-inline: auto;
+  align-self: flex-start;
+  margin-inline: 0;
 }
 .vt-complete-catalog .vt-catalog-control-variants.is-word-toggle-44 .vt-studio-44-word-toggle button,
 .vt-complete-catalog .vt-catalog-control-variants.is-word-toggle-28 .vt-studio-44-word-toggle button {
@@ -1812,7 +1813,7 @@
 }
 @media (max-width: 520px) {
   .vt-complete-catalog .vt-catalog-control-variants.is-word-toggle-28 {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-columns: minmax(0, 1fr);
     gap: 5px;
   }
   .vt-complete-catalog .vt-catalog-control-variants.is-word-toggle-44 .vt-catalog-control-variant,
