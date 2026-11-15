@@ -80,6 +80,31 @@ import { StudioChatResponseShell } from "../../studio-ui/primitives/StudioChatRe
 import "./studio-hub-primitive-catalogs.css"
 import "../../styles/studio-confirmed-catalog-modules.css"
 import { ConfirmedFamilyModule } from "./ConfirmedCatalogModules"
+import {
+  classifyConfirmedCatalogItem,
+  CONFIRMED_CATALOG_FAMILY_ORDER,
+  CONFIRMED_CATALOG_FAMILY_META,
+  isAllowedCombinedModuleTitle,
+  type ConfirmedCatalogFamilyId,
+} from "./confirmedCatalogTaxonomy"
+import {
+  ConfirmedCatalogChrome,
+  ConfirmedCatalogSizeProvider,
+} from "./ConfirmedCatalogChrome"
+
+export {
+  classifyConfirmedCatalogItem,
+  CONFIRMED_CATALOG_FAMILY_ORDER,
+  CONFIRMED_CATALOG_FAMILY_META,
+  CONFIRMED_CATALOG_MODULE_INVENTORY,
+  CONFIRMED_CATALOG_REQUIRED_EXPORTS,
+  isAllowedCombinedModuleTitle,
+  classifyConfirmedCatalogTitle,
+  familyIdToDisplayName,
+  type ConfirmedCatalogFamilyId,
+  type ConfirmedCatalogFamilyName,
+  type StudioCatalogSize,
+} from "./confirmedCatalogTaxonomy"
 
 type Size = "44px" | "28px"
 
@@ -499,6 +524,7 @@ const ConfirmedDirectPrimitiveRows: React.FC = () => {
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioTwoLineInterModule"><span>Two-Line InterModule · STANDARD</span><StudioTwoLineInterModule title="CHANNEL SETTINGS" description="Identity and publishing preferences" startIcon={<Settings2 aria-hidden="true" />} sizeVariant="standard" defaultOpen><p>Two-line production intermodule specimen.</p></StudioTwoLineInterModule></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioTopSplitModule"><span>Top Split Module · STANDARD</span><StudioTopSplitModule title="MODULE HEADER" split="double" startIcon={<Home aria-hidden="true" />} endIcon={<Settings2 aria-hidden="true" />} sizeVariant="standard"><p>Production top-split module body.</p></StudioTopSplitModule></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioCollapsingSplitModule"><span>Collapsing Split Module · STANDARD · OPEN</span><StudioCollapsingSplitModule title="COLLAPSING MODULE" split="double" startIcon={<Info aria-hidden="true" />} sizeVariant="standard" defaultOpen><p>Expanded body separated from its header by the required horizontal divider.</p><StudioInterModule title="INNER SECTION" sizeVariant="standard" defaultOpen><p>Inner section content.</p></StudioInterModule></StudioCollapsingSplitModule></div>
+        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioCollapsingSplitModule"><span>Collapsing Split Module · STANDARD · CLOSED</span><StudioCollapsingSplitModule title="COLLAPSING MODULE" split="double" startIcon={<Info aria-hidden="true" />} sizeVariant="standard" defaultOpen={false}><p>Collapsed body is hidden; shell keeps the bottom perimeter aligned with the header divider.</p></StudioCollapsingSplitModule></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioCollapsingTwoLineModule"><span>Collapsing Two-Line Module · STANDARD</span><StudioCollapsingTwoLineModule title="CREATOR SETTINGS" description="Identity and publishing preferences" split="double" sizeVariant="standard" defaultOpen><p>Two-line collapsible module body.</p></StudioCollapsingTwoLineModule></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSplitAccordion"><span>Split Accordion · STANDARD</span><StudioSplitAccordion sizeVariant="standard" accessibleLabel="Confirmed split accordion" items={[{accessibleLabel:"OVERVIEW",icon:<Home aria-hidden="true" />,content:<p>Overview section content.</p>},{accessibleLabel:"SETTINGS",icon:<Settings2 aria-hidden="true" />,content:<p>Settings section content.</p>},{accessibleLabel:"STATUS",icon:<Info aria-hidden="true" />,content:<p>Status section content.</p>}]} /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioPanelAccordion"><span>Panel Accordion · STANDARD</span><StudioPanelAccordion size="standard" items={[{label:"OVERVIEW",icon:<Home aria-hidden="true" />,content:<p>Overview panel content rendered by StudioPanelAccordion.</p>},{label:"SETTINGS",icon:<Settings2 aria-hidden="true" />,content:<p>Settings panel content rendered by StudioPanelAccordion.</p>},{label:"STATUS",icon:<Info aria-hidden="true" />,content:<p>Status panel content rendered by StudioPanelAccordion.</p>}]}/></div>
@@ -524,7 +550,7 @@ const ConfirmedStudioCounterFamily: React.FC = () => {
   const [microPrimary, setMicroPrimary] = React.useState(7)
   return (
     <Family
-      title="StudioCounter · Supreme + Standard + Compact + Mini + Micro" defaultOpen
+      title="StudioCounter · Supreme + Standard + Compact + Mini + Micro"
       nonDefaultSettings={[
         "Uses button-only increment/decrement rails; no legacy stepper shell or nested numeric field.",
         "Both action rails use the secondary fill; the numeric value face remains primary across size variants.",
@@ -555,7 +581,7 @@ const ConfirmedStudioDoubleSplitSliderFamily: React.FC = () => {
   const [microA, setMicroA] = React.useState(7)
   return (
     <Family
-      title="StudioDoubleSplitSlider · Supreme + Standard + Compact + Mini + Micro" defaultOpen
+      title="StudioDoubleSplitSlider · Supreme + Standard + Compact + Mini + Micro"
       nonDefaultSettings={[
         "Uses an L1 range track inside the double-split shell; the numeric readout is bound to the same slider value.",
         "Handle is white with a rounded corner radius and black structural stroke; the track has no black bar or inset stroke.",
@@ -584,7 +610,7 @@ const ConfirmedStudioSideCounterFamily: React.FC = () => {
   const labels = ["60px SUPREME", "44px STANDARD", "28px COMPACT", "20px MINI", "12px MICRO"]
   return (
     <Family
-      title="StudioSideCounter · Supreme + Standard + Compact + Mini + Micro" defaultOpen
+      title="StudioSideCounter · Supreme + Standard + Compact + Mini + Micro"
       nonDefaultSettings={[
         "This is the right-rail numeric counter: increment/decrement actions sit on the right.",
         "The value face and square action rail use the shared Studio split-shell geometry.",
@@ -662,7 +688,7 @@ const ConfirmedStudioLeftWordCounterFamily: React.FC = () => {
     setter(current => current.map((previous, itemIndex) => itemIndex === index ? value : previous))
   return (
     <Family
-      title="StudioLeftWordCounter · Four-State Cycle + Five Sizes" defaultOpen
+      title="StudioLeftWordCounter · Four-State Cycle + Five Sizes"
       nonDefaultSettings={[
         "Hold-repeat increment/decrement actions use the shared left-counter timing; disabled and focus states come from the shared counter primitive.",
         "Values wrap FOUR → ONE and ONE → FOUR; face states are primary, secondary, black/primary-text, and white/primary-text.",
@@ -690,7 +716,7 @@ const ConfirmedStudioDoubleSplitWordCounterFamily: React.FC = () => {
   const updateAt = (index: number, value: number) => setValues(current => current.map((previous, itemIndex) => itemIndex === index ? value : previous))
   return (
     <Family
-      title="StudioDoubleSplitWordCounter · Two Chevron Rails + Four-State Word Cycle" defaultOpen
+      title="StudioDoubleSplitWordCounter · Two Chevron Rails + Four-State Word Cycle"
       nonDefaultSettings={[
         "Both square rails step the same four-state word sequence; the left rail moves backward and the right rail moves forward.",
         "One primary-palette specimen per size; inverse color variants are not part of the primitive contract.",
@@ -716,7 +742,7 @@ const ConfirmedStudioLeftWordSliderFamily: React.FC = () => {
   const updateAt = (index: number, value: number) => setValues(current => current.map((previous, itemIndex) => itemIndex === index ? value : previous))
   return (
     <Family
-      title="StudioLeftWordSlider · Slider + Numeric Right Rail" defaultOpen
+      title="StudioLeftWordSlider · Slider + Numeric Right Rail"
       nonDefaultSettings={[
         "Slider and counter share one integer value in the 1–4 range; counter buttons use the shared accelerated hold behavior.",
         "The slider position and right-hand numeric readout always represent the same value.",
@@ -891,127 +917,83 @@ const ConfirmedStudioDropdownFamily: React.FC = () => {
   )
 }
 
-type ConfirmedCatalogFamilyName =
-  | "Text Fields"
-  | "Buttons & Badges"
-  | "Dropdowns"
-  | "Controls"
-  | "Modules & Frames"
-  | "Compositions"
-
-const CONFIRMED_CATALOG_FAMILIES: ConfirmedCatalogFamilyName[] = [
-  "Text Fields",
-  "Buttons & Badges",
-  "Dropdowns",
-  "Controls",
-  "Modules & Frames",
-  "Compositions",
-]
-
-const classifyConfirmedCatalogItem = (node: React.ReactNode): ConfirmedCatalogFamilyName | null => {
-  if (!React.isValidElement(node)) return null
-  const props = node.props as { title?: unknown }
-  const title = typeof props.title === "string" ? props.title : ""
-  const componentType = node.type as { displayName?: string; name?: string }
-  const componentName = typeof node.type === "function"
-    ? (componentType.displayName || componentType.name || "")
-    : ""
-
-  if (/Compatibility Field Exports/.test(title)) return "Text Fields"
-  if (/Compatibility Control Exports/.test(title)) return "Controls"
-
-  // Choice primitives share one top-level family; check this before broad button rules.
-  if (/Switches, Radios & Checkboxes|Word Toggles|Arrow \/ Side \/ Double Side \/ Bar Toggles|StudioSwitch|StudioRadio|StudioCheckbox|StudioXCheckbox|StudioWordToggle|StudioVerticalWordToggle|StudioArrowToggle|StudioSideToggle|StudioDoubleSideToggle|StudioBarToggle|StudioChoice|Stepper/.test(title)
-    || componentName === "CanonicalControlFamilies"
-    || componentName === "CanonicalWordToggleFamily"
-    || componentName === "ConfirmedStudioValueToggleFamily"
-    || componentName === "ConfirmedStudioNumericStepperFamily") {
-    return "Controls"
-  }
-
-  if (/Split-left Badge|Split-right Badge|Double-split Badge|Brain Status LED Badges|Status \/ navigation|StudioBrainStatusBadge|StudioBrainStatusIndicator|StudioLedBadgeTab|StudioSplitLeftBadge|StudioSplitRightBadge|StudioDoubleSplitBadge/.test(title)
-    || componentName === "CanonicalSplitBadgeFamily") return "Buttons & Badges"
-  if (/Studio Text Input|Studio Text Area|Studio Text Box|StudioTextInput|StudioTextArea|StudioTextBox|UsernameInput|SplitLeftInput|SearchInput|NumberInput/.test(title)) return "Text Fields"
-  if (/StudioCounter|StudioDoubleSplitSlider|StudioSideTextCounterIcon|StudioSideCounter|StudioLeftCounter|StudioLeftWordCounter|StudioLeftWordSlider|Double Split Slider|Side Counter|Left Word Counter|Slider/.test(title)
-    || componentName === "ConfirmedStudioCounterFamily"
-    || componentName === "ConfirmedStudioDoubleSplitSliderFamily"
-    || componentName === "ConfirmedStudioSideCounterFamily"
-    || componentName === "ConfirmedStudioLeftWordCounterFamily"
-    || componentName === "ConfirmedStudioDoubleSplitWordCounterFamily"
-    || componentName === "ConfirmedStudioLeftWordSliderFamily") return "Controls"
-  if (/Dropdown/.test(title) || componentName === "ConfirmedStudioDropdownFamily") return "Dropdowns"
-  if (/Button ·|Prominent Action|Square Icon Button|Two-Line Button|Split-left Button|Play\/Pause Split-left Button|Circle Icon Button|StudioIconButton/.test(title)
-    || componentName === "ConfirmedStudioButtonFamily"
-    || componentName === "ConfirmedStudioSplitButtonFamily") return "Buttons & Badges"
-  if (/Top Split Module|Collapsing|InterModule|Split Accordion|Panel Accordion|Upload Frame|Response Meta Row/.test(title)) return "Modules & Frames"
-  if (/SpectrumTag|TagEditor|Tag Editor|Spectrum Tags|Closeable Badge|StudioCloseableBadge|Ranked Metadata Tag/.test(title)) return "Compositions"
-  if (/Publishing Card|StudioChatResponseShell|StudioResponseMetaRow/.test(title)) return "Compositions"
-  return null
-}
-
-const isSwitchToggleChoiceFamily = (title: string): boolean =>
-  /^(?:Switches, Radios & Checkboxes|Word Toggles · Standard \\+ Compact \\+ Vertical|Arrow Toggle ·|Side Toggle ·|Double Side Toggle ·|Bar Toggle ·)/.test(title)
-
 const ConfirmedCatalogFamilyGroups: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const nodes = React.Children.toArray(children)
   const defaults: React.ReactNode[] = []
-  const unclassified: React.ReactNode[] = []
-  const switchToggleFamilies: React.ReactNode[] = []
+  const unsorted: React.ReactNode[] = []
   const representatives: React.ReactNode[] = []
-  const grouped = new Map<ConfirmedCatalogFamilyName, React.ReactNode[]>(
-    CONFIRMED_CATALOG_FAMILIES.map((family) => [family, []]),
+  const choiceToggleModules: React.ReactNode[] = []
+  const grouped = new Map<ConfirmedCatalogFamilyId, React.ReactNode[]>(
+    CONFIRMED_CATALOG_FAMILY_ORDER.map((family) => [family, []]),
   )
+
   for (const node of nodes) {
-    if (React.isValidElement(node) && (node.props as { "data-vt-confirmed-family"?: string })["data-vt-confirmed-family"] === "defaults") {
+    if (
+      React.isValidElement(node) &&
+      ((node.props as { "data-vt-confirmed-family"?: string })["data-vt-confirmed-family"] === "defaults" ||
+        (typeof (node.props as { className?: string }).className === "string" &&
+          (node.props as { className: string }).className.includes("vt-confirmed-defaults")))
+    ) {
       defaults.push(node)
       continue
     }
-    const title = React.isValidElement(node) && typeof (node.props as { title?: unknown }).title === "string"
-      ? (node.props as { title: string }).title
-      : ""
+
+    const title =
+      React.isValidElement(node) && typeof (node.props as { title?: unknown }).title === "string"
+        ? (node.props as { title: string }).title
+        : ""
+
     if (title === "Direct Imported Primitive Representatives · Standard") {
       representatives.push(node)
       continue
     }
-    if (isSwitchToggleChoiceFamily(title)) {
-      switchToggleFamilies.push(node)
+
+    if (
+      isAllowedCombinedModuleTitle(title) &&
+      /Switch|Toggle|Radio|Checkbox|Choice|Arrow|Bar Toggles|Word Toggles/i.test(title)
+    ) {
+      choiceToggleModules.push(node)
       continue
     }
+
     const family = classifyConfirmedCatalogItem(node)
-    if (!family) {
-      unclassified.push(node)
+    if (family === "unsorted" || family === "representatives") {
+      unsorted.push(node)
       continue
     }
     grouped.get(family)?.push(node)
   }
-  const controls = grouped.get("Controls") ?? []
-  if (switchToggleFamilies.length > 0) {
-    controls.unshift(
-      <ConfirmedFamilyModule key="switch-toggle-choice-family" title="Switches / Toggles / Radio / Checkbox" className="vt-confirmed-family-group vt-confirmed-switch-toggle-family" defaultOpen>
-        {switchToggleFamilies}
-      </ConfirmedFamilyModule>,
-    )
+
+  if (choiceToggleModules.length > 0) {
+    const choiceList = grouped.get("choice-toggles") ?? []
+    choiceList.unshift(...choiceToggleModules)
+    grouped.set("choice-toggles", choiceList)
   }
+
   return (
-    <div className="vt-confirmed-catalog">
+    <div className="vt-confirmed-catalog vt-confirmed-catalog--families">
       {defaults}
       {representatives}
-      {unclassified.length > 0 && (
-        <section className="vt-confirmed-unclassified-family" role="alert" data-vt-confirmed-family="unclassified">
-          <strong>Unclassified family</strong>
-          <p>Add an explicit category rule in classifyConfirmedCatalogItem before this specimen can be placed in a confirmed family.</p>
-          <div>{unclassified}</div>
+      <div className="vt-confirmed-family-grid">
+        {CONFIRMED_CATALOG_FAMILY_ORDER.filter((family) => (grouped.get(family)?.length ?? 0) > 0).map((family) => (
+          <ConfirmedFamilyModule
+            key={family}
+            title={CONFIRMED_CATALOG_FAMILY_META[family].title}
+            className={`vt-confirmed-family-group vt-confirmed-family-${family}`}
+            data-vt-confirmed-family-id={family}
+            defaultOpen={CONFIRMED_CATALOG_FAMILY_META[family].defaultOpen}
+          >
+            {grouped.get(family)}
+          </ConfirmedFamilyModule>
+        ))}
+      </div>
+      {unsorted.length > 0 && (
+        <section className="vt-confirmed-unclassified-family" data-vt-confirmed-family="unsorted">
+          <strong>Unsorted</strong>
+          <p>These modules did not match a registry rule. Add a matcher in <code>confirmedCatalogTaxonomy.ts</code>.</p>
+          <div>{unsorted}</div>
         </section>
       )}
-      <div className="vt-confirmed-family-grid">
-        {CONFIRMED_CATALOG_FAMILIES
-          .filter((family) => (grouped.get(family)?.length ?? 0) > 0)
-          .map((family) => (
-            <ConfirmedFamilyModule key={family} title={family} className="vt-confirmed-family-group" defaultOpen={family === "Controls"}>
-              {grouped.get(family)}
-            </ConfirmedFamilyModule>
-          ))}
-      </div>
     </div>
   )
 }
@@ -1123,7 +1105,7 @@ const useConfirmedAdditionalPrimitiveSections = (): React.ReactNode[] => {
         </div>
       </Family>
 
-      <Family title="StudioLeftCounter · Supreme + Standard + Compact + Mini + Micro" defaultOpen nonDefaultSettings={["Left-action counter variant with the same shared 2:1 numeric display at all five canonical sizes."]} provenance={<Provenance primitive="StudioLeftCounter" tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css" tokens="60px / 44px / 28px / 20px / 12px · left square action rail and 2:1 value region." imports={["src/studio-ui/primitives/StudioControls.tsx"]} />}>
+      <Family title="StudioLeftCounter · Supreme + Standard + Compact + Mini + Micro" nonDefaultSettings={["Left-action counter variant with the same shared 2:1 numeric display at all five canonical sizes."]} provenance={<Provenance primitive="StudioLeftCounter" tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css" tokens="60px / 44px / 28px / 20px / 12px · left square action rail and 2:1 value region." imports={["src/studio-ui/primitives/StudioControls.tsx"]} />}>
         <div className="vt-confirmed-variant is-full-row vt-confirmed-counter-row" data-vt-library-component="StudioLeftCounter">
           <div className="vt-confirmed-counter-size-rows">
             {(["supreme", "standard", "compact", "mini", "micro"] as const).map((size, index) => <div className="vt-confirmed-counter-size-row" key={size}><small>{["60px SUPREME", "44px STANDARD", "28px COMPACT", "20px MINI", "12px MICRO"][index]}</small><div className="vt-confirmed-counter-pair"><StudioLeftCounter value={leftCounterValues[index]} onValueChange={next => setLeftCounterValues(current => current.map((value, item) => item === index ? next : value))} size={size} min={0} max={100} ariaLabel={size + " left counter dedicated specimen"} /></div></div>)}
@@ -1138,8 +1120,9 @@ const useConfirmedAdditionalPrimitiveSections = (): React.ReactNode[] => {
 export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
   const additionalPrimitiveSections = useConfirmedAdditionalPrimitiveSections()
   return (
-  <>
-    <div className="vt-confirmed-catalog">
+  <ConfirmedCatalogSizeProvider>
+    <ConfirmedCatalogChrome />
+    <div className="vt-confirmed-catalog vt-confirmed-catalog--representatives" data-vt-representatives="true">
       <ConfirmedPrimitiveGridOverview />
       <ConfirmedDirectPrimitiveRows />
     </div>
@@ -1744,7 +1727,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       </Family>
       {additionalPrimitiveSections}
     </ConfirmedCatalogFamilyGroups>
-  </>
+  </ConfirmedCatalogSizeProvider>
   )
 }
 
