@@ -3439,6 +3439,17 @@
 }
 /* Value-toggle modules are a strict five-row specimen ledger: no variant grid,
    source-size overrides, or intrinsic-width shrinkage at the catalog layer. */
+.vt-confirmed-family:has([data-vt-library-module]) > .vt-confirmed-primitive-body > .vt-confirmed-variants {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  min-width: 0;
+}
+.vt-confirmed-family:has([data-vt-library-module]) > .vt-confirmed-primitive-body > .vt-confirmed-variants > .vt-confirmed-value-toggle-module {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-width: 0;
+}
 .vt-confirmed-value-toggle-module {
   display: flex;
   flex-direction: column;
