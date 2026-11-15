@@ -73,6 +73,14 @@ export interface CommunityPostController {
 
 export type CommentResponderTab = "unreplied" | "history"
 
+export interface CommentVideoRecommendation {
+ videoId: string
+ title: string
+ matchStrength: number
+ reason: string
+ bridgePhrase: string
+}
+
 export interface CommentResponderController {
  tab: CommentResponderTab
  setTab: (tab: CommentResponderTab) => void
@@ -92,6 +100,9 @@ export interface CommentResponderController {
  generating: boolean
  fetchedVideoData: Record<string, any>
  inboundImageUrl: string | null
+ videoRecommendation: CommentVideoRecommendation | null
+ applyVideoRecommendation: () => void
+ dismissVideoRecommendation: () => void
  canPostReply: boolean
  refresh: () => Promise<void>
  draftReply: (mode?: "generate" | "refine") => Promise<void>
