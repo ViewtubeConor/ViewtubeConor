@@ -294,3 +294,33 @@ The production caller references for legacy tag generation/analysis, comment rep
 The exact-head Gemini governance job and production build passed, as did local smoke, Brain quality loop and conversation handoff. Repository-wide typecheck and Studio source/catalog gates still fail on separate pre-existing issues; the full suite was still running at documentation time.
 
 The remaining production references are not automatically provider bypasses: some are provider-owner exports, compatibility utilities, domain prompt builders, tests or functions still awaiting caller-owner classification. Keep the compatibility map until every active caller is classified, migrated or proven unreachable and live parity is certified.
+
+
+## Current-target consolidation checkpoint — 2026-11-14
+
+**Current target:** `master/consolidated-feature-integration` @ `52c6e90f416aaac7d3690581e1faab9e4cfb0b1d`.
+
+### Requested caller surface — static import/call review
+
+| File | Current target observation | Status |
+|---|---|---|
+| `src/services/asset-engine/GenerationWorkflow.ts` | Owns ContentBuild generation request/receipt orchestration; no direct Gemini SDK invocation was found in the fetched file. | Partial; trace downstream runner and actual provider boundary |
+| `src/services/brain/creatorAssets.ts` | Governed AssetGenerator entry points include tag strategy and other creator-asset strategies. | Present; verify all downstream strategy runners and receipts |
+| `src/views/MetadataMaster.tsx` | Uses `generateVideoPublisherSeoPackage` from `creatorAssets.ts`. | Present; verify exact provider path and ContentBuild provenance |
+| `src/views/SeoGenerator.tsx` | Uses `generateVideoPublisherSeoPackage`. | Present; verify output/receipt persistence and retry |
+| `src/views/VideoManager.tsx` | Uses `generateGovernedTagSuggestions`. | Present |
+| `src/views/dashboard/widgets/TagGeneratorWidget.tsx` | Uses `generateGovernedTagSuggestions`. | Present |
+| `src/views/dashboard/widgets/TitleRewriterWidget.tsx` | Imports `defaultBrainModelGateway`. | Present; verify resolver and safe failure behavior |
+| `src/views/dashboard/widgets/VideoUploaderWidget.tsx` | Uses governed tag, timestamp and SEO generation services. | Present; verify operation/content-build identity and receipts |
+
+### Confirmed non-duplication
+
+- Target and Gemini follow-up donor `src/services/brain/assetStrategies/tagSuggestions.ts` share blob SHA `f2e4edc0368c33ed45d6600b3cbd5fa4321dbd11`.
+- Target `src/services/gemini.ts` and the corresponding PR #1196 donor file share blob SHA `56df81588d936a99d9423f41d54eef9d494b7c92`.
+- The target's `src/context/GeminiKeyContext.tsx` validates credentials through model-list discovery, and does not require a specific guessed generation model to be available before saving the key. The closed PR #1125 helper for model-specific fallback is therefore not a direct migration candidate without a demonstrated behavior gap.
+
+### Open governance work
+
+The caller import check does not establish zero direct-provider bypasses across the full repository. Regenerate the exact-commit caller inventory and inspect the full caller census, release-gate workflow, provider architecture guard, key readiness, operation identity, retries, receipts and failure redaction. Do not claim all Gemini callers are migrated solely from the eight requested files.
+
+No tests or release gates were executed in this documentation update.
