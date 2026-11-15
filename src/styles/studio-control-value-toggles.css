@@ -370,3 +370,37 @@
   -webkit-text-fill-color: currentColor;
   -webkit-text-stroke-color: currentColor;
 }
+
+
+/* Bar meters occupy only the middle split face. Rails retain their own paint
+   and divider edges; the meter's width is bounded by the center grid track. */
+.vt-studio-value-toggle--bar > [data-vt-studio-split-label] {
+  grid-column: 2;
+  min-width: 0;
+  max-width: 100%;
+}
+.vt-studio-value-toggle--bar .vt-studio-value-toggle__bars {
+  grid-column: 2;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  justify-self: stretch;
+  overflow: visible;
+  pointer-events: none;
+}
+.vt-studio-value-toggle--bar .vt-studio-value-toggle__bar {
+  box-sizing: border-box;
+  flex: 0 1 var(--vt-bar-width);
+  min-width: 0;
+  max-width: 100%;
+  border-radius: var(--vt-bar-radius);
+  pointer-events: none;
+}
+.vt-studio-value-toggle--bar [data-vt-studio-split-rail] {
+  box-sizing: border-box;
+  min-width: var(--vt-studio-control-height, 44px);
+  max-width: var(--vt-studio-control-height, 44px);
+  overflow: hidden;
+  z-index: 2;
+}
