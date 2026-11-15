@@ -2480,6 +2480,7 @@ export const StudioSideCounter: React.FC<StudioCounterProps> = ({
   }, [max, min, onValueChange, safeStep]);
   const decrement = useStudioCounterHold(-1, current, min, max, safeStep, adjust, disabled || !validBounds || current <= min);
   const increment = useStudioCounterHold(1, current, min, max, safeStep, adjust, disabled || !validBounds || current >= max);
+  const isWordCounter = typeof className === "string" && className.split(/\s+/).includes("vt-studio-left-word-counter");
   return (
     <StudioSplitShell
       layout="right"
@@ -2838,7 +2839,7 @@ export const StudioLeftCounter: React.FC<StudioLeftCounterProps> = ({
       </span>}
       shellProps={{ ...props, "data-vt-interaction-focus": interactionFocus.active ? "true" : undefined, onPointerDownCapture: interactionFocus.start, onPointerUpCapture: interactionFocus.end, onPointerCancelCapture: interactionFocus.end, role: "group", "aria-label": ariaLabel, "data-vt-studio-control-family": "counter", "data-vt-studio-control-kind": "studio-left-counter", "data-vt-library-component": props["data-vt-library-component"] ?? "StudioLeftCounter" }}
     >
-      <span className="vt-studio-side-counter__value" data-vt-studio-counter-value aria-live="polite">{displayValue ?? String(current)}</span>
+      <span className={studioClasses("vt-studio-side-counter__value", isWordCounter && "vt-studio-word-counter__value")} data-vt-studio-counter-value aria-live="polite">{displayValue ?? String(current)}</span>
     </StudioSplitShell>
   );
 };
