@@ -1,6 +1,6 @@
 import React from "react"
 import { StudioPublishingCard } from "../../studio-ui/compositions/StudioPublishingCard"
-import { Check, Home, Info, Settings2, Sparkles } from "lucide-react"
+import { Check, Home, Info, Search, Settings2, Sparkles } from "lucide-react"
 import { StudioSplitAccordionCatalogSpecimens } from "./StudioSplitAccordionCatalogSpecimens"
 import ConfirmedSpecimenGrid from "./ConfirmedSpecimenGrid"
 import { StudioSplitTextInput } from "../../studio-ui/primitives/StudioSplitTextInput"
