@@ -1921,16 +1921,14 @@ export const StudioLegendMultiDropdown: React.FC<StudioLegendMultiDropdownProps>
             {selectedLabels.length === 0 ? (
               placeholder
             ) : (
-              <>
-                <span className="vt-studio-legend-trigger-label">{selectedLabels[0]}</span>
-                {extra > 0 ? (
-                  <span className="vt-studio-legend-count-badge" aria-label={`${extra} more selected`}>
-                    +{extra}
-                  </span>
-                ) : null}
-              </>
+              <span className="vt-studio-legend-trigger-label">{selectedLabels[0]}</span>
             )}
           </span>
+          {selectedLabels.length > 0 && extra > 0 ? (
+            <span className="vt-studio-legend-count-badge" aria-label={`${extra} more selected`}>
+              +{extra}
+            </span>
+          ) : null}
           <svg className="vt-studio-legend-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
         </button>
       </div>
