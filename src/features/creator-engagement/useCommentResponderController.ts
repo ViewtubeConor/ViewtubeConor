@@ -192,7 +192,7 @@ export const useCommentResponderController = (context: CreatorEngagementContext)
   setError(null)
   try {
    const comment = currentThread.snippet.topLevelComment.snippet
-   const { sourceVideoId, sourceTitle, candidateVideos } = sourceVideoContext()
+   const { sourceTitle, candidateVideos } = sourceVideoContext()
    const result = await draftCommentReply({
     commentText: `${comment.textOriginal}\n\nThis comment was left on: "${sourceTitle}". If recommending another video, choose a DIFFERENT video and only when it genuinely helps the viewer.`,
     authorName: comment.authorDisplayName.replace(/@/g, ""),
