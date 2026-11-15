@@ -360,3 +360,13 @@
   -webkit-text-fill-color: var(--vt-toggle-text, #000);
   -webkit-text-stroke-color: var(--vt-toggle-text, #000);
 }
+
+
+/* Side-toggle labels use the pair fill as their resting text color.
+   Existing focus-within rules below/above retain black focused text. */
+.vt-studio-value-toggle--side .vt-studio-value-toggle__face,
+.vt-studio-value-toggle--double .vt-studio-value-toggle__double-side .vt-studio-value-toggle__face {
+  color: var(--vt-toggle-fill, var(--vt-studio-control-accent, var(--pair-a)));
+  -webkit-text-fill-color: currentColor;
+  -webkit-text-stroke-color: currentColor;
+}
