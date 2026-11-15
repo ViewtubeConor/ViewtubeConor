@@ -14,15 +14,14 @@ import {
  validateBrainResponse,
 } from "../brain/BrainOrchestrator"
 
-const makeSnapshot = (channelId = "orchestrator-channel") => buildAIBrainContextSnapshot({
+const makeSnapshot = () => buildAIBrainContextSnapshot({
  brain: fallbackContext.brain,
  authState: { ...fallbackContext.authState, channelName: "History Workshop" },
  channelConnection: { ...fallbackContext.channelConnection, isConnected: true },
  brainMemory: fallbackContext.getBrainMemory(),
  vtSyncSnapshot: getVtSyncSnapshot({
   source: "vt-sync",
-  snapshotId: `orchestrator-snapshot-${channelId}`,
-  channelId,
+  snapshotId: "orchestrator-snapshot",
   channelName: "History Workshop",
   videos: [
    { id: "best", title: "Alder's Cavalry Explained", tags: ["alder", "military", "history"], metrics: { views: 120000 } },
@@ -95,10 +94,10 @@ describe("BrainOrchestrator", () => {
   const traces: BrainTrace[] = []
   setBrainTraceSink({ write: (trace) => traces.push(trace), list: () => traces })
   try {
-   const snapshot = makeSnapshot("trace-channel")
+   const snapshot = makeSnapshot()
    const growthContext = buildCreatorGrowthContext(snapshot, [], [])
    const result = await runBrainTurn({
-    channelId: "trace-channel",
+    channelId: "orchestrator-channel",
     userText: "What should I make next?",
     snapshot,
     growthContext,
@@ -108,7 +107,7 @@ describe("BrainOrchestrator", () => {
    const trace = traces.at(-1)
    expect(trace).toMatchObject({
     kind: "question",
-    channelId: "trace-channel",
+    channelId: "orchestrator-channel",
     status: "fallback",
     outputRef: result.response.id,
     modelServed: null,
@@ -128,10 +127,10 @@ describe("BrainOrchestrator", () => {
 
 
  it("records the provider-reported served model when the gateway exposes it", async () => {
-  const snapshot = makeSnapshot("served-model-channel")
+  const snapshot = makeSnapshot()
   const growthContext = buildCreatorGrowthContext(snapshot, [], [])
   const result = await runBrainTurn({
-   channelId: "served-model-channel",
+   channelId: "orchestrator-channel",
    userText: "What should my next video be?",
    snapshot,
    growthContext,
@@ -160,18 +159,18 @@ describe("BrainOrchestrator", () => {
  })
 
  it("preserves the exact prompt in the captured learning event", async () => {
-  const snapshot = makeSnapshot("raw-learning-channel")
+  const snapshot = makeSnapshot()
   const growthContext = buildCreatorGrowthContext(snapshot, [], [])
   const rawUserMessage = "The API failed with an error — keep these exact words."
   const result = await runBrainTurn({
-   channelId: "raw-learning-channel",
+   channelId: "orchestrator-channel",
    userText: rawUserMessage,
    snapshot,
    growthContext,
    systemPrompt: "Use the supplied channel evidence.",
    allowModel: false,
   })
-  const entries = await listAIBrainLearningEntries({ channelId: "raw-learning-channel" })
+  const entries = await listAIBrainLearningEntries({ channelId: "orchestrator-channel" })
   const captured = entries.find((entry) => entry.metadata?.rawUserMessage === rawUserMessage)
 
   expect(result.turn.rawUserMessage).toBe(rawUserMessage)
@@ -183,12 +182,12 @@ describe("BrainOrchestrator", () => {
 
 
  it("repairs a repeated generic model answer with an evidence-backed fallback", async () => {
-  const snapshot = makeSnapshot("repeat-channel")
+  const snapshot = makeSnapshot()
   const growthContext = buildCreatorGrowthContext(snapshot, [], [])
   const repeatedTurn = {
    id: "prior-turn",
    threadId: "prior-thread",
-   channelId: "repeat-channel",
+   channelId: "orchestrator-channel",
    createdAt: "2026-07-22T11:00:00.000Z",
    status: "complete" as const,
    userText: "Help",
@@ -209,7 +208,7 @@ describe("BrainOrchestrator", () => {
    actions: [],
   }))
   const result = await runBrainTurn({
-   channelId: "repeat-channel",
+   channelId: "orchestrator-channel",
    userText: "What is my best video?",
    snapshot,
    growthContext,
@@ -230,7 +229,7 @@ describe("BrainOrchestrator", () => {
  })
 
  it("accepts one materially improved repair response", async () => {
-  const snapshot = makeSnapshot("repair-success-channel")
+  const snapshot = makeSnapshot()
   const growthContext = buildCreatorGrowthContext(snapshot, [], [])
   const modelGenerator = vi.fn()
    .mockResolvedValueOnce({
@@ -254,7 +253,7 @@ describe("BrainOrchestrator", () => {
    })
 
   const result = await runBrainTurn({
-   channelId: "repair-success-channel",
+   channelId: "orchestrator-channel",
    userText: "What should my next video be?",
    snapshot,
    growthContext,
@@ -272,11 +271,11 @@ describe("BrainOrchestrator", () => {
  })
 
  it("records provider and model-disabled fallback reasons without extra model calls", async () => {
-  const snapshot = makeSnapshot("provider-error-channel")
+  const snapshot = makeSnapshot()
   const growthContext = buildCreatorGrowthContext(snapshot, [], [])
   const provider = vi.fn(async () => { throw new Error("provider unavailable") })
   const failed = await runBrainTurn({
-   channelId: "provider-error-channel",
+   channelId: "orchestrator-channel",
    userText: "Give me a strategy",
    snapshot,
    growthContext,
@@ -285,10 +284,10 @@ describe("BrainOrchestrator", () => {
    nicheResolver: vi.fn(async () => nicheProfile),
    modelGenerator: provider,
   })
-  const disabledSnapshot = makeSnapshot("model-disabled-channel")
+  const disabledSnapshot = makeSnapshot()
   const disabledGrowthContext = buildCreatorGrowthContext(disabledSnapshot, [], [])
   const disabled = await runBrainTurn({
-   channelId: "model-disabled-channel",
+   channelId: "orchestrator-channel",
    userText: "Give me a strategy",
    snapshot: disabledSnapshot,
    growthContext: disabledGrowthContext,
@@ -305,14 +304,14 @@ describe("BrainOrchestrator", () => {
  })
 
  it("uses local guidance when the single repair call errors", async () => {
-  const snapshot = makeSnapshot("repair-error-channel")
+  const snapshot = makeSnapshot()
   const growthContext = buildCreatorGrowthContext(snapshot, [], [])
   const modelGenerator = vi.fn()
    .mockResolvedValueOnce({ headline: "Generic", keyInsight: "Be consistent.", body: "Expect 999999 views.", mode: "strategy_brief", modules: [], actions: [] })
    .mockRejectedValueOnce(new Error("repair unavailable"))
 
   const result = await runBrainTurn({
-   channelId: "repair-error-channel",
+   channelId: "orchestrator-channel",
    userText: "What should my next video be?",
    snapshot,
    growthContext,
@@ -329,7 +328,7 @@ describe("BrainOrchestrator", () => {
  })
 
  it("does not call the model when required context cannot fit the available budget", async () => {
-  const snapshot = makeSnapshot("required-context-budget-channel")
+  const snapshot = makeSnapshot()
   const growthContext = buildCreatorGrowthContext(snapshot, [], [])
   const modelGenerator = vi.fn(async () => ({
    headline: "Should not run",
@@ -341,7 +340,7 @@ describe("BrainOrchestrator", () => {
   } as StructuredBrainModelOutput))
 
   const result = await runBrainTurn({
-   channelId: "required-context-budget-channel",
+   channelId: "orchestrator-channel",
    userText: "What should my next video be?",
    snapshot,
    growthContext,
