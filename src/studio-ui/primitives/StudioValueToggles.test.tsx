@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import React, { act } from "react";
-import { createRoot, type Root } from "react-dom/client";
+import { createRoot, type Root } from "react-dom/client";\nimport { renderToStaticMarkup } from "react-dom/server";\nimport { readFileSync } from "node:fs";\nimport { resolve } from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { StudioArrowToggle, StudioBarToggle, StudioDoubleSideToggle, StudioDoubleSplitWordCounter, StudioSideToggle } from "./StudioValueToggles";
 
