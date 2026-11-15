@@ -9,7 +9,6 @@ import { useBrain } from "../../context/useBrain"
 import { getContentBuild } from "../../services/asset-engine/ContentBuildRepository"
 import { getProjectCalendarPublicationBadge } from "./projectCalendarPublicationState"
 import { projectProjectsToCalendarEvents } from "../../services/calendar/projectCalendarEvents"
-import type { CalendarEventProjection } from "../../services/calendar/calendarEventContract"
 import type { DayTask, Project } from "../../types"
 import { SubToolboxSection, SubToolboxStack } from "../subtoolbox/SubToolboxLayouts"
 import { StudioButton, StudioCheckbox, StudioCloseableBadge, StudioDropdown, StudioSplitLeftButton, StudioSquareIconButton, StudioCalendarEventChip, StudioCalendarMediaRail, StudioCalendarThumbnailEventChip, StudioCalendarMultiDayBar } from "../../studio-ui"
@@ -164,7 +163,6 @@ const ProjectPlannerCalendar: React.FC<ProjectPlannerCalendarProps> = ({ onOpenP
               {selectedProjects.length ? selectedProjects.map(project => (
                 <div key={project.id} className="vt-project-planner-calendar__project-row">
                   <StudioCalendarMediaRail aspectRatio={project.plan?.format === "short" || project.plan?.videoFormat === "short" ? "9:16" : "16:9"} split="double" thumbnailSrc={project.thumbnailUrl} label={projectTitle(project)} leftLabel="VIDEO" rightLabel="PUBLISH" className="vt-project-planner-calendar__media-rail" />
-                  <StudioCalendarThumbnailEventChip label={projectTitle(project)} thumbnailSrc={project.thumbnailUrl} thumbnailAlt={`${projectTitle(project)} thumbnail`} kind="publish" status="scheduled" />
                   <button type="button" className="vt-project-planner-calendar__project-open" onClick={() => onOpenProject?.(project.id)}>
                     <span className="vt-project-planner-calendar__project-title">{projectTitle(project)}</span>
                     <span className="vt-project-planner-calendar__project-meta">{project.status || "Project"} · View project</span>
