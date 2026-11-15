@@ -265,3 +265,222 @@ button[data-vt-studio-play-pause="true"][aria-pressed="true"] [data-vt-studio-sp
 
 
 /* The outer button owns the only perimeter; the inner face never draws a second border. */
+
+/* ===== 2026-11-14 screenshot recovery: content-width + dropdown + modules ===== */
+
+/* Legend multi: +N badge between label and chevron, does not shift text centering contract */
+.vt-studio-legend-trigger {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding-inline: 12px 8px;
+}
+.vt-studio-legend-trigger-text {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  flex: 1 1 auto !important;
+  text-align: center !important;
+}
+.vt-studio-legend-trigger-label {
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+}
+.vt-studio-legend-count-badge {
+  display: inline-grid;
+  place-items: center;
+  box-sizing: border-box;
+  height: calc(var(--vt-legend-count-size, 22px));
+  min-width: calc(var(--vt-legend-count-size, 22px));
+  padding: 0 6px;
+  margin: 0 6px;
+  border: 2px solid #000;
+  border-radius: 4px;
+  background: #000;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 1000;
+  line-height: 1;
+  letter-spacing: 0;
+  flex: 0 0 auto;
+  justify-self: center;
+  align-self: center;
+}
+.vt-studio-legend-chevron {
+  justify-self: end;
+  margin-left: 0 !important;
+}
+
+/* All dropdown closed labels: centered on the full face */
+.vt-studio-dropdown:not(.is-split-left) [data-vt-studio-dropdown-value],
+.vt-studio-dropdown button[data-dropdown-trigger="true"] [data-vt-studio-dropdown-value] {
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+/* Split-left closed label centers on the OUTER shell, not the post-rail remainder.
+   Use absolute centering across the full trigger; rail stays painted on the left. */
+.vt-studio-dropdown.is-split-left button[data-dropdown-trigger="true"] {
+  position: relative;
+}
+.vt-studio-dropdown.is-split-left button[data-dropdown-trigger="true"] [data-vt-studio-split-label] {
+  position: absolute !important;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  pointer-events: none;
+  z-index: 1;
+}
+.vt-studio-dropdown.is-split-left .vt-studio-dropdown-split-rail,
+.vt-studio-dropdown.is-split-left .vt-studio-dropdown-chevron {
+  position: relative;
+  z-index: 2;
+}
+
+/* Split-left menu rows mirror split-left closed face (leading secondary rail) */
+.vt-studio-dropdown.is-split-left .vt-studio-dropdown-menu [role="option"],
+.vt-studio-dropdown.is-split-left .vt-studio-dropdown-option {
+  display: grid !important;
+  grid-template-columns: var(--vt-studio-control-height, 44px) minmax(0, 1fr);
+  align-items: stretch;
+  gap: 0;
+  padding: 0 !important;
+  overflow: hidden;
+}
+.vt-studio-dropdown.is-split-left .vt-studio-dropdown-option::before,
+.vt-studio-dropdown.is-split-left .vt-studio-dropdown-menu [role="option"]::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  width: var(--vt-studio-control-height, 44px);
+  min-width: var(--vt-studio-control-height, 44px);
+  border-right: var(--vt-studio-control-stroke, 3px) solid #000;
+  background: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
+}
+.vt-studio-dropdown.is-split-left .vt-studio-dropdown-option[aria-selected="true"]::before,
+.vt-studio-dropdown.is-split-left .vt-studio-dropdown-menu [role="option"][aria-selected="true"]::before {
+  background: var(--vt-studio-control-accent, var(--pair-a, #36e0f6));
+}
+.vt-studio-dropdown.is-split-left .vt-studio-dropdown-option > *,
+.vt-studio-dropdown.is-split-left .vt-studio-dropdown-menu [role="option"] > * {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding-inline: 10px;
+}
+
+/* Text box: primary inset flush to outer black border; vertical padding for text */
+.vt-studio-text-box[data-vt-studio-control="true"] {
+  box-shadow: inset 0 0 0 var(--vt-studio-control-stroke, 3px) var(--vt-field-primary, var(--vt-studio-control-accent, var(--pair-a, #36e0f6))) !important;
+  border: var(--vt-studio-control-stroke, 3px) solid #000 !important;
+  padding-block: calc(var(--vt-studio-control-stroke, 3px) + 6px) !important;
+  padding-inline: calc(var(--vt-studio-control-stroke, 3px) + 8px) !important;
+  line-height: 1.2 !important;
+}
+.vt-studio-text-box[data-vt-studio-control="true"]::before,
+.vt-studio-text-box[data-vt-studio-control="true"]::after {
+  /* kill any gap-producing double ring */
+  content: none !important;
+  display: none !important;
+}
+
+/* Word toggles: intrinsic content width — undo catalog/global full-row stretch */
+.vt-studio-word-toggle,
+.vt-studio-44-word-toggle,
+.vt-studio-vertical-word-toggle {
+  width: max-content !important;
+  max-width: max-content !important;
+  min-width: 0 !important;
+  justify-self: start;
+}
+.vt-studio-vertical-word-toggle {
+  /* restore size-token stroke + type; undo any forced full-width/font overrides */
+  border-width: var(--vt-studio-control-stroke, 3px) !important;
+  font-size: var(--vt-studio-control-font-size, 38px) !important;
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, 1px) currentColor !important;
+}
+
+/* Side / double-side toggles: default + focus text use global control text color */
+.vt-studio-side-toggle,
+.vt-studio-double-side-toggle,
+.vt-studio-value-toggle[data-kind="side"],
+.vt-studio-value-toggle[data-kind="double-side"] {
+  color: #000 !important;
+}
+.vt-studio-side-toggle:focus-visible,
+.vt-studio-double-side-toggle:focus-visible,
+.vt-studio-value-toggle[data-kind="side"]:focus-visible,
+.vt-studio-value-toggle[data-kind="double-side"]:focus-visible {
+  color: #000 !important;
+  outline-color: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
+}
+
+/* Collapsing module: one stroke only when open (no stacked head border + body top) */
+.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head,
+.vt-studio-collapsing-split-module[open] > summary.vt-studio-collapsing-split-module__head {
+  border-bottom-width: var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px)) !important;
+  border-bottom-style: solid !important;
+  border-bottom-color: #000 !important;
+}
+.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head::after,
+.vt-studio-collapsing-split-module[open] > summary.vt-studio-collapsing-split-module__head::after {
+  display: none !important;
+  content: none !important;
+}
+.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__body,
+.vt-studio-collapsing-split-module[open] > :not(summary) {
+  border-top: 0 !important;
+}
+
+/* Two-line collapsing: rails paint full header height including vertical dividers */
+.vt-studio-two-line-module > summary.vt-studio-collapsing-split-module__head,
+.vt-studio-two-line-module > .vt-studio-collapsing-split-module__head {
+  align-items: stretch !important;
+  min-height: var(--vt-top-split-size, var(--vt-studio-control-height, 44px));
+}
+.vt-studio-two-line-module .vt-studio-collapsing-split-module__rail,
+.vt-studio-two-line-module .vt-studio-top-split-module__rail {
+  align-self: stretch !important;
+  height: auto !important;
+  min-height: 100% !important;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+}
+.vt-studio-two-line-module .vt-studio-collapsing-split-module__rail[data-rail="start"],
+.vt-studio-two-line-module .vt-studio-top-split-module__rail[data-rail="start"] {
+  border-right: var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px)) solid #000 !important;
+}
+.vt-studio-two-line-module .vt-studio-collapsing-split-module__rail[data-rail="end"],
+.vt-studio-two-line-module .vt-studio-top-split-module__rail[data-rail="end"] {
+  border-left: var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px)) solid #000 !important;
+}
+
+/* Panel accordion: full vertical divider; selected = secondary; unselected = primary */
+.vt-studio-panel-accordion__rails {
+  border-right: var(--vt-studio-control-stroke, 3px) solid #000 !important;
+}
+.vt-studio-panel-accordion__rail {
+  display: grid !important;
+  place-items: center !important;
+  background: var(--vt-studio-control-accent, var(--pair-a, #36e0f6)) !important;
+  color: #000 !important;
+}
+.vt-studio-panel-accordion__rail[data-active="true"] {
+  background: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b)) !important;
+}
+.vt-studio-panel-accordion__icon,
+.vt-studio-panel-accordion__icon svg {
+  width: var(--vt-studio-control-icon-size) !important;
+  height: var(--vt-studio-control-icon-size) !important;
+  display: block !important;
+  margin: 0 auto !important;
+}

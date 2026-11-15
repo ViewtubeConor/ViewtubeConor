@@ -440,14 +440,96 @@
   margin: 0;
 }
 
-/* Live control / composition always expands full row width */
+/* Full-row hosts expand; content-sized primitives keep intrinsic width */
 .vt-confirmed-variant > :not(span):not(h4):not(strong),
 .vt-confirmed-variant.is-full-row > :not(span):not(h4):not(strong) {
+  box-sizing: border-box;
+  min-width: 0;
+  justify-self: start;
+  max-width: 100%;
+}
+
+/* Row-fill controls only */
+.vt-confirmed-variant > .vt-studio-dropdown,
+.vt-confirmed-variant > .vt-studio-legend-multi,
+.vt-confirmed-variant > .vt-studio-text-input,
+.vt-confirmed-variant > .vt-studio-text-area,
+.vt-confirmed-variant > .vt-studio-text-box,
+.vt-confirmed-variant > .vt-studio-split-shell,
+.vt-confirmed-variant > .vt-studio-counter,
+.vt-confirmed-variant > .vt-studio-side-counter,
+.vt-confirmed-variant > .vt-studio-left-counter,
+.vt-confirmed-variant > .vt-studio-double-split-slider,
+.vt-confirmed-variant > .vt-studio-top-split-module,
+.vt-confirmed-variant > .vt-studio-collapsing-split-module,
+.vt-confirmed-variant > .vt-studio-two-line-module,
+.vt-confirmed-variant > .vt-studio-inter-module,
+.vt-confirmed-variant > .vt-studio-upload-frame,
+.vt-confirmed-variant > [data-vt-studio-button="true"]:not([data-vt-studio-icon-button]):not([data-vt-studio-circle-icon-button]),
+.vt-confirmed-variant.is-full-row > .vt-studio-dropdown,
+.vt-confirmed-variant.is-full-row > .vt-studio-legend-multi,
+.vt-confirmed-variant.is-full-row > .vt-studio-text-input,
+.vt-confirmed-variant.is-full-row > .vt-studio-text-area,
+.vt-confirmed-variant.is-full-row > .vt-studio-text-box,
+.vt-confirmed-variant.is-full-row > .vt-studio-split-shell,
+.vt-confirmed-variant.is-full-row > .vt-studio-counter,
+.vt-confirmed-variant.is-full-row > .vt-studio-side-counter,
+.vt-confirmed-variant.is-full-row > .vt-studio-left-counter,
+.vt-confirmed-variant.is-full-row > .vt-studio-double-split-slider,
+.vt-confirmed-variant.is-full-row > .vt-studio-top-split-module,
+.vt-confirmed-variant.is-full-row > .vt-studio-collapsing-split-module,
+.vt-confirmed-variant.is-full-row > .vt-studio-two-line-module,
+.vt-confirmed-variant.is-full-row > .vt-studio-inter-module,
+.vt-confirmed-variant.is-full-row > .vt-studio-upload-frame,
+.vt-confirmed-variant.is-full-row > [data-vt-studio-button="true"]:not([data-vt-studio-icon-button]):not([data-vt-studio-circle-icon-button]) {
   width: 100% !important;
   max-width: none !important;
-  min-width: 0 !important;
-  box-sizing: border-box;
   justify-self: stretch;
+}
+
+/* Content-width / fixed-geometry primitives — never stretch */
+.vt-confirmed-catalog .vt-studio-word-toggle,
+.vt-confirmed-catalog .vt-studio-44-word-toggle,
+.vt-confirmed-catalog .vt-studio-vertical-word-toggle,
+.vt-confirmed-catalog .vt-studio-square-icon-button-group,
+.vt-confirmed-catalog [data-vt-studio-icon-button="true"],
+.vt-confirmed-catalog .vt-studio-square-icon-button,
+.vt-confirmed-catalog [data-vt-studio-circle-icon-button="true"],
+.vt-confirmed-catalog .vt-studio-44-switch,
+.vt-confirmed-catalog .vt-studio-44-choice,
+.vt-confirmed-catalog [data-vt-studio-control="true"].vt-studio-44-switch,
+.vt-confirmed-catalog [data-vt-studio-control="true"].vt-studio-44-choice,
+.vt-confirmed-catalog .vt-studio-value-toggle,
+.vt-confirmed-catalog .vt-studio-side-toggle,
+.vt-confirmed-catalog .vt-studio-double-side-toggle,
+.vt-confirmed-catalog .vt-studio-arrow-toggle,
+.vt-confirmed-catalog .vt-studio-bar-toggle {
+  width: auto !important;
+  max-width: max-content !important;
+  min-width: 0 !important;
+  justify-self: start !important;
+  flex: 0 0 auto !important;
+}
+
+.vt-confirmed-catalog .vt-studio-square-icon-button-group {
+  width: max-content !important;
+  display: inline-grid !important;
+}
+
+.vt-confirmed-catalog [data-vt-studio-circle-icon-button="true"] {
+  width: var(--vt-studio-control-height) !important;
+  height: var(--vt-studio-control-height) !important;
+  border-radius: 999px !important;
+  aspect-ratio: 1 / 1 !important;
+}
+
+.vt-confirmed-catalog [data-vt-studio-icon-button="true"],
+.vt-confirmed-catalog .vt-studio-square-icon-button {
+  width: var(--vt-studio-control-height) !important;
+  height: var(--vt-studio-control-height) !important;
+  max-width: var(--vt-studio-control-height) !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: var(--vt-studio-control-radius) !important;
 }
 
 /* Nested specimen grids inside confirmed library must not multi-column compact */
