@@ -1,4 +1,4 @@
-import { getSubscriptionPlan, type SubscriptionPlanId } from "./subscriptionPlans"
+import { getSubscriptionPlan, SUBSCRIPTION_PLANS, type SubscriptionPlanId } from "./subscriptionPlans"
 import { reportDiagnostic } from "./diagnostics"
 import { getGeminiModel, normalizeGeminiModelId } from "./geminiModelGovernance"
 
@@ -962,7 +962,13 @@ export const entitlementStatesEqual = (a: EntitlementState, b: EntitlementState)
  serializeEntitlement(a) === serializeEntitlement(b)
 
 export const getMeterLedgerEntries = (): CreditLedgerEntry[] => readLedger()
-export const getPlanDefinitions = (): PlanDefinition[] => [...PLAN_DEFINITIONS]
+export const getPlanDefinitions = (): PlanDefinition[] => SUBSCRIPTION_PLANS.map((plan) => ({
+ id: plan.id,
+ priceUsd: plan.priceUsd,
+ monthlyCredits: plan.monthlyCredits,
+ rolloverCap: plan.rolloverCap,
+ tier: plan.billingTier,
+}))
 
 const sanitizeReferralCode = (raw: string): string =>
  String(raw || "")
