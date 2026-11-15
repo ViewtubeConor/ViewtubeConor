@@ -9,6 +9,7 @@ import { useBrain } from "../../context/useBrain"
 import { getContentBuild } from "../../services/asset-engine/ContentBuildRepository"
 import { getProjectCalendarPublicationBadge } from "./projectCalendarPublicationState"
 import { projectProjectsToCalendarEvents } from "../../services/calendar/projectCalendarEvents"
+import { moveProjectToCalendarDate } from "../../services/calendar/calendarScheduleInteractions"
 import type { DayTask, Project } from "../../types"
 import { SubToolboxSection, SubToolboxStack } from "../subtoolbox/SubToolboxLayouts"
 import { StudioButton, StudioCheckbox, StudioCloseableBadge, StudioDropdown, StudioSplitLeftButton, StudioSquareIconButton, StudioCalendarEventChip, StudioCalendarMediaRail, StudioCalendarThumbnailEventChip, StudioCalendarMultiDayBar } from "../../studio-ui"
@@ -65,6 +66,7 @@ const ProjectPlannerCalendar: React.FC<ProjectPlannerCalendarProps> = ({ onOpenP
   const [selectedDate, setSelectedDate] = useState(() => dateKey(new Date()))
   const [quickAddProjectId, setQuickAddProjectId] = useState("")
   const [scheduleFeedback, setScheduleFeedback] = useState("")
+  const [draggedProjectId, setDraggedProjectId] = useState<string | null>(null)
   const todayKey = dateKey(new Date())
 
   const publicationBadgeForProject = (project: Project) => {
@@ -128,7 +130,15 @@ const ProjectPlannerCalendar: React.FC<ProjectPlannerCalendarProps> = ({ onOpenP
     }
 
     // Keep workflow status (active/completed/archived) independent from schedule status.
-    updateProject(project.id, { publishDate: selectedDate, updatedAt: Date.now() })
+    const moved = moveProjectToCalendarDate({
+      projectId: project.id,
+      date: selectedDate,
+      updateProject,
+    })
+    if (!moved) {
+      setScheduleFeedback("Choose a valid date to schedule this project.")
+      return
+    }
     setCursor(new Date(scheduledDate.getFullYear(), scheduledDate.getMonth(), 1))
     setScheduleFeedback(projectTitle(project) + " scheduled for " + dateLabel(scheduledDate))
     setQuickAddProjectId("")
@@ -161,7 +171,18 @@ const ProjectPlannerCalendar: React.FC<ProjectPlannerCalendarProps> = ({ onOpenP
 
             <div>
               {selectedProjects.length ? selectedProjects.map(project => (
-                <div key={project.id} className="vt-project-planner-calendar__project-row">
+                <div
+                  key={project.id}
+                  className="vt-project-planner-calendar__project-row"
+                  draggable
+                  title="Drag this project onto a calendar day to move its publish date. You can also use the schedule selector."
+                  onDragStart={event => {
+                    event.dataTransfer.effectAllowed = "move"
+                    event.dataTransfer.setData("text/plain", project.id)
+                    setDraggedProjectId(project.id)
+                  }}
+                  onDragEnd={() => setDraggedProjectId(null)}
+                >
                   <StudioCalendarMediaRail aspectRatio={project.plan?.format === "short" || project.plan?.videoFormat === "short" ? "9:16" : "16:9"} split="double" thumbnailSrc={project.thumbnailUrl} label={projectTitle(project)} leftLabel="VIDEO" rightLabel="PUBLISH" className="vt-project-planner-calendar__media-rail" />
                   <button type="button" className="vt-project-planner-calendar__project-open" onClick={() => onOpenProject?.(project.id)}>
                     <span className="vt-project-planner-calendar__project-title">{projectTitle(project)}</span>
@@ -231,6 +252,30 @@ const ProjectPlannerCalendar: React.FC<ProjectPlannerCalendarProps> = ({ onOpenP
                       className={`vt-project-planner-calendar__day ${currentMonth ? "" : "is-muted"} ${selectedDate === key ? "is-selected" : ""}`}
                       aria-label={dateLabel(day)}
                       aria-pressed={selectedDate === key}
+                      onDragOver={event => {
+                        if (draggedProjectId) {
+                          event.preventDefault()
+                          event.dataTransfer.dropEffect = "move"
+                        }
+                      }}
+                      onDrop={event => {
+                        event.preventDefault()
+                        const projectId = event.dataTransfer.getData("text/plain") || draggedProjectId
+                        const project = projects.find(item => item.id === projectId)
+                        const moved = project ? moveProjectToCalendarDate({
+                          projectId: project.id,
+                          date: key,
+                          updateProject,
+                        }) : false
+                        if (moved && project) {
+                          setSelectedDate(key)
+                          setCursor(new Date(day.getFullYear(), day.getMonth(), 1))
+                          setScheduleFeedback(projectTitle(project) + " scheduled for " + dateLabel(day))
+                        } else {
+                          setScheduleFeedback("Choose a project to move it to this date.")
+                        }
+                        setDraggedProjectId(null)
+                      }}
                       onClick={() => {
                         setSelectedDate(key)
                         // Keep the month heading and selected date in sync when a
