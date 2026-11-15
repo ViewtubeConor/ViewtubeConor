@@ -147,6 +147,13 @@ describe("Studio field text and stroke contracts", () => {
     expect(css).not.toContain(".vt-studio-text-box[data-vt-studio-control=\"true\"]:is(:focus")
   })
 
+  it("registers split text inputs as left-aligned exceptions to centered split labels", () => {
+    const controls = read("src/studio-ui/primitives/StudioControls.tsx")
+    expect(controls).toContain("splitTextInputAlignment")
+    expect(controls).toContain('alignment: "left"')
+    expect(controls).toContain("same font family, size tier, weight, glyph stroke, color state, and field fill as StudioTextInput")
+  })
+
   it("leaves Arrow Toggle text paint to global defaults and left-aligns split text fields", () => {
     const toggles = read("src/styles/studio-control-value-toggles.css")
     const fields = read("src/styles/studio-control-fields.css")
