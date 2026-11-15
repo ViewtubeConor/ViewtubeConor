@@ -34,6 +34,8 @@ describe("Studio Calendar control compositions", () => {
     expect(html).toContain("<svg")
     const css = readFileSync(resolve(process.cwd(), "src/studio-ui/primitives/studio-calendar-primitives.css"), "utf8")
     expect(css).toContain("height: var(--vt-studio-control-height, 20px)")
+    expect(css).toContain("font-size: var(--vt-studio-control-font-size, 17.5px)")
+    expect(css).toContain("font-weight: var(--vt-studio-control-font-weight, 1000)")
     expect(css).toContain("border: var(--vt-studio-control-stroke, 1.5px) solid #000")
     expect(css).not.toContain("border-style: dashed")
   })
@@ -50,6 +52,7 @@ describe("Studio Calendar control compositions", () => {
     expect(html).toContain('aria-label="Landscape thumbnail"')
     expect(html).toContain('aria-label="Shorts thumbnail"')
     expect(html).toContain("vt-studio-calendar-media-rail")
+    expect(html).toContain(`data-size="standard"`)
   })
   it("integrates the shared Studio primitives without creating a parallel calendar store", () => {
     const calendar = readFileSync(resolve(process.cwd(), "src/components/projects/ProjectPlannerCalendar.tsx"), "utf8")
