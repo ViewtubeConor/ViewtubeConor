@@ -273,7 +273,7 @@ const CanonicalWordToggleFamily: React.FC = () => {
       <div className="vt-confirmed-control-family vt-confirmed-word-toggle-family">
         {(["60", "44", "28", "20", "12"] as const).map((size, sizeIndex) => <div className="vt-confirmed-control-row" key={size}>
           <strong>{({ "60": "SUPREME", "44": "STANDARD", "28": "COMPACT", "20": "MINI", "12": "MICRO" } as const)[size]} · WORD TOGGLE</strong>
-          <div className="vt-confirmed-control-variants" data-control-size={size}>{WORD_TOGGLE_SKINS.map((skin,col) => { const index = sizeIndex * 4 + col; return <div key={skin.skin}><StudioWordToggle size={size} skin={skin.skin} value={words[index]} words={col === 0 ? ["WRITE","CREATE"] : ["OFF","ON"]} onValueChange={value => flip(setWords, index, value)} aria-label={size + " word toggle " + (col + 1)} /></div> })}</div>
+          <div className="vt-confirmed-control-variants" data-control-size={size} data-vt-library-component="StudioWordToggle">{WORD_TOGGLE_SKINS.map((skin,col) => { const index = sizeIndex * 4 + col; return <div key={skin.skin}><StudioWordToggle size={size} skin={skin.skin} value={words[index]} words={col === 0 ? ["WRITE","CREATE"] : ["OFF","ON"]} onValueChange={value => flip(setWords, index, value)} aria-label={size + " word toggle " + (col + 1)} /></div> })}</div>
         </div>)}
       </div>
     </div>
