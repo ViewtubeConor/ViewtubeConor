@@ -2,18 +2,26 @@
 .vt-studio-left-word-counter {
   --vt-studio-number-background: var(--pair-a);
 }
+.vt-studio-left-word-counter .vt-studio-side-counter__value,
+.vt-studio-value-toggle .vt-studio-word-counter__value {
+  color: var(--vt-studio-number-rest-color, var(--pair-a));
+  -webkit-text-fill-color: var(--vt-studio-number-rest-color, var(--pair-a));
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, 1px) var(--vt-studio-number-rest-color, var(--pair-a));
+}
 .vt-studio-left-word-counter .vt-studio-side-counter__value {
   background: var(--pair-a);
-  color: var(--vt-studio-number-rest-color);
-  -webkit-text-fill-color: var(--vt-studio-number-rest-color);
-  -webkit-text-stroke-color: var(--vt-studio-number-rest-color);
+}
+.vt-studio-left-word-counter[data-vt-interaction-focus="true"] .vt-studio-side-counter__value,
+.vt-studio-left-word-counter:focus-within .vt-studio-side-counter__value,
+.vt-studio-value-toggle:not(.vt-studio-value-toggle--double):focus-within .vt-studio-word-counter__value,
+.vt-studio-value-toggle--double .vt-studio-value-toggle__double-side:focus-within .vt-studio-word-counter__value {
+  color: #000;
+  -webkit-text-fill-color: #000;
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, 1px) #000;
 }
 .vt-studio-left-word-counter[data-vt-interaction-focus="true"] .vt-studio-side-counter__value,
 .vt-studio-left-word-counter:focus-within .vt-studio-side-counter__value {
   background: var(--pair-a);
-  color: #000;
-  -webkit-text-fill-color: #000;
-  -webkit-text-stroke-color: #000;
 }
 
 /* Explicit color-cycle variant. Color changes are opt-in and never alter the default primitive. */
