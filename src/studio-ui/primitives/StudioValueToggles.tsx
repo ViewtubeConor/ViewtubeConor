@@ -239,7 +239,7 @@ export function StudioBarToggle({
         </span>
       ))}
       {filled === 0 && (
-        <span className="vt-studio-value-toggle__bar-tooltip" aria-hidden="true">{Math.round(Math.max(0, Math.min(100, value)))}%</span>
+        <span className="vt-studio-value-toggle__bar-tooltip vt-studio-value-toggle__bar-tooltip--empty" aria-hidden="true">{Math.round(Math.max(0, Math.min(100, value)))}%</span>
       )}
     </div>
   </StudioSplitShell>;
