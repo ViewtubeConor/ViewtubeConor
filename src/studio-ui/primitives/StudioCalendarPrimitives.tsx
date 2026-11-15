@@ -29,11 +29,13 @@ export const StudioCalendarEventChip: React.FC<StudioCalendarEventChipProps> = (
 }) => (
   <span
     className={["vt-studio-calendar-event-chip", className].filter(Boolean).join(" ")}
+    data-vt-studio-control="true"
     data-vt-calendar-event="true"
     data-vt-library-component="StudioCalendarEventChip"
     data-event-kind={kind}
     data-event-status={status}
     data-calendar-size={sizeVariant}
+    data-size={sizeVariant}
     data-selected={selected ? "true" : undefined}
   >
     {sizeVariant === "mini" ? (
@@ -93,10 +95,12 @@ export const StudioCalendarMultiDayBar: React.FC<StudioCalendarMultiDayBarProps>
   const classNames = ["vt-studio-calendar-multi-day-bar", className].filter(Boolean).join(" ")
   const attributes = {
     className: classNames,
-    "data-vt-studio-control": "true",\n    "data-vt-library-component": "StudioCalendarMultiDayBar",
+    "data-vt-studio-control": "true",\n    "data-vt-studio-control": "true",
+    "data-vt-library-component": "StudioCalendarMultiDayBar",
     "data-event-kind": kind,
     "data-event-status": status,
     "data-calendar-size": "mini",
+    "data-size": "mini",
     "data-calendar-segment": segment,
     "data-channel-wide": channelWide ? "true" : undefined,
     "data-selected": selected ? "true" : undefined,
@@ -113,6 +117,7 @@ export interface StudioCalendarThumbnailEventChipProps {
   label: string
   thumbnailSrc?: string
   thumbnailAlt?: string
+  thumbnail?: React.ReactNode
   kind?: StudioCalendarEventKind
   status?: string
   selected?: boolean
@@ -124,6 +129,7 @@ export const StudioCalendarThumbnailEventChip: React.FC<StudioCalendarThumbnailE
   label,
   thumbnailSrc,
   thumbnailAlt,
+  thumbnail,
   kind = "publish",
   status,
   selected = false,
@@ -135,7 +141,7 @@ export const StudioCalendarThumbnailEventChip: React.FC<StudioCalendarThumbnailE
       <span className="vt-studio-calendar-thumbnail-event-chip__media" data-thumbnail-ratio="16:9">
         {thumbnailSrc
           ? <img src={thumbnailSrc} alt={thumbnailAlt ?? ""} loading="lazy" />
-          : <ImageIcon aria-hidden="true" />}
+          : thumbnail ?? <ImageIcon aria-hidden="true" />}
       </span>
       <span className="vt-studio-calendar-thumbnail-event-chip__body">
         <span className="vt-studio-calendar-thumbnail-event-chip__label">{label}</span>
@@ -145,10 +151,12 @@ export const StudioCalendarThumbnailEventChip: React.FC<StudioCalendarThumbnailE
   )
   const attributes = {
     className: ["vt-studio-calendar-thumbnail-event-chip", className].filter(Boolean).join(" "),
-    "data-vt-studio-control": "true",\n    "data-vt-library-component": "StudioCalendarThumbnailEventChip",
+    "data-vt-studio-control": "true",\n    "data-vt-studio-control": "true",
+    "data-vt-library-component": "StudioCalendarThumbnailEventChip",
     "data-event-kind": kind,
     "data-event-status": status,
     "data-calendar-size": "mini",
+    "data-size": "mini",
     "data-thumbnail-ratio": "16:9",
     "data-selected": selected ? "true" : undefined,
     "aria-label": [label, status].filter(Boolean).join(", "),
