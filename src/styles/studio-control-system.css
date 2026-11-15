@@ -6566,18 +6566,55 @@ button.vt-studio-44-choice[data-size="micro"] {
 }
 button.vt-studio-44-switch.is-rect,
 button.vt-studio-44-choice.is-rect {
-  border-radius: calc(var(--vt-studio-control-radius) * 1.222222);
+  border-radius: var(--vt-studio-control-radius);
 }
 button.vt-studio-44-choice.is-radio.is-rect .vt-studio-44-dot {
-  border-radius: calc(var(--vt-studio-control-radius) * .305556);
+  border-radius: calc(var(--vt-studio-control-radius) * .5);
 }
 button.vt-studio-44-choice.is-checkbox.is-rect {
-  border-radius: calc(var(--vt-studio-control-radius) * 1.222222);
+  border-radius: var(--vt-studio-control-radius);
 }
 button.vt-studio-44-choice.is-radio.is-round,
 button.vt-studio-44-choice.is-radio.is-round .vt-studio-44-dot,
 button.vt-studio-44-choice.is-checkbox.is-round {
   border-radius: 50%;
+}
+
+
+button.vt-studio-circle-icon-button[data-size="supreme"],
+button.vt-studio-square-icon-button[data-size="supreme"] {
+  --vt-studio-control-height: var(--vt-studio-supreme-height, 60px);
+  --vt-studio-control-radius: var(--vt-studio-supreme-radius, 6px);
+  --vt-studio-control-stroke: var(--vt-studio-supreme-stroke, 3px);
+  --vt-studio-control-icon-size: var(--vt-studio-supreme-icon-size, 52px);
+}
+button.vt-studio-circle-icon-button[data-size="standard"],
+button.vt-studio-square-icon-button[data-size="standard"] {
+  --vt-studio-control-height: var(--vt-studio-standard-height, 44px);
+  --vt-studio-control-radius: var(--vt-studio-standard-radius, 6px);
+  --vt-studio-control-stroke: var(--vt-studio-standard-stroke, 3px);
+  --vt-studio-control-icon-size: var(--vt-studio-standard-icon-size, 38px);
+}
+button.vt-studio-circle-icon-button[data-size="compact"],
+button.vt-studio-square-icon-button[data-size="compact"] {
+  --vt-studio-control-height: var(--vt-studio-compact-height, 28px);
+  --vt-studio-control-radius: var(--vt-studio-compact-radius, 4px);
+  --vt-studio-control-stroke: var(--vt-studio-compact-stroke, 2px);
+  --vt-studio-control-icon-size: var(--vt-studio-compact-icon-size, 24px);
+}
+button.vt-studio-circle-icon-button[data-size="mini"],
+button.vt-studio-square-icon-button[data-size="mini"] {
+  --vt-studio-control-height: var(--vt-studio-mini-height, 20px);
+  --vt-studio-control-radius: var(--vt-studio-mini-radius, 3px);
+  --vt-studio-control-stroke: var(--vt-studio-mini-stroke, 1.5px);
+  --vt-studio-control-icon-size: var(--vt-studio-mini-icon-size, 17.5px);
+}
+button.vt-studio-circle-icon-button[data-size="micro"],
+button.vt-studio-square-icon-button[data-size="micro"] {
+  --vt-studio-control-height: var(--vt-studio-micro-height, 12px);
+  --vt-studio-control-radius: var(--vt-studio-micro-radius, 2px);
+  --vt-studio-control-stroke: var(--vt-studio-micro-stroke, 1px);
+  --vt-studio-control-icon-size: var(--vt-studio-micro-icon-size, 10px);
 }
 
 /* Tooltip-bearing square actions may escape the face, while the icon stage
