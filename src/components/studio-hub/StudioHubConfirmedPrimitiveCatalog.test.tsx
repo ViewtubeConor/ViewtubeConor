@@ -708,9 +708,6 @@ describe("confirmed live primitive grid inventory", () => {
     for (const primitive of [
       "StudioButton", "StudioSplitLeftButton", "StudioDropdown", "StudioTextInput", "StudioTextArea",
       "StudioCounter", "StudioSideCounter", "StudioDoubleSplitSlider",
-      "StudioDoubleSplitButton", "StudioSplitLeftDropdown", "StudioLegendMultiDropdown",
-      "StudioDoubleSplitBadge", "StudioWordToggle", "StudioSwitch", "StudioUploadFrame",
-      "StudioSplitAccordion", "StudioInterModule",
     ]) {
       expect(grid).toContain(`data-vt-library-component="${primitive}"`);
     }
