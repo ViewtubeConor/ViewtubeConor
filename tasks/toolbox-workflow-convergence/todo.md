@@ -121,6 +121,11 @@
 - [x] Verify the existing moderation API foundation: `moderateSimpleComment` / `markCommentAsSpam`, authenticated server routes, `data.comments.manage`, and the `youtube.force-ssl` scope.
 - [ ] Add explicit-confirmation moderation actions to the workspace using the existing endpoints; test permission gating, success/error refresh, and rejected/spam outcomes before exposing controls.
 - [ ] Verify whether delete, pin, heart, and bulk moderation operations have supported endpoint/permission contracts before proposing them.
+- [ ] Diagnose and resolve PR #1274 CI failures: typecheck, full suite, confirmed-catalog audit, document audit, and the Studio counter/dropdown gate; inspect exact job logs and compare against target-branch baseline.
+- [ ] Re-run all required CI jobs on the latest PR head after fixes; do not mark the PR ready based on the earlier partial pass.
+- [ ] Complete browser visual certification with desktop/tablet/mobile screenshots, keyboard/focus and authenticated/disconnected states; record screenshot analysis and corrections.
+- [ ] Complete YouTube API feasibility matrix for each proposed read/reply/moderation operation, including current endpoint, scope, quota, policy, ownership and retry behavior; no unsupported action claims.
+- [ ] Complete the Comment Management opportunity catalog review in `docs/product/studio-hub/COMMENT_MANAGEMENT_WORKSPACE.md`; promote selected items only through existing Ideas Registry and Task Authority.
 - [ ] Certify desktop, tablet, mobile portrait/landscape, loading, empty, disconnected, error, keyboard, focus, and touch states.
 - [ ] Longform Optimization capability matrix.
 - [ ] Video Asset Engine capability matrix.
