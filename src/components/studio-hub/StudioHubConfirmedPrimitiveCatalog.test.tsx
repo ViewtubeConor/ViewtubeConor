@@ -594,9 +594,11 @@ describe("responsive Studio upload frame", () => {
     for (const size of ["supreme", "standard", "compact", "mini", "micro"]) {
       expect((html.match(new RegExp('data-vt-library-size="' + size + '"', "g")) ?? [])).toHaveLength(4);
     }
-    for (const kind of ["arrow", "side", "double", "bar"]) {
+    for (const kind of ["arrow", "double", "bar"]) {
       expect((html.match(new RegExp('data-vt-studio-value-toggle="' + kind + '"', "g")) ?? [])).toHaveLength(5);
     }
+    // Each Double Side Toggle composes two nested Side Toggles; only five standalone rows are catalog specimens.
+    expect((html.match(/data-vt-studio-value-toggle="side"/g) ?? [])).toHaveLength(15);
     expect(html).toContain('data-arrow-side="right"');
     expect(html).toContain('data-variant="v1"');
     expect(html).toContain('data-right-appearance="primary"');
