@@ -138,6 +138,7 @@ const ConfirmedStudioValueToggleFamily: React.FC = () => {
   return <>
     <Family
       title="Arrow Toggle · Five Sizes × Left / Right / Double Rails"
+      className="vt-confirmed-value-toggle-module"
       defaultOpen
       nonDefaultSettings={[
         "Exactly one production specimen per canonical size tier; this module uses the double-rail configuration as the representative.",
@@ -153,6 +154,7 @@ const ConfirmedStudioValueToggleFamily: React.FC = () => {
 
     <Family
       title="Side Toggle · Five Sizes × Left / Right Arrow Orientation"
+      className="vt-confirmed-value-toggle-module"
       defaultOpen
       nonDefaultSettings={[
         "Exactly one production specimen per canonical size tier; the right-side vertical arrow rail is the representative.",
@@ -168,6 +170,7 @@ const ConfirmedStudioValueToggleFamily: React.FC = () => {
 
     <Family
       title="Double Side Toggle · Five Sizes × V1 / V2 × Three Right Faces"
+      className="vt-confirmed-value-toggle-module"
       defaultOpen
       nonDefaultSettings={[
         "Exactly one production specimen per canonical size tier; V1 with a primary right face is the canonical representative.",
@@ -189,6 +192,7 @@ const ConfirmedStudioValueToggleFamily: React.FC = () => {
 
     <Family
       title="Bar Toggle · Five Sizes"
+      className="vt-confirmed-value-toggle-module"
       defaultOpen
       nonDefaultSettings={[
         "Exactly one production specimen per canonical size tier; bar count is measured from the available full-row track width.",
@@ -334,9 +338,9 @@ const Provenance: React.FC<{ primitive: string; tsx: string; css: string; tokens
   </div>
 )
 
-const Family: React.FC<{ title: string; children: React.ReactNode; provenance: React.ReactNode; nonDefaultSettings?: string[]; defaultOpen?: boolean }> = ({ title, children, provenance, nonDefaultSettings = [], defaultOpen = false }) => (
+const Family: React.FC<{ title: string; children: React.ReactNode; provenance: React.ReactNode; nonDefaultSettings?: string[]; defaultOpen?: boolean; className?: string }> = ({ title, children, provenance, nonDefaultSettings = [], defaultOpen = false, className }) => (
   <details
-    className={`vt-confirmed-family vt-confirmed-primitive-module ${/Button|Split-left/.test(title) ? "vt-confirmed-button-family" : ""}`}
+    className={`vt-confirmed-family vt-confirmed-primitive-module ${/Button|Split-left/.test(title) ? "vt-confirmed-button-family" : ""} ${className ?? ""}`}
     data-vt-confirmed-primitive="true"
     data-vt-primitive-title={title}
     open={defaultOpen || undefined}
