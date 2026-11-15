@@ -8,14 +8,14 @@
 
 ## 1. Inventory integrity
 
-The file lists were freshly retrieved from GitHub for both diagnostic PRs.
+The file lists were freshly retrieved from GitHub for both diagnostic PRs. The first draft omitted the eight overlapping paths from its table; this corrected version includes all eight explicitly.
 
 | Measure | Verified count |
 |---|---:|
-| PR #1271 changed paths | 85 |
-| PR #1272 changed paths | 20 |
+| PR #1271 changed paths | 93 |
+| PR #1272 changed paths | 28 |
 | Paths changed by both | 8 |
-| Unique paths across both | 105 |
+| Unique paths across both | 113 |
 
 The eight overlaps are explicitly marked **RECONCILE BOTH**. They must not be resolved by blindly selecting one branch's version.
 
@@ -158,6 +158,19 @@ These are preliminary source dispositions, not implementation approvals. “Port
 | `tasks/system-convergence/CREATOR-CONTEXT-REACHABILITY.md` | PR #1272 / master-only | **PRESERVE MASTER** | Master Brain/evidence architecture and execution plans; cross-link new audit. |
 | `tasks/system-convergence/EVIDENCE-INTELLIGENCE-AUDIT.md` | PR #1272 / master-only | **PRESERVE MASTER** | Master Brain/evidence architecture and execution plans; cross-link new audit. |
 | `tasks/viewtube-vault/todo.md` | PR #1271 / 10-31 | **RECONCILE SAFETY CONTRACTS** | Keep master workspace/resolution behavior; selectively restore source policy-gated action eligibility/restore guard with tests. |
+
+### 4.1 The eight overlapping paths
+
+| Exact path | Source list | Initial disposition | Decision / required check |
+|---|---|---|---|
+| `docs/README.md` | BOTH PRs | **RECONCILE BOTH** | Reconcile index/navigation and current source-of-truth links; do not select either copy without checking links. |
+| `docs/ui/STUDIO_CONTROLS_GLOBAL_DEFAULTS_AND_EXCEPTION_INDEX.md` | BOTH PRs | **RECONCILE BOTH** | Master contains newer quarantine, dropdown, counter, and slider contracts; retain them while reconciling older source additions. |
+| `docs/ui/STUDIO_HUB_COMPONENT_LIBRARY_SOURCE_OF_TRUTH.md` | BOTH PRs | **RECONCILE BOTH** | Preserve master 2026-11-14 quarantine and current catalog/export claims; selectively recover only verified source additions. |
+| `docs/ui/STUDIO_VALUES_TOKENS_STYLES_SETTINGS_HIERARCHY.md` | BOTH PRs | **RECONCILE BOTH** | Preserve master hierarchy and clarify the 12/1/2/10 Micro contract; reconcile source-only notes. |
+| `src/studio-ui/primitives/StudioPanelAccordion.tsx` | BOTH PRs | **RECONCILE BOTH** | Resolve shared implementation; fix invalid inactive `aria-controls` targets and add keyboard/controlled-state tests. |
+| `src/styles/studio-control-value-toggles.css` | BOTH PRs | **RECONCILE BOTH** | Merge only current divider, rail, tooltip, and focus behavior; fix tooltip DOM/CSS mismatch and tier geometry under canonical tokens. |
+| `src/styles/studio-panel-accordion.css` | BOTH PRs | **RECONCILE BOTH** | Reconcile CSS ownership and accessible tooltip/focus treatment; avoid duplicate split-rail patterns. |
+| `studio-control-system.css` | BOTH PRs | **INVESTIGATE / RECONCILE** | Root-level stylesheet is distinct from imported `src/styles` system; identify every consumer before editing or removal. |
 
 ## 5. Cross-cutting preservation rules
 
