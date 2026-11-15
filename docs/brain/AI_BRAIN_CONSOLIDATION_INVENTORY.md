@@ -18,7 +18,7 @@
 - Composer source differs between target and the Phase 4 donor. The draft-store implementation blob is identical (`ab5c419b172ff4103553e46c648dd5a91f76274a`); the draft-store tests differ. The donor includes a bounded textarea auto-resize path. Target CSS and donor CSS are materially different and require behavior-level reconciliation.
 - The Gemini follow-up donor's `tagSuggestions.ts` blob is exactly the same on target and donor (`f2e4edc0368c33ed45d6600b3cbd5fa4321dbd11`); do not replay or duplicate it.
 - PR #1241 remains open and unmerged. Its own description explicitly leaves live authenticated Gemini browser verification and current-head release gates incomplete.
-- PR #1253 is merged (documentation/registry reconciliation). PR #1256 is merged (learning-evidence resolution). PR #1254 is closed with `merged_at=null`; despite a populated merge-commit field in one connector response, it must be treated as not proven merged until ancestry/current-source verification resolves the discrepancy.
+- PR #1253 is merged (documentation/registry reconciliation). PR #1256 is merged (learning-evidence resolution). PR #1254 is closed with `merged_at=null`, but its head commit is an ancestor of the current target (compare: 0 ahead / 44 behind; merge base equals PR head SHA), and the target contains its evidence-completeness gate. Its behavior is integrated even though the PR itself has no merged timestamp.
 - Existing Phase 0/1 audit documentation is present, but its recorded target SHA (`a279e52e63e816c0409a02e2feb4807f20c56e4b`) is stale relative to this audit's target SHA. Refresh its baseline before relying on its status assertions.
 
 ## 2. Exact branch snapshot
@@ -139,9 +139,17 @@ No repository checkout or executable test environment was available through this
 
 1. Exhaust all branch-search cursors and all relevant `-v2`/related branch variants; record every matching head SHA.
 2. Enumerate all relevant PRs across every page, including closed/unmerged, merged, superseded and abandoned PRs; fetch exact diffs and ancestry.
-3. Resolve PR #1254's merge-state discrepancy using current commit ancestry and target file contents.
+3. PR #1254 merge-state discrepancy resolved at source level: its head is an ancestor of target and the target contains the evidence gate. Preserve this as landed-via-ancestry, not as a merged PR event.
 4. Inspect complete source/test diffs for canonical profile, unified context/evidence, channel scope, creator evidence continuity, composer and Gemini callers.
 5. Refresh the target baseline in existing audit documents; the previous `a279e52e...` pin is stale.
 6. Verify current target implementation and call paths for all evidence owners, provider/key flows, runtime traces, retries, saved turns and composer actions.
 7. Search the repository's documentation registry before deciding the remaining document destinations.
 8. Only after these gates, freeze the feature-preservation matrix and choose independent, dependency-safe recovery slices.
+
+
+## 9. Follow-up verification — learning evidence PR ancestry (2026-11-14)
+
+- PR #1254 head `8a81f2dd25b4388fe6a02b90394ec03c86c2e9bc` is the merge-base commit when comparing its branch to the current target; compare reports 0 commits ahead and 44 behind. Current target `AlgorithmLearningCandidates.ts` contains the per-decisive-event evidence completeness gate. The behavior is present on target even though PR metadata reports closed with no `merged_at`.
+- PR #1256 head `a12059eed1b2f3e09b3d6539cb914fa399688070` is likewise an ancestor of current target (0 ahead / 31 behind). Current target `AlgorithmLearningProfilePromotion.ts` imports `listBrainTraces`, `isEvidenceRecord`, and resolves candidate evidence only from canonical channel-scoped records actually returned on candidate traces.
+- Current target `BrainTrace.ts` still explicitly documents that the default sink is browser-local, capped, per-device, and not the durable server-side destination. Cross-session persistence and server authorization remain open, not solved by the merged promotion resolver.
+- Workflow lookup returned no runs for current target SHA `52c6e90f...`; PR #1241 head `b339f5e8...` has a completed release-gates workflow with conclusion `failure`. This does not identify the failing job details, and no test pass is claimed for the current target.
