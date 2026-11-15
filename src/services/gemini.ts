@@ -62,7 +62,9 @@ import {
 import { canonicalizeGeminiModelId, GEMINI_MODEL_REGISTRY, getGeminiModel, resolveGeminiModel, executeGeminiWithFallback, resolveGeminiGenerationProfile, pickGeminiGenerationOverrides, type GeminiCapability, type GeminiModelResolution } from "./geminiModelGovernance"
 import { consultBrainSync, annotateSystemPrompt } from "./brain/Utils";
 import {
- consumeUnifiedAiCredits,
+ reserveUnifiedAiCredits,
+ settleUnifiedAiCredits,
+ releaseUnifiedAiCredits,
  fetchUnifiedAccountSnapshot,
  isUnifiedAccountServerEnabled,
 } from "./account/accountCoordinator"
@@ -587,9 +589,36 @@ export const getAiClient = () => {
    }
   }
 
- const response: any = await withCanonicalModel("generateContent", args, (nextArgs) =>
-   (generateContent as any)(...nextArgs),
-  )
+ const generationId = `gen_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`
+  let reservationId: string | null = null
+  if (unifiedMetering) {
+   const reservation = await reserveUnifiedAiCredits({
+    credits: quote.creditDebitEstimate,
+    idempotencyKey: generationId,
+    metadata: { modelId, reason: "pre_generation_estimate", inputTokensEstimate: quote.inputTokensEstimate, outputTokensEstimate: quote.outputTokensEstimate },
+   })
+   reservationId = reservation.reservationId
+  }
+
+  let response: any
+  try {
+   response = await withCanonicalModel("generateContent", args, (nextArgs) =>
+    (generateContent as any)(...nextArgs),
+   )
+  } catch (generationError) {
+   if (reservationId) {
+    try {
+     await releaseUnifiedAiCredits({
+      reservationId,
+      idempotencyKey: `${generationId}:release`,
+      reason: "provider_generation_failed",
+     })
+    } catch {
+     // Keep the original provider error; an unreleased reservation remains visible for reconciliation.
+    }
+   }
+   throw generationError
+  }
   const effectiveProviderModel = String(response?.modelVersion || servedModels.get(response) || args?.[0]?.model || modelId)
   const effectiveCanonicalModel = inferCanonicalFromProvider(effectiveProviderModel)
   const usage = response?.usageMetadata || {}
@@ -605,15 +634,11 @@ export const getAiClient = () => {
    })
    const chargeId = `chg_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`
    if (unifiedMetering) {
-    await consumeUnifiedAiCredits({
-     credits: finalQuote.creditDebitEstimate,
-     idempotencyKey: chargeId,
-     metadata: {
-      modelId: effectiveCanonicalModel,
-      inputTokens: inputTokens > 0 ? inputTokens : quote.inputTokensEstimate,
-      outputTokens: outputTokens > 0 ? outputTokens : quote.outputTokensEstimate,
-      reason: inputTokens > 0 || outputTokens > 0 ? "usage_metadata" : "fallback_estimate",
-     },
+    if (!reservationId) throw new Error("AI credit reservation is missing after generation.")
+    await settleUnifiedAiCredits({
+     reservationId,
+     actualCredits: finalQuote.creditDebitEstimate,
+     idempotencyKey: `${generationId}:settle`,
     })
    } else {
     const charge = applyMeterChargeEvent({
@@ -705,9 +730,36 @@ export const getAiClient = () => {
    }
   }
 
-  const responseStream = await withCanonicalModel("generateContentStream", args, (nextArgs) =>
-   (generateContentStream as any)(...nextArgs),
-  )
+  const generationId = `gen_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`
+  let reservationId: string | null = null
+  if (unifiedMetering) {
+   const reservation = await reserveUnifiedAiCredits({
+    credits: quote.creditDebitEstimate,
+    idempotencyKey: generationId,
+    metadata: { modelId, reason: "pre_generation_estimate", inputTokensEstimate: quote.inputTokensEstimate, outputTokensEstimate: quote.outputTokensEstimate },
+   })
+   reservationId = reservation.reservationId
+  }
+
+  let responseStream: any
+  try {
+   responseStream = await withCanonicalModel("generateContentStream", args, (nextArgs) =>
+    (generateContentStream as any)(...nextArgs),
+   )
+  } catch (generationError) {
+   if (reservationId) {
+    try {
+     await releaseUnifiedAiCredits({
+      reservationId,
+      idempotencyKey: `${generationId}:release`,
+      reason: "provider_stream_start_failed",
+     })
+    } catch {
+     // Keep the original provider error; an unreleased reservation remains visible for reconciliation.
+    }
+   }
+   throw generationError
+  }
   return (async function* () {
    let inputTokens = 0
    let outputTokens = 0
@@ -732,15 +784,11 @@ export const getAiClient = () => {
      })
      const chargeId = `chg_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`
      if (unifiedMetering) {
-      await consumeUnifiedAiCredits({
-       credits: finalQuote.creditDebitEstimate,
-       idempotencyKey: chargeId,
-       metadata: {
-        modelId: effectiveCanonicalModel,
-        inputTokens: inputTokens > 0 ? inputTokens : quote.inputTokensEstimate,
-        outputTokens: outputTokens > 0 ? outputTokens : quote.outputTokensEstimate,
-        reason: inputTokens > 0 || outputTokens > 0 ? "usage_metadata" : "fallback_estimate",
-       },
+      if (!reservationId) throw new Error("AI credit reservation is missing after generation.")
+      await settleUnifiedAiCredits({
+       reservationId,
+       actualCredits: finalQuote.creditDebitEstimate,
+       idempotencyKey: `${generationId}:settle`,
       })
      } else {
       const charge = applyMeterChargeEvent({
