@@ -46,6 +46,8 @@
         .vt-project-planner-calendar__selected-count { margin-top:6px; font-size:12px; font-weight:800; text-transform:uppercase; }
         .vt-project-planner-calendar__project-title { display:block; overflow:hidden; font-size:11px; font-weight:900; text-overflow:ellipsis; text-transform:uppercase; white-space:nowrap; }
         .vt-project-planner-calendar__project-meta { display:block; margin-top:3px; color:var(--vt-text-muted,#555); font-size:9px; font-weight:800; text-transform:uppercase; }
+        .vt-project-planner-calendar__project-row[draggable="true"] { cursor: grab; }
+        .vt-project-planner-calendar__project-row[draggable="true"]:active { cursor: grabbing; }
         .vt-project-planner-calendar__project-row { display: flex; min-width: 0; gap: 7px; align-items: flex-start; padding: 9px; border-bottom: 1px solid #000; background: #fff; }
         .vt-project-planner-calendar__media-rail { width: clamp(84px, 24%, 140px); flex: 0 0 clamp(84px, 24%, 140px); align-self: flex-start; }
         .vt-project-planner-calendar__unschedule { flex: 0 0 auto; }
