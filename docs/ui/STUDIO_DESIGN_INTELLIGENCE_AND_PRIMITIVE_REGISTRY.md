@@ -177,17 +177,19 @@ Do not infer the repository commit SHA from a file blob SHA. Do not call source 
 The source/API cross-check found two concrete registry risks that must remain visible:
 
 - `StudioTextInput.tsx` comments describe the Mini type/icon size as **16px**, while `src/studio-ui/tokens.ts` and the normative defaults contract define Mini as **17.5px**. Treat the token/contract value as authoritative; correct the stale component comments in a dedicated code change with a focused test or static contract check.
-The five catalog-only symbols have now been given explicit **provisional source-based dispositions**. These decisions keep the public barrel conservative; they do not add or remove public exports.
+## Five-symbol API reconciliation (2026-11-15)
 
-| Symbol | Disposition | Source evidence and rationale |
+The earlier provisional disposition table above is superseded by the current executable public barrel. Direct inspection of `src/studio-ui/index.ts` on this target ref confirms that all five symbols below are explicitly exported as runtime values. The registry must classify them as **public**, regardless of the older provisional recommendation. Do not remove or hide these exports to make the old table appear correct.
+
+| Symbol | Current API status | Source evidence / required consumer audit |
 |---|---|---|
-| `StudioNumberInput` | **Intentionally unexported** | Thin numeric specialization of the canonical `StudioTextInput` (sets `type="number"`); the Confirmed catalog is its only known specimen in this audit. Keep the shared field implementation as owner and avoid widening the public API without a production consumer. |
-| `StudioVerticalWordToggle` | **Internal-only** | Explicitly registered as a content-driven height exception and shown in the Confirmed catalog. The public barrel already exposes `StudioWordToggle`; keep this specialized vertical presentation internal until a stable external-use contract is requested. |
-| `StudioBrainStatusIndicator` | **Internal-only** | Low-level LED + borderless status composition. The public barrel exposes `StudioBrainStatusBadge` as the semantic status surface; retain the indicator as an implementation/catalog primitive rather than a second public status API. |
-| `StudioSplitLeftDropdown` | **Intentionally unexported** | Thin wrapper over `StudioDropdown` with `variant="split-left"`. The public `StudioDropdown` already owns the variant-capable dropdown contract; do not publish a duplicate wrapper API. |
-| `StudioDoubleSplitSlider` | **Internal-only** | Shared low-level implementation contract used by the left-word slider family and also shown as a Confirmed catalog specimen. Keep the implementation reusable internally; expose the higher-level consumer API rather than the lower-level building block. |
+| `StudioNumberInput` | **Public** | Exported from `./primitives/StudioControls`; thin numeric specialization of `StudioTextInput`. Trace production consumers before proposing any API contraction. |
+| `StudioVerticalWordToggle` | **Public** | Exported from `./primitives/StudioControls`; its content-driven height exception remains registered. |
+| `StudioBrainStatusIndicator` | **Public** | Exported from `./primitives/StudioControls`; distinguish this lower-level indicator from the semantic `StudioBrainStatusBadge` in provenance and consumer records. |
+| `StudioSplitLeftDropdown` | **Public** | Exported from `./primitives/StudioControls`; preserve its split-left wrapper contract and compare consumers with the `StudioDropdown` split-left variant. |
+| `StudioDoubleSplitSlider` | **Public** | Exported from `./primitives/StudioControls`; trace internal and external consumers separately from the higher-level `StudioLeftWordSlider`. |
 
-These dispositions are grounded in the current source shape and existing public alternatives. They should be revisited only if a real production consumer or an explicit API requirement changes the trade-off. A catalog specimen is not, by itself, a reason to promote an internal symbol.
+The registry scanner test named `target branch controls already in the barrel are classified as public exports` now asserts these five names in the public export set. This is source/test evidence of the current API contract, not evidence that every symbol has a production consumer. The exact-commit scanner report remains required to establish consumer counts and paths.
 
 ## Registry scanner integrity
 
