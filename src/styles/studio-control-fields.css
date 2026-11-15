@@ -40,20 +40,39 @@ textarea[data-vt-studio-control="true"]:focus-visible,
 
 }
 
-/* Multiline text keeps its own type size and thin text stroke at every state. */
+/* Textarea glyph sizing follows the five-tier size token owner. The writing
+   surface is multiline; glyph stroke remains thin but always matches its tier. */
 html body textarea[data-vt-studio-control="true"],
 html body [data-vt-studio-control="true"] textarea {
+  --vt-studio-textarea-glyph-stroke: var(--vt-studio-textarea-standard-text-stroke, 0.5px);
   font-size: var(--vt-studio-textarea-standard-font-size, 18px);
   line-height: var(--vt-studio-textarea-standard-line-height, 1.25);
-  -webkit-text-stroke: var(--vt-studio-textarea-standard-text-stroke, 0.5px) var(--vt-field-primary, var(--pair-a, #36e0f6));
+  -webkit-text-stroke: var(--vt-studio-textarea-glyph-stroke) var(--vt-field-primary, var(--pair-a, #36e0f6));
   min-height: var(--vt-studio-textarea-min-height, 92px);
   resize: vertical;
 }
+html body textarea[data-vt-studio-control="true"][data-size="supreme"],
+html body [data-vt-studio-control="true"] textarea[data-size="supreme"] {
+  --vt-studio-textarea-glyph-stroke: var(--vt-studio-textarea-standard-text-stroke, 0.5px);
+}
+html body textarea[data-vt-studio-control="true"][data-size="standard"],
+html body [data-vt-studio-control="true"] textarea[data-size="standard"] {
+  --vt-studio-textarea-glyph-stroke: var(--vt-studio-textarea-standard-text-stroke, 0.5px);
+}
 html body textarea[data-vt-studio-control="true"][data-size="compact"],
 html body [data-vt-studio-control="true"] textarea[data-size="compact"] {
+  --vt-studio-textarea-glyph-stroke: var(--vt-studio-textarea-compact-text-stroke, 0.35px);
   font-size: var(--vt-studio-textarea-compact-font-size, 14px);
   line-height: var(--vt-studio-textarea-compact-line-height, 1.3);
-  -webkit-text-stroke: var(--vt-studio-textarea-compact-text-stroke, 0.35px) var(--vt-field-primary, var(--pair-a, #36e0f6));
+}
+html body textarea[data-vt-studio-control="true"][data-size="mini"],
+html body [data-vt-studio-control="true"] textarea[data-size="mini"] {
+  --vt-studio-textarea-glyph-stroke: var(--vt-studio-textarea-mini-text-stroke, 0.4px);
+  font-size: var(--vt-studio-textarea-mini-font-size, 17.5px);
+}
+html body textarea[data-vt-studio-control="true"][data-size="micro"],
+html body [data-vt-studio-control="true"] textarea[data-size="micro"] {
+  --vt-studio-textarea-glyph-stroke: var(--vt-studio-textarea-mini-text-stroke, 0.4px);
 }
 
 /* Focused entered text is black; the control outline remains secondary. */
@@ -73,11 +92,7 @@ input[data-vt-studio-control="true"]:not([type="checkbox"]):not([type="radio"]):
 }
 textarea[data-vt-studio-control="true"]:is(:focus, :focus-visible),
 [data-vt-studio-control="true"] textarea:is(:focus, :focus-visible) {
-  -webkit-text-stroke: var(--vt-studio-textarea-standard-text-stroke, 0.5px) #000;
-}
-textarea[data-vt-studio-control="true"][data-size="compact"]:is(:focus, :focus-visible),
-[data-vt-studio-control="true"] textarea[data-size="compact"]:is(:focus, :focus-visible) {
-  -webkit-text-stroke: var(--vt-studio-textarea-compact-text-stroke, 0.35px) #000;
+  -webkit-text-stroke: var(--vt-studio-textarea-glyph-stroke, 0.5px) #000;
 }
 
 /* Floating label chip follows black focused/raised typography without repainting the field outline. */
@@ -197,16 +212,10 @@ html body [data-vt-studio-control="true"].vt-studio-text-box {
   box-sizing: border-box;
   border: var(--vt-studio-control-stroke, 3px) solid #000;
   box-shadow: inset 0 0 0 var(--vt-studio-control-stroke, 3px) var(--vt-field-primary, var(--vt-studio-control-accent, var(--pair-a, #36e0f6)));
-}
-html body .vt-studio-text-box[data-vt-studio-control="true"]:is(:focus, :focus-visible),
-html body [data-vt-studio-control="true"].vt-studio-text-box:is(:focus, :focus-visible) {
-  background-color: var(--vt-field-fill-focus, color-mix(in srgb, white 85%, var(--vt-field-primary, var(--pair-a, #36e0f6)) 15%));
-  color: var(--vt-field-text-focus, #000);
-  -webkit-text-fill-color: var(--vt-field-text-focus, #000);
-  -webkit-text-stroke-color: var(--vt-field-text-stroke-focus, #000);
-  text-stroke: var(--vt-studio-control-text-stroke, 1px) var(--vt-field-text-stroke-focus, #000);
-  outline: calc(var(--vt-studio-control-stroke, 3px) * var(--vt-studio-control-focus-stroke-ratio, 0.65)) solid var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
-  outline-offset: 0;
+  color: #000;
+  -webkit-text-fill-color: #000;
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, 1px) #000;
+  text-stroke: var(--vt-studio-control-text-stroke, 1px) #000;
 }
 
 
@@ -354,6 +363,16 @@ html body .vt-studio-split-text-input .vt-studio-side-text-input__icon svg {
   display: block;
 }
 
+/* Split text fields are the documented exception to the centered split-face
+   layout: their editable value is left aligned like a standalone Studio input. */
+html body .vt-studio-split-text-input input.vt-studio-side-text-counter__input,
+html body .vt-studio-split-text-input input.vt-studio-split-text-input__field,
+html body .vt-studio-split-left-text-input input,
+html body .vt-studio-double-split-text-input input {
+  text-align: left !important;
+  padding-inline-start: calc(var(--vt-studio-control-stroke, 3px) * 2) !important;
+  padding-inline-end: calc(var(--vt-studio-control-stroke, 3px) * 2) !important;
+}
 html body .vt-studio-split-text-input input.vt-studio-side-text-counter__input:is(:focus, :focus-visible),
 html body .vt-studio-split-text-input input.vt-studio-split-text-input__field:is(:focus, :focus-visible) {
   background: var(--vt-field-fill-focus, color-mix(in srgb, white 85%, var(--vt-field-primary, var(--vt-studio-control-accent, var(--pair-a, #36e0f6))) 15%)) !important;
