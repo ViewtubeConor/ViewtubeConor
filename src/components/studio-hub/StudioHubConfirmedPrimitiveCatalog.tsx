@@ -450,7 +450,6 @@ const ConfirmedDirectPrimitiveRows: React.FC = () => {
   const [doubleSplitPressed, setDoubleSplitPressed] = React.useState(false)
   const [wordValue, setWordValue] = React.useState(false)
   const [verticalWordValue, setVerticalWordValue] = React.useState(false)
-  const [sideValue, setSideValue] = React.useState("LOW")
   const [doubleLeft, setDoubleLeft] = React.useState("SOURCE")
   const [doubleRight, setDoubleRight] = React.useState("TARGET")
   const [counterValue, setCounterValue] = React.useState(24)
@@ -515,7 +514,6 @@ const ConfirmedDirectPrimitiveRows: React.FC = () => {
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioXCheckbox"><span>X Checkbox · STANDARD</span><StudioXCheckbox skin="solid" checked={false} sizeVariant="standard" aria-label="X checkbox standard specimen" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioWordToggle"><span>Word Toggle · STANDARD</span><StudioWordToggle value={wordValue} onValueChange={setWordValue} aria-label="Word toggle standard representative" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioVerticalWordToggle"><span>Vertical Word Toggle · COMPACT</span><StudioVerticalWordToggle value={verticalWordValue} onValueChange={setVerticalWordValue} aria-label="Vertical word toggle representative" /></div>
-        <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSideToggle"><span>Side Toggle · STANDARD</span><StudioSideToggle size="standard" value={sideValue} options={["LOW", "MID", "HIGH"]} onValueChange={setSideValue} ariaLabel="Side toggle standard representative" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioDoubleSideToggle"><span>Double Side Toggle · STANDARD</span><StudioDoubleSideToggle size="standard" variant="v1" left={{ value: doubleLeft, options: ["SOURCE", "INPUT", "ORIGIN"], onValueChange: setDoubleLeft, ariaLabel: "Double side toggle left representative" }} right={{ value: doubleRight, options: ["TARGET", "OUTPUT", "DESTINATION"], onValueChange: setDoubleRight, ariaLabel: "Double side toggle right representative" }} /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSideCounter"><span>Side Counter · STANDARD</span><StudioSideCounter size="standard" value={sideCounterValue} onValueChange={setSideCounterValue} min={0} max={100} ariaLabel="Side counter standard representative" /></div>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioLeftCounter"><span>Left Counter · STANDARD</span><StudioLeftCounter size="standard" value={leftCounterRepValue} onValueChange={setLeftCounterRepValue} min={0} max={100} ariaLabel="Left counter standard representative" /></div>
