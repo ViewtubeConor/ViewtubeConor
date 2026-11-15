@@ -606,6 +606,7 @@ export const settleUnifiedAiCredits = async (input: {
   reservationId: string
   actualCredits: number
   idempotencyKey: string
+  metadata?: Record<string, unknown>
 }): Promise<Omit<UnifiedAiCreditReservationResult, "reservationId"> & { settled: boolean }> => {
   const response = await fetch(accountUrl("/api/account/ai-credits/settle"), {
     method: "POST",
