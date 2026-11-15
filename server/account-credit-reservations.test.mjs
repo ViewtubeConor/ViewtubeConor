@@ -189,3 +189,37 @@ test("reservation idempotency keys cannot be reused for a different estimate", a
     /different amount/,
   );
 });
+
+test("BYOK provider usage is recorded idempotently without changing ViewTube credits", async () => {
+  const userId = await createFundedCreator();
+  const before = await store.getAccountSnapshotData(userId);
+  const input = {
+    provider: "google",
+    modelId: "gemini-2.5-flash",
+    keySource: "byok",
+    inputTokens: 1_200,
+    outputTokens: 340,
+    rawCostUsd: 0.0025,
+    usageSource: "provider_reported",
+    idempotencyKey: "byok-generation:one",
+    metadata: { feature: "comment_reply" },
+  };
+  const first = await store.recordAiProviderUsage(userId, input);
+  assert.equal(first.inserted, true);
+  const duplicate = await store.recordAiProviderUsage(userId, input);
+  assert.equal(duplicate.inserted, false);
+  const after = await store.getAccountSnapshotData(userId);
+  assert.equal(after.availableCredits, before.availableCredits);
+});
+
+test("provider usage rejects negative token counts and non-finite costs", async () => {
+  const userId = await createFundedCreator();
+  await assert.rejects(
+    store.recordAiProviderUsage(userId, {
+      provider: "google", modelId: "gemini-2.5-flash", keySource: "byok",
+      inputTokens: -1, outputTokens: 2, rawCostUsd: 0.01,
+      usageSource: "provider_reported", idempotencyKey: "bad-usage:negative",
+    }),
+    /non-negative safe integer/,
+  );
+});
