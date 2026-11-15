@@ -1216,16 +1216,16 @@ describe("toggle row-width and module contract", () => {
     const valueToggles = readFileSync(resolve(process.cwd(), "src/styles/studio-control-value-toggles.css"), "utf8");
     const catalog = readFileSync(resolve(process.cwd(), "src/components/studio-hub/studio-hub-primitive-catalogs.css"), "utf8");
     const exceptions = readFileSync(resolve(process.cwd(), "src/styles/studio-confirmed-catalog-modules.css"), "utf8");
-    expect(controls).toMatch(/button\\.vt-studio-44-switch\\s*\\{[^}]*width:\\s*auto/s);
-    expect(controls).toMatch(/button\\.vt-studio-44-choice\\s*\\{[^}]*width:\\s*auto/s);
-    expect(controls).not.toMatch(/\\.vt-studio-44-switch[^}]*flex:\\s*none/s);
-    expect(valueToggles).toMatch(/\\.vt-studio-value-toggle\\s*\\{[^}]*width:\\s*auto/s);
-    expect(valueToggles).toMatch(/\\.vt-studio-split-shell\\.vt-studio-value-toggle\\s*\\{[^}]*width:\\s*auto/s);
-    expect(valueToggles).toMatch(/\\.vt-studio-value-toggle--double\\s*\\{[^}]*width:\\s*auto/s);
+    expect(controls).toMatch(/button\.vt-studio-44-switch\s*\\{[^}]*width:\s*auto/s);
+    expect(controls).toMatch(/button\.vt-studio-44-choice\s*\\{[^}]*width:\s*auto/s);
+    expect(controls).not.toMatch(/\.vt-studio-44-switch[^}]*flex:\s*none/s);
+    expect(valueToggles).toMatch(/\.vt-studio-value-toggle\s*\\{[^}]*width:\s*auto/s);
+    expect(valueToggles).toMatch(/\.vt-studio-split-shell\.vt-studio-value-toggle\s*\\{[^}]*width:\s*auto/s);
+    expect(valueToggles).toMatch(/\.vt-studio-value-toggle--double\s*\\{[^}]*width:\s*auto/s);
     expect(catalog).toContain('.vt-confirmed-control-variants[data-vt-library-component="StudioArrowToggle"]');
     expect(catalog).toContain('.vt-confirmed-control-variants[data-vt-library-component="StudioSideToggle"]');
     expect(catalog).toContain('.vt-confirmed-control-variants[data-vt-library-component="StudioDoubleSideToggle"]');
-    expect(exceptions).not.toMatch(/\\.vt-studio-44-switch|\\.vt-studio-44-choice|\\.vt-studio-value-toggle|\\.vt-studio-side-toggle|\\.vt-studio-double-side-toggle|\\.vt-studio-arrow-toggle|\\.vt-studio-bar-toggle/);
+    expect(exceptions).not.toMatch(/\.vt-studio-44-switch|\.vt-studio-44-choice|\.vt-studio-value-toggle|\.vt-studio-side-toggle|\.vt-studio-double-side-toggle|\.vt-studio-arrow-toggle|\.vt-studio-bar-toggle/);
   });
 
   it("stacks horizontal and vertical word-toggle variants while preserving their documented intrinsic sizing", () => {
