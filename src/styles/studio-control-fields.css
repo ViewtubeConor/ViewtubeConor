@@ -219,6 +219,20 @@ html body [data-vt-studio-control="true"].vt-studio-text-box {
 }
 
 
+/* TextBox is a read-only display surface: black glyph fill and stroke in every
+   tier, with no focus mode. Tier selectors outrank the legacy size rules. */
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="supreme"],
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="standard"],
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="compact"],
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="mini"],
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="micro"] {
+  color: #000;
+  -webkit-text-fill-color: #000;
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, 1px) #000;
+  text-stroke: var(--vt-studio-control-text-stroke, 1px) #000;
+  outline: 0 solid transparent;
+  outline-offset: 0;
+}
 /* StudioSideTextCounter:
    - Split shell owns the single black outer perimeter (shared with the counter rail).
    - Nested input has NO black border — only one primary inset ring (same as standard text inputs).
