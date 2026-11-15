@@ -147,6 +147,7 @@ describe("confirmed composite primitive catalog", () => {
       }
       expect(familyMarkup).not.toContain("vt-confirmed-control-variants")
     }
+    expect(styles).toMatch(/\.vt-confirmed-family:has\(\[data-vt-library-module\]\)[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)/)
     expect(styles).toContain(".vt-confirmed-value-toggle-module")
     expect(styles).toMatch(/\.vt-confirmed-value-toggle-module\s*\{[^}]*flex-direction:\s*column/s)
     expect(styles).toMatch(/\.vt-confirmed-value-toggle-module\s*>\s*\.vt-confirmed-value-toggle-row\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/s)
