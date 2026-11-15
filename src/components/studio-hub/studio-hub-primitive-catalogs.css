@@ -1711,23 +1711,21 @@
 .vt-complete-catalog [data-vt-family="44px Switches"],
 .vt-complete-catalog [data-vt-family="44px Radio + Checkbox"],
 .vt-complete-catalog [data-vt-family="Word Toggles"]{grid-column:1/-1!important}
-.vt-complete-catalog .vt-catalog-canonical-controls{display:flex;align-items:flex-start;gap:12px;flex-wrap:nowrap;overflow-x:auto;padding:4px 0 6px}
-.vt-complete-catalog .vt-catalog-control-variant{display:flex;flex:1 0 max-content;min-width:0;flex-direction:column;align-items:center;justify-content:flex-start;gap:5px}
+.vt-complete-catalog .vt-catalog-canonical-controls{display:grid;grid-template-columns:minmax(0,1fr);align-items:stretch;gap:8px;overflow:visible;padding:4px 0 6px}
+.vt-complete-catalog .vt-catalog-control-variant{display:flex;flex:initial;min-width:0;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:5px}
 .vt-complete-catalog .vt-catalog-control-variant>small,
 .vt-complete-catalog .vt-catalog-word-toggle-size>small{display:block;font-size:8px!important;line-height:1.1;font-weight:900;letter-spacing:.025em;text-align:center;text-transform:uppercase;white-space:nowrap}
-.vt-complete-catalog .vt-catalog-canonical-controls .vt-studio-44-switch,
-.vt-complete-catalog .vt-catalog-canonical-controls .vt-studio-44-choice{flex:none}
 .vt-complete-catalog .vt-catalog-word-toggle-families{display:grid;gap:10px}
 .vt-complete-catalog .vt-catalog-word-toggle-size{display:grid;gap:3px;min-width:0}
 .vt-complete-catalog .vt-catalog-word-toggle-size .vt-catalog-canonical-controls{justify-content:space-between}
-.vt-complete-catalog .vt-catalog-word-toggle-size .vt-catalog-control-variant{flex:1 0 max-content}
+.vt-complete-catalog .vt-catalog-word-toggle-size .vt-catalog-control-variant{flex:initial;align-items:flex-start}
 .vt-complete-catalog .vt-catalog-word-toggle-size .vt-studio-44-word-toggle{max-width:100%}
 .vt-complete-catalog .vt-catalog-family:has(.vt-catalog-size-defaults){padding:5px 7px}
 .vt-complete-catalog .vt-catalog-family:has(.vt-catalog-size-defaults)>h3{font-size:11px!important;line-height:1.05!important;margin:0 0 4px}
 .vt-complete-catalog .vt-catalog-family:has(.vt-catalog-size-defaults) .vt-catalog-levels{margin-top:0;gap:4px}
 @media(max-width:520px){
- .vt-complete-catalog .vt-catalog-canonical-controls{gap:10px}
- .vt-complete-catalog .vt-catalog-control-variant{flex:0 0 max-content}
+ .vt-complete-catalog .vt-catalog-canonical-controls{gap:8px}
+ .vt-complete-catalog .vt-catalog-control-variants{grid-template-columns:minmax(0,1fr)}
 }
 
 /* Canonical control catalog: compact family labels, four variants on each row. */
@@ -1735,11 +1733,11 @@
 .vt-complete-catalog .vt-catalog-word-toggle-families{display:flex;flex-direction:column;gap:9px;width:100%;min-width:0}
 .vt-complete-catalog .vt-catalog-control-row{display:flex;flex-direction:column;gap:4px;min-width:0;width:100%}
 .vt-complete-catalog .vt-catalog-control-row-label{display:block;font-size:9px!important;font-weight:900!important;line-height:1.1!important;letter-spacing:.045em;text-transform:uppercase}
-.vt-complete-catalog .vt-catalog-control-variants{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;align-items:start;width:100%;min-width:0}
-.vt-complete-catalog .vt-catalog-control-variant{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:4px;min-width:0}
+.vt-complete-catalog .vt-catalog-control-variants{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;align-items:stretch;width:auto;min-width:0}
+.vt-complete-catalog .vt-catalog-control-variant{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:4px;min-width:0}
 .vt-complete-catalog .vt-catalog-control-variant>small{font-size:8px!important;line-height:1.1!important;font-weight:900!important;letter-spacing:-.015em;text-align:center;text-transform:uppercase;white-space:normal}
-.vt-complete-catalog .vt-catalog-control-variant>button,
-.vt-complete-catalog .vt-catalog-control-variant>.vt-studio-44-word-toggle{margin-inline:auto}
+.vt-complete-catalog .vt-catalog-control-variant>button{width:auto;margin-inline:0}
+.vt-complete-catalog .vt-catalog-control-variant>.vt-studio-44-word-toggle{margin-inline:0;align-self:flex-start}
 .vt-complete-catalog .vt-catalog-control-variant .vt-studio-44-word-toggle{max-width:100%}
 .vt-complete-catalog .vt-catalog-control-variant .vt-studio-44-word-toggle button{min-width:0}
 @media(max-width:520px){
@@ -1773,16 +1771,16 @@
   grid-template-columns: minmax(0, 1fr) !important;
 }
 .vt-complete-catalog .vt-catalog-control-variants.is-word-toggle-28 {
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-columns: minmax(0, 1fr);
 }
 .vt-complete-catalog .vt-catalog-control-variants.is-word-toggle-44 .vt-catalog-control-variant,
 .vt-complete-catalog .vt-catalog-control-variants.is-word-toggle-28 .vt-catalog-control-variant {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+  align-items: stretch;
+  justify-content: flex-start;
+  width: auto;
   min-width: 0;
   max-width: 100%;
   padding: 6px;
@@ -1801,11 +1799,12 @@
 }
 .vt-complete-catalog .vt-catalog-control-variants.is-word-toggle-44 .vt-studio-44-word-toggle,
 .vt-complete-catalog .vt-catalog-control-variants.is-word-toggle-28 .vt-studio-44-word-toggle {
-  flex: 0 1 auto;
+  flex: initial;
   width: max-content;
   max-width: 100%;
   min-width: 0;
-  margin-inline: auto;
+  align-self: flex-start;
+  margin-inline: 0;
 }
 .vt-complete-catalog .vt-catalog-control-variants.is-word-toggle-44 .vt-studio-44-word-toggle button,
 .vt-complete-catalog .vt-catalog-control-variants.is-word-toggle-28 .vt-studio-44-word-toggle button {
@@ -1814,7 +1813,7 @@
 }
 @media (max-width: 520px) {
   .vt-complete-catalog .vt-catalog-control-variants.is-word-toggle-28 {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-columns: minmax(0, 1fr);
     gap: 5px;
   }
   .vt-complete-catalog .vt-catalog-control-variants.is-word-toggle-44 .vt-catalog-control-variant,
@@ -2223,17 +2222,9 @@
 }
 
 
-.vt-confirmed-control-family .vt-confirmed-control-variants {
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-}
 /* Confirmed Library layout contract — phases 1–3 (2026-10-15).
    Four-skin control sets remain in one row; standard specimens occupy one row,
    with compact A/B sharing the next row. These rules affect gallery layout only. */
-.vt-confirmed-word-toggle-family .vt-confirmed-control-variants[data-control-size="44"],
-.vt-confirmed-word-toggle-family .vt-confirmed-control-variants[data-control-size="standard"],
-.vt-confirmed-word-toggle-family .vt-confirmed-control-variants[data-control-size="28"] {
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-}
 .vt-confirmed-button-family > .vt-confirmed-variants {
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
 }
@@ -2248,14 +2239,6 @@
 .vt-confirmed-defaults-explainer p { margin: 0; }
 .vt-confirmed-defaults-explainer b { font-weight: 1000; }
 @media (max-width: 560px) {
-  .vt-confirmed-control-family .vt-confirmed-control-variants,
-  .vt-confirmed-word-toggle-family .vt-confirmed-control-variants[data-control-size="44"],
-  .vt-confirmed-word-toggle-family .vt-confirmed-control-variants[data-control-size="standard"],
-  .vt-confirmed-word-toggle-family .vt-confirmed-control-variants[data-control-size="28"] {
-    grid-template-columns: repeat(4, minmax(64px, 1fr)) !important;
-    overflow-x: auto;
-    scrollbar-width: thin;
-  }
 }
 
 
@@ -2818,15 +2801,17 @@
   letter-spacing: -.02em;
 }
 .vt-confirmed-vertical-word-toggle-standard,
-.vt-confirmed-vertical-word-toggle-compact {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+.vt-confirmed-vertical-word-toggle-compact,
+.vt-confirmed-vertical-word-toggle-micro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
   gap: 8px;
+  width: auto;
   min-width: 0;
 }
 .vt-confirmed-vertical-word-toggle-specimen {
-  width: max-content;
+  width: auto;
   max-width: 100%;
 }
 .vt-confirmed-vertical-word-toggle-specimen {
@@ -2853,11 +2838,11 @@
   max-width: none;
 }
 .vt-confirmed-vertical-word-toggle-micro {
-  width: max-content;
+  width: auto;
   max-width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
   gap: 5px;
   min-width: 0;
 }
@@ -3434,4 +3419,55 @@
   width: 100%;
   min-width: 0;
   max-width: none;
+}
+
+
+/* Toggle-family specimens are stacked: one variant per row, with natural
+   grid-item stretching rather than fixed or forced 100% primitive widths. */
+.vt-confirmed-choice-family {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+  min-width: 0;
+}
+.vt-confirmed-choice-family > .vt-confirmed-control-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: stretch;
+  gap: 4px;
+  min-width: 0;
+}
+.vt-confirmed-control-variants[data-vt-library-component="StudioArrowToggle"],
+.vt-confirmed-control-variants[data-vt-library-component="StudioSideToggle"],
+.vt-confirmed-control-variants[data-vt-library-component="StudioDoubleSideToggle"] {
+  grid-template-columns: minmax(0, 1fr);
+}
+.vt-confirmed-control-variants[data-vt-library-component="StudioArrowToggle"] > div,
+.vt-confirmed-control-variants[data-vt-library-component="StudioSideToggle"] > div,
+.vt-confirmed-control-variants[data-vt-library-component="StudioDoubleSideToggle"] > div {
+  grid-template-rows: auto auto;
+  justify-items: stretch;
+  min-width: 0;
+}
+.vt-confirmed-control-variants[data-vt-library-component="StudioArrowToggle"] .vt-studio-value-toggle,
+.vt-confirmed-control-variants[data-vt-library-component="StudioSideToggle"] .vt-studio-value-toggle,
+.vt-confirmed-control-variants[data-vt-library-component="StudioDoubleSideToggle"] .vt-studio-value-toggle {
+  width: auto;
+  max-width: 100%;
+  min-width: 0;
+}
+.vt-confirmed-word-toggle-family .vt-confirmed-control-variants {
+  grid-template-columns: minmax(0, 1fr);
+  overflow: visible;
+}
+.vt-confirmed-word-toggle-family .vt-confirmed-control-variants > div {
+  justify-items: start;
+  width: auto;
+}
+.vt-confirmed-vertical-word-toggle-family .vt-confirmed-vertical-word-toggle-size-row,
+.vt-confirmed-vertical-word-toggle-family .vt-confirmed-vertical-word-toggle-standard,
+.vt-confirmed-vertical-word-toggle-family .vt-confirmed-vertical-word-toggle-compact,
+.vt-confirmed-vertical-word-toggle-family .vt-confirmed-vertical-word-toggle-micro {
+  grid-template-columns: minmax(0, 1fr);
+  width: auto;
 }

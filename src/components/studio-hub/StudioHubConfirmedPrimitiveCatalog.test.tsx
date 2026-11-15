@@ -100,7 +100,8 @@ describe("confirmed composite primitive catalog", () => {
       "Side Toggle · Five Sizes × Left / Right Arrow Orientation",
       "Double Side Toggle · Five Sizes × V1 / V2 × Three Right Faces",
       "Bar Toggle · Five Sizes",
-      "Word Toggles · Standard + Compact + Vertical",
+      "Word Toggle · Five Sizes × Four Skins",
+      "Vertical Word Toggle · Five Sizes × Four Variants",
       "StudioCounter · Supreme + Standard + Compact + Mini + Micro",
       "StudioDoubleSplitSlider · Supreme + Standard + Compact + Mini + Micro",
       "Studio Numeric Steppers · Inline + Split",
@@ -556,9 +557,14 @@ describe("confirmed vertical word-toggle primitive", () => {
     expect(css).toContain("width: max-content;");
     expect(css).toContain("min-width: max-content;");
     expect(css).toContain("prefers-reduced-motion: reduce");
-    expect(source).toContain('title="Switches, Radios & Checkboxes"');
-    expect(source).toContain('title="Word Toggles · Standard + Compact + Vertical"');
-    expect(source).toContain('primitive="StudioWordToggle / StudioVerticalWordToggle"');
+    expect(source).not.toContain('title="Switches, Radios & Checkboxes"');
+    for (const title of ["Round Switch", "Rectangular Switch", "Radio Button", "Checkmark Checkbox", "X Checkbox"]) {
+      expect(source).toContain('family("' + title + '"');
+    }
+    expect(source).toContain('title="Word Toggle · Five Sizes × Four Skins"');
+    expect(source).toContain('title="Vertical Word Toggle · Five Sizes × Four Variants"');
+    expect(source).toContain('primitive="StudioWordToggle"');
+    expect(source).toContain('primitive="StudioVerticalWordToggle"');
     expect(source).not.toContain("Switches, radios, checkboxes, horizontal word toggles, and vertical word toggles are grouped in one family module.");
     expect(readFileSync(resolve(process.cwd(), "src/components/studio-hub/studio-hub-primitive-catalogs.css"), "utf8")).toContain("flex-direction: column;\n  align-items: flex-start;");
   });
@@ -1195,3 +1201,45 @@ describe("SideTextCounter-based split text-input confirmed-library registration"
     expect(fields).toContain("--vt-field-fill-focus")
   })
 })
+
+
+describe("toggle row-width and module contract", () => {
+  it("gives each switch and choice family its own module with one specimen per row", () => {
+    const html = renderToStaticMarkup(<StudioHubConfirmedPrimitiveCatalog />);
+    const source = readFileSync(resolve(process.cwd(), "src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx"), "utf8");
+    for (const title of ["Round Switch", "Rectangular Switch", "Radio Button", "Checkmark Checkbox", "X Checkbox"]) {
+      expect(source).toContain('family("' + title + '"');
+      expect(html).toContain(title + " · Five Sizes × Four Skins");
+    }
+    expect(source).not.toContain('title="Switches, Radios & Checkboxes"');
+  });
+
+  it("uses auto width at the primitive source and lets the single-column module row stretch naturally", () => {
+    const controls = readFileSync(resolve(process.cwd(), "src/styles/studio-control-system.css"), "utf8");
+    const valueToggles = readFileSync(resolve(process.cwd(), "src/styles/studio-control-value-toggles.css"), "utf8");
+    const catalog = readFileSync(resolve(process.cwd(), "src/components/studio-hub/studio-hub-primitive-catalogs.css"), "utf8");
+    const exceptions = readFileSync(resolve(process.cwd(), "src/styles/studio-confirmed-catalog-modules.css"), "utf8");
+    const representative = readFileSync(resolve(process.cwd(), "src/components/studio-hub/studio-hub-primitive-catalogs.css"), "utf8");
+    expect(controls).toMatch(/button\.vt-studio-44-switch\s*\{[^}]*width:\s*auto/s);
+    expect(controls).toMatch(/button\.vt-studio-44-choice\s*\{[^}]*width:\s*auto/s);
+    expect(controls).not.toMatch(/\.vt-studio-44-switch[^}]*flex:\s*none/s);
+    expect(valueToggles).toMatch(/\.vt-studio-value-toggle\s*\{[^}]*width:\s*auto/s);
+    expect(valueToggles).toMatch(/\.vt-studio-split-shell\.vt-studio-value-toggle\s*\{[^}]*width:\s*auto/s);
+    expect(valueToggles).toMatch(/\.vt-studio-value-toggle--double\s*\{[^}]*width:\s*auto/s);
+    expect(catalog).toContain('.vt-confirmed-control-variants[data-vt-library-component="StudioArrowToggle"]');
+    expect(catalog).toContain('.vt-confirmed-control-variants[data-vt-library-component="StudioSideToggle"]');
+    expect(catalog).toContain('.vt-confirmed-control-variants[data-vt-library-component="StudioDoubleSideToggle"]');
+    expect(representative).toContain('.vt-complete-catalog .vt-catalog-control-variants{display:grid;grid-template-columns:minmax(0,1fr)');
+    expect(representative).not.toContain('.vt-complete-catalog .vt-catalog-canonical-controls .vt-studio-44-switch');
+    expect(exceptions).not.toMatch(/\.vt-studio-44-switch|\.vt-studio-44-choice|\.vt-studio-value-toggle|\.vt-studio-side-toggle|\.vt-studio-double-side-toggle|\.vt-studio-arrow-toggle|\.vt-studio-bar-toggle/);
+  });
+
+  it("stacks horizontal and vertical word-toggle variants while preserving their documented intrinsic sizing", () => {
+    const catalog = readFileSync(resolve(process.cwd(), "src/components/studio-hub/studio-hub-primitive-catalogs.css"), "utf8");
+    const controls = readStudioControlCss();
+    expect(catalog).toContain(".vt-confirmed-word-toggle-family .vt-confirmed-control-variants {\n  grid-template-columns: minmax(0, 1fr);");
+    expect(catalog).toContain(".vt-confirmed-vertical-word-toggle-family .vt-confirmed-vertical-word-toggle-micro");
+    expect(controls).toContain(".vt-studio-44-word-toggle");
+    expect(controls).toContain(".vt-studio-vertical-word-toggle");
+  });
+});
