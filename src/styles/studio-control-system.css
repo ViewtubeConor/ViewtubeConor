@@ -5679,7 +5679,7 @@ button.vt-studio-resource-split-button:focus-visible {
    divider as the full header; this keeps the rail sections visibly closed. */
 .vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head
   > .vt-studio-top-split-module__rail {
-  box-shadow: inset 0 calc(-1 * var(--vt-top-split-stroke, 3px)) 0 #000;
+  border-bottom: var(--vt-top-split-stroke, 3px) solid #000;
 }
 .vt-studio-collapsing-split-module > .vt-studio-collapsing-split-module__head:focus-visible {
   outline: var(--vt-top-split-stroke, 3px) solid var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
