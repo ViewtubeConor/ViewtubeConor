@@ -983,6 +983,7 @@ export const handleAccountRoute = async ({ req, res, method, pathname, parsedUrl
       reservationId: payload.reservationId,
       actualCredits,
       idempotencyKey: payload.idempotencyKey,
+      metadata: payload.metadata || {},
     });
     if (!result.settled) return json(res, 409, { error: "Actual usage exceeds the available credit balance.", ...result }), true;
     return json(res, 200, { ...result, snapshot: await buildSnapshot(userId) }), true;
