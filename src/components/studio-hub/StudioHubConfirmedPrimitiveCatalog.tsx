@@ -91,6 +91,7 @@ import {
 import "./studio-hub-primitive-catalogs.css"
 import "../../styles/studio-confirmed-catalog-modules.css"
 import { ConfirmedFamilyModule } from "./ConfirmedCatalogModules"
+import { StudioHubRedesignedModulesCatalog } from "./StudioHubRedesignedModulesCatalog"
 import {
   classifyConfirmedCatalogItem,
   CONFIRMED_CATALOG_FAMILY_ORDER,
@@ -1344,6 +1345,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
   return (
   <ConfirmedCatalogSizeProvider>
     <ConfirmedCatalogChrome />
+    <StudioHubRedesignedModulesCatalog />
     <div className="vt-confirmed-catalog vt-confirmed-catalog--representatives" data-vt-representatives="true">
       <ConfirmedPrimitiveGridOverview />
       <ConfirmedDirectPrimitiveRows />
