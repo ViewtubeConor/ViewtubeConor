@@ -120,3 +120,28 @@ html body [data-vt-studio-control="true"] textarea:is(:focus, :focus-visible) {
   -webkit-text-fill-color: #000;
   -webkit-text-stroke-color: #000;
 }
+
+
+/* Final Studio field typography owner. Textareas use black text and black glyph
+   stroke in focus mode for every supported size. TextBox is always black text
+   with black glyph stroke; its primary inset is a separate structural ring. */
+html body textarea[data-vt-studio-control="true"]:is(:focus, :focus-visible),
+html body [data-vt-studio-control="true"] textarea:is(:focus, :focus-visible) {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  -webkit-text-stroke: var(--vt-studio-textarea-glyph-stroke, 0.5px) #000 !important;
+  -webkit-text-stroke-color: #000 !important;
+}
+html body .vt-studio-text-box[data-vt-studio-control="true"],
+html body [data-vt-studio-control="true"].vt-studio-text-box,
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="supreme"],
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="standard"],
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="compact"],
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="mini"],
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="micro"] {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, 1px) #000 !important;
+  -webkit-text-stroke-color: #000 !important;
+  text-stroke-color: #000 !important;
+}
