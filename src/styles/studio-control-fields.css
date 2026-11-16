@@ -381,3 +381,45 @@ html body .vt-studio-split-text-input input.vt-studio-side-text-counter__input:i
 html body .vt-studio-split-text-input input.vt-studio-split-text-input__field:is(:focus, :focus-visible) {
   background: var(--vt-field-fill-focus, color-mix(in srgb, white 85%, var(--vt-field-primary, var(--vt-studio-control-accent, var(--pair-a, #36e0f6))) 15%)) !important;
 }
+
+
+/* Final field typography ownership.
+   Textareas switch to black fill AND black glyph stroke while focused at every
+   size. TextBox is read-only: black glyph fill/stroke at every size, with its
+   primary inset ring retained as a separate structural stroke. */
+html body textarea[data-vt-studio-control="true"]:is(:focus, :focus-visible),
+html body [data-vt-studio-control="true"] textarea:is(:focus, :focus-visible) {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  -webkit-text-stroke-color: #000 !important;
+  caret-color: var(--vt-field-primary, var(--vt-studio-control-accent, var(--pair-a, #36e0f6)));
+}
+html body .vt-studio-text-box[data-vt-studio-control="true"],
+html body [data-vt-studio-control="true"].vt-studio-text-box {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  -webkit-text-stroke-color: #000 !important;
+  text-stroke-color: #000 !important;
+  -webkit-text-stroke-width: var(--vt-studio-control-text-stroke, 1px);
+  text-stroke-width: var(--vt-studio-control-text-stroke, 1px);
+}
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="supreme"],
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="standard"],
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="compact"],
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="mini"],
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="micro"] {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  -webkit-text-stroke-color: #000 !important;
+  text-stroke-color: #000 !important;
+  -webkit-text-stroke-width: var(--vt-studio-control-text-stroke, 1px);
+  text-stroke-width: var(--vt-studio-control-text-stroke, 1px);
+}
+
+/* Split editable inputs are the registered alignment exception: they inherit
+   StudioTextInput's left-aligned value and field paint, never split-label centering. */
+html body .vt-studio-split-text-input input.vt-studio-side-text-counter__input,
+html body .vt-studio-split-text-input input.vt-studio-split-text-input__field,
+html body .vt-studio-split-text-input .vt-studio-side-text-counter__input {
+  text-align: left !important;
+}
