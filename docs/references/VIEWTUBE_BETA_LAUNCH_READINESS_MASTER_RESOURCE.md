@@ -7,6 +7,7 @@
 **Concern:** beta-launch-readiness-reference  
 **Owner:** Integrated Application Program  
 **Registry ID:** DOC-REF-BETA-LAUNCH-READINESS  
+**Supersedes:** None — this is a new supporting reference and does not replace an existing authority.  
 **Last Audited Main SHA:** NOT_AUDITED — this initial resource was prepared from `master/consolidated-feature-integration` at `8e68004691ab84385b5f0d24fee81b789256278a`; it is not a claim that the production `main` branch was audited.  
 **Related Authorities:** `docs/governance/DOCUMENTATION.md`; `docs/governance/TASK_AUTHORITY.md`; `docs/governance/VERIFICATION.md`; `docs/architecture/PRODUCT_ARCHITECTURE.md`; `docs/architecture/PRODUCT_COMPLETION_CONSTITUTION.md`; `docs/programs/INTEGRATED_APPLICATION.md`; `docs/architecture/capabilities.json`
 
@@ -3203,6 +3204,7 @@ Conversation links are intentionally not fabricated. Add actual conversation URL
 |---|---|---|
 | 2026-11-16 | Initial living resource created on a feature branch from `master/consolidated-feature-integration`. Added 40 initiative dossiers, common dossier fields, 10 additional per-initiative sections, 10 master-level governance sections, starter branch/PR index and conversation intake log. | Branch base `8e68004691ab84385b5f0d24fee81b789256278a`; current repository tree, `AGENTS.md`, Product Architecture, Product Completion Constitution, Integrated Application Program, Task Authority, Verification, capability registry, Ideas Curator and Codelit templates inspected. |
 | 2026-11-16 | Confirmed existing Ideas Curator and Ideas Library are the governed idea intake system; no separate installable plugin named Idea Generator was found in plugin search. | `.claude/skills/viewtube-ideas-curator/SKILL.md`; `ideas/README.md`; `ideas/registry.json`; `ideas/MASTER_IDEAS.md`; plugin discovery result. |
+| 2026-11-16 | Verified PR state and merge destinations for #1193, #1211, #1254, #1241, #1276, #1278 and #1280; corrected the PR index. | GitHub PR metadata: #1193/#1211/#1276/#1278/#1280 merged; #1254 closed without merge; #1241 open. |
 
 ## 12. Release decision record
 
