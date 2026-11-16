@@ -82,3 +82,29 @@ describe("Studio Calendar control compositions", () => {
   })
 
 })
+
+
+describe("Studio calendar global token alignment", () => {
+  it("uses a solid Mini-tier perimeter and pair fills for multi-day bars", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/studio-ui/primitives/studio-calendar-primitives.css"), "utf8");
+    expect(css).toContain('.vt-studio-calendar-multi-day-bar[data-channel-wide="true"]');
+    expect(css).toContain("border-style: solid");
+    expect(css).toContain("var(--vt-studio-control-stroke, 1.5px)");
+    expect(css).toContain("var(--vt-studio-control-radius, 3px)");
+    expect(css).not.toContain("border-style: dashed");
+  });
+
+  it("gives the Confirmed Primitive Library an individual Panel Accordion module and thumbnail art", () => {
+    const catalog = readFileSync(resolve(process.cwd(), "src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx"), "utf8");
+    expect(catalog).toContain('title="Panel Accordion"');
+    expect(catalog).toContain('data-vt-library-component="StudioPanelAccordion"');
+    expect(catalog).toContain('title="Calendar Events"');
+    expect(catalog).toContain('aria-label="Creator video thumbnail artwork"');
+  });
+
+  it("keeps the resource split primitive tied to selected global tier tokens", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-system.css"), "utf8");
+    expect(css).toContain("min-height: calc(var(--vt-studio-control-height, 44px) + 2 * var(--vt-studio-control-stroke, 3px))");
+    expect(css).not.toContain("min-height: 76px");
+  });
+});
