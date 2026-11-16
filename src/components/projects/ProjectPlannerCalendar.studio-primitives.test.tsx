@@ -108,3 +108,19 @@ describe("Studio calendar global token alignment", () => {
     expect(css).not.toContain("min-height: 76px");
   });
 });
+
+
+describe("calendar date marker Mini-tier defaults", () => {
+  it("binds project and ribbon date chips to the global Mini size, stroke, radius, and pair colors", () => {
+    const projectCalendar = readFileSync(resolve(process.cwd(), "src/components/projects/ProjectPlannerCalendar.tsx"), "utf8");
+    const projectCss = readFileSync(resolve(process.cwd(), "src/components/projects/ProjectPlannerCalendar.css"), "utf8");
+    const miniWidget = readFileSync(resolve(process.cwd(), "src/components/MiniCalendarWidget.tsx"), "utf8");
+    expect(projectCalendar).toContain('data-vt-studio-control="true" data-size="mini"');
+    expect(projectCss).toContain("var(--vt-studio-control-height, 20px)");
+    expect(projectCss).toContain("var(--vt-studio-control-stroke, 1.5px)");
+    expect(projectCss).toContain("var(--vt-studio-control-radius, 3px)");
+    expect(miniWidget).toContain("data-vt-studio-control=\"true\"");
+    expect(miniWidget).toContain("data-size=\"mini\"");
+    expect(miniWidget).toContain("var(--vt-studio-control-font-size, 17.5px)");
+  });
+});
