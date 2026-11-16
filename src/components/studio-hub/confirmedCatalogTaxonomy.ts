@@ -62,7 +62,8 @@ export const CONFIRMED_CATALOG_MODULE_INVENTORY: ReadonlyArray<{ title: string; 
   { title: "Studio Spectrum + Metric Icons · Semantic Icon System", family: "tags-status" },
   { title: "StudioSideTextCounter · Editable Text + Numeric Stepper · Five Sizes", family: "split-text-fields" },
   { title: "Studio Numeric Steppers · Inline + Split", family: "steppers-sliders" },
-  { title: "Panel Accordion · StudioPanelAccordion · Standard + Compact", family: "accordions-layout" },
+  { title: "Panel Accordion", family: "accordions-layout" },
+  { title: "Resource Button", family: "buttons" },
   { title: "Chat Response Shell + Response Metadata Row", family: "chat-meta" },
   { title: "Calendar Event Chips + Multi-day Bars + Thumbnail Events", family: "calendar" },
   { title: "Accent Rail + Icon Title Information Modules", family: "modules-frames" },
@@ -85,7 +86,7 @@ export const CONFIRMED_CATALOG_REQUIRED_EXPORTS: readonly string[] = [
   "StudioPanelAccordion", "StudioSplitAccordion", "StudioComponentGrid", "StudioComponentGridCell", "StudioComponentGridRow",
   "StudioInterModule", "StudioPublishingCard", "StudioLedBadgeTab",
   "StudioSpectrumIcon", "StudioIconBadge", "StudioMetricIcon", "StudioAccentRailModule", "StudioIconTitleModule",
-  "StudioVideoModule", "StudioVideoSelector", "StudioResponseMetaRow", "StudioChatResponseShell", "StudioChatComposerDock",
+  "StudioVideoModule", "StudioVideoSelector", "StudioResourceSplitButton", "StudioResponseMetaRow", "StudioChatResponseShell", "StudioChatComposerDock",
   "StudioCalendarEventChip", "StudioCalendarMultiDayBar", "StudioCalendarThumbnailEventChip", "StudioCalendarMediaRail",
 ] as const
 
