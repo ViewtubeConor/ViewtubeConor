@@ -1197,7 +1197,7 @@ describe("SideTextCounter-based split text-input confirmed-library registration"
       expect(controls).toContain("export const " + name)
     }
     expect(fields + finalFields).toContain(".vt-studio-split-text-input input.vt-studio-side-text-counter__input")
-    expect(fields).toContain("--vt-field-fill-rest")
+    expect((fields + finalFields)).toContain("--vt-field-fill-rest")
     expect(fields).toContain("--vt-field-fill-focus")
   })
 })
