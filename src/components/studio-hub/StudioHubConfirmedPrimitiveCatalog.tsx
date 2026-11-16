@@ -255,7 +255,7 @@ const CanonicalWordToggleFamily: React.FC = () => {
         </div>
       </div>
     </Family>
-    <Family title="Vertical Word Toggle" nonDefaultSettings={[
+    <Family title="Vertical Toggle" nonDefaultSettings={[
       "Vertical word toggle shows all four documented variants at all five canonical size tiers, each with independent state.",
       "Its source-documented intrinsic width follows the longest word plus original horizontal padding; height remains content-driven.",
     ]} provenance={<Provenance primitive="StudioVerticalWordToggle" tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css" tokens="Five canonical size tiers × four vertical variants; documented content-driven height and intrinsic width." imports={["src/studio-ui/primitives/StudioControls.tsx"]} />}>
@@ -606,7 +606,7 @@ const ConfirmedStudioDoubleSplitSliderFamily: React.FC = () => {
   const [microA, setMicroA] = React.useState(7)
   return (
     <Family
-      title="StudioDoubleSplitSlider"
+      title="Double Split Slider"
       nonDefaultSettings={[
         "Uses an L1 range track inside the double-split shell; the numeric readout is bound to the same slider value.",
         "Handle is white with a rounded corner radius and black structural stroke; the track has no black bar or inset stroke.",
@@ -660,7 +660,7 @@ const ConfirmedStudioSideTextCounterFamily: React.FC = () => {
   const labels = ["60px SUPREME", "44px STANDARD", "28px COMPACT", "20px MINI", "12px MICRO"]
   return (
     <Family
-      title="StudioSideTextCounter"
+      title="Side Text Counter"
       nonDefaultSettings={[
         "The value face is the canonical single-line StudioTextInput; users can type arbitrary text or numeric values.",
         "The stacked right rail increments and decrements numeric text using the shared counter hold-repeat behavior.",
@@ -686,7 +686,7 @@ const ConfirmedStudioSideTextCounterIconFamily: React.FC = () => {
   const labels = ["60px SUPREME", "44px STANDARD", "28px COMPACT", "20px MINI", "12px MICRO"]
   const activate = () => setActionCount(count => count + 1)
   return (
-    <Family title="StudioSideTextCounterIcon"
+    <Family title="Side Text Counter Icon"
       nonDefaultSettings={[
         "The editable text face, centered alignment, sizing, borders, inset stroke, fill, caret, and focus behavior match StudioSideTextCounter.",
         "Only the right split rail changes: the stacked increment/decrement buttons are replaced by one standard square icon rail.",
@@ -715,7 +715,7 @@ const ConfirmedStudioSplitTextInputFamily: React.FC = () => {
   const [values, setValues] = React.useState(Array(15).fill(""))
   const update = (index: number, value: string) => setValues(current => current.map((old, item) => item === index ? value : old))
   return (
-    <Family title="StudioSplitTextInput"
+    <Family title="Split Text Input"
       nonDefaultSettings={[
         "Generic split input API; each of the left, right, and double rail layouts is shown at all five canonical size tiers.",
         "The production StudioSplitShell owns the black outer perimeter and square 1×1 rails; StudioTextInput owns one persistent primary inset stroke.",
@@ -747,7 +747,7 @@ const ConfirmedStudioSplitTextInputFamily: React.FC = () => {
 const ConfirmedStudioSplitLeftTextInputFamily: React.FC = () => {
   const [values, setValues] = React.useState(["", "", "", "", ""])
   return (
-    <Family title="StudioSplitLeftTextInput"
+    <Family title="Split Left Input"
       nonDefaultSettings={[
         "Single square leading icon rail with an editable, left-aligned field face.",
         "The leading rail and field use the same black perimeter, square rail geometry, and single primary inset as the SideTextCounter family.",
@@ -770,7 +770,7 @@ const ConfirmedStudioSplitLeftTextInputFamily: React.FC = () => {
 const ConfirmedStudioSplitRightTextInputFamily: React.FC = () => {
   const [values, setValues] = React.useState(["", "", "", "", ""])
   return (
-    <Family title="StudioSplitRightTextInput"
+    <Family title="Split Right Input"
       nonDefaultSettings={[
         "Single square trailing icon rail with an editable, left-aligned field face.",
         "The trailing rail and field use the same black perimeter, square rail geometry, and single primary inset as the SideTextCounter family.",
@@ -794,7 +794,7 @@ const ConfirmedStudioDoubleSplitTextInputFamily: React.FC = () => {
   const [values, setValues] = React.useState(["", "", "", "", ""])
   const [actionCount, setActionCount] = React.useState(0)
   return (
-    <Family title="StudioDoubleSplitTextInput"
+    <Family title="Double Split Input"
       nonDefaultSettings={[
         "Two square icon rails flank one editable, left-aligned field face; each rail remains a shared 1×1 side-counter rail.",
         "The trailing icon is an action button and increments the live action count; the leading icon is decorative.",
@@ -827,7 +827,7 @@ const ConfirmedStudioLeftWordCounterFamily: React.FC = () => {
     setter(current => current.map((previous, itemIndex) => itemIndex === index ? value : previous))
   return (
     <Family
-      title="StudioLeftWordCounter"
+      title="Left Word Counter"
       nonDefaultSettings={[
         "Hold-repeat increment/decrement actions use the shared left-counter timing; disabled and focus states come from the shared counter primitive.",
         "Values wrap FOUR → ONE and ONE → FOUR; face states are primary, secondary, black/primary-text, and white/primary-text.",
@@ -855,7 +855,7 @@ const ConfirmedStudioDoubleSplitWordCounterFamily: React.FC = () => {
   const updateAt = (index: number, value: number) => setValues(current => current.map((previous, itemIndex) => itemIndex === index ? value : previous))
   return (
     <Family
-      title="StudioDoubleSplitWordCounter"
+      title="Double Word Counter"
       nonDefaultSettings={[
         "Both square rails step the same four-state word sequence; the left rail moves backward and the right rail moves forward.",
         "One primary-palette specimen per size; inverse color variants are not part of the primitive contract.",
@@ -881,7 +881,7 @@ const ConfirmedStudioLeftWordSliderFamily: React.FC = () => {
   const updateAt = (index: number, value: number) => setValues(current => current.map((previous, itemIndex) => itemIndex === index ? value : previous))
   return (
     <Family
-      title="StudioLeftWordSlider"
+      title="Left Word Slider"
       nonDefaultSettings={[
         "Slider and counter share one integer value in the 1–4 range; counter buttons use the shared accelerated hold behavior.",
         "The slider position and right-hand numeric readout always represent the same value.",
@@ -1010,7 +1010,7 @@ const ConfirmedStudioButtonFamily: React.FC = () => {
 const ConfirmedStudioSplitButtonFamily: React.FC = () => {
   const sizes = ["supreme", "standard", "compact", "mini", "micro"] as const
   return (
-    <Family title="Split Button Family" nonDefaultSettings={[
+    <Family title="Split Buttons" nonDefaultSettings={[
       "Every supported size is shown for split-left, split-right, double-split, two-line, and split two-line designs.",
       "Split-left and split-right use one square rail; double-split uses two square rails; all keep a single black divider per boundary.",
       "Two-line variants keep both lines inside one face at the selected size; no second control or increased shell height is introduced.",
@@ -1154,7 +1154,7 @@ const useConfirmedAdditionalPrimitiveSections = (): React.ReactNode[] => {
   ]
   const content = (
     <>
-      <Family title="StudioChatComposerDock" nonDefaultSettings={[
+      <Family title="Chat Composer Dock" nonDefaultSettings={[
         "The dock owns responsive placement only; field state, tool state, and message submission remain caller-owned.",
         "The inline-actions variant puts tools before the field row; toolbar-actions moves tools and actions below the field.",
         "Status/context chips and tools tray are optional slots; catalog chips are static and are not connected to live Brain state.",
@@ -1188,7 +1188,7 @@ const useConfirmedAdditionalPrimitiveSections = (): React.ReactNode[] => {
       <Family title="StudioChoice" nonDefaultSettings={["Shared choice engine underlies radio, checkbox, and X-checkbox wrappers; each wrapper supplies its own native input semantics.", "All five size tiers are shown using the canonical radio choice face."]} provenance={<Provenance primitive="StudioChoice" tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-distill-overrides.css" tokens="Supreme / Standard / Compact / Mini / Micro · secondary focus outline at 65% of the active border." imports={["src/studio-ui/primitives/StudioControls.tsx"]} />}>
         {(["supreme", "standard", "compact", "mini", "micro"] as const).map((size, index) => <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioChoice" key={size}><span>{size.toUpperCase()} · SHARED RADIO CHOICE</span><StudioChoice kind="radio" skin="solid" checked={choiceChecks[index]} onClick={() => setChoiceChecks(current => current.map((value, itemIndex) => itemIndex === index ? !value : value))} sizeVariant={size} aria-label={size + " shared choice specimen"} /></div>)}
       </Family>
-            <Family title="Compatibility Fields" nonDefaultSettings={[
+            <Family title="Compat Fields" nonDefaultSettings={[
         "Legacy field aliases are retained for compatibility; new work should use StudioTextInput and StudioTextArea.",
       ]} provenance={<Provenance primitive="StudioInput · Studioarea" tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css" tokens="Compatibility aliases inherit the canonical text-field token contract." imports={["src/studio-ui/primitives/StudioControls.tsx"]} />}>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioInput">
@@ -1201,7 +1201,7 @@ const useConfirmedAdditionalPrimitiveSections = (): React.ReactNode[] => {
         </div>
       </Family>
 
-      <Family title="Compatibility Controls" nonDefaultSettings={[
+      <Family title="Compat Controls" nonDefaultSettings={[
         "Legacy switch, toggle, radio, checkbox, and X-checkbox aliases remain under Controls; use canonical Studio control APIs for new work.",
       ]} provenance={<Provenance primitive="Studiotoggle · Studioswitch · Studioradio · Studiocheck · Studioxbox" tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css" tokens="Compatibility aliases inherit their canonical control token contracts." imports={["src/studio-ui/primitives/StudioControls.tsx"]} />}>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="Studiotoggle">
@@ -1258,7 +1258,7 @@ const useConfirmedAdditionalPrimitiveSections = (): React.ReactNode[] => {
         </div>
       </Family>
 
-      <Family title="Spectrum / Metric Icons" nonDefaultSettings={[
+      <Family title="Spectrum Icons" nonDefaultSettings={[
         "The spectrum icon uses Studio-owned semantic color names and the canonical five-tier size contract.",
         "Metric glyph and color assignments are stable by semantic metric key; metric colors are not assigned locally by consumers.",
         "Icon-only specimens expose accessible names; decorative instances remain hidden from assistive technology.",
@@ -1288,7 +1288,7 @@ const useConfirmedAdditionalPrimitiveSections = (): React.ReactNode[] => {
           </div>
         </div>
       </Family>
-      <Family title="Accent Rail / Icon Title" nonDefaultSettings={[
+      <Family title="Accent Rail" nonDefaultSettings={[
         "Accent rail is full-width and content-height; long or expanded content does not clip or force a fixed module height.",
         "The action is the existing StudioSquareIconButton, not a dashboard-specific or catalog-only button.",
         "Icon-title uses one monochromatic split-left surface with a semantic icon bay, flexible copy, and optional action slot.",
@@ -1319,7 +1319,7 @@ const useConfirmedAdditionalPrimitiveSections = (): React.ReactNode[] => {
             metadata="12:42 · 8.4K views · Published" footer="Video details supplied by the consuming feature." selected />
         </div>
       </Family>
-      <Family title="StudioVideoSelector" nonDefaultSettings={[
+      <Family title="Video Selector" nonDefaultSettings={[
         "Controlled value and onValueChange keep selection state in the owning workflow; the selector owns only query and open-menu state.",
         "Search field sits in the menu's top row; option rows contain thumbnail, title, duration, metadata, and status.",
         "Arrow keys move between options, Enter selects, and Escape closes the menu. Loading and empty states are explicit.",
@@ -1699,7 +1699,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       </div>
     </Family>
     <Family
-      title="StudioCloseableBadge"
+      title="Closeable Badge"
       nonDefaultSettings={[
         "Fixed 20px metadata pill with a secondary-pair close affordance and explicit close feedback.",
         "This metadata badge is an intentional family exception, not an ordinary size-tier control.",
@@ -1790,7 +1790,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
     <ConfirmedStudioDoubleSplitWordCounterFamily />
     <ConfirmedStudioLeftWordSliderFamily />
     <Family
-      title="Resource Split Button"
+      title="Resource Button"
       nonDefaultSettings={[
         "Resource index row with a shared square icon rail, compact metadata hierarchy, and selected pair tint.",
         "The primitive owns its layout and styling; consuming pages provide resource content and semantic palette only.",
@@ -1845,7 +1845,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       </div>
     </Family>
     <Family
-      title="Collapsing Split Module"
+      title="Collapsing Module"
       nonDefaultSettings={[
         "Production collapsible split module is catalogued separately from the intermodule and multi-section split accordion.",
         "The top imported-primitive ledger stays limited to one standard-size representative per primitive; size comparisons belong here.",
@@ -1866,7 +1866,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       </div>
     </Family>
     <Family
-      title="Two-Line Collapsing Module"
+      title="Two-Line Module"
       nonDefaultSettings={[
         "Dedicated production specimen for the two-line collapsing module; kept separate from the top direct-control ledger and the ordinary collapsing split module.",
         "The title and description are rendered by the canonical StudioCollapsingTwoLineModule primitive.",
@@ -1914,7 +1914,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
         </div>
       </div>
     </Family>
-      <Family title="Calendar Event Chips" nonDefaultSettings={[
+      <Family title="Calendar Events" nonDefaultSettings={[
         "Each specimen below renders the production calendar primitive itself; the component root carries its library identity.",
         "Mini event chips cover all five semantic kinds, status, selected state, and the canonical removable-badge path.",
         "Mini multi-day bars show single, start, middle, and end segments plus selected and channel-wide states.",
@@ -1956,7 +1956,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioCalendarThumbnailEventChip">
           <span>MINI THUMBNAIL EVENT CHIP · LEFT 16:9 SPLIT</span>
           <div className="grid grid-cols-1 gap-1">
-            <StudioCalendarThumbnailEventChip label="NEW EPISODE" kind="publish" status="scheduled" />
+            <StudioCalendarThumbnailEventChip label="NEW EPISODE" kind="publish" status="scheduled" thumbnail={<svg viewBox="0 0 160 90" role="img" aria-label="Creator video thumbnail artwork"><rect width="160" height="90" fill="var(--pair-a, #36e0f6)" /><circle cx="118" cy="24" r="18" fill="var(--pair-b, #ff7f6b)" /><path d="M0 70 42 38 73 61 106 34 160 72V90H0Z" fill="#000" opacity=".8" /><path d="M65 27 65 63 98 45Z" fill="#fff" stroke="#000" strokeWidth="3" /></svg>} />
             <StudioCalendarThumbnailEventChip label="THUMBNAIL READY" kind="task" status="approved" />
           </div>
         </div>
