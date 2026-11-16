@@ -293,6 +293,7 @@ const Provenance: React.FC<{ primitive: string; tsx: string; css: string; tokens
 )
 
 const conciseFamilyHeaders: Record<string, string> = {
+  "Primitive Representatives": "Primitive Samples",
   "Split-left Badge · Standard + Compact + Micro": "Split Badge",
   "Word Toggle · Five Sizes × Four Skins": "Word Toggle",
   "Vertical Word Toggle · Five Sizes × Four Variants": "Vertical Toggle",
