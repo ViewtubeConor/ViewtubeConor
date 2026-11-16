@@ -250,3 +250,31 @@ button.vt-studio-calendar-thumbnail-event-chip { cursor: pointer; }
     transition: none;
   }
 }
+
+
+/* Multi-day bars intentionally share the event-chip / Spectrum Tag visual
+   language: solid black mini perimeter, pair-derived 50% fill, and Mini tokens.
+   Segment joins remove only internal radii/strokes; channel-wide is not dashed. */
+.vt-studio-calendar-multi-day-bar[data-size="mini"],
+.vt-studio-calendar-multi-day-bar[data-calendar-size="mini"] {
+  height: var(--vt-studio-control-height, 20px);
+  min-height: var(--vt-studio-control-height, 20px);
+  border: var(--vt-studio-control-stroke, 1.5px) solid #000;
+  border-radius: var(--vt-studio-control-radius, 3px);
+  background: var(--vt-studio-control-primary-fill, color-mix(in srgb, white 50%, var(--vt-studio-control-accent, var(--pair-a, #36e0f6))));
+  color: #000;
+  font-family: var(--vt-studio-control-font-family, Inter, ui-sans-serif, system-ui, sans-serif);
+  font-size: var(--vt-studio-control-font-size, 17.5px);
+  font-weight: var(--vt-studio-control-font-weight, 1000);
+  line-height: var(--vt-studio-control-line-height, 1);
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, .4px) #000;
+}
+.vt-studio-calendar-multi-day-bar[data-channel-wide="true"] {
+  border-style: solid;
+  border-color: #000;
+  background: var(--vt-studio-control-primary-fill, color-mix(in srgb, white 50%, var(--vt-studio-control-accent, var(--pair-a, #36e0f6))));
+}
+.vt-studio-calendar-multi-day-bar[data-selected="true"],
+.vt-studio-calendar-multi-day-bar[data-channel-wide="true"][data-selected="true"] {
+  background: var(--vt-studio-control-secondary-fill, color-mix(in srgb, white 50%, var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b))));
+}
