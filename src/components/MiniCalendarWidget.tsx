@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useBrain } from '../context/useBrain';\nimport '../styles/studio-control-entry.css';
+import { useBrain } from '../context/useBrain';
+import '../styles/studio-control-entry.css';
 
 export const MiniCalendarWidget: React.FC = () => {
   const { brain, authState } = useBrain();
