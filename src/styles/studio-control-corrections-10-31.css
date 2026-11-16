@@ -1,0 +1,225 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Studio Controls corrections against the 10-31 baseline
+ * (codex/shared-studio-int-port-onto-10-31)
+ *
+ * 1. Split text inputs — left align + small margins (already mostly correct;
+ *    this reinforces and kills any centering / large padding overrides).
+ * 2. Side / double-side toggles — default text uses the rest mix; black only
+ *    on focus (already present; reinforced here so recovery overrides cannot
+ *    force black on default).
+ * 3. Text areas + text inputs focus — stroke + text both black on focus;
+ *    remove any primary-colored text on focus.
+ * 4. Panel accordion — vertical border already exists; text section uses
+ *    text-box styling.
+ * 5. Unified fixed-label / legend element scaling.
+ * + Switches/radios/checkboxes radius, circle icon buttons, bar-toggle track
+ *   isolation, square-icon-button overflow exception.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/* ── 1. Split text inputs: enforce left alignment + compact horizontal padding ─ */
+html body .vt-studio-split-text-input input.vt-studio-text-input[data-vt-studio-control="true"][data-size] {
+  text-align: left !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  margin: 0 !important;
+}
+
+html body .vt-studio-split-text-input[data-size="compact"] input.vt-studio-text-input {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+
+/* ── 3. Focus mode: text + stroke black for inputs and textareas ───────────── */
+html body input.vt-studio-text-input:is(:focus, :focus-visible),
+html body input[data-vt-studio-control="true"]:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):is(:focus, :focus-visible),
+html body textarea[data-vt-studio-control="true"]:is(:focus, :focus-visible),
+html body [data-vt-studio-control="true"] textarea:is(:focus, :focus-visible),
+html body .vt-studio-split-text-input input.vt-studio-text-input:is(:focus, :focus-visible) {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  -webkit-text-stroke-color: #000 !important;
+  /* caret stays primary per global contract */
+  caret-color: var(--vt-studio-control-accent, var(--pair-a, #36e0f6)) !important;
+}
+
+/* Kill any remaining primary-colored text rules that fire on focus */
+html body input.vt-studio-text-input:is(:focus, :focus-visible),
+html body textarea[data-vt-studio-control="true"]:is(:focus, :focus-visible) {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+}
+
+/* ── 2. Side / double-side toggles — rest text is mixed white, black only on focus ─
+ * The existing value-toggles.css already does this via --vt-studio-number-rest-color.
+ * Reinforce so no recovery sheet can force black on the default face. */
+.vt-studio-value-toggle:not(:focus-within) .vt-studio-value-toggle__face,
+.vt-studio-value-toggle:not(:focus-within) .vt-studio-word-counter__value {
+  color: var(--vt-studio-number-rest-color, color-mix(in srgb, #fff 50%, var(--vt-toggle-fill, var(--pair-a)))) !important;
+  -webkit-text-fill-color: currentColor !important;
+  -webkit-text-stroke-color: currentColor !important;
+}
+
+.vt-studio-value-toggle:focus-within .vt-studio-value-toggle__face,
+.vt-studio-value-toggle:focus-within .vt-studio-word-counter__value,
+.vt-studio-value-toggle--double .vt-studio-value-toggle__double-side:focus-within .vt-studio-value-toggle__face {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  -webkit-text-stroke-color: #000 !important;
+}
+
+/* Double-side toggle must expand to full module width (not left-column only) */
+.vt-studio-value-toggle--double {
+  width: 100% !important;
+  max-width: none !important;
+  flex: 1 1 auto;
+}
+
+/* ── 4. Panel accordion text section uses text-box styling ─────────────────── */
+.vt-studio-panel-accordion__panel {
+  font-family: var(--vt-studio-control-font-family, Inter, ui-sans-serif, system-ui, sans-serif);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: #111;
+  text-align: left;
+  text-transform: none;
+  padding: 10px 12px;
+}
+
+/* Vertical border is already present via border-right on __rails.
+ * Ensure it remains solid black and full height. */
+.vt-studio-panel-accordion__rails {
+  border-right: var(--vt-studio-panel-stroke, 3px) solid #000 !important;
+}
+
+/* ── 5. Unified fixed-label / legend element ──────────────────────────────── */
+/* Single shared class for the secondary-colored top label used by fixed-label
+ * text fields and legend multi-select dropdowns. Scale with size tiers. */
+.vt-studio-fixed-field-label,
+.vt-studio-legend-label,
+[data-vt-studio-field-variant="fixed-label"] > label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 8px;
+  transform: translateY(-50%);
+  z-index: 2;
+  box-sizing: border-box;
+  height: 18px;
+  min-height: 18px;
+  padding: 0 8px;
+  border: 1.5px solid #000;
+  border-radius: 3px;
+  background: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
+  color: #000;
+  font-family: var(--vt-studio-control-font-family, Inter, ui-sans-serif, system-ui, sans-serif);
+  font-weight: 1000;
+  font-size: 11px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+[data-size="compact"] .vt-studio-fixed-field-label,
+[data-size="compact"] .vt-studio-legend-label,
+[data-size="compact"][data-vt-studio-field-variant="fixed-label"] > label {
+  height: 14px;
+  min-height: 14px;
+  padding: 0 6px;
+  font-size: 9px;
+  border-width: 1px;
+  border-radius: 2px;
+}
+
+[data-size="mini"] .vt-studio-fixed-field-label,
+[data-size="mini"] .vt-studio-legend-label {
+  height: 12px;
+  min-height: 12px;
+  padding: 0 5px;
+  font-size: 8px;
+  border-width: 1px;
+  border-radius: 2px;
+}
+
+/* Fixed-label field wrapper needs relative positioning for the label */
+.vt-studio-fixed-label-field {
+  position: relative;
+}
+
+/* ── Switches / radios / checkboxes — corner radius matches size tier ─────── */
+input[type="checkbox"][data-vt-studio-control="true"],
+input[type="radio"][data-vt-studio-control="true"],
+.vt-studio-switch,
+.vt-studio-checkbox,
+.vt-studio-radio {
+  border-radius: var(--vt-studio-control-radius, 6px);
+}
+
+[data-size="compact"] input[type="checkbox"][data-vt-studio-control="true"],
+[data-size="compact"] .vt-studio-checkbox,
+[data-size="compact"] .vt-studio-switch {
+  border-radius: var(--vt-studio-compact-radius, 4px);
+}
+
+[data-size="mini"] input[type="checkbox"][data-vt-studio-control="true"],
+[data-size="mini"] .vt-studio-checkbox {
+  border-radius: var(--vt-studio-mini-radius, 3px);
+}
+
+/* Radio stays circular regardless of size */
+input[type="radio"][data-vt-studio-control="true"],
+.vt-studio-radio {
+  border-radius: 50% !important;
+}
+
+/* ── Circle icon buttons must not be square ──────────────────────────────── */
+.vt-studio-circle-icon-button,
+[data-vt-studio-control-kind="circle-icon-button"],
+button[data-shape="circle"] {
+  border-radius: 50% !important;
+  aspect-ratio: 1 / 1;
+  width: var(--vt-studio-control-height, 44px);
+  height: var(--vt-studio-control-height, 44px);
+  padding: 0;
+}
+
+/* ── Square icon button overflow exception (tooltips + CSS animations) ───── */
+/* Same exception already granted to bar toggles. Allow extra elements and
+ * animations to expand outside the component border without being clipped. */
+.vt-studio-square-icon-button,
+[data-vt-studio-control-kind="square-icon-button"],
+.vt-studio-icon-button[data-variant="square"] {
+  overflow: visible !important;
+}
+
+.vt-studio-square-icon-button .vt-studio-icon-button__tooltip,
+.vt-studio-square-icon-button [data-tooltip],
+.vt-studio-icon-button[data-variant="square"] .vt-studio-icon-button__tooltip {
+  position: absolute;
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* ── Bar toggles: bar track only exists in the center section ─────────────── */
+/* Prevent the bar elements from rendering under / behind the side rails. */
+.vt-studio-value-toggle--bar > [data-vt-studio-split-rail] {
+  z-index: 2;
+  background: var(--vt-studio-control-secondary, var(--pair-b));
+}
+
+.vt-studio-value-toggle--bar > [data-vt-studio-split-label],
+.vt-studio-value-toggle--bar .vt-studio-value-toggle__bars {
+  z-index: 1;
+  position: relative;
+  overflow: hidden; /* clip any bar that tries to bleed under rails */
+}
+
+.vt-studio-value-toggle--bar .vt-studio-value-toggle__bar {
+  /* keep bars strictly inside the center track */
+  max-width: 100%;
+}

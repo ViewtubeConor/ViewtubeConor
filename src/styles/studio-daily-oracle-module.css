@@ -1,0 +1,103 @@
+/* StudioDailyOracleModule — full-width accent-rail information card.
+ * Rail touches the outer black stroke. Square action button on the right.
+ * Geometry follows Studio size tiers; no layout-shifting focus. */
+
+.vt-studio-daily-oracle {
+  --vt-oracle-height: var(--vt-studio-control-height, 44px);
+  --vt-oracle-stroke: var(--vt-studio-control-stroke, 3px);
+  --vt-oracle-radius: var(--vt-studio-control-radius, 6px);
+  --vt-oracle-rail: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
+  --vt-oracle-fill: color-mix(in srgb, white 88%, var(--vt-studio-control-accent, var(--pair-a, #36e0f6)) 12%);
+  display: grid;
+  grid-template-columns: 6px minmax(0, 1fr) auto;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  border: var(--vt-oracle-stroke) solid #000;
+  border-radius: var(--vt-oracle-radius);
+  background: var(--vt-oracle-fill);
+  overflow: hidden;
+}
+
+.vt-studio-daily-oracle[data-size="compact"] {
+  --vt-oracle-height: var(--vt-studio-compact-height, 28px);
+  --vt-oracle-stroke: var(--vt-studio-compact-stroke, 2px);
+  --vt-oracle-radius: var(--vt-studio-compact-radius, 4px);
+}
+
+.vt-studio-daily-oracle__rail {
+  width: 6px;
+  min-width: 6px;
+  background: var(--vt-oracle-rail);
+  /* touches outer stroke — no gap */
+}
+
+.vt-studio-daily-oracle__content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px 12px;
+}
+
+.vt-studio-daily-oracle__title {
+  margin: 0;
+  font-family: var(--vt-studio-control-font-family, Inter, ui-sans-serif, system-ui, sans-serif);
+  font-weight: 1000;
+  font-size: 15px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #000;
+  -webkit-text-stroke: 0.4px #000;
+}
+
+.vt-studio-daily-oracle__body {
+  font-family: var(--vt-studio-control-font-family, Inter, ui-sans-serif, system-ui, sans-serif);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: #111;
+  text-transform: none;
+}
+
+.vt-studio-daily-oracle__action {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: var(--vt-oracle-height);
+  min-width: var(--vt-oracle-height);
+  height: auto;
+  min-height: var(--vt-oracle-height);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-left: var(--vt-oracle-stroke) solid #000;
+  border-radius: 0;
+  background: color-mix(in srgb, white 70%, var(--vt-studio-control-accent, var(--pair-a, #36e0f6)) 30%);
+  color: #000;
+  cursor: pointer;
+}
+
+.vt-studio-daily-oracle__action:focus-visible {
+  outline: calc(var(--vt-oracle-stroke) * 0.65) solid var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
+  outline-offset: 0;
+  z-index: 1;
+}
+
+.vt-studio-daily-oracle__action-icon,
+.vt-studio-daily-oracle__action-icon svg {
+  display: block;
+  width: 55%;
+  height: 55%;
+  max-width: 22px;
+  max-height: 22px;
+}
+
+/* Spectrum variants via data-tone or CSS var override */
+.vt-studio-daily-oracle[data-tone="attention"] { --vt-oracle-rail: #ff4d6d; }
+.vt-studio-daily-oracle[data-tone="signal"] { --vt-oracle-rail: #36e0f6; }
+.vt-studio-daily-oracle[data-tone="success"] { --vt-oracle-rail: #4ade80; }
+.vt-studio-daily-oracle[data-tone="warning"] { --vt-oracle-rail: #fbbf24; }

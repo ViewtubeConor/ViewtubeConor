@@ -2,6 +2,7 @@ import "../styles/toolbox-entry.css"
 import "../styles/studio-control-entry.css"
 import "../styles/studio-led-badge-tab.css"
 import "../styles/studio-chat-composer-dock.css"
+import "../styles/studio-control-corrections-10-31.css"
 
 export { STUDIO_TOKENS } from "./tokens"
 export type { StudioControlSize, StudioHierarchyLevel } from "./tokens"
@@ -222,3 +223,22 @@ export type { StudioChatResponseShellProps, StudioChatResponseShellSize } from "
 
 export { StudioCalendarEventChip, StudioCalendarMultiDayBar, StudioCalendarThumbnailEventChip, StudioCalendarMediaRail } from "./primitives/StudioCalendarPrimitives"
 export type { StudioCalendarEventKind, StudioCalendarMiniSegment, StudioCalendarEventChipProps, StudioCalendarMultiDayBarProps, StudioCalendarThumbnailEventChipProps, StudioCalendarMediaRailProps } from "./primitives/StudioCalendarPrimitives"
+
+// New redesigned modules (Daily Oracle, Interactive Checklist, Spectrum Surface)
+export { StudioDailyOracleModule } from "./primitives/StudioDailyOracleModule"
+export type { StudioDailyOracleModuleProps } from "./primitives/StudioDailyOracleModule"
+
+export { StudioInteractiveChecklist } from "./primitives/StudioInteractiveChecklist"
+export type {
+  StudioInteractiveChecklistProps,
+  StudioChecklistItem,
+  StudioChecklistBadgeTone,
+} from "./primitives/StudioInteractiveChecklist"
+
+export { StudioSpectrumSurface } from "./primitives/StudioSpectrumSurface"
+export type { StudioSpectrumSurfaceProps } from "./primitives/StudioSpectrumSurface"
+
+// Tone-based IconTitle (catalog specimens). Spectrum-driven IconTitle remains
+// exported above from StudioDashboardPrimitives.
+export { StudioIconTitleModule as StudioToneIconTitleModule } from "./primitives/StudioIconTitleModule"
+export type { StudioIconTitleTone } from "./primitives/StudioIconTitleModule"

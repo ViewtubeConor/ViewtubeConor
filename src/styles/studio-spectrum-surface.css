@@ -1,0 +1,75 @@
+/* StudioSpectrumSurface — full-bleed gradient panel + spectrum divider. */
+
+.vt-studio-spectrum-surface {
+  --vt-spec-stroke: var(--vt-studio-control-stroke, 3px);
+  --vt-spec-radius: var(--vt-studio-control-radius, 6px);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  border: var(--vt-spec-stroke) solid #000;
+  border-radius: var(--vt-spec-radius);
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    #fda4af 0%,
+    #fdba74 12%,
+    #fde047 24%,
+    #86efac 36%,
+    #67e8f9 48%,
+    #7dd3fc 60%,
+    #a5b4fc 72%,
+    #c4b5fd 84%,
+    #f9a8d4 100%
+  );
+}
+
+.vt-studio-spectrum-surface[data-size="compact"] {
+  --vt-spec-stroke: var(--vt-studio-compact-stroke, 2px);
+  --vt-spec-radius: var(--vt-studio-compact-radius, 4px);
+}
+
+.vt-studio-spectrum-surface__inner {
+  padding: 14px 16px 12px;
+  background: color-mix(in srgb, white 82%, transparent);
+}
+
+.vt-studio-spectrum-surface__title {
+  margin: 0 0 6px;
+  font-family: var(--vt-studio-control-font-family, Inter, ui-sans-serif, system-ui, sans-serif);
+  font-weight: 1000;
+  font-size: 15px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #000;
+  -webkit-text-stroke: 0.35px #000;
+}
+
+.vt-studio-spectrum-surface__body {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #111;
+  text-transform: none;
+}
+
+.vt-studio-spectrum-surface__divider {
+  height: 8px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    #fb7185 0%,
+    #fb923c 10%,
+    #facc15 20%,
+    #4ade80 30%,
+    #2dd4bf 40%,
+    #22d3ee 50%,
+    #38bdf8 60%,
+    #818cf8 70%,
+    #a78bfa 80%,
+    #e879f9 90%,
+    #f472b6 100%
+  );
+  border-top: 1px solid #000;
+}
