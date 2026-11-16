@@ -224,6 +224,9 @@ export type { StudioChatResponseShellProps, StudioChatResponseShellSize } from "
 export { StudioCalendarEventChip, StudioCalendarMultiDayBar, StudioCalendarThumbnailEventChip, StudioCalendarMediaRail } from "./primitives/StudioCalendarPrimitives"
 export type { StudioCalendarEventKind, StudioCalendarMiniSegment, StudioCalendarEventChipProps, StudioCalendarMultiDayBarProps, StudioCalendarThumbnailEventChipProps, StudioCalendarMediaRailProps } from "./primitives/StudioCalendarPrimitives"
 
+export { StudioResourceSplitButton } from "./primitives/StudioResourceSplitButton"
+export type { StudioResourceSplitButtonProps } from "./primitives/StudioResourceSplitButton"
+
 // New redesigned modules (Daily Oracle, Interactive Checklist, Spectrum Surface)
 export { StudioDailyOracleModule } from "./primitives/StudioDailyOracleModule"
 export type { StudioDailyOracleModuleProps } from "./primitives/StudioDailyOracleModule"
