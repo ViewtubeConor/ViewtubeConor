@@ -1248,9 +1248,10 @@ describe("toggle row-width and module contract", () => {
 describe("Studio field and module global-default contracts", () => {
   it("forces black textarea focus glyphs and black TextBox glyphs at all five tiers", () => {
     const fields = readFileSync(resolve(process.cwd(), "src/styles/studio-control-fields.css"), "utf8");
-    expect(fields).toContain("color: #000 !important");
-    expect(fields).toContain("-webkit-text-fill-color: #000 !important");
-    expect(fields).toContain("-webkit-text-stroke-color: #000 !important");
+    const finalFields = readFileSync(resolve(process.cwd(), "src/styles/studio-text-input.css"), "utf8");
+    expect(finalFields).toContain("color: #000 !important");
+    expect(finalFields).toContain("-webkit-text-fill-color: #000 !important");
+    expect(finalFields).toContain("-webkit-text-stroke-color: #000 !important");
     for (const size of ["supreme", "standard", "compact", "mini", "micro"]) {
       expect(fields).toContain('.vt-studio-text-box[data-vt-studio-control="true"][data-size="' + size + '"]');
     }
