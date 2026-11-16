@@ -34,6 +34,7 @@ export const StudioCalendarEventChip: React.FC<StudioCalendarEventChipProps> = (
     data-event-kind={kind}
     data-event-status={status}
     data-calendar-size={sizeVariant}
+    data-size={sizeVariant}
     data-selected={selected ? "true" : undefined}
   >
     {sizeVariant === "mini" ? (
@@ -97,6 +98,7 @@ export const StudioCalendarMultiDayBar: React.FC<StudioCalendarMultiDayBarProps>
     "data-event-kind": kind,
     "data-event-status": status,
     "data-calendar-size": "mini",
+    "data-size": "mini",
     "data-calendar-segment": segment,
     "data-channel-wide": channelWide ? "true" : undefined,
     "data-selected": selected ? "true" : undefined,
@@ -113,6 +115,7 @@ export interface StudioCalendarThumbnailEventChipProps {
   label: string
   thumbnailSrc?: string
   thumbnailAlt?: string
+  thumbnail?: React.ReactNode
   kind?: StudioCalendarEventKind
   status?: string
   selected?: boolean
@@ -124,6 +127,7 @@ export const StudioCalendarThumbnailEventChip: React.FC<StudioCalendarThumbnailE
   label,
   thumbnailSrc,
   thumbnailAlt,
+  thumbnail,
   kind = "publish",
   status,
   selected = false,
@@ -133,9 +137,9 @@ export const StudioCalendarThumbnailEventChip: React.FC<StudioCalendarThumbnailE
   const content = (
     <>
       <span className="vt-studio-calendar-thumbnail-event-chip__media" data-thumbnail-ratio="16:9">
-        {thumbnailSrc
+        {thumbnail ?? (thumbnailSrc
           ? <img src={thumbnailSrc} alt={thumbnailAlt ?? ""} loading="lazy" />
-          : <ImageIcon aria-hidden="true" />}
+          : <ImageIcon aria-hidden="true" />)}
       </span>
       <span className="vt-studio-calendar-thumbnail-event-chip__body">
         <span className="vt-studio-calendar-thumbnail-event-chip__label">{label}</span>
@@ -149,6 +153,7 @@ export const StudioCalendarThumbnailEventChip: React.FC<StudioCalendarThumbnailE
     "data-event-kind": kind,
     "data-event-status": status,
     "data-calendar-size": "mini",
+    "data-size": "mini",
     "data-thumbnail-ratio": "16:9",
     "data-selected": selected ? "true" : undefined,
     "aria-label": [label, status].filter(Boolean).join(", "),
@@ -184,6 +189,7 @@ export const StudioCalendarMediaRail: React.FC<StudioCalendarMediaRailProps> = (
     data-vt-library-component="StudioCalendarMediaRail"
     data-aspect-ratio={aspectRatio}
     data-split={split}
+    data-size="standard"
     role="group"
     aria-label={label}
   >
