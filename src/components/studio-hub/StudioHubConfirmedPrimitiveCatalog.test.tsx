@@ -1287,6 +1287,8 @@ describe("Studio field, module, and resource primitive defaults", () => {
     expect(css).toContain("color: #000 !important");
     expect(css).toContain("-webkit-text-fill-color: #000 !important");
     expect(css).toContain("-webkit-text-stroke-color: #000 !important");
+    expect(css).toContain("text-align: left !important");
+    expect(css).toContain(".vt-studio-split-text-input input.vt-studio-split-text-input__field");
     for (const size of ["supreme", "standard", "compact", "mini", "micro"]) {
       expect(css).toContain('.vt-studio-text-box[data-vt-studio-control="true"][data-size="' + size + '"]');
     }
