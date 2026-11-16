@@ -22,3 +22,8 @@
 
 /* Last field layer: persistent primary inset must survive every family/correction sheet. */
 @import "./studio-text-input.css";
+
+/* Numbered interaction fixes (focus text, split-text align, double-side width,
+   circle buttons, bar-toggle track isolation, unified fixed-label, etc.).
+   MUST remain last so it wins over recovery / distill sheets. */
+@import "./studio-control-corrections-10-31.css";
