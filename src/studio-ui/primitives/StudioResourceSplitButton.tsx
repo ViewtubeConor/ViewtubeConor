@@ -1,6 +1,7 @@
 import React from "react"
 import type { StudioControlSize } from "../tokens"
-import "../../styles/studio-control-entry.css"\nimport { StudioSpectrumTag } from "./StudioControls"
+import "../../styles/studio-control-entry.css"
+import { StudioSpectrumTag } from "./StudioControls"
 
 export interface StudioResourceSplitButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
