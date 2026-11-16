@@ -6841,3 +6841,57 @@ div.vt-studio-square-icon-button-group[data-vt-studio-icon-button-group="true"] 
   height: var(--vt-icon-group-size, 44px);
   min-height: var(--vt-icon-group-size, 44px);
 }
+
+
+/* Resource Split Button: all geometry and typography scale from the selected
+   global size tier; the resource page supplies data, never layout corrections. */
+button.vt-studio-resource-split-button[data-vt-studio-button="true"],
+button.vt-studio-resource-split-button[data-vt-studio-button="true"] > [data-vt-studio-button-face] {
+  min-height: calc(var(--vt-studio-control-height, 44px) + 2 * var(--vt-studio-control-stroke, 3px));
+}
+button.vt-studio-resource-split-button[data-vt-studio-button="true"] > [data-vt-studio-button-face] {
+  grid-template-columns: var(--vt-studio-control-height, 44px) minmax(0, 1fr);
+}
+button.vt-studio-resource-split-button[data-vt-studio-button="true"] [data-vt-studio-split-rail] {
+  width: var(--vt-studio-control-height, 44px);
+  min-width: var(--vt-studio-control-height, 44px);
+  height: var(--vt-studio-control-height, 44px);
+  border-right: var(--vt-studio-control-stroke, 3px) solid #000;
+}
+button.vt-studio-resource-split-button[data-vt-studio-button="true"] [data-vt-studio-split-rail] svg {
+  width: min(var(--vt-studio-control-icon-size, 38px), 90%);
+  height: min(var(--vt-studio-control-icon-size, 38px), 90%);
+}
+.vt-studio-resource-split-button__copy {
+  gap: calc(var(--vt-studio-control-stroke, 3px) * .5);
+  padding: calc(var(--vt-studio-control-stroke, 3px) * 2) calc(var(--vt-studio-control-stroke, 3px) * 3);
+}
+.vt-studio-resource-split-button__category {
+  font-size: calc(var(--vt-studio-control-font-size, 38px) * .22);
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, 1px) currentColor;
+}
+.vt-studio-resource-split-button__title {
+  font-size: calc(var(--vt-studio-control-font-size, 38px) * .32);
+  font-weight: var(--vt-studio-control-font-weight, 1000);
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, 1px) currentColor;
+}
+.vt-studio-resource-split-button__meta,
+.vt-studio-resource-split-button__completed {
+  font-size: calc(var(--vt-studio-control-font-size, 38px) * .24);
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, 1px) currentColor;
+}
+
+/* Expanded collapsing headers keep the same uninterrupted horizontal divider
+   beneath the center title and both square icon sections. */
+.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head
+  > .vt-studio-top-split-module__rail,
+.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head
+  > .vt-studio-collapsing-split-module__disclosure {
+  border-bottom: var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px)) solid #000 !important;
+}
+.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head::after {
+  z-index: 20;
+  bottom: calc(-1 * var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px)));
+  height: var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px));
+  background: #000;
+}
