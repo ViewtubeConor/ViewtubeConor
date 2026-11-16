@@ -292,6 +292,63 @@ const Provenance: React.FC<{ primitive: string; tsx: string; css: string; tokens
   </div>
 )
 
+const conciseFamilyHeaders: Record<string, string> = {
+  "Split-left Badge · Standard + Compact + Micro": "Split Badge",
+  "Word Toggle · Five Sizes × Four Skins": "Word Toggle",
+  "Vertical Word Toggle · Five Sizes × Four Variants": "Vertical Toggle",
+  "Direct Imported Primitive Representatives · Standard": "Direct Primitives",
+  "StudioCounter · Supreme + Standard + Compact + Mini + Micro": "Counter",
+  "StudioDoubleSplitSlider · Supreme + Standard + Compact + Mini + Micro": "Double Split Slider",
+  "StudioSideCounter · Supreme + Standard + Compact + Mini + Micro": "Side Counter",
+  "StudioSideTextCounter · Editable Text + Numeric Stepper · Five Sizes": "Side Text Counter",
+  "StudioSideTextCounterIcon · Editable Text + Single Icon Rail · Five Sizes": "Side Text + Icon",
+  "StudioSplitTextInput · Left / Right / Double · Five Sizes": "Split Text Input",
+  "StudioSplitLeftTextInput · Five Sizes": "Split Left Input",
+  "StudioSplitRightTextInput · Five Sizes": "Split Right Input",
+  "StudioDoubleSplitTextInput · Five Sizes": "Double Split Input",
+  "StudioLeftWordCounter · Four-State Cycle + Five Sizes": "Left Word Counter",
+  "StudioDoubleSplitWordCounter · Two Chevron Rails + Four-State Word Cycle": "Double Word Counter",
+  "StudioLeftWordSlider · Slider + Numeric Right Rail": "Left Word Slider",
+  "Button · V1–V7 · Proportional size grid": "Buttons",
+  "Split Button Family · All Sizes × Left / Right / Double / Two-Line": "Split Buttons",
+  "Dropdown Family · All Sizes × Single / Simple / Split-Left / Multi-Select": "Dropdowns",
+  "StudioChatComposerDock · Message Composer Layout": "Chat Composer",
+  "StudioIconButton · All Five Sizes": "Icon Buttons",
+  "StudioChoice · All Five Sizes": "Choice Controls",
+  "Compatibility Field Exports · Standard": "Compat Fields",
+  "Compatibility Control Exports · Standard": "Compat Controls",
+  "Component Grid · Grid / Cell / Row": "Component Grid",
+  "StudioLeftCounter · Supreme + Standard + Compact + Mini + Micro": "Left Counter",
+  "Studio Spectrum + Metric Icons · Semantic Icon System": "Spectrum Icons",
+  "Accent Rail + Icon Title Information Modules": "Accent Rail",
+  "Studio Video Module · Thumbnail + Text Anatomy": "Video Module",
+  "Studio Video Selector · Searchable Split-left Menu": "Video Selector",
+  "Studio Text Input · Standalone + Simple + Floating + Fixed Label": "Text Input",
+  "Studio Text Area · Standalone + Simple + Floating + Fixed Label": "Text Area",
+  "Studio Text Box · Supreme + Standard + Compact + Mini + Micro": "Text Box",
+  "Prominent Action · 60px Supreme": "Prominent Action",
+  "Square Icon Button · Standard + Compact": "Square Icon Button",
+  "Square Icon Button Groups · Five Joined Squares · Standard + Compact": "Icon Button Group",
+  "Top Split Module · Left / Right / Double / None": "Top Split Module",
+  "Split-left Button · Standard + Compact": "Split Button",
+  "Play/Pause Split-left Button · 44px + 28px": "Play / Pause",
+  "Circle Icon Button · 44px + 28px": "Circle Icon Button",
+  "StudioSpectrumTag · Vault Metadata Exception": "Spectrum Tag",
+  "StudioCloseableBadge · Fixed 20px Exception": "Closeable Badge",
+  "StudioTagEditor · Tokenized Actions": "Tag Editor",
+  "Upload Frame · Standard + Compact": "Upload Frame",
+  "Publishing Card · 5:7 Compound Composition": "Publishing Card",
+  "Split Accordion · Train Motion": "Split Accordion",
+  "Collapsing Split Module · Standard + Compact": "Collapsing Module",
+  "Collapsing Two-Line Module · Standard": "Two-Line Module",
+  "Status / navigation · LED badge and tab system": "Status / Navigation",
+  "Calendar Event Chips & Multi-day Bars · Mini Representatives": "Calendar Events",
+  "Studio Numeric Steppers · Inline + Split": "Numeric Steppers",
+  "Arrow Toggle · Five Sizes × Left / Right / Double Rails": "Arrow Toggle",
+  "Side Toggle · Five Sizes × Left / Right Arrow Orientation": "Side Toggle",
+  "Double Side Toggle · Five Sizes × V1 / V2 × Three Right Faces": "Double Side Toggle",
+  "Bar Toggle · Five Sizes": "Bar Toggle",
+};
 const Family: React.FC<{ title: string; children: React.ReactNode; provenance: React.ReactNode; nonDefaultSettings?: string[]; defaultOpen?: boolean }> = ({ title, children, provenance, nonDefaultSettings = [], defaultOpen = false }) => (
   <details
     className={`vt-confirmed-family vt-confirmed-primitive-module ${/Button|Split-left/.test(title) && !/Icon Button Rail Text Inputs/.test(title) ? "vt-confirmed-button-family" : ""}`}
@@ -300,7 +357,7 @@ const Family: React.FC<{ title: string; children: React.ReactNode; provenance: R
     open={defaultOpen || undefined}
   >
     <summary className="vt-confirmed-primitive-summary">
-      <h3 title={title}>{title}</h3>
+      <h3 title={title}>{conciseFamilyHeaders[title] ?? title}</h3>
     </summary>
     <div className="vt-confirmed-primitive-body">
       <div className="vt-confirmed-variants">{children}</div>
@@ -1839,6 +1896,30 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       </div>
     </Family>
     <Family
+      title="Panel Accordion"
+      nonDefaultSettings={[
+        "One icon-selected panel at a time; the content surface is the canonical StudioTextBox.",
+        "Standard and Compact inherit their global size, border, inset, and typography tokens.",
+      ]}
+      provenance={<Provenance primitive="StudioPanelAccordion" tsx="src/studio-ui/primitives/StudioPanelAccordion.tsx" css="src/styles/studio-panel-accordion.css + src/styles/studio-text-input.css" tokens="44px Standard / 28px Compact · secondary icon rail · canonical black-text StudioTextBox surface" imports={["src/studio-ui/primitives/StudioPanelAccordion.tsx", "src/styles/studio-panel-accordion.css", "src/styles/studio-text-input.css"]} />}
+    >
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioPanelAccordion">
+        <span>STANDARD · PANEL ACCORDION</span>
+        <StudioPanelAccordion size="standard" items={[
+          { label: "OVERVIEW", icon: <Home aria-hidden="true" />, content: <p>Overview content uses the shared read-only text-box surface.</p> },
+          { label: "DETAILS", icon: <Info aria-hidden="true" />, content: <p>Details remain in the same canonical text-box surface.</p> },
+          { label: "SETTINGS", icon: <Settings2 aria-hidden="true" />, content: <p>Settings use the same global field defaults.</p> },
+        ]} />
+      </div>
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioPanelAccordion">
+        <span>COMPACT · PANEL ACCORDION</span>
+        <StudioPanelAccordion size="compact" items={[
+          { label: "OVERVIEW", icon: <Home aria-hidden="true" />, content: <p>Compact overview content.</p> },
+          { label: "DETAILS", icon: <Info aria-hidden="true" />, content: <p>Compact details content.</p> },
+        ]} />
+      </div>
+    </Family>
+    <Family
       title="Collapsing Two-Line Module · Standard"
       nonDefaultSettings={[
         "Dedicated production specimen for the two-line collapsing module; kept separate from the top direct-control ledger and the ordinary collapsing split module.",
@@ -1929,7 +2010,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioCalendarThumbnailEventChip">
           <span>MINI THUMBNAIL EVENT CHIP · LEFT 16:9 SPLIT</span>
           <div className="grid grid-cols-1 gap-1">
-            <StudioCalendarThumbnailEventChip label="NEW EPISODE" kind="publish" status="scheduled" />
+            <StudioCalendarThumbnailEventChip label="NEW EPISODE" kind="publish" status="scheduled" thumbnail={<svg viewBox="0 0 160 90" role="img" aria-label="Creator video thumbnail artwork"><rect width="160" height="90" fill="var(--pair-a, #36e0f6)" /><circle cx="118" cy="24" r="18" fill="var(--pair-b, #ff7f6b)" /><path d="M0 70 42 38 73 61 106 34 160 72V90H0Z" fill="#000" opacity=".8" /><path d="M65 27 65 63 98 45Z" fill="#fff" stroke="#000" strokeWidth="3" /></svg>} />
             <StudioCalendarThumbnailEventChip label="THUMBNAIL READY" kind="task" status="approved" />
           </div>
         </div>
