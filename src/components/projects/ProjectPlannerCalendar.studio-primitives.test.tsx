@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server"
 import { readFileSync } from "node:fs"
 import { resolve } from "node:path"
 import { describe, expect, it } from "vitest"
-import { StudioCalendarEventChip, StudioCalendarMediaRail } from "../../studio-ui/primitives/StudioCalendarPrimitives"
+import { StudioCalendarEventChip, StudioCalendarMediaRail, StudioCalendarMultiDayBar, StudioCalendarThumbnailEventChip } from "../../studio-ui/primitives/StudioCalendarPrimitives"
 
 describe("Studio Calendar control compositions", () => {
   it("renders event chips with semantic event identity and accessible action", () => {
@@ -63,3 +63,44 @@ describe("Studio Calendar control compositions", () => {
   })
 
 })
+
+
+describe("calendar global Mini-tier alignment", () => {
+  it("uses Mini token geometry, typography, icon sizing, and solid pair fills for events and bars", () => {
+    const html = renderToStaticMarkup(
+      <>
+        <StudioCalendarEventChip label="TASK" kind="task" sizeVariant="mini" />
+        <StudioCalendarMultiDayBar label="CAMPAIGN" segment="single" channelWide />
+        <StudioCalendarThumbnailEventChip label="PUBLISH" thumbnail={<svg viewBox="0 0 16 9"><rect width="16" height="9" fill="var(--pair-a)" /></svg>} />
+      </>,
+    );
+    expect((html.match(/data-size="mini"/g) || []).length).toBe(3);
+    expect(html).toContain("<svg");
+    const css = readFileSync(resolve(process.cwd(), "src/studio-ui/primitives/studio-calendar-primitives.css"), "utf8");
+    expect(css).toContain("var(--vt-studio-mini-height, 20px)");
+    expect(css).toContain("var(--vt-studio-mini-stroke, 1.5px)");
+    expect(css).toContain("var(--vt-studio-mini-radius, 3px)");
+    expect(css).toContain("var(--vt-studio-mini-font-size, 17.5px)");
+    expect(css).toContain("var(--vt-studio-mini-icon-size, 17.5px)");
+    expect(css).toContain('data-channel-wide="true"');
+    expect(css).not.toContain("border-style: dashed");
+  });
+
+  it("renders thumbnail artwork and a standalone Panel Accordion in the Confirmed library", () => {
+    const catalog = readFileSync(resolve(process.cwd(), "src/components/studio-hub/StudioHubConfirmedPrimitiveCatalog.tsx"), "utf8");
+    expect(catalog).toContain('data-vt-library-component="StudioCalendarThumbnailEventChip"');
+    expect(catalog).toContain('aria-label="Creator video thumbnail artwork"');
+    expect(catalog).toContain('title="Panel Accordion"');
+    expect(catalog).toContain('title="Calendar Event Chips & Multi-day Bars · Mini Representatives"');
+  });
+
+  it("uses Mini event chips and date markers throughout Project Planner", () => {
+    const calendar = readFileSync(resolve(process.cwd(), "src/components/projects/ProjectPlannerCalendar.tsx"), "utf8");
+    const miniWidget = readFileSync(resolve(process.cwd(), "src/components/MiniCalendarWidget.tsx"), "utf8");
+    expect(calendar).toContain('data-vt-studio-control="true" data-size="mini"');
+    expect(calendar).toContain('sizeVariant="mini"');
+    expect(miniWidget).toContain("data-vt-studio-control=\"true\"");
+    expect(miniWidget).toContain("var(--vt-studio-control-height, 20px)");
+    expect(miniWidget).toContain("var(--vt-studio-control-stroke, 1.5px)");
+  });
+});
