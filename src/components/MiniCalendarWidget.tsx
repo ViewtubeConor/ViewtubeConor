@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useBrain } from '../context/useBrain';
+import '../styles/studio-control-entry.css';
 
 export const MiniCalendarWidget: React.FC = () => {
   const { brain, authState } = useBrain();
@@ -64,16 +65,28 @@ export const MiniCalendarWidget: React.FC = () => {
                 className="flex flex-col items-center gap-1.5 shrink-0 group/day cursor-pointer"
                 title={`${day.tasks.length} tasks`}
               >
-                <div 
-                  className={`w-8 h-8 rounded-lg border-2 flex items-center justify-center transition-all ${
-                    hasTasks 
-                      ? 'bg-[#FF3399] border-[#FF3399] shadow-[0_0_10px_rgba(255,51,153,0.4)] hover:bg-[#CCFF00] hover:border-[#CCFF00]' 
-                      : 'bg-white/5 border-white/10 hover:border-white/30'
-                  }`}
+                <div
+                  data-vt-studio-control="true"
+                  data-size="mini"
+                  className="flex shrink-0 items-center justify-center"
+                  style={{
+                    width: "var(--vt-studio-control-height, 20px)",
+                    minWidth: "var(--vt-studio-control-height, 20px)",
+                    height: "var(--vt-studio-control-height, 20px)",
+                    border: "var(--vt-studio-control-stroke, 1.5px) solid #000",
+                    borderRadius: "var(--vt-studio-control-radius, 3px)",
+                    background: hasTasks
+                      ? "color-mix(in srgb, white 50%, var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b)))"
+                      : "color-mix(in srgb, white 50%, var(--vt-studio-control-accent, var(--pair-a, #36e0f6)))",
+                    color: "#000",
+                    fontFamily: "var(--vt-studio-control-font-family, Inter, ui-sans-serif, system-ui, sans-serif)",
+                    fontSize: "var(--vt-studio-control-font-size, 17.5px)",
+                    fontWeight: "var(--vt-studio-control-font-weight, 1000)",
+                    lineHeight: 1,
+                    WebkitTextStroke: "var(--vt-studio-control-text-stroke, .4px) #000",
+                  }}
                 >
-                  <span className={`text-[10px] font-black ${hasTasks ? 'text-black' : 'text-white/30'}`}>
-                    {day.date.getDate()}
-                  </span>
+                  <span>{day.date.getDate()}</span>
                 </div>
               </div>
             );
