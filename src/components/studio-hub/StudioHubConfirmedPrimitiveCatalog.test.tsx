@@ -1279,3 +1279,41 @@ describe("toggle row-width and module contract", () => {
     expect(controls).toContain(".vt-studio-vertical-word-toggle");
   });
 });
+
+
+describe("Studio field, module, and resource primitive defaults", () => {
+  it("forces black textarea focus glyphs and black TextBox glyphs in the final field cascade", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/styles/studio-text-input.css"), "utf8");
+    expect(css).toContain("color: #000 !important");
+    expect(css).toContain("-webkit-text-fill-color: #000 !important");
+    expect(css).toContain("-webkit-text-stroke-color: #000 !important");
+    expect(css).toContain("text-align: left !important");
+    expect(css).toContain(".vt-studio-split-text-input input.vt-studio-split-text-input__field");
+    for (const size of ["supreme", "standard", "compact", "mini", "micro"]) {
+      expect(css).toContain('.vt-studio-text-box[data-vt-studio-control="true"][data-size="' + size + '"]');
+    }
+  });
+
+  it("leaves Arrow Toggle text styling entirely to the global value-toggle defaults", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-value-toggles.css"), "utf8");
+    expect(css).not.toMatch(/\.vt-studio-value-toggle--arrow[^}]*\.vt-studio-value-toggle__face/);
+    expect(css).toContain("Arrow Toggle uses the global value-toggle text defaults");
+  });
+
+  it("shows Panel Accordion and Resource Button as independent Confirmed Library modules", () => {
+    const html = renderToStaticMarkup(<StudioHubConfirmedPrimitiveCatalog />);
+    expect(html).toContain('data-vt-primitive-title="Panel Accordion"');
+    expect((html.match(/data-vt-library-component="StudioPanelAccordion"/g) || []).length).toBeGreaterThanOrEqual(3);
+    expect(html).toContain('data-vt-primitive-title="Resource Button"');
+    expect(html).toContain('<h3 title="Calendar Event Chips &amp; Multi-day Bars · Mini Representatives">Calendar Events</h3>');
+    const moduleHeadings = [...html.matchAll(/<h3 title="[^"]*">([^<]*)<\/h3>/g)].map(match => match[1]);
+    expect(moduleHeadings.every(title => title.length <= 23)).toBe(true);
+    expect(html).toContain('data-vt-library-component="StudioResourceSplitButton"');
+  });
+
+  it("keeps a continuous divider under the expanded collapsing split header and icon rails", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-system.css"), "utf8");
+    expect(css).toContain('.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head');
+    expect(css).toContain('border-bottom: var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px)) solid #000 !important');
+  });
+});
