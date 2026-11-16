@@ -187,7 +187,7 @@ const ProjectPlannerCalendar: React.FC<ProjectPlannerCalendarProps> = ({ onOpenP
                   <button type="button" className="vt-project-planner-calendar__project-open" onClick={() => onOpenProject?.(project.id)}>
                     <span className="vt-project-planner-calendar__project-title">{projectTitle(project)}</span>
                     <span className="vt-project-planner-calendar__project-meta">{project.status || "Project"} · View project</span>
-                    {(() => { const badge = publicationBadgeForProject(project); return badge ? <StudioCalendarEventChip label={badge.label} kind={badge.kind} status={badge.status} /> : null })()}
+                    {(() => { const badge = publicationBadgeForProject(project); return badge ? <StudioCalendarEventChip label={badge.label} kind={badge.kind} status={badge.status} sizeVariant="mini" /> : null })()}
                   </button>
                   <StudioCloseableBadge label="UNSCHEDULE" entering={false} onClose={() => clearSchedule(project.id)} className="vt-project-planner-calendar__unschedule" />
                 </div>
@@ -195,12 +195,12 @@ const ProjectPlannerCalendar: React.FC<ProjectPlannerCalendarProps> = ({ onOpenP
               {selectedTasks.map(task => (
                 <div key={`${task.projectId}-${task.id}`} className="vt-project-planner-calendar__project-row">
                   <StudioCheckbox checked={Boolean(task.completed)} sizeVariant="compact" aria-label={`${task.completed ? "Mark incomplete" : "Mark complete"}: ${task.text}`} onClick={() => toggleProjectTask(task.projectId, task.id)} />
-                  <StudioCalendarEventChip label="TASK" kind="task" status={task.completed ? "done" : "open"} />
+                  <StudioCalendarEventChip label="TASK" kind="task" status={task.completed ? "done" : "open"} sizeVariant="mini" />
                   <div className="vt-project-planner-calendar__project-open">
                     <span className="vt-project-planner-calendar__project-title">{task.text}</span>
                     <span className="vt-project-planner-calendar__project-meta">{task.projectTitle} · {task.completed ? "Completed" : "Not completed"}</span>
                   </div>
-                  <StudioCalendarEventChip label={task.completed ? "DONE" : "OPEN"} kind={task.completed ? "milestone" : "task"} />
+                  <StudioCalendarEventChip label={task.completed ? "DONE" : "OPEN"} kind={task.completed ? "milestone" : "task"} sizeVariant="mini" />
                 </div>
               ))}
               {!selectedProjects.length && !selectedTasks.length ? <div className="vt-project-planner-calendar__empty">Nothing planned for this day yet. Choose a project below to schedule it.</div> : null}
@@ -214,7 +214,7 @@ const ProjectPlannerCalendar: React.FC<ProjectPlannerCalendarProps> = ({ onOpenP
                 {projects.some(project => project.id === quickAddProjectId && parseDate(project.publishDate)) ? "Move project here" : "Schedule project here"}
               </StudioSplitLeftButton>
               {scheduleFeedback ? <div role="status" aria-live="polite" className="vt-project-planner-calendar__feedback">{scheduleFeedback}</div> : null}
-              {!projects.length ? <StudioCalendarEventChip label="NO PROJECTS AVAILABLE" kind="reminder" status="create a project first" /> : null}
+              {!projects.length ? <StudioCalendarEventChip label="NO PROJECTS AVAILABLE" kind="reminder" status="create a project first" sizeVariant="mini" /> : null}
             </div>
           </section>
 
@@ -284,7 +284,7 @@ const ProjectPlannerCalendar: React.FC<ProjectPlannerCalendarProps> = ({ onOpenP
                         setScheduleFeedback("")
                       }}
                     >
-                      <span className={`vt-project-planner-calendar__day-number ${key === todayKey ? "is-today" : ""}`}>{day.getDate()}</span>
+                      <span data-vt-studio-control="true" data-size="mini" className={`vt-project-planner-calendar__day-number ${key === todayKey ? "is-today" : ""}`}>{day.getDate()}</span>
                       <span className="vt-project-planner-calendar__markers" aria-hidden="true">
                         {dayItems.slice(0, 2).map(item => {
                           const hasRange = Boolean(item.event.endDate && item.event.endDate > item.event.startDate)
@@ -299,7 +299,7 @@ const ProjectPlannerCalendar: React.FC<ProjectPlannerCalendarProps> = ({ onOpenP
                             ? <StudioCalendarThumbnailEventChip key={item.id} label={item.label} thumbnailSrc={project?.thumbnailUrl} kind="publish" status={item.status} className="vt-project-planner-calendar__marker" />
                             : <StudioCalendarEventChip key={item.id} label={item.label} kind="task" status={item.status} sizeVariant="mini" className="vt-project-planner-calendar__marker" />
                         })}
-                        {dayItems.length > 2 ? <StudioCalendarEventChip label={`+${dayItems.length - 2} MORE`} kind="reminder" className="vt-project-planner-calendar__marker" /> : null}
+                        {dayItems.length > 2 ? <StudioCalendarEventChip label={`+${dayItems.length - 2} MORE`} kind="reminder" sizeVariant="mini" className="vt-project-planner-calendar__marker" /> : null}
                       </span>
                     </button>
                   </section>
