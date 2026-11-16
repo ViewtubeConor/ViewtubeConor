@@ -1305,6 +1305,9 @@ describe("Studio field, module, and resource primitive defaults", () => {
     expect(html).toContain('data-vt-primitive-title="Panel Accordion"');
     expect((html.match(/data-vt-library-component="StudioPanelAccordion"/g) || []).length).toBeGreaterThanOrEqual(3);
     expect(html).toContain('data-vt-primitive-title="Resource Button"');
+    expect(html).toContain('<h3 title="Calendar Event Chips & Multi-day Bars · Mini Representatives">Calendar Events</h3>');
+    const moduleHeadings = [...html.matchAll(/<h3 title="[^"]*">([^<]*)<\/h3>/g)].map(match => match[1]);
+    expect(moduleHeadings.every(title => title.length <= 23)).toBe(true);
     expect(html).toContain('data-vt-library-component="StudioResourceSplitButton"');
   });
 
