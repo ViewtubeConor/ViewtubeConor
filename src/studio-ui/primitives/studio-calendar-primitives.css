@@ -108,9 +108,7 @@ button.vt-studio-calendar-thumbnail-event-chip {
   border-bottom-left-radius: 0;
   border-left-width: 0;
 }
-.vt-studio-calendar-multi-day-bar[data-channel-wide="true"] {
-  border-style: dashed;
-}
+
 .vt-studio-calendar-multi-day-bar[data-selected="true"] {
   background: var(--vt-studio-control-secondary-fill, color-mix(in srgb, #fff 50%, var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b))));
 }
