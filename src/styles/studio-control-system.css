@@ -5627,7 +5627,8 @@ button[data-vt-studio-button="true"][data-vt-studio-button-lines="two"][data-vt-
 }
 .vt-studio-two-line-module[data-size="standard"] .vt-studio-two-line-module__title { font-size: 14px; }
 .vt-studio-two-line-module[data-size="standard"] .vt-studio-two-line-module__description { font-size: 11px; }
-\n
+
+
 /* Studio Controls shared field + family corrections.
    Keep character fill and glyph stroke sourced from the same state token. */
 [data-vt-studio-control] {
@@ -5659,7 +5660,8 @@ button[data-vt-studio-button="true"][data-vt-studio-button-lines="two"][data-vt-
   outline: calc(var(--vt-studio-control-stroke, 3px) * var(--vt-studio-focus-outline-width-ratio, .65)) solid var(--vt-field-secondary, var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b)));
   outline-offset: 0;
 }
-\n
+
+
 /* Geometry invariants shared by the counter and split-control families. */
 .vt-studio-counter__value,
 .vt-studio-side-counter__value {
@@ -6730,4 +6732,155 @@ div.vt-studio-square-icon-button-group[data-vt-studio-icon-button-group="true"] 
   max-width: 100%;
   height: var(--vt-icon-group-size, 44px);
   min-height: var(--vt-icon-group-size, 44px);
+}
+
+
+/* StudioResourceSplitButton — canonical resource-index row.
+   The primitive owns its full split anatomy; the Resource Library page supplies
+   content and pair variables only. Its row height follows the selected tier. */
+button.vt-studio-resource-split-button[data-vt-studio-button="true"] {
+  display: flex;
+  flex: 1 1 auto;
+  box-sizing: border-box;
+  width: auto;
+  min-width: 0;
+  max-width: 100%;
+  min-height: calc(var(--vt-studio-control-height, 44px) + 2 * var(--vt-studio-control-stroke, 3px));
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--vt-studio-control-radius, 6px);
+  background: transparent;
+  color: #000;
+  text-align: left;
+  overflow: visible;
+}
+button.vt-studio-resource-split-button[data-vt-studio-button="true"] > [data-vt-studio-button-face] {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: var(--vt-studio-control-height, 44px) minmax(0, 1fr);
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: inherit;
+  height: auto;
+  border: var(--vt-studio-control-stroke, 3px) solid #000;
+  border-radius: var(--vt-studio-control-radius, 6px);
+  background: #fff;
+  overflow: hidden;
+}
+button.vt-studio-resource-split-button[data-vt-studio-button="true"] [data-vt-studio-split-rail] {
+  display: grid;
+  box-sizing: border-box;
+  place-items: center;
+  align-self: center;
+  width: var(--vt-studio-control-height, 44px);
+  min-width: var(--vt-studio-control-height, 44px);
+  height: var(--vt-studio-control-height, 44px);
+  aspect-ratio: 1 / 1;
+  border-right: var(--vt-studio-control-stroke, 3px) solid #000;
+  background: var(--vt-studio-control-secondary-fill, color-mix(in srgb, white 50%, var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b))));
+}
+button.vt-studio-resource-split-button[data-vt-studio-button="true"] [data-vt-studio-split-rail] svg {
+  width: min(var(--vt-studio-control-icon-size, 38px), 90%);
+  height: min(var(--vt-studio-control-icon-size, 38px), 90%);
+}
+button.vt-studio-resource-split-button[data-vt-studio-button="true"] [data-vt-studio-split-label] {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  background: #fff;
+  text-align: left;
+}
+button.vt-studio-resource-split-button.is-active[data-vt-studio-button="true"] [data-vt-studio-split-label] {
+  background: color-mix(in srgb, var(--vt-resource-pair-primary, var(--vt-studio-control-accent, var(--pair-a, #36e0f6))) 12%, white);
+}
+.vt-studio-resource-split-button__copy {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
+  gap: calc(var(--vt-studio-control-stroke, 3px) * .5);
+  min-width: 0;
+  padding: calc(var(--vt-studio-control-stroke, 3px) * 2) calc(var(--vt-studio-control-stroke, 3px) * 3);
+  text-align: left;
+}
+.vt-studio-resource-split-button__category {
+  min-width: 0;
+  color: var(--vt-resource-pair-secondary, var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b)));
+  font-family: var(--vt-studio-control-font-family, Inter, ui-sans-serif, system-ui, sans-serif);
+  font-size: calc(var(--vt-studio-control-font-size, 38px) * .22);
+  line-height: 1.1;
+  font-weight: var(--vt-studio-control-font-weight, 1000);
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, 1px) currentColor;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.vt-studio-resource-split-button__title {
+  min-width: 0;
+  overflow: hidden;
+  color: #000;
+  font-family: var(--vt-studio-control-font-family, Inter, ui-sans-serif, system-ui, sans-serif);
+  font-size: calc(var(--vt-studio-control-font-size, 38px) * .32);
+  line-height: 1.08;
+  font-weight: var(--vt-studio-control-font-weight, 1000);
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, 1px) #000;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+}
+.vt-studio-resource-split-button__meta,
+.vt-studio-resource-split-button__completed {
+  min-width: 0;
+  color: #000;
+  font-family: var(--vt-studio-control-font-family, Inter, ui-sans-serif, system-ui, sans-serif);
+  font-size: calc(var(--vt-studio-control-font-size, 38px) * .24);
+  line-height: 1.1;
+  font-weight: var(--vt-studio-control-font-weight, 1000);
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, 1px) #000;
+}
+.vt-studio-resource-split-button__meta { opacity: .68; }
+.vt-studio-resource-split-button__completed {
+  align-self: flex-start;
+  padding: 0 calc(var(--vt-studio-control-stroke, 3px) * 1.5);
+  border: var(--vt-studio-control-stroke, 3px) solid #000;
+  border-radius: var(--vt-studio-control-radius, 6px);
+  background: var(--vt-studio-control-secondary-fill, color-mix(in srgb, white 50%, var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b))));
+  text-transform: uppercase;
+}
+button.vt-studio-resource-split-button:focus-visible {
+  outline: calc(var(--vt-studio-control-stroke, 3px) * .65) solid var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
+  outline-offset: 0;
+}
+
+
+button.vt-studio-resource-split-button:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--vt-resource-pair-shadow, color-mix(in srgb, var(--vt-studio-control-accent, var(--pair-a, #36e0f6)) 24%, transparent));
+}
+button.vt-studio-resource-split-button.is-active {
+  box-shadow: 4px 4px 0 var(--vt-resource-pair-shadow, color-mix(in srgb, var(--vt-studio-control-accent, var(--pair-a, #36e0f6)) 24%, transparent));
+}
+.vt-studio-resource-split-button .vt-resource-complete-tag {
+  align-self: flex-start;
+  margin-top: calc(var(--vt-studio-control-stroke, 3px) * .75);
+}
+
+
+/* Expanded collapsing headers: paint one uninterrupted horizontal divider
+   beneath the title and both split icon sections. */
+.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head
+  > .vt-studio-top-split-module__rail,
+.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head
+  > .vt-studio-collapsing-split-module__disclosure {
+  border-bottom: var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px)) solid #000 !important;
+}
+.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head::after {
+  z-index: 20;
+  bottom: calc(-1 * var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px)));
+  height: var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px));
+  background: #000;
 }
