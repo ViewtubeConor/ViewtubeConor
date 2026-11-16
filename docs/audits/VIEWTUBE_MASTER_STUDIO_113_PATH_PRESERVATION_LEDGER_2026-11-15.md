@@ -174,6 +174,8 @@ These are preliminary source dispositions, not implementation approvals. “Port
 
 ## 4.2 Follow-on source audits
 
+- [Backend and operational reconciliation audit](VIEWTUBE_BACKEND_AND_OPERATIONAL_RECONCILIATION_AUDIT_2026-11-16.md) — prioritizes Brain evidence/provenance, Vault mutation safety, persistence boundaries, provider governance, publishing transactions, task recovery, and release gates.
+
 - [Calendar projection and primitive audit](VIEWTUBE_CALENDAR_PROJECTION_AND_PRIMITIVE_RECONCILIATION_AUDIT_2026-11-15.md)
 - [Resource Library Studio row audit](VIEWTUBE_RESOURCE_LIBRARY_STUDIO_ROW_RECONCILIATION_AUDIT_2026-11-15.md)
 - [Analytics metric rail audit](VIEWTUBE_ANALYTICS_METRIC_RAIL_RECONCILIATION_AUDIT_2026-11-15.md)
@@ -194,14 +196,14 @@ These are preliminary source dispositions, not implementation approvals. “Port
 
 | Order | Work package | Gate before implementation |
 |---:|---|---|
-| 1 | Vault restore guard and selection eligibility | Confirm full master function behavior; add failing regression tests first |
-| 2 | Calendar projection contract | Search equivalent master contracts and all consumers; validate ownership boundaries |
-| 3 | Calendar primitives | Confirm consumers, token/CSS ownership, and event date semantics |
-| 4 | Resource Library rows | Verify current split-left primitive, mobile geometry, tags, focus and accessibility |
-| 5 | Analytics metric icon rail | Preserve master width reservation; use explicit metadata and tests |
-| 6 | Brain Composer missing interactions | Compare parent page and dock responsibilities; add only missing features |
-| 7 | Studio catalog and primitive gaps | Verify exports, registry, representative specimens, all five tiers, and CSS ownership |
-| 8 | Infrastructure and documentation reconciliation | Resolve package/workflow changes and update authoritative docs without duplication |
+| 1 | Brain candidate/evidence promotion | Preserve master implementation and provenance safeguards; run exact focused tests |
+| 2 | Vault restore authorization | Selectively port the 10-31 restore guard; add failing policy and lifecycle tests first |
+| 3 | Vault persistence and account scoping | Trace local adapter, server operation store, recovery, and account boundaries before changing ownership |
+| 4 | Provider/Gemini governance | Inventory provider callers, key validation, retries, errors, and server/client boundaries |
+| 5 | Publishing and ContentBuild transactions | Trace transaction state, idempotency, rollback, and YouTube reconciliation |
+| 6 | Background tasks and recovery | Inventory queues, leases, retries, duplicate execution, and stale-job recovery |
+| 7 | Calendar projection contract | Keep it a read model; locate adapters/consumers and validate ownership boundaries |
+| 8 | Remaining UI/capability presentation work | Use 10-31 as the default source; port only missing master capabilities after backend dependencies are safe |
 
 ## 7. Required evidence before any implementation is called complete
 
