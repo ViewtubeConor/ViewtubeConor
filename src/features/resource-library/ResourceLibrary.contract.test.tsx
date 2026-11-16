@@ -15,6 +15,7 @@ describe("Resource Library production reader", () => {
       </MemoryRouter>,
     )
     const css = readFileSync(resolve(process.cwd(), "src/features/resource-library/resource-library.css"), "utf8")
+    const primitiveCss = readFileSync(resolve(process.cwd(), "src/styles/studio-control-system.css"), "utf8")
 
     expect(html).toContain('data-vt-library-component="StudioResourceSplitButton"')
     expect(html).toContain('data-vt-studio-split="left"')
@@ -24,7 +25,7 @@ describe("Resource Library production reader", () => {
     expect(html).toContain("YouTube Strategy")
     expect(css).not.toContain(".vt-resource-card[data-vt-studio-button")
     expect(primitiveCss).toContain("border-radius: var(--vt-studio-control-radius, 6px)")
-    expect(css).toContain("aspect-ratio: 1 / 1")
+    expect(primitiveCss).toContain("aspect-ratio: 1 / 1")
     expect(primitiveCss).toContain("width: var(--vt-studio-control-height, 44px)")
     expect(primitiveCss).toContain("height: var(--vt-studio-control-height, 44px)")
   })
