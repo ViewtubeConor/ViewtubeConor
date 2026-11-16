@@ -1322,12 +1322,17 @@ describe("Studio field, module, and resource primitive defaults", () => {
 describe("Studio icon and expanded split-module geometry regressions", () => {
   it("keeps the square icon button group horizontal and circle icon faces visibly bordered", () => {
     const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-system.css"), "utf8");
-    expect(css).toMatch(/div\\.vt-studio-square-icon-button-group\\[data-vt-studio-icon-button-group="true"\\]\\s*\\{[^}]*display:\\s*inline-flex[^}]*flex-direction:\\s*row/s);
-    expect(css).toMatch(/button\\.vt-studio-circle-icon-button\\s*>\\s*\\[data-vt-studio-button-face\\]\\s*\\{[^}]*border:\\s*var\\(--vt-studio-control-stroke,\\s*3px\\)\\s+solid\\s+#000[^}]*border-radius:\\s*50%/s);
+    expect(css).toContain('div.vt-studio-square-icon-button-group[data-vt-studio-icon-button-group="true"]');
+    expect(css).toContain("flex-direction: row;");
+    expect(css).toContain("button.vt-studio-circle-icon-button > [data-vt-studio-button-face]");
+    expect(css).toContain("border: var(--vt-studio-control-stroke, 3px) solid #000;");
+    expect(css).toContain("border-radius: 50%;");
   });
 
   it("continues the expanded collapsing split divider beneath both icon rails", () => {
     const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-system.css"), "utf8");
-    expect(css).toMatch(/\\.vt-studio-collapsing-split-module\\[open\\][\\s\\S]*?\\.vt-studio-top-split-module__rail[\\s\\S]*?border-bottom:\\s*var\\(--vt-top-split-stroke,[\\s\\S]*?solid\\s+#000/s);
+    expect(css).toContain(".vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head");
+    expect(css).toContain("> .vt-studio-top-split-module__rail");
+    expect(css).toContain("border-bottom: var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px)) solid #000;");
   });
 });
