@@ -5,7 +5,7 @@ import { renderToStaticMarkup } from "react-dom/server"
 import { MemoryRouter } from "react-router-dom"
 import { describe, expect, it } from "vitest"
 import ResourceLibrary from "./ResourceLibrary"
-import { StudioSpectrumTag } from "../../studio-ui"
+import { StudioResourceSplitButton, StudioSpectrumTag } from "../../studio-ui"
 
 describe("Resource Library production reader", () => {
   it("restores the original Resource Index row treatment while keeping a square canonical split-left rail", () => {
@@ -16,17 +16,17 @@ describe("Resource Library production reader", () => {
     )
     const css = readFileSync(resolve(process.cwd(), "src/features/resource-library/resource-library.css"), "utf8")
 
-    expect(html).toContain('data-vt-library-component="StudioSplitLeftButton"')
+    expect(html).toContain('data-vt-library-component="StudioResourceSplitButton"')
     expect(html).toContain('data-vt-studio-split="left"')
     expect(html).toContain('data-rail="start"')
-    expect(html).toContain("vt-resource-card-copy")
-    expect(html).toContain("vt-resource-card-category")
+    expect(html).toContain("vt-studio-resource-split-button__copy")
+    expect(html).toContain("vt-studio-resource-split-button__category")
     expect(html).toContain("YouTube Strategy")
-    expect(css).toContain("min-height: 76px")
-    expect(css).toContain("border-radius: 10px")
+    expect(css).not.toContain(".vt-resource-card[data-vt-studio-button")
+    expect(primitiveCss).toContain("border-radius: var(--vt-studio-control-radius, 6px)")
     expect(css).toContain("aspect-ratio: 1 / 1")
-    expect(css).toContain("width: var(--vt-studio-control-height, 44px)")
-    expect(css).toContain("height: var(--vt-studio-control-height, 44px)")
+    expect(primitiveCss).toContain("width: var(--vt-studio-control-height, 44px)")
+    expect(primitiveCss).toContain("height: var(--vt-studio-control-height, 44px)")
   })
 
   it("uses the canonical Spectrum tag for completed document status", () => {
