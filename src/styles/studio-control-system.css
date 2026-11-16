@@ -5627,7 +5627,8 @@ button[data-vt-studio-button="true"][data-vt-studio-button-lines="two"][data-vt-
 }
 .vt-studio-two-line-module[data-size="standard"] .vt-studio-two-line-module__title { font-size: 14px; }
 .vt-studio-two-line-module[data-size="standard"] .vt-studio-two-line-module__description { font-size: 11px; }
-\n
+
+
 /* Studio Controls shared field + family corrections.
    Keep character fill and glyph stroke sourced from the same state token. */
 [data-vt-studio-control] {
@@ -5659,7 +5660,8 @@ button[data-vt-studio-button="true"][data-vt-studio-button-lines="two"][data-vt-
   outline: calc(var(--vt-studio-control-stroke, 3px) * var(--vt-studio-focus-outline-width-ratio, .65)) solid var(--vt-field-secondary, var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b)));
   outline-offset: 0;
 }
-\n
+
+
 /* Geometry invariants shared by the counter and split-control families. */
 .vt-studio-counter__value,
 .vt-studio-side-counter__value {
