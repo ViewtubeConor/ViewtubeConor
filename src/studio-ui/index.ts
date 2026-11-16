@@ -222,3 +222,6 @@ export type { StudioChatResponseShellProps, StudioChatResponseShellSize } from "
 
 export { StudioCalendarEventChip, StudioCalendarMultiDayBar, StudioCalendarThumbnailEventChip, StudioCalendarMediaRail } from "./primitives/StudioCalendarPrimitives"
 export type { StudioCalendarEventKind, StudioCalendarMiniSegment, StudioCalendarEventChipProps, StudioCalendarMultiDayBarProps, StudioCalendarThumbnailEventChipProps, StudioCalendarMediaRailProps } from "./primitives/StudioCalendarPrimitives"
+
+export { StudioResourceSplitButton } from "./primitives/StudioResourceSplitButton"
+export type { StudioResourceSplitButtonProps } from "./primitives/StudioResourceSplitButton"
