@@ -145,3 +145,14 @@ html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="micro"] 
   -webkit-text-stroke-color: #000 !important;
   text-stroke-color: #000 !important;
 }
+
+
+/* Explicit split-field alignment exception. All left, right, and double-rail
+   StudioSplitTextInput variants share this one root class and the native
+   StudioTextInput field contract, but keep their editable value left-aligned. */
+html body .vt-studio-split-text-input input.vt-studio-side-text-counter__input,
+html body .vt-studio-split-text-input input.vt-studio-split-text-input__field {
+  text-align: left !important;
+  padding-inline-start: calc(var(--vt-studio-control-stroke, 3px) * 2);
+  padding-inline-end: calc(var(--vt-studio-control-stroke, 3px) * 2);
+}
