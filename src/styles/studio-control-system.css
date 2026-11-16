@@ -6640,17 +6640,19 @@ button.vt-studio-square-icon-button:is(:hover, :focus-visible) [data-vt-square-t
   to { opacity: 1; transform: translate(-50%, 0) scale(1); }
 }
 
-/* Circular icon actions keep a square hit-area and a genuinely circular face. */
+/* Circular icon actions use the global five-tier geometry and retain a visible black perimeter. */
 button.vt-studio-circle-icon-button {
   box-sizing: border-box;
+  display: inline-flex;
+  flex: 0 0 var(--vt-studio-control-height, 44px);
   width: var(--vt-studio-control-height, 44px);
   min-width: var(--vt-studio-control-height, 44px);
   max-width: var(--vt-studio-control-height, 44px);
   height: var(--vt-studio-control-height, 44px);
   min-height: var(--vt-studio-control-height, 44px);
-  aspect-ratio: 1 / 1;
-  flex: 0 0 var(--vt-studio-control-height, 44px);
-  overflow: visible;
+  padding: 0;
+  aspect-ratio: 1;
+  border-radius: 50%;
 }
 button.vt-studio-circle-icon-button > [data-vt-studio-button-face] {
   box-sizing: border-box;
@@ -6660,9 +6662,10 @@ button.vt-studio-circle-icon-button > [data-vt-studio-button-face] {
   height: 100%;
   min-height: 100%;
   padding: 0;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1;
+  border: var(--vt-studio-control-stroke, 3px) solid #000;
   border-radius: 50%;
-  overflow: visible;
+  overflow: hidden;
 }
 @media (prefers-reduced-motion: reduce) {
   button.vt-studio-square-icon-button [data-vt-square-tooltip] {
@@ -6670,15 +6673,6 @@ button.vt-studio-circle-icon-button > [data-vt-studio-button-face] {
     transition: none;
     transform: translate(-50%, 0);
   }
-}
-
-
-/* Circular actions need a circular outer shell as well as a circular face. */
-button.vt-studio-circle-icon-button {
-  border-radius: 50%;
-}
-button.vt-studio-circle-icon-button > [data-vt-studio-button-face] {
-  border-radius: 50%;
 }
 button.vt-studio-square-icon-button [data-vt-square-tooltip] {
   transition: opacity 140ms ease, transform 160ms ease, visibility 0s linear 160ms;
@@ -6694,46 +6688,66 @@ button.vt-studio-square-icon-button:is(:hover, :focus-visible) [data-vt-square-t
 }
 
 
-/* Final circle-button geometry: the outer hit target, perimeter layer, and
-   visible face share one square footprint and a circular silhouette at every
-   token size. The icon size continues to come from the five-tier size map. */
-button.vt-studio-square-icon-button.vt-studio-circle-icon-button[data-vt-studio-circle-icon-button="true"],
-button.vt-studio-square-icon-button.vt-studio-circle-icon-button[data-vt-studio-circle-icon-button="true"]::before,
-button.vt-studio-square-icon-button.vt-studio-circle-icon-button[data-vt-studio-circle-icon-button="true"] > [data-vt-studio-button-face] {
-  box-sizing: border-box;
-  width: var(--vt-studio-control-height, 44px);
-  min-width: var(--vt-studio-control-height, 44px);
-  max-width: var(--vt-studio-control-height, 44px);
-  height: var(--vt-studio-control-height, 44px);
-  min-height: var(--vt-studio-control-height, 44px);
-  max-height: var(--vt-studio-control-height, 44px);
-  aspect-ratio: 1 / 1;
-  border-radius: 50% !important;
-}
-button.vt-studio-square-icon-button.vt-studio-circle-icon-button[data-vt-studio-circle-icon-button="true"] {
-  flex: 0 0 var(--vt-studio-control-height, 44px);
-  padding: 0;
-}
-button.vt-studio-square-icon-button.vt-studio-circle-icon-button[data-vt-studio-circle-icon-button="true"] [data-vt-square-icon-current] svg {
-  width: calc(var(--vt-studio-control-icon-size, 28px) * .8);
-  height: calc(var(--vt-studio-control-icon-size, 28px) * .8);
+/* Canonical circle face + horizontal five-button group geometry. */
+button.vt-studio-circle-icon-button > [data-vt-studio-button-face] {
+  border: var(--vt-studio-control-stroke, 3px) solid #000;
+  border-radius: 50%;
 }
 
-/* The joined icon group is always a single horizontal row. This more specific
-   owner prevents generic Studio control layout rules from turning the toolbar
-   into a vertical stack; the five faces retain their own token-sized squares. */
+/* A joined icon toolbar is always a single horizontal row; each face remains square. */
 div.vt-studio-square-icon-button-group[data-vt-studio-icon-button-group="true"] {
-  display: flex;
+  box-sizing: border-box;
+  display: inline-flex;
   flex-direction: row;
   flex-wrap: nowrap;
   align-items: stretch;
+  justify-content: flex-start;
   gap: 0;
   width: max-content;
   max-width: 100%;
   height: var(--vt-icon-group-size, 44px);
   min-height: var(--vt-icon-group-size, 44px);
 }
+div.vt-studio-square-icon-button-group[data-vt-studio-icon-button-group="true"] > button {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: 0 0 var(--vt-icon-group-size, 44px);
+  width: var(--vt-icon-group-size, 44px);
+  min-width: var(--vt-icon-group-size, 44px);
+  max-width: var(--vt-icon-group-size, 44px);
+  height: var(--vt-icon-group-size, 44px);
+  min-height: var(--vt-icon-group-size, 44px);
+  margin: 0;
+}
+div.vt-studio-square-icon-button-group[data-vt-studio-icon-button-group="true"] > button > [data-vt-studio-button-face] {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+}
+div.vt-studio-square-icon-button-group[data-vt-studio-icon-button-group="true"] > button:first-child > [data-vt-studio-button-face] {
+  border-radius: var(--vt-icon-group-radius, 6px) 0 0 var(--vt-icon-group-radius, 6px);
+}
+div.vt-studio-square-icon-button-group[data-vt-studio-icon-button-group="true"] > button:last-child > [data-vt-studio-button-face] {
+  border-radius: 0 var(--vt-icon-group-radius, 6px) var(--vt-icon-group-radius, 6px) 0;
+}
 
+/* Expanded collapsing split modules continue the header's bottom rule across
+   both icon rails and the disclosure rail; the closed state is unchanged. */
+.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head
+  > .vt-studio-top-split-module__rail,
+.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head
+  > .vt-studio-collapsing-split-module__disclosure {
+  box-sizing: border-box;
+  border-bottom: var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px)) solid #000;
+}
+.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head::after {
+  z-index: 20;
+  bottom: calc(-1 * var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px)));
+  height: var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px));
+  background: #000;
+}
 
 /* StudioResourceSplitButton — canonical resource-index row.
    The primitive owns its full split anatomy; the Resource Library page supplies
