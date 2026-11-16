@@ -6866,3 +6866,19 @@ button.vt-studio-resource-split-button.is-active {
   align-self: flex-start;
   margin-top: calc(var(--vt-studio-control-stroke, 3px) * .75);
 }
+
+
+/* Expanded collapsing headers: paint one uninterrupted horizontal divider
+   beneath the title and both split icon sections. */
+.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head
+  > .vt-studio-top-split-module__rail,
+.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head
+  > .vt-studio-collapsing-split-module__disclosure {
+  border-bottom: var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px)) solid #000 !important;
+}
+.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head::after {
+  z-index: 20;
+  bottom: calc(-1 * var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px)));
+  height: var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px));
+  background: #000;
+}
