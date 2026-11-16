@@ -174,6 +174,8 @@ These are preliminary source dispositions, not implementation approvals. “Port
 
 ## 4.2 Follow-on source audits
 
+- [Resource Library, Vault, and AI Brain post-merge branch audit](VIEWTUBE_RESOURCE_VAULT_BRAIN_POST_MERGE_BRANCH_AUDIT_2026-11-16.md) — checks merged PR source branches for later commits and identifies selective Brain/Vault recovery candidates versus already-integrated or superseded work.
+
 - [Backend and operational reconciliation audit](VIEWTUBE_BACKEND_AND_OPERATIONAL_RECONCILIATION_AUDIT_2026-11-16.md) — prioritizes Brain evidence/provenance, Vault mutation safety, persistence boundaries, provider governance, publishing transactions, task recovery, and release gates.
 
 - [Calendar projection and primitive audit](VIEWTUBE_CALENDAR_PROJECTION_AND_PRIMITIVE_RECONCILIATION_AUDIT_2026-11-15.md)
