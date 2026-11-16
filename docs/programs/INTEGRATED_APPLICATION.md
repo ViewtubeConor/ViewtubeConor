@@ -1,7 +1,7 @@
 # ViewTube Integrated Application Program
 
 **Production Date:** 2026-09-26  
-**Last Edited:** 2026-09-27  
+**Last Edited:** 2026-11-16  
 **Class:** PROGRAM  
 **Status:** ACTIVE  
 **Concern:** permanent cross-system convergence, integration seams, dependencies, and critical-path completion  
@@ -10,11 +10,13 @@
 **Last Audited Main SHA:** 3ed2bc91f324338fd110a160d65ddbed93806142
 **Supersedes:** docs/architecture/VIEWTUBE_FINISH_PROGRAM_2026-09-24.md after migration certification  
 **Consolidates:** system convergence program relationships while preserving its detailed classification/task sources  
-**Related Authorities:** docs/architecture/PRODUCT_COMPLETION_CONSTITUTION.md; docs/architecture/PRODUCT_ARCHITECTURE.md; docs/governance/CONVERSATION_OS.md; docs/governance/DOCUMENTATION.md; docs/governance/TASK_AUTHORITY.md; docs/governance/VERIFICATION.md; docs/references/DEEP_RESEARCH_CONSTRUCTION_SOURCE.md; Task Index
+**Related Authorities:** docs/architecture/PRODUCT_COMPLETION_CONSTITUTION.md; docs/architecture/PRODUCT_ARCHITECTURE.md; docs/governance/CONVERSATION_OS.md; docs/governance/DOCUMENTATION.md; docs/governance/TASK_AUTHORITY.md; docs/governance/VERIFICATION.md; docs/references/DEEP_RESEARCH_CONSTRUCTION_SOURCE.md; docs/references/VIEWTUBE_BETA_LAUNCH_READINESS_MASTER_RESOURCE.md; Task Index
 
 ## Purpose
 
 This is the permanent application-level integration program. It answers how ViewTube's accepted capabilities become one coherent production application. It does not own domain internals or exact task status.
+
+The beta-release crosswalk and living initiative dossiers are maintained in [`docs/references/VIEWTUBE_BETA_LAUNCH_READINESS_MASTER_RESOURCE.md`](../references/VIEWTUBE_BETA_LAUNCH_READINESS_MASTER_RESOURCE.md). That reference organizes release scope, code/branch/PR sources, prompts, dependencies and verification evidence; it does not replace Task Authority or this Program's cross-system ownership.
 
 ## Program loop
 
