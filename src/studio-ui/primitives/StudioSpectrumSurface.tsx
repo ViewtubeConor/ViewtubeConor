@@ -1,12 +1,11 @@
 import React from "react"
 import type { StudioControlSize } from "../tokens"
 import "../../styles/studio-control-entry.css"
-import "./studio-spectrum-surface.css"
+import "../../styles/studio-spectrum-surface.css"
 
 export type StudioSpectrumSurfaceProps = {
   title: string
   children?: React.ReactNode
-  /** When true, render the full-bleed 12-stop spectrum divider under the content. */
   showSpectrumDivider?: boolean
   size?: Extract<StudioControlSize, "standard" | "compact">
   className?: string

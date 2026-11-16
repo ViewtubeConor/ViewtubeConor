@@ -1,7 +1,7 @@
 import React from "react"
 import type { StudioControlSize } from "../tokens"
 import "../../styles/studio-control-entry.css"
-import "./studio-daily-oracle-module.css"
+import "../../styles/studio-daily-oracle-module.css"
 
 export type StudioDailyOracleModuleProps = {
   title: string

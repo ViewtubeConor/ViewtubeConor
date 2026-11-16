@@ -1,7 +1,7 @@
 import React, { useMemo } from "react"
 import type { StudioControlSize } from "../tokens"
 import "../../styles/studio-control-entry.css"
-import "./studio-interactive-checklist.css"
+import "../../styles/studio-interactive-checklist.css"
 
 export type StudioChecklistBadgeTone = "high" | "medium" | "today" | "urgent" | "neutral"
 
@@ -18,7 +18,6 @@ export type StudioChecklistItem = {
 export type StudioInteractiveChecklistProps = {
   items: readonly StudioChecklistItem[]
   onItemChange?: (id: string, checked: boolean) => void
-  /** When true the component is fully controlled via items[].checked */
   controlled?: boolean
   size?: Extract<StudioControlSize, "standard" | "compact">
   className?: string
@@ -29,7 +28,6 @@ export type StudioInteractiveChecklistProps = {
 /**
  * Interactive checklist with per-row checkbox + label + optional badge and a
  * bottom progress bar whose fill is driven by the percentage of checked rows.
- * Matches the Interactive Checklist Progress specimen.
  */
 export function StudioInteractiveChecklist({
   items,
@@ -46,7 +44,6 @@ export function StudioInteractiveChecklist({
     return init
   })
 
-  // Keep local state in sync when items change externally in uncontrolled mode
   React.useEffect(() => {
     if (controlled) return
     setLocalChecked((prev) => {
@@ -61,11 +58,11 @@ export function StudioInteractiveChecklist({
   const isChecked = (item: StudioChecklistItem) =>
     controlled ? Boolean(item.checked) : Boolean(localChecked[item.id])
 
-  const { completed, total, percent } = useMemo(() => {
+  const { percent } = useMemo(() => {
     const total = items.length
     const completed = items.filter((i) => isChecked(i)).length
     const percent = total === 0 ? 0 : Math.round((completed / total) * 100)
-    return { completed, total, percent }
+    return { percent }
   }, [items, localChecked, controlled])
 
   const toggle = (item: StudioChecklistItem) => {

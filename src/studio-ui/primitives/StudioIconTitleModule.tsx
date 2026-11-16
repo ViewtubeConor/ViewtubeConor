@@ -1,7 +1,7 @@
 import React from "react"
 import type { StudioControlSize } from "../tokens"
 import "../../styles/studio-control-entry.css"
-import "./studio-icon-title-module.css"
+import "../../styles/studio-icon-title-module.css"
 
 export type StudioIconTitleTone =
   | "brain"
@@ -15,7 +15,6 @@ export type StudioIconTitleModuleProps = {
   title: string
   subtitle?: string
   tone?: StudioIconTitleTone
-  /** Optional override for the left bay fill. */
   bayColor?: string
   size?: Extract<StudioControlSize, "standard" | "compact">
   className?: string
@@ -35,6 +34,10 @@ const TONE_CLASS: Record<StudioIconTitleTone, string> = {
  * Tall monochromatic split-left icon + title module for toast / information
  * surfaces. Left square icon bay + title + optional subtitle. Four spectrum
  * presets match the intended Studio Hub specimens.
+ *
+ * Note: StudioDashboardPrimitives also exports a spectrum-driven
+ * StudioIconTitleModule. Prefer this tone-based variant for the fixed
+ * brain / analytics / quick-action / control catalog specimens.
  */
 export function StudioIconTitleModule({
   icon,
