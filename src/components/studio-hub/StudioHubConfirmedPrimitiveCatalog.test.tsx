@@ -1243,3 +1243,34 @@ describe("toggle row-width and module contract", () => {
     expect(controls).toContain(".vt-studio-vertical-word-toggle");
   });
 });
+
+
+describe("Studio field and module global-default contracts", () => {
+  it("forces black textarea focus glyphs and black TextBox glyphs at all five tiers", () => {
+    const fields = readFileSync(resolve(process.cwd(), "src/styles/studio-control-fields.css"), "utf8");
+    expect(fields).toContain("color: #000 !important");
+    expect(fields).toContain("-webkit-text-fill-color: #000 !important");
+    expect(fields).toContain("-webkit-text-stroke-color: #000 !important");
+    for (const size of ["supreme", "standard", "compact", "mini", "micro"]) {
+      expect(fields).toContain('.vt-studio-text-box[data-vt-studio-control="true"][data-size="' + size + '"]');
+    }
+  });
+
+  it("keeps Arrow Toggle on global value-toggle text defaults without a local face override", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-value-toggles.css"), "utf8");
+    expect(css).not.toMatch(/\.vt-studio-value-toggle--arrow[^}]*\.vt-studio-value-toggle__face/);
+    expect(css).toContain("Arrow Toggle has no local text paint override");
+  });
+
+  it("registers Panel Accordion as a standalone Confirmed Primitive Library module", () => {
+    const html = renderToStaticMarkup(<StudioHubConfirmedPrimitiveCatalog />);
+    expect(html).toContain('data-vt-primitive-title="Panel Accordion"');
+    expect(html).toContain('data-vt-library-component="StudioPanelAccordion"');
+  });
+
+  it("keeps the expanded collapsing split divider continuous beneath both icon rails", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-system.css"), "utf8");
+    expect(css).toContain('.vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head');
+    expect(css).toContain('border-bottom: var(--vt-top-split-stroke, var(--vt-studio-control-stroke, 3px)) solid #000 !important');
+  });
+});
