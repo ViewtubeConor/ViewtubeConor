@@ -1,6 +1,6 @@
 import React from "react"
 import { StudioPublishingCard } from "../../studio-ui/compositions/StudioPublishingCard"
-import { StudioSplitTextInput, StudioSplitLeftTextInput, StudioSplitRightTextInput, StudioDoubleSplitTextInput } from "../../studio-ui"
+import { StudioSplitTextInput, StudioSplitLeftTextInput, StudioSplitRightTextInput, StudioDoubleSplitTextInput, StudioResourceSplitButton } from "../../studio-ui"
 import { Check, Home, Info, Search, Settings2, Sparkles } from "lucide-react"
 import { StudioSplitAccordionCatalogSpecimens } from "./StudioSplitAccordionCatalogSpecimens"
 import ConfirmedSpecimenGrid from "./ConfirmedSpecimenGrid"
@@ -1917,6 +1917,23 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
           { label: "OVERVIEW", icon: <Home aria-hidden="true" />, content: <p>Compact overview content.</p> },
           { label: "DETAILS", icon: <Info aria-hidden="true" />, content: <p>Compact details content.</p> },
         ]} />
+      </div>
+    </Family>
+    <Family
+      title="Resource Button"
+      nonDefaultSettings={[
+        "Resource content and pair colors are supplied by the owning page; the primitive owns its split rail, copy stack, focus outline, and completed state.",
+        "Standard and Compact use the global Studio size, stroke, radius, font, weight, and icon tokens.",
+      ]}
+      provenance={<Provenance primitive="StudioResourceSplitButton" tsx="src/studio-ui/primitives/StudioResourceSplitButton.tsx" css="src/styles/studio-control-system.css" tokens="Token-driven left split rail · content-owned category/title/meta · global size ladder" imports={["src/studio-ui/primitives/StudioResourceSplitButton.tsx", "src/styles/studio-control-system.css"]} />}
+    >
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioResourceSplitButton">
+        <span>STANDARD · RESOURCE BUTTON</span>
+        <StudioResourceSplitButton icon={<Search aria-hidden="true" />} category="GUIDE" title="CREATOR STRATEGY" meta="8 MIN · BEGINNER" />
+      </div>
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioResourceSplitButton">
+        <span>COMPACT · RESOURCE BUTTON</span>
+        <StudioResourceSplitButton icon={<Search aria-hidden="true" />} category="GUIDE" title="CHANNEL GROWTH" meta="5 MIN · PRACTICAL" sizeVariant="compact" />
       </div>
     </Family>
     <Family
