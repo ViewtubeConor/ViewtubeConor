@@ -129,7 +129,7 @@ html body textarea[data-vt-studio-control="true"]:is(:focus, :focus-visible),
 html body [data-vt-studio-control="true"] textarea:is(:focus, :focus-visible) {
   color: #000 !important;
   -webkit-text-fill-color: #000 !important;
-  -webkit-text-stroke: var(--vt-studio-textarea-glyph-stroke, 0.5px) #000 !important;
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, 1px) #000 !important;
   -webkit-text-stroke-color: #000 !important;
 }
 html body .vt-studio-text-box[data-vt-studio-control="true"],
