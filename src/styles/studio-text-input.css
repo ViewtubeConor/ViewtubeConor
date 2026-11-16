@@ -131,3 +131,29 @@ html body .vt-studio-split-text-input input.vt-studio-side-text-counter__input {
   padding-inline-start: calc(var(--vt-studio-control-stroke, 3px) * 2);
   padding-inline-end: calc(var(--vt-studio-control-stroke, 3px) * 2);
 }
+
+
+/* FINAL Studio field typography owner — this sheet loads after control fields.
+   Textareas are black-filled with a black glyph stroke on focus for every tier.
+   Read-only TextBox is always black-filled/stroked; its primary inset remains a
+   separate structural ring and is not a text-stroke color. */
+html body textarea[data-vt-studio-control="true"]:is(:focus, :focus-visible),
+html body [data-vt-studio-control="true"] textarea:is(:focus, :focus-visible) {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  -webkit-text-stroke: var(--vt-studio-textarea-glyph-stroke, 0.5px) #000 !important;
+  -webkit-text-stroke-color: #000 !important;
+}
+html body .vt-studio-text-box[data-vt-studio-control="true"],
+html body [data-vt-studio-control="true"].vt-studio-text-box,
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="supreme"],
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="standard"],
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="compact"],
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="mini"],
+html body .vt-studio-text-box[data-vt-studio-control="true"][data-size="micro"] {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, 1px) #000 !important;
+  -webkit-text-stroke-color: #000 !important;
+  text-stroke-color: #000 !important;
+}
