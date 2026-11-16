@@ -284,7 +284,7 @@ const ProjectPlannerCalendar: React.FC<ProjectPlannerCalendarProps> = ({ onOpenP
                         setScheduleFeedback("")
                       }}
                     >
-                      <span className={`vt-project-planner-calendar__day-number ${key === todayKey ? "is-today" : ""}`}>{day.getDate()}</span>
+                      <span data-vt-studio-control="true" data-size="mini" className={`vt-project-planner-calendar__day-number ${key === todayKey ? "is-today" : ""}`}>{day.getDate()}</span>
                       <span className="vt-project-planner-calendar__markers" aria-hidden="true">
                         {dayItems.slice(0, 2).map(item => {
                           const hasRange = Boolean(item.event.endDate && item.event.endDate > item.event.startDate)
