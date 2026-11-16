@@ -1,6 +1,6 @@
 import React from "react"
 import type { StudioControlSize } from "../tokens"
-import "../../styles/studio-control-entry.css"
+import "../../styles/studio-control-entry.css"\nimport { StudioSpectrumTag } from "./StudioControls"
 
 export interface StudioResourceSplitButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
@@ -51,7 +51,7 @@ export const StudioResourceSplitButton = React.forwardRef<HTMLButtonElement, Stu
             <span className="vt-studio-resource-split-button__category">{category}</span>
             <span className="vt-studio-resource-split-button__title">{title}</span>
             {meta ? <span className="vt-studio-resource-split-button__meta">{meta}</span> : null}
-            {completed ? <span className="vt-studio-resource-split-button__completed">COMPLETED</span> : null}
+            {completed ? <StudioSpectrumTag label="COMPLETED" spectrumKey="completed" className="vt-studio-resource-complete-tag" /> : null}
           </span>
         </span>
       </span>
