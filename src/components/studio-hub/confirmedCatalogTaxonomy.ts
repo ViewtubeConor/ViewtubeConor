@@ -62,6 +62,7 @@ export const CONFIRMED_CATALOG_MODULE_INVENTORY: ReadonlyArray<{ title: string; 
   { title: "Studio Spectrum + Metric Icons · Semantic Icon System", family: "tags-status" },
   { title: "StudioSideTextCounter · Editable Text + Numeric Stepper · Five Sizes", family: "split-text-fields" },
   { title: "Studio Numeric Steppers · Inline + Split", family: "steppers-sliders" },
+  { title: "Panel Accordion · StudioPanelAccordion · Standard + Compact", family: "accordions-layout" },
   { title: "Panel Accordion", family: "accordions-layout" },
   { title: "Resource Button", family: "buttons" },
   { title: "Chat Response Shell + Response Metadata Row", family: "chat-meta" },
