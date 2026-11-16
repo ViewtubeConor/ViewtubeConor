@@ -99,3 +99,25 @@ describe("Resource Library production reader", () => {
   })
 
 })
+
+
+describe("StudioResourceSplitButton primitive", () => {
+  it("renders its own left rail, resource copy, completion tag, and selected size tier", () => {
+    const html = renderToStaticMarkup(
+      <StudioResourceSplitButton
+        icon={<span aria-hidden="true">ICON</span>}
+        category="GUIDE"
+        title="CREATOR STRATEGY"
+        meta="8 MIN · BEGINNER"
+        completed
+        sizeVariant="compact"
+      />,
+    );
+    expect(html).toContain('data-vt-library-component="StudioResourceSplitButton"');
+    expect(html).toContain('data-size="compact"');
+    expect(html).toContain('data-vt-studio-split="left"');
+    expect(html).toContain('data-rail="start"');
+    expect(html).toContain("CREATOR STRATEGY");
+    expect(html).toContain("COMPLETED");
+  });
+});
