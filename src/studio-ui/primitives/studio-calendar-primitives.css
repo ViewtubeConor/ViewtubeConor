@@ -108,9 +108,7 @@ button.vt-studio-calendar-thumbnail-event-chip {
   border-bottom-left-radius: 0;
   border-left-width: 0;
 }
-.vt-studio-calendar-multi-day-bar[data-channel-wide="true"] {
-  border-style: dashed;
-}
+
 .vt-studio-calendar-multi-day-bar[data-selected="true"] {
   background: var(--vt-studio-control-secondary-fill, color-mix(in srgb, #fff 50%, var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b))));
 }
@@ -232,4 +230,132 @@ button.vt-studio-calendar-thumbnail-event-chip {
     animation: none;
     transition: none;
   }
+}
+
+
+/* Calendar primitives consume the selected Studio size bracket. Project
+   events, multi-day bars, and thumbnail chips are Mini; media rails remain
+   Standard compositions. No calendar component defines a parallel token set. */
+.vt-studio-calendar-event-chip[data-calendar-size="mini"] {
+  --vt-studio-control-height: var(--vt-studio-mini-height, 20px);
+  --vt-studio-control-stroke: var(--vt-studio-mini-stroke, 1.5px);
+  --vt-studio-control-radius: var(--vt-studio-mini-radius, 3px);
+  --vt-studio-control-font-size: var(--vt-studio-mini-font-size, 17.5px);
+  --vt-studio-control-font-weight: var(--vt-studio-mini-font-weight, 1000);
+  --vt-studio-control-icon-size: var(--vt-studio-mini-icon-size, 17.5px);
+  height: var(--vt-studio-control-height);
+  min-height: var(--vt-studio-control-height);
+  gap: calc(var(--vt-studio-control-stroke) * 2);
+  padding-inline: calc(var(--vt-studio-control-stroke) * 2);
+  border: var(--vt-studio-control-stroke) solid #000;
+  border-radius: var(--vt-studio-control-radius);
+  background: var(--vt-studio-control-primary-fill, color-mix(in srgb, white 50%, var(--vt-studio-control-accent, var(--pair-a, #36e0f6))));
+  color: #000;
+  font-family: var(--vt-studio-control-font-family, Inter, ui-sans-serif, system-ui, sans-serif);
+  font-size: var(--vt-studio-control-font-size);
+  font-weight: var(--vt-studio-control-font-weight);
+  line-height: 1;
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, .4px) #000;
+}
+.vt-studio-calendar-event-chip[data-calendar-size="mini"][data-selected="true"] {
+  background: var(--vt-studio-control-secondary-fill, color-mix(in srgb, white 50%, var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b))));
+}
+.vt-studio-calendar-event-chip[data-calendar-size="mini"] .vt-studio-calendar-event-chip__status {
+  font-family: inherit;
+  font-size: calc(var(--vt-studio-control-font-size) * .62);
+  font-weight: var(--vt-studio-control-font-weight);
+  -webkit-text-stroke: inherit;
+}
+.vt-studio-calendar-event-chip[data-calendar-size="mini"] .vt-studio-calendar-event-chip__mini-remove {
+  width: calc(var(--vt-studio-control-height) - 2 * var(--vt-studio-control-stroke));
+  height: calc(var(--vt-studio-control-height) - 2 * var(--vt-studio-control-stroke));
+  border: var(--vt-studio-control-stroke) solid #000;
+  border-radius: var(--vt-studio-control-radius);
+  font-family: inherit;
+  font-size: calc(var(--vt-studio-control-font-size) * .62);
+  font-weight: var(--vt-studio-control-font-weight);
+}
+.vt-studio-calendar-multi-day-bar,
+.vt-studio-calendar-thumbnail-event-chip {
+  --vt-studio-control-height: var(--vt-studio-mini-height, 20px);
+  --vt-studio-control-stroke: var(--vt-studio-mini-stroke, 1.5px);
+  --vt-studio-control-radius: var(--vt-studio-mini-radius, 3px);
+  --vt-studio-control-font-size: var(--vt-studio-mini-font-size, 17.5px);
+  --vt-studio-control-font-weight: var(--vt-studio-mini-font-weight, 1000);
+  --vt-studio-control-icon-size: var(--vt-studio-mini-icon-size, 17.5px);
+  box-sizing: border-box;
+  height: var(--vt-studio-control-height);
+  min-height: var(--vt-studio-control-height);
+  border: var(--vt-studio-control-stroke) solid #000;
+  color: #000;
+  background: var(--vt-studio-control-primary-fill, color-mix(in srgb, white 50%, var(--vt-studio-control-accent, var(--pair-a, #36e0f6))));
+  font-family: var(--vt-studio-control-font-family, Inter, ui-sans-serif, system-ui, sans-serif);
+  font-size: var(--vt-studio-control-font-size);
+  font-weight: var(--vt-studio-control-font-weight);
+  line-height: 1;
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, .4px) #000;
+}
+.vt-studio-calendar-multi-day-bar[data-calendar-segment="single"] {
+  border-radius: var(--vt-studio-control-radius);
+}
+.vt-studio-calendar-multi-day-bar[data-calendar-segment="start"] {
+  border-top-left-radius: var(--vt-studio-control-radius);
+  border-bottom-left-radius: var(--vt-studio-control-radius);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.vt-studio-calendar-multi-day-bar[data-calendar-segment="middle"] { border-radius: 0; }
+.vt-studio-calendar-multi-day-bar[data-calendar-segment="end"] {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: var(--vt-studio-control-radius);
+  border-bottom-right-radius: var(--vt-studio-control-radius);
+}
+.vt-studio-calendar-multi-day-bar[data-channel-wide="true"] {
+  border-style: solid;
+  border-color: #000;
+  background: var(--vt-studio-control-primary-fill, color-mix(in srgb, white 50%, var(--vt-studio-control-accent, var(--pair-a, #36e0f6))));
+}
+.vt-studio-calendar-multi-day-bar[data-selected="true"] {
+  background: var(--vt-studio-control-secondary-fill, color-mix(in srgb, white 50%, var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b))));
+}
+.vt-studio-calendar-thumbnail-event-chip { border-radius: var(--vt-studio-control-radius); }
+.vt-studio-calendar-thumbnail-event-chip__media {
+  border-right-width: var(--vt-studio-control-stroke);
+}
+.vt-studio-calendar-thumbnail-event-chip__media svg {
+  width: var(--vt-studio-control-icon-size);
+  height: var(--vt-studio-control-icon-size);
+  max-width: 100%;
+  max-height: 100%;
+}
+.vt-studio-calendar-thumbnail-event-chip__body {
+  gap: calc(var(--vt-studio-control-stroke) * 2);
+  padding-inline: calc(var(--vt-studio-control-stroke) * 2);
+}
+.vt-studio-calendar-thumbnail-event-chip__status,
+.vt-studio-calendar-multi-day-bar__status {
+  font-family: inherit;
+  font-size: calc(var(--vt-studio-control-font-size) * .62);
+  font-weight: var(--vt-studio-control-font-weight);
+  -webkit-text-stroke: inherit;
+}
+.vt-studio-calendar-media-rail {
+  --vt-studio-control-height: var(--vt-studio-standard-height, 44px);
+  --vt-studio-control-stroke: var(--vt-studio-standard-stroke, 3px);
+  --vt-studio-control-radius: var(--vt-studio-standard-radius, 6px);
+  --vt-studio-control-font-size: var(--vt-studio-standard-font-size, 38px);
+  --vt-studio-control-icon-size: var(--vt-studio-standard-icon-size, 38px);
+}
+.vt-studio-calendar-media-rail__placeholder {
+  font-family: var(--vt-studio-control-font-family, Inter, ui-sans-serif, system-ui, sans-serif);
+  font-size: calc(var(--vt-studio-control-font-size) * .24);
+  font-weight: var(--vt-studio-control-font-weight, 1000);
+  -webkit-text-stroke: var(--vt-studio-control-text-stroke, 1px) currentColor;
+}
+.vt-studio-calendar-media-rail__placeholder svg {
+  width: var(--vt-studio-control-icon-size);
+  height: var(--vt-studio-control-icon-size);
+  max-width: 80%;
+  max-height: 80%;
 }
