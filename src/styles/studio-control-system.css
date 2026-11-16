@@ -6853,3 +6853,16 @@ button.vt-studio-resource-split-button:focus-visible {
   outline: calc(var(--vt-studio-control-stroke, 3px) * .65) solid var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
   outline-offset: 0;
 }
+
+
+button.vt-studio-resource-split-button:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--vt-resource-pair-shadow, color-mix(in srgb, var(--vt-studio-control-accent, var(--pair-a, #36e0f6)) 24%, transparent));
+}
+button.vt-studio-resource-split-button.is-active {
+  box-shadow: 4px 4px 0 var(--vt-resource-pair-shadow, color-mix(in srgb, var(--vt-studio-control-accent, var(--pair-a, #36e0f6)) 24%, transparent));
+}
+.vt-studio-resource-split-button .vt-resource-complete-tag {
+  align-self: flex-start;
+  margin-top: calc(var(--vt-studio-control-stroke, 3px) * .75);
+}
