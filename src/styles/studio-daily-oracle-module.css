@@ -7,7 +7,7 @@
   --vt-oracle-stroke: var(--vt-studio-control-stroke, 3px);
   --vt-oracle-radius: var(--vt-studio-control-radius, 6px);
   --vt-oracle-rail: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
-  --vt-oracle-fill: color-mix(in srgb, white 88%, var(--vt-studio-control-accent, var(--pair-a, #36e0f6)) 12%);
+  --vt-oracle-fill: var(--vt-studio-control-accent, var(--pair-a, #36e0f6));
   display: grid;
   grid-template-columns: 6px minmax(0, 1fr) auto;
   align-items: stretch;
@@ -76,7 +76,7 @@
   border: 0;
   border-left: var(--vt-oracle-stroke) solid #000;
   border-radius: 0;
-  background: color-mix(in srgb, white 70%, var(--vt-studio-control-accent, var(--pair-a, #36e0f6)) 30%);
+  background: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
   color: #000;
   cursor: pointer;
 }
@@ -90,10 +90,10 @@
 .vt-studio-daily-oracle__action-icon,
 .vt-studio-daily-oracle__action-icon svg {
   display: block;
-  width: 55%;
-  height: 55%;
-  max-width: 22px;
-  max-height: 22px;
+  width: var(--vt-studio-control-icon-size, 38px);
+  height: var(--vt-studio-control-icon-size, 38px);
+  max-width: none;
+  max-height: none;
 }
 
 /* Spectrum variants via data-tone or CSS var override */
