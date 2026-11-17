@@ -1,11 +1,11 @@
 /* StudioIconTitleModule — monochromatic split-left icon bay + title/subtitle. */
 
 .vt-studio-icon-title {
-  --vt-icon-title-height: 56px;
+  --vt-icon-title-height: var(--vt-studio-control-height, 44px);
   --vt-icon-title-stroke: var(--vt-studio-control-stroke, 3px);
   --vt-icon-title-radius: var(--vt-studio-control-radius, 6px);
-  --vt-icon-title-bay: #a5f3fc;
-  --vt-icon-title-fill: color-mix(in srgb, white 70%, var(--vt-icon-title-bay) 30%);
+  --vt-icon-title-bay: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
+  --vt-icon-title-fill: var(--vt-studio-control-accent, var(--pair-a, #36e0f6));
   display: grid;
   grid-template-columns: var(--vt-icon-title-height) minmax(0, 1fr);
   align-items: stretch;
@@ -26,7 +26,7 @@
 }
 
 .vt-studio-icon-title[data-size="compact"] {
-  --vt-icon-title-height: 40px;
+  --vt-icon-title-height: var(--vt-studio-compact-height, 28px);
   --vt-icon-title-stroke: var(--vt-studio-compact-stroke, 2px);
   --vt-icon-title-radius: var(--vt-studio-compact-radius, 4px);
 }
@@ -50,10 +50,10 @@ button.vt-studio-icon-title:focus-visible {
 .vt-studio-icon-title__icon,
 .vt-studio-icon-title__icon svg {
   display: block;
-  width: 55%;
-  height: 55%;
-  max-width: 28px;
-  max-height: 28px;
+  width: var(--vt-studio-control-icon-size, 38px);
+  height: var(--vt-studio-control-icon-size, 38px);
+  max-width: none;
+  max-height: none;
   color: #000;
 }
 
@@ -69,7 +69,7 @@ button.vt-studio-icon-title:focus-visible {
 .vt-studio-icon-title__title {
   font-family: var(--vt-studio-control-font-family, Inter, ui-sans-serif, system-ui, sans-serif);
   font-weight: 1000;
-  font-size: 15px;
+  font-size: var(--vt-studio-control-font-size, 38px);
   line-height: 1.1;
   letter-spacing: -0.02em;
   text-transform: uppercase;
@@ -89,18 +89,18 @@ button.vt-studio-icon-title:focus-visible {
 
 /* Spectrum presets matching the design specimens */
 .vt-studio-icon-title--brain {
-  --vt-icon-title-bay: #a5f3fc;
-  --vt-icon-title-fill: #e0f7fa;
+  --vt-icon-title-bay: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
+  --vt-icon-title-fill: var(--vt-studio-control-accent, var(--pair-a, #36e0f6));
 }
 .vt-studio-icon-title--analytics {
-  --vt-icon-title-bay: #93c5fd;
-  --vt-icon-title-fill: #dbeafe;
+  --vt-icon-title-bay: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
+  --vt-icon-title-fill: var(--vt-studio-control-accent, var(--pair-a, #36e0f6));
 }
 .vt-studio-icon-title--quick-action {
-  --vt-icon-title-bay: #86efac;
-  --vt-icon-title-fill: #dcfce7;
+  --vt-icon-title-bay: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
+  --vt-icon-title-fill: var(--vt-studio-control-accent, var(--pair-a, #36e0f6));
 }
 .vt-studio-icon-title--control {
-  --vt-icon-title-bay: #c4b5fd;
-  --vt-icon-title-fill: #ede9fe;
+  --vt-icon-title-bay: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
+  --vt-icon-title-fill: var(--vt-studio-control-accent, var(--pair-a, #36e0f6));
 }
