@@ -74,6 +74,8 @@ import { StudioSplitAccordion } from "../../studio-ui/primitives/StudioSplitAcco
 import { StudioCalendarEventChip, StudioCalendarMultiDayBar, StudioCalendarThumbnailEventChip, StudioCalendarMediaRail } from "../../studio-ui/primitives/StudioCalendarPrimitives"
 import { StudioDropdown } from "../../studio-ui/primitives/StudioDropdown"
 import { StudioInterModule, StudioTwoLineInterModule } from "../../studio-ui/primitives/StudioInterModule"
+import { StudioMultiSectionModule } from "../../studio-ui/primitives/StudioMultiSectionModule"
+import { StudioMultiSectionModuleCatalogSpecimen } from "./StudioMultiSectionModuleCatalogSpecimen"
 import { StudioResponseMetaRow } from "../../studio-ui/primitives/StudioResponseMetaRow"
 import { StudioLedBadgeTab } from "../../studio-ui/primitives/StudioLedBadgeTab"
 import { StudioChatComposerDock } from "../../studio-ui/primitives/StudioChatComposerDock"
@@ -1905,6 +1907,31 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
           <span>Compact collapsible module body content.</span>
         </StudioCollapsingSplitModule>
       </div>
+    </Family>
+    <Family
+      title="Multi Section Module"
+      primitive="StudioMultiSectionModule"
+      defaultOpen
+      nonDefaultSettings={[
+        "Vertical multi-section module: every section header remains visible when collapsed.",
+        "Independent multi-open panels (catalog HTML Overview / Schedule / Metadata behavior).",
+        "Secondary icon rail + primary header face; open header keeps bottom stroke on the color edge.",
+        "Distinct from StudioSplitAccordion (horizontal train) and StudioPanelAccordion (rail switcher).",
+      ]}
+      provenance={
+        <Provenance
+          primitive="StudioMultiSectionModule"
+          tsx="src/studio-ui/primitives/StudioMultiSectionModule.tsx"
+          css="src/styles/studio-multi-section-module.css"
+          tokens="All size tiers · secondary rails · primary headers · multi-open panels"
+          imports={[
+            "src/studio-ui/primitives/StudioMultiSectionModule.tsx",
+            "src/styles/studio-multi-section-module.css",
+          ]}
+        />
+      }
+    >
+      <StudioMultiSectionModuleCatalogSpecimen />
     </Family>
     <Family
       title="Panel Accordion"
