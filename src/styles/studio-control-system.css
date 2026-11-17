@@ -6663,7 +6663,7 @@ button.vt-studio-circle-icon-button > [data-vt-studio-button-face] {
   min-height: 100%;
   padding: 0;
   aspect-ratio: 1;
-  border: var(--vt-studio-control-stroke, 3px) solid #000;
+  border: 0;
   border-radius: 50%;
   overflow: hidden;
 }
@@ -6690,7 +6690,7 @@ button.vt-studio-square-icon-button:is(:hover, :focus-visible) [data-vt-square-t
 
 /* Canonical circle face + horizontal five-button group geometry. */
 button.vt-studio-circle-icon-button > [data-vt-studio-button-face] {
-  border: var(--vt-studio-control-stroke, 3px) solid #000;
+  border: 0;
   border-radius: 50%;
 }
 
