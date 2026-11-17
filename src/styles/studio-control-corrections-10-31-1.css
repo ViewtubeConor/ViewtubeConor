@@ -1,0 +1,402 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Studio Controls corrections against the 10-31 baseline
+ * (fix/studio-controls-regression-recovery-2026-10-31)
+ *
+ * 1. Split text inputs — left align + small margins
+ * 2. Side / double-side toggles — rest mix text; black only on focus
+ * 3. Text areas + text inputs focus — stroke + text both black on focus
+ * 4. Panel accordion — vertical border + text-box styling
+ * 5. Unified fixed-label / legend — center on top stroke (not floating high)
+ * + Circle icon buttons, square icon button group horizontal layout,
+ *   split-dropdown rail icons size, collapsing-split open dividers,
+ *   switches/radios/checkboxes radius, bar-toggle track isolation
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/* ── 1. Split text inputs: enforce left alignment + compact horizontal padding ─ */
+html body .vt-studio-split-text-input input.vt-studio-text-input[data-vt-studio-control="true"][data-size] {
+  text-align: left !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  margin: 0 !important;
+}
+
+html body .vt-studio-split-text-input[data-size="compact"] input.vt-studio-text-input {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+
+/* ── 3. Focus mode: text + stroke black for inputs and textareas ───────────── */
+html body input.vt-studio-text-input:is(:focus, :focus-visible),
+html body input[data-vt-studio-control="true"]:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):is(:focus, :focus-visible),
+html body textarea[data-vt-studio-control="true"]:is(:focus, :focus-visible),
+html body [data-vt-studio-control="true"] textarea:is(:focus, :focus-visible),
+html body .vt-studio-split-text-input input.vt-studio-text-input:is(:focus, :focus-visible) {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  -webkit-text-stroke-color: #000 !important;
+  caret-color: var(--vt-studio-control-accent, var(--pair-a, #36e0f6)) !important;
+}
+
+html body input.vt-studio-text-input:is(:focus, :focus-visible),
+html body textarea[data-vt-studio-control="true"]:is(:focus, :focus-visible) {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+}
+
+/* ── 2. Side / double-side toggles ─────────────────────────────────────────── */
+.vt-studio-value-toggle:not(:focus-within) .vt-studio-value-toggle__face,
+.vt-studio-value-toggle:not(:focus-within) .vt-studio-word-counter__value {
+  color: var(--vt-studio-number-rest-color, color-mix(in srgb, #fff 50%, var(--vt-toggle-fill, var(--pair-a)))) !important;
+  -webkit-text-fill-color: currentColor !important;
+  -webkit-text-stroke-color: currentColor !important;
+}
+
+.vt-studio-value-toggle:focus-within .vt-studio-value-toggle__face,
+.vt-studio-value-toggle:focus-within .vt-studio-word-counter__value,
+.vt-studio-value-toggle--double .vt-studio-value-toggle__double-side:focus-within .vt-studio-value-toggle__face {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  -webkit-text-stroke-color: #000 !important;
+}
+
+.vt-studio-value-toggle--double {
+  width: 100% !important;
+  max-width: none !important;
+  flex: 1 1 auto;
+}
+
+/* ── 4. Panel accordion text section ───────────────────────────────────────── */
+.vt-studio-panel-accordion__panel {
+  font-family: var(--vt-studio-control-font-family, Inter, ui-sans-serif, system-ui, sans-serif);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: #111;
+  text-align: left;
+  text-transform: none;
+  padding: 10px 12px;
+}
+
+.vt-studio-panel-accordion__rails {
+  border-right: var(--vt-studio-panel-stroke, 3px) solid #000 !important;
+}
+
+/* ── 5. Unified fixed-label / legend — CENTERED on the top stroke ───────────
+ * Correct placement: the badge sits on the module top border so the stroke
+ * runs through the vertical middle of the label (not floating above it).
+ * Matches the production legend multi-dropdown specimen.
+ */
+.vt-studio-fixed-field-label,
+.vt-studio-legend-label,
+[data-vt-studio-field-variant="fixed-label"] > label,
+.vt-studio-legend-multi-dropdown > label,
+.vt-studio-legend-multi-dropdown .vt-studio-legend-label,
+[data-vt-studio-control-kind="legend-multi-dropdown"] > label,
+[data-vt-studio-control-kind="legend-multi-dropdown"] .vt-studio-legend-label {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 10px !important;
+  /* Center the label on the outer top border */
+  transform: translateY(-50%) !important;
+  z-index: 3 !important;
+  box-sizing: border-box !important;
+  height: 18px !important;
+  min-height: 18px !important;
+  max-height: 18px !important;
+  padding: 0 8px !important;
+  margin: 0 !important;
+  border: 1.5px solid #000 !important;
+  border-radius: 3px !important;
+  background: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b)) !important;
+  color: #000 !important;
+  font-family: var(--vt-studio-control-font-family, Inter, ui-sans-serif, system-ui, sans-serif) !important;
+  font-weight: 1000 !important;
+  font-size: 11px !important;
+  letter-spacing: -0.02em !important;
+  text-transform: uppercase !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
+}
+
+/* Parent must be relative so absolute label anchors to the control box */
+.vt-studio-fixed-label-field,
+.vt-studio-legend-multi-dropdown,
+[data-vt-studio-field-variant="fixed-label"],
+[data-vt-studio-control-kind="legend-multi-dropdown"] {
+  position: relative !important;
+}
+
+/* Kill any extra top offset that was pushing labels above the stroke */
+.vt-studio-legend-multi-dropdown > label,
+.vt-studio-fixed-label-field > label,
+[data-vt-studio-field-variant="fixed-label"] > label {
+  top: 0 !important;
+  margin-top: 0 !important;
+  translate: none;
+}
+
+[data-size="compact"] .vt-studio-fixed-field-label,
+[data-size="compact"] .vt-studio-legend-label,
+[data-size="compact"][data-vt-studio-field-variant="fixed-label"] > label,
+[data-size="compact"].vt-studio-legend-multi-dropdown > label {
+  height: 14px !important;
+  min-height: 14px !important;
+  max-height: 14px !important;
+  padding: 0 6px !important;
+  font-size: 9px !important;
+  border-width: 1px !important;
+  border-radius: 2px !important;
+  left: 8px !important;
+}
+
+[data-size="mini"] .vt-studio-fixed-field-label,
+[data-size="mini"] .vt-studio-legend-label {
+  height: 12px !important;
+  min-height: 12px !important;
+  max-height: 12px !important;
+  padding: 0 5px !important;
+  font-size: 8px !important;
+  border-width: 1px !important;
+  border-radius: 2px !important;
+}
+
+/* ── Switches / radios / checkboxes — corner radius matches size tier ─────── */
+input[type="checkbox"][data-vt-studio-control="true"],
+input[type="radio"][data-vt-studio-control="true"],
+.vt-studio-switch,
+.vt-studio-checkbox,
+.vt-studio-radio {
+  border-radius: var(--vt-studio-control-radius, 6px);
+}
+
+[data-size="compact"] input[type="checkbox"][data-vt-studio-control="true"],
+[data-size="compact"] .vt-studio-checkbox,
+[data-size="compact"] .vt-studio-switch {
+  border-radius: var(--vt-studio-compact-radius, 4px);
+}
+
+[data-size="mini"] input[type="checkbox"][data-vt-studio-control="true"],
+[data-size="mini"] .vt-studio-checkbox {
+  border-radius: var(--vt-studio-mini-radius, 3px);
+}
+
+input[type="radio"][data-vt-studio-control="true"],
+.vt-studio-radio {
+  border-radius: 50% !important;
+}
+
+/* ── Circle icon buttons — true circle, single border, centered glyph ─────── */
+.vt-studio-circle-icon-button,
+[data-vt-studio-control-kind="circle-icon-button"],
+button.vt-studio-circle-icon-button,
+.vt-studio-icon-button[data-shape="circle"],
+button[data-shape="circle"][data-vt-studio-control="true"] {
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: none !important;
+  width: var(--vt-studio-control-height, 44px) !important;
+  height: var(--vt-studio-control-height, 44px) !important;
+  min-width: var(--vt-studio-control-height, 44px) !important;
+  min-height: var(--vt-studio-control-height, 44px) !important;
+  max-width: var(--vt-studio-control-height, 44px) !important;
+  max-height: var(--vt-studio-control-height, 44px) !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 50% !important;
+  aspect-ratio: 1 / 1 !important;
+  border: var(--vt-studio-control-stroke, 3px) solid #000 !important;
+  overflow: visible !important;
+  line-height: 0 !important;
+}
+
+.vt-studio-circle-icon-button > *,
+[data-vt-studio-control-kind="circle-icon-button"] > *,
+.vt-studio-icon-button[data-shape="circle"] > * {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 58% !important;
+  height: 58% !important;
+  margin: 0 !important;
+}
+
+.vt-studio-circle-icon-button svg,
+[data-vt-studio-control-kind="circle-icon-button"] svg,
+.vt-studio-icon-button[data-shape="circle"] svg {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+}
+
+[data-size="compact"].vt-studio-circle-icon-button,
+[data-size="compact"][data-vt-studio-control-kind="circle-icon-button"],
+.vt-studio-circle-icon-button[data-size="compact"] {
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  min-height: 28px !important;
+  max-width: 28px !important;
+  max-height: 28px !important;
+  border-width: 2px !important;
+}
+
+/* ── Square icon button group — HORIZONTAL row, not vertical stack ────────── */
+.vt-studio-square-icon-button-group,
+[data-vt-studio-control-kind="square-icon-button-group"],
+.vt-studio-icon-button-group {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: stretch !important;
+  width: max-content !important;
+  max-width: 100% !important;
+}
+
+.vt-studio-square-icon-button-group > *,
+[data-vt-studio-control-kind="square-icon-button-group"] > *,
+.vt-studio-icon-button-group > * {
+  flex: none !important;
+  /* Shared vertical edges: collapse adjacent borders */
+  margin: 0 !important;
+}
+
+.vt-studio-square-icon-button-group > * + *,
+[data-vt-studio-control-kind="square-icon-button-group"] > * + * {
+  margin-left: -3px !important; /* overlap shared stroke */
+}
+
+/* First/last radius on the group ends only */
+.vt-studio-square-icon-button-group > *:not(:first-child):not(:last-child),
+[data-vt-studio-control-kind="square-icon-button-group"] > *:not(:first-child):not(:last-child) {
+  border-radius: 0 !important;
+}
+
+.vt-studio-square-icon-button-group > *:first-child:not(:last-child),
+[data-vt-studio-control-kind="square-icon-button-group"] > *:first-child:not(:last-child) {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.vt-studio-square-icon-button-group > *:last-child:not(:first-child),
+[data-vt-studio-control-kind="square-icon-button-group"] > *:last-child:not(:first-child) {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+/* ── Square icon button overflow exception (tooltips + CSS animations) ───── */
+.vt-studio-square-icon-button,
+[data-vt-studio-control-kind="square-icon-button"],
+.vt-studio-icon-button[data-variant="square"] {
+  overflow: visible !important;
+}
+
+.vt-studio-square-icon-button .vt-studio-icon-button__tooltip,
+.vt-studio-square-icon-button [data-tooltip],
+.vt-studio-icon-button[data-variant="square"] .vt-studio-icon-button__tooltip {
+  position: absolute;
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* ── Split-left dropdown rail icons — match global icon size for the tier ─── */
+.vt-studio-split-left-dropdown [data-vt-studio-split-rail],
+.vt-studio-split-left-dropdown .vt-studio-split-rail,
+[data-vt-studio-control-kind="split-left-dropdown"] [data-vt-studio-split-rail],
+.vt-studio-split-left-dropdown__rail {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.vt-studio-split-left-dropdown [data-vt-studio-split-rail] svg,
+.vt-studio-split-left-dropdown .vt-studio-split-rail svg,
+[data-vt-studio-control-kind="split-left-dropdown"] [data-vt-studio-split-rail] svg,
+.vt-studio-split-left-dropdown__rail svg,
+.vt-studio-split-left-dropdown [data-vt-studio-split-rail] > *,
+.vt-studio-split-left-dropdown__rail > * {
+  width: var(--vt-studio-control-icon-size, 22px) !important;
+  height: var(--vt-studio-control-icon-size, 22px) !important;
+  min-width: var(--vt-studio-control-icon-size, 22px) !important;
+  min-height: var(--vt-studio-control-icon-size, 22px) !important;
+}
+
+[data-size="compact"].vt-studio-split-left-dropdown [data-vt-studio-split-rail] svg,
+[data-size="compact"] .vt-studio-split-left-dropdown__rail svg,
+.vt-studio-split-left-dropdown[data-size="compact"] [data-vt-studio-split-rail] svg {
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px !important;
+  min-height: 16px !important;
+}
+
+/* Menu option rail icons also scale up */
+.vt-studio-split-left-dropdown [role="option"] [data-vt-studio-split-rail] svg,
+.vt-studio-split-left-dropdown [role="listbox"] svg {
+  width: var(--vt-studio-control-icon-size, 22px) !important;
+  height: var(--vt-studio-control-icon-size, 22px) !important;
+}
+
+/* ── Collapsing split module (OPEN) — match regular top-split with dividers ─
+ * When expanded, the body must sit under a full-width horizontal stroke that
+ * separates the header (left icon rail + title + right action) from the body,
+ * same as StudioTopSplitModule. Inner section rows also get the shared
+ * horizontal divider under their split rails.
+ */
+.vt-studio-collapsing-split-module[data-open="true"] .vt-studio-collapsing-split-module__header,
+.vt-studio-collapsing-split-module[aria-expanded="true"] .vt-studio-collapsing-split-module__header,
+.vt-studio-collapsing-split[data-open="true"] > header,
+[data-vt-studio-control-kind="collapsing-split-module"][data-open="true"] .vt-studio-collapsing-split-module__header,
+[data-vt-studio-control-kind="collapsing-split-module"][aria-expanded="true"] .vt-studio-top-split-module__header {
+  border-bottom: var(--vt-studio-control-stroke, 3px) solid #000 !important;
+}
+
+.vt-studio-collapsing-split-module[data-open="true"] .vt-studio-collapsing-split-module__body,
+.vt-studio-collapsing-split-module[aria-expanded="true"] .vt-studio-collapsing-split-module__body,
+[data-vt-studio-control-kind="collapsing-split-module"][data-open="true"] .vt-studio-collapsing-split-module__body {
+  border-top: 0 !important; /* header already owns the divider */
+}
+
+/* Inner section rows inside an open collapsing module — rail + label share
+ * the same horizontal bottom stroke as top-split modules */
+.vt-studio-collapsing-split-module[data-open="true"] .vt-studio-collapsing-split-module__section,
+.vt-studio-collapsing-split-module[aria-expanded="true"] .vt-studio-collapsing-split-module__section,
+[data-vt-studio-control-kind="collapsing-split-module"][data-open="true"] [data-vt-studio-split-row] {
+  border-bottom: var(--vt-studio-control-stroke, 3px) solid #000 !important;
+}
+
+.vt-studio-collapsing-split-module[data-open="true"] .vt-studio-collapsing-split-module__section:last-child,
+.vt-studio-collapsing-split-module[aria-expanded="true"] .vt-studio-collapsing-split-module__section:last-child {
+  border-bottom: 0 !important;
+}
+
+/* Ensure open collapsing module keeps the same outer geometry as top-split */
+.vt-studio-collapsing-split-module,
+[data-vt-studio-control-kind="collapsing-split-module"] {
+  border: var(--vt-studio-control-stroke, 3px) solid #000 !important;
+  border-radius: var(--vt-studio-control-radius, 6px) !important;
+  overflow: hidden;
+}
+
+/* ── Bar toggles: bar track only exists in the center section ─────────────── */
+.vt-studio-value-toggle--bar > [data-vt-studio-split-rail] {
+  z-index: 2;
+  background: var(--vt-studio-control-secondary, var(--pair-b));
+}
+
+.vt-studio-value-toggle--bar > [data-vt-studio-split-label],
+.vt-studio-value-toggle--bar .vt-studio-value-toggle__bars {
+  z-index: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.vt-studio-value-toggle--bar .vt-studio-value-toggle__bar {
+  max-width: 100%;
+}
