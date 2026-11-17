@@ -1679,7 +1679,7 @@ describe("Studio module visual regression contracts", () => {
     const oracle = readFileSync(resolve(process.cwd(), "src/styles/studio-daily-oracle-module.css"), "utf8");
     const iconTitle = readFileSync(resolve(process.cwd(), "src/styles/studio-icon-title-module.css"), "utf8");
     expect(oracle).toContain("width: var(--vt-studio-control-icon-size, 38px);");
-    expect(oracle).toContain("background: var(--vt-studio-control-accent, var(--pair-a, #36e0f6));");
+    expect(oracle).toContain("--vt-oracle-fill: var(--vt-studio-control-accent, var(--pair-a, #36e0f6));");
     expect(oracle).toContain("background: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));");
     expect(oracle).not.toContain("max-width: 22px");
     expect(iconTitle).toContain("--vt-icon-title-height: var(--vt-studio-control-height, 44px);");
@@ -1740,13 +1740,13 @@ describe("Studio module visual regression contracts", () => {
   it("renders the joined icon group as one intrinsic-width horizontal row", () => {
     const html = renderToStaticMarkup(
       <StudioSquareIconButtonGroup sizeVariant="standard">
-        <StudioSquareIconButton icon={<Home />} label="Home" />
-        <StudioSquareIconButton icon={<Settings2 />} label="Settings" />
-        <StudioSquareIconButton icon={<Sparkles />} label="Enhance" />
+        <StudioSquareIconButton icon={<span>H</span>} label="Home" />
+        <StudioSquareIconButton icon={<span>S</span>} label="Settings" />
+        <StudioSquareIconButton icon={<span>E</span>} label="Enhance" />
       </StudioSquareIconButtonGroup>
     );
     expect(html).toContain('data-vt-studio-icon-button-group="true"');
-    expect(html).toContain('display:flex');
+    expect(html).toContain('display:inline-flex');
     expect(html).toContain('flex-direction:row');
     expect(html).toContain('flex-wrap:nowrap');
   });
