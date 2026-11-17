@@ -351,10 +351,11 @@ const conciseFamilyHeaders: Record<string, string> = {
   "Double Side Toggle · Five Sizes × V1 / V2 × Three Right Faces": "Double Side Toggle",
   "Bar Toggle · Five Sizes": "Bar Toggle",
 };
-const Family: React.FC<{ title: string; children: React.ReactNode; provenance: React.ReactNode; nonDefaultSettings?: string[]; defaultOpen?: boolean }> = ({ title, children, provenance, nonDefaultSettings = [], defaultOpen = false }) => (
+const Family: React.FC<{ title: string; children: React.ReactNode; provenance: React.ReactNode; nonDefaultSettings?: string[]; defaultOpen?: boolean; primitive?: string }> = ({ title, children, provenance, nonDefaultSettings = [], defaultOpen = false, primitive }) => (
   <details
     className={`vt-confirmed-family vt-confirmed-primitive-module ${/Button|Split-left/.test(title) && !/Icon Button Rail Text Inputs/.test(title) ? "vt-confirmed-button-family" : ""}`}
-    data-vt-confirmed-primitive="true"
+    data-vt-confirmed-primitive={primitive || "true"}
+    data-vt-library-component={primitive || undefined}
     data-vt-primitive-title={title}
     open={defaultOpen || undefined}
   >
@@ -1284,7 +1285,7 @@ const useConfirmedAdditionalPrimitiveSections = (): React.ReactNode[] => {
         </div>
       </Family>
 
-      <Family title="Component Grid · Grid / Cell / Row" nonDefaultSettings={[
+      <Family title="Component Grid · Grid / Cell / Row" primitive="StudioComponentGrid" nonDefaultSettings={[
         "The production grid arranges existing controls; it does not create alternate control faces or a second composition framework.",
       ]} provenance={<Provenance primitive="StudioComponentGrid · StudioComponentGridCell · StudioComponentGridRow" tsx="src/studio-ui/primitives/StudioComponentGrid.tsx" css="src/styles/studio-component-grid.css" tokens="Production grid layout; embedded controls retain their owning family contracts." imports={["src/studio-ui/primitives/StudioComponentGrid.tsx"]} />}>
         <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioComponentGrid">
@@ -1850,6 +1851,8 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
     <ConfirmedStudioLeftWordSliderFamily />
     <Family
       title="Split Accordion · Train Motion"
+      primitive="StudioSplitAccordion"
+      defaultOpen
       nonDefaultSettings={[
         "Independent single-open accordion with square secondary-color icon rails and primary-color content panels.",
         "Uses buildTri-style staggered width animation with 1000ms segment duration and reduced-motion snapping.",
@@ -1858,7 +1861,12 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       ]}
       provenance={<Provenance primitive="StudioSplitAccordion" tsx="src/studio-ui/primitives/StudioSplitAccordion.tsx" css="src/styles/studio-split-accordion.css" tokens="44px / 28px / 12px · secondary icon rails · primary content panels · buildTri staggered train" imports={["src/studio-ui/primitives/StudioSplitAccordion.tsx", "src/styles/studio-split-accordion.css", "src/components/studio-hub/StudioSplitAccordionCatalogSpecimens.tsx"]} />}
     >
-      <div className="w-full min-w-0 max-w-none" style={{ width: "100%", minWidth: 0, maxWidth: "none", gridTemplateColumns: "minmax(0, 1fr)" }}>
+      <div
+        className="w-full min-w-0 max-w-none vt-confirmed-split-accordion-host"
+        data-vt-confirmed-primitive="StudioSplitAccordion"
+        data-vt-library-component="StudioSplitAccordion"
+        style={{ width: "100%", minWidth: 0, maxWidth: "none", display: "grid", gridTemplateColumns: "minmax(0, 1fr)" }}
+      >
         <StudioSplitAccordionCatalogSpecimens />
       </div>
     </Family>
@@ -1900,6 +1908,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
     </Family>
     <Family
       title="Panel Accordion"
+      primitive="StudioPanelAccordion"
       nonDefaultSettings={[
         "One icon-selected panel at a time; the content surface is the canonical StudioTextBox.",
         "Standard and Compact inherit their global size, border, inset, and typography tokens.",

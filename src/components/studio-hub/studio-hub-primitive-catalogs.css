@@ -2042,18 +2042,32 @@
 }
 
 /* Split Accordion is a single continuous train, not one item in the generic two-column specimen grid. */
-.vt-confirmed-family:has([data-vt-confirmed-primitive="StudioSplitAccordion"]) > .vt-confirmed-primitive-body > .vt-confirmed-variants {
-  display: block;
-  grid-template-columns: minmax(0, 1fr);
-  width: 100%;
-  min-width: 0;
-}
-.vt-confirmed-family:has([data-vt-confirmed-primitive="StudioSplitAccordion"]) > .vt-confirmed-primitive-body > .vt-confirmed-variants > [data-vt-confirmed-primitive="StudioSplitAccordion"] {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
+.vt-confirmed-family:has([data-vt-confirmed-primitive="StudioSplitAccordion"]) > .vt-confirmed-primitive-body > .vt-confirmed-variants,
+.vt-confirmed-family:has([data-vt-library-component="StudioSplitAccordion"]) > .vt-confirmed-primitive-body > .vt-confirmed-variants,
+.vt-confirmed-family[data-vt-confirmed-primitive="StudioSplitAccordion"] > .vt-confirmed-primitive-body > .vt-confirmed-variants {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
   width: 100%;
   min-width: 0;
   max-width: none;
+}
+.vt-confirmed-family:has([data-vt-confirmed-primitive="StudioSplitAccordion"]) > .vt-confirmed-primitive-body > .vt-confirmed-variants > [data-vt-confirmed-primitive="StudioSplitAccordion"],
+.vt-confirmed-family:has([data-vt-library-component="StudioSplitAccordion"]) > .vt-confirmed-primitive-body > .vt-confirmed-variants > [data-vt-library-component="StudioSplitAccordion"],
+.vt-confirmed-split-accordion-host {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+}
+/* Keep Accordions & Layout family modules full-bleed inside the parent family shell */
+.vt-confirmed-family-group[data-vt-confirmed-family-id="accordions-layout"] .vt-confirmed-family {
+  width: 100%;
+  min-width: 0;
+}
+.vt-confirmed-family-group[data-vt-confirmed-family-id="accordions-layout"] .vt-studio-split-accordion {
+  width: 100%;
+  min-width: 0;
 }
 
 /* Confirmed Primitive Library: control families use the full module width.

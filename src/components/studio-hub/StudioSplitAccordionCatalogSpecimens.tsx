@@ -174,7 +174,8 @@ function NavigationSpecimenRow({
 export const StudioSplitAccordionCatalogSpecimens: React.FC = () => (
   <div
     data-vt-confirmed-primitive="StudioSplitAccordion"
-    className="grid w-full min-w-0 max-w-none gap-1"
+    data-vt-library-component="StudioSplitAccordion"
+    className="grid w-full min-w-0 max-w-none gap-1 vt-confirmed-split-accordion-host"
     style={{ gridTemplateColumns: "minmax(0, 1fr)", width: "100%", minWidth: 0, maxWidth: "none" }}
   >
     <NavigationSpecimenRow title="ViewTube navigation · 10 pages · Standard" size="standard" />
