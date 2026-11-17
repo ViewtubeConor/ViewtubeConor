@@ -245,3 +245,9 @@ export type { StudioSpectrumSurfaceProps } from "./primitives/StudioSpectrumSurf
 // exported above from StudioDashboardPrimitives.
 export { StudioIconTitleModule as StudioToneIconTitleModule } from "./primitives/StudioIconTitleModule"
 export type { StudioIconTitleTone } from "./primitives/StudioIconTitleModule"
+export { StudioMultiSectionModule } from "./primitives/StudioMultiSectionModule"
+export type {
+  StudioMultiSectionModuleProps,
+  StudioMultiSectionModuleItem,
+  StudioMultiSectionModuleSize,
+} from "./primitives/StudioMultiSectionModule"
