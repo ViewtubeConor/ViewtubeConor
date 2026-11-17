@@ -1,0 +1,48 @@
+{
+  "name": "viewtube-studio-design",
+  "version": "0.6.0",
+  "description": "Repository-grounded ViewTube Studio design intelligence, token lineage, component adoption, interaction-state coverage, visual diff triage, agent instruction transparency and task-scoped controls, contract enforcement, UX/accessibility, regression intelligence, implementation, and verification.",
+  "author": {
+    "name": "ViewTube project"
+  },
+  "keywords": [
+    "viewtube",
+    "studio-controls",
+    "design-system",
+    "primitive-library",
+    "design-token-inspection",
+    "token-lineage",
+    "component-adoption",
+    "migration-planning",
+    "interaction-testing",
+    "visual-diff",
+    "design-audit",
+    "accessibility",
+    "responsive-design",
+    "regression-testing",
+    "agent-instructions",
+    "task-scoped-controls",
+    "instruction-governance"
+  ],
+  "repository": "https://github.com/viewtube-dev/viewtube",
+  "skills": "./skills",
+  "interface": {
+    "capabilities": [
+      "Interactive"
+    ],
+    "category": "Developer Tools",
+    "defaultPrompt": [
+      "Use the ViewTube Studio Design Command Center to coordinate this request and produce an evidence-backed plan.",
+      "Show me the complete plugin-authored instructions and rules followed by each agent.",
+      "Build a task-specific instruction checklist and let me turn configurable rules on or off individually.",
+      "Trace a Studio design token from canonical source through generators and real use sites.",
+      "Build a risk-based interaction-state and responsive test matrix for a primitive family.",
+      "Plan safe adoption of canonical Studio primitives across existing consumers.",
+      "Compare visual captures and triage likely design-system regressions with reproducible evidence."
+    ],
+    "developerName": "ViewTube project",
+    "displayName": "ViewTube Studio Design",
+    "longDescription": "A coordinated specialist system for ViewTube Studio design-system stewardship, token lineage, component adoption, interaction-state coverage, visual diff triage, agent instruction transparency and task-scoped controls, component intelligence, contract enforcement, UX/accessibility, regression intelligence, health reviews, implementation, and verification. The repository remains the authority for production contracts.",
+    "shortDescription": "ViewTube Studio design intelligence and agent controls"
+  }
+}
