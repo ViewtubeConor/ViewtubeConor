@@ -3,6 +3,7 @@
 .vt-studio-checklist {
   --vt-check-stroke: var(--vt-studio-control-stroke, 3px);
   --vt-check-radius: var(--vt-studio-control-radius, 6px);
+  --vt-check-control-size: var(--vt-studio-control-height, 44px);
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -17,6 +18,7 @@
 .vt-studio-checklist[data-size="compact"] {
   --vt-check-stroke: var(--vt-studio-compact-stroke, 2px);
   --vt-check-radius: var(--vt-studio-compact-radius, 4px);
+  --vt-check-control-size: var(--vt-studio-compact-height, 28px);
 }
 
 .vt-studio-checklist__header {
@@ -40,7 +42,7 @@
 
 .vt-studio-checklist__row {
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) auto;
+  grid-template-columns: var(--vt-check-control-size) minmax(0, 1fr) auto;
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
