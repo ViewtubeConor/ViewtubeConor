@@ -1588,6 +1588,15 @@ export const StudioSquareIconButtonGroup = React.forwardRef<HTMLDivElement, Stud
     const items = suppliedItems.length ? suppliedItems.map((item, index) => {
       if (!React.isValidElement(item)) return item
       return React.cloneElement(item as React.ReactElement<StudioSquareIconButtonProps>, {
+        style: {
+          ...(item.props as StudioSquareIconButtonProps).style,
+          flex: "0 0 var(--vt-icon-group-size, 44px)",
+          width: "var(--vt-icon-group-size, 44px)",
+          minWidth: "var(--vt-icon-group-size, 44px)",
+          maxWidth: "var(--vt-icon-group-size, 44px)",
+          height: "100%",
+          margin: 0,
+        },
         variant: "v3",
         selected: selectedDefaultIndex === index,
         onSelectedChange: selected => { if (selected) setSelectedDefaultIndex(index) },
@@ -1608,6 +1617,14 @@ export const StudioSquareIconButtonGroup = React.forwardRef<HTMLDivElement, Stud
         selected={selectedDefaultIndex === index}
         onSelectedChange={selected => { if (selected) setSelectedDefaultIndex(index) }}
         sizeVariant={sizeVariant}
+        style={{
+          flex: "0 0 var(--vt-icon-group-size, 44px)",
+          width: "var(--vt-icon-group-size, 44px)",
+          minWidth: "var(--vt-icon-group-size, 44px)",
+          maxWidth: "var(--vt-icon-group-size, 44px)",
+          height: "100%",
+          margin: 0,
+        }}
       />
     ))
 
@@ -1621,6 +1638,14 @@ export const StudioSquareIconButtonGroup = React.forwardRef<HTMLDivElement, Stud
         data-vt-studio-icon-button-group="true"
         data-size={sizeVariant}
         className={studioClasses("vt-studio-square-icon-button-group", className)}
+        style={{
+          display: "inline-flex",
+          flexDirection: "row",
+          flexWrap: "nowrap",
+          alignItems: "stretch",
+          width: "max-content",
+          maxWidth: "100%",
+        }}
       >
         {items}
       </div>
