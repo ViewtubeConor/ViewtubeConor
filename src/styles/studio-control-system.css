@@ -5543,6 +5543,10 @@ button[data-vt-studio-button="true"][data-vt-studio-button-lines="two"][data-vt-
 /* Collapsing split module: reuses the canonical split-module geometry and palette. */
 .vt-studio-collapsing-split-module > .vt-studio-collapsing-split-module__head {
   display: grid;
+  height: var(--vt-top-split-size, 44px);
+  min-height: var(--vt-top-split-size, 44px);
+  max-height: var(--vt-top-split-size, 44px);
+  box-sizing: border-box;
   cursor: pointer;
   list-style: none;
   user-select: none;
@@ -5564,8 +5568,21 @@ button[data-vt-studio-button="true"][data-vt-studio-button-lines="two"][data-vt-
   color: #000;
 }
 .vt-studio-collapsing-split-module__disclosure > svg {
+  display: block;
   width: calc(var(--vt-top-split-size, 44px) * .58);
   height: calc(var(--vt-top-split-size, 44px) * .58);
+  transform-origin: 50% 50%;
+  transition: transform 180ms ease;
+}
+.vt-studio-collapsing-split-module__head [data-rail] {
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+}
+.vt-studio-collapsing-split-module__head [data-rail] > svg {
+  display: block;
+  transform-origin: 50% 50%;
+  transition: transform 180ms ease;
 }
 .vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head .vt-studio-collapsing-split-module__disclosure > svg,
 .vt-studio-collapsing-split-module[open] > .vt-studio-collapsing-split-module__head [data-rail="end"] > svg {
