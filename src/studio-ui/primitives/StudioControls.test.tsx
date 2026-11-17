@@ -1651,9 +1651,23 @@ describe("StudioCircleIconButton shape consistency", () => {
 
 
 describe("StudioSquareIconButtonGroup horizontal layout contract", () => {
-  it("keeps the five square faces in one non-wrapping horizontal flex row", () => {
+  it("renders a fixed horizontal rail with square, non-shrinking button faces", () => {
+    const html = renderToStaticMarkup(
+      <StudioSquareIconButtonGroup aria-label="Actions">
+        <StudioSquareIconButton icon={<span>A</span>} label="A" />
+        <StudioSquareIconButton icon={<span>B</span>} label="B" />
+      </StudioSquareIconButtonGroup>,
+    );
+    expect(html).toContain('style="display:inline-flex;flex-direction:row;flex-wrap:nowrap;');
+    expect(html.match(/flex:0 0 var\(--vt-icon-group-size, 44px\)/g)).toHaveLength(2);
     const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-system.css"), "utf8");
     expect(css).toContain('div.vt-studio-square-icon-button-group[data-vt-studio-icon-button-group="true"]');
-    expect(css).toMatch(/div\.vt-studio-square-icon-button-group\[data-vt-studio-icon-button-group="true"\]\s*\{[^}]*display:\s*flex;[^}]*flex-direction:\s*row;[^}]*flex-wrap:\s*nowrap;/s);
   });
+});
+
+it("draws the circle icon button with one circular perimeter", () => {
+  const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-system.css"), "utf8");
+  expect(css).toMatch(/button\.vt-studio-circle-icon-button\s*\{[^}]*border-radius:\s*50%/s);
+  expect(css).toMatch(/button\.vt-studio-circle-icon-button\s*\{[^}]*border:\s*var\(--vt-studio-control-stroke, 3px\) solid #000/s);
+  expect(css).toMatch(/button\.vt-studio-circle-icon-button > \[data-vt-studio-button-face\]\s*\{[^}]*border:\s*0/s);
 });
