@@ -463,6 +463,13 @@
 }
 .vt-studio-value-toggle--bar > [data-vt-studio-split-rail] {
   grid-row: 1;
-  z-index: 2;
+  z-index: 4;
   overflow: hidden;
+  background: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));
+}
+.vt-studio-value-toggle--bar > [data-vt-studio-split-rail][data-rail="start"] {
+  border-radius: var(--vt-studio-control-radius, 6px) 0 0 var(--vt-studio-control-radius, 6px);
+}
+.vt-studio-value-toggle--bar > [data-vt-studio-split-rail][data-rail="end"] {
+  border-radius: 0 var(--vt-studio-control-radius, 6px) var(--vt-studio-control-radius, 6px) 0;
 }
