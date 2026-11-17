@@ -6651,6 +6651,7 @@ button.vt-studio-circle-icon-button {
   height: var(--vt-studio-control-height, 44px);
   min-height: var(--vt-studio-control-height, 44px);
   padding: 0;
+  border: var(--vt-studio-control-stroke, 3px) solid #000;
   aspect-ratio: 1;
   border-radius: 50%;
 }
