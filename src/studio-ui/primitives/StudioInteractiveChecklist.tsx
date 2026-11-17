@@ -1,5 +1,6 @@
 import React, { useMemo } from "react"
 import type { StudioControlSize } from "../tokens"
+import { StudioSpectrumTag, StudioXCheckbox } from "./StudioControls"
 import "../../styles/studio-control-entry.css"
 import "../../styles/studio-interactive-checklist.css"
 
@@ -93,20 +94,13 @@ export function StudioInteractiveChecklist({
               data-checked={checked ? "true" : "false"}
               data-disabled={item.disabled ? "true" : "false"}
             >
-              <button
-                type="button"
-                className="vt-studio-checklist__check"
-                aria-pressed={checked}
+              <StudioXCheckbox
+                checked={checked}
+                onClick={() => toggle(item)}
+                sizeVariant={size}
                 aria-label={item.label}
                 disabled={item.disabled}
-                onClick={() => toggle(item)}
-              >
-                {checked ? (
-                  <span className="vt-studio-checklist__mark" aria-hidden="true">
-                    ×
-                  </span>
-                ) : null}
-              </button>
+              />
               <div className="vt-studio-checklist__copy">
                 <span className="vt-studio-checklist__label">{item.label}</span>
                 {item.description ? (
@@ -114,12 +108,10 @@ export function StudioInteractiveChecklist({
                 ) : null}
               </div>
               {item.badge ? (
-                <span
-                  className="vt-studio-checklist__badge"
-                  data-tone={item.badgeTone ?? "neutral"}
-                >
-                  {item.badge}
-                </span>
+                <StudioSpectrumTag
+                  label={item.badge}
+                  spectrumKey={item.badgeTone ?? item.badge}
+                />
               ) : null}
             </li>
           )
