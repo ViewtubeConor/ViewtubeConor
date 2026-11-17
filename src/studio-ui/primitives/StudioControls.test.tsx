@@ -1731,7 +1731,7 @@ describe("Studio module visual regression contracts", () => {
   it("keeps circle button borders circular and collapsing split icons stationary", () => {
     const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-system.css"), "utf8");
     expect(css).toContain('button[data-vt-studio-circle-icon-button="true"] {\n  overflow: hidden;');
-    expect(css).toMatch(/button\\.vt-studio-circle-icon-button > \\[data-vt-studio-button-face\\] \\{[^}]*border: 0;[^}]*border-radius: 50%/s);
+    expect(css).toContain("button.vt-studio-circle-icon-button > [data-vt-studio-button-face] {\\n  border: 0;\\n  border-radius: 50%;");
     expect(css).toContain("height: var(--vt-top-split-size, 44px);");
     expect(css).toContain("transform-origin: 50% 50%;");
     expect(css).toContain("transition: transform 180ms ease;");
