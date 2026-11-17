@@ -5,12 +5,14 @@ on:
     branches:
       - main
       - master/consolidated-feature-integration
+      - fix/studio-controls-regression-recovery-2026-10-31
   push:
     branches:
       - main
       - integration/**
       - codex/**
       - master/consolidated-feature-integration
+      - fix/studio-controls-regression-recovery-2026-10-31
 
 concurrency:
   group: release-gates-${{ github.ref }}
@@ -115,6 +117,18 @@ jobs:
           name: gemini-caller-inventory-${{ github.event.pull_request.head.sha || github.sha }}
           path: ${{ runner.temp }}/ai-generation-callers.json
           if-no-files-found: error
+
+  calendar_contracts:
+    name: calendar-contracts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run src/services/calendar/projectCalendarEvents.test.ts src/services/calendar/calendarScheduleInteractions.test.ts src/components/projects/ProjectPlannerCalendar.studio-primitives.test.tsx
 
   full_suite:
     name: full-suite
