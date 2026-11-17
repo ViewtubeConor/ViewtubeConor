@@ -55,3 +55,30 @@ html body :is(.vt-studio-dropdown-menu, .vt-studio-legend-menu) :is(.vt-studio-d
   background: var(--vt-studio-control-secondary, var(--vt-legend-b, var(--pair-b)));
 }
 html body .vt-studio-dropdown:has(> button[aria-expanded="true"]) { z-index: 600; }
+
+
+/* Menu option glyphs follow the same size tier as the dropdown trigger. */
+html body :is(.vt-studio-dropdown-menu, .vt-studio-legend-menu) {
+  --vt-dropdown-option-icon-size: var(--vt-studio-control-icon-size, 38px);
+}
+html body :is(.vt-studio-dropdown-menu, .vt-studio-legend-menu)[data-size="supreme"] { --vt-dropdown-option-icon-size: var(--vt-studio-supreme-icon-size, 52px); }
+html body :is(.vt-studio-dropdown-menu, .vt-studio-legend-menu)[data-size="standard"] { --vt-dropdown-option-icon-size: var(--vt-studio-standard-icon-size, 38px); }
+html body :is(.vt-studio-dropdown-menu, .vt-studio-legend-menu)[data-size="compact"] { --vt-dropdown-option-icon-size: var(--vt-studio-compact-icon-size, 24px); }
+html body :is(.vt-studio-dropdown-menu, .vt-studio-legend-menu)[data-size="mini"] { --vt-dropdown-option-icon-size: var(--vt-studio-mini-icon-size, 17.5px); }
+html body :is(.vt-studio-dropdown-menu, .vt-studio-legend-menu)[data-size="micro"] { --vt-dropdown-option-icon-size: var(--vt-studio-micro-icon-size, 10px); }
+html body :is(.vt-studio-dropdown-menu, .vt-studio-legend-menu)
+  :is(.vt-studio-dropdown-option, .vt-studio-legend-option)
+  :is(svg, [data-option-icon]) {
+  box-sizing: border-box;
+  flex: 0 0 var(--vt-dropdown-option-icon-size);
+  width: var(--vt-dropdown-option-icon-size);
+  height: var(--vt-dropdown-option-icon-size);
+  max-width: none;
+  max-height: none;
+}
+html body .vt-studio-dropdown-option-rail svg {
+  width: var(--vt-dropdown-option-icon-size);
+  height: var(--vt-dropdown-option-icon-size);
+  max-width: none;
+  max-height: none;
+}
