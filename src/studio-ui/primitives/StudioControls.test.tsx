@@ -4,6 +4,7 @@ import { resolve } from "node:path"
 import { renderToStaticMarkup } from "react-dom/server"
 import { describe, expect, it } from "vitest"
 import { StudioActionButton, StudioButton, StudioTwoLineButton, StudioSplitTwoLineButton, StudioSquareIconButtonGroup, StudioTopSplitModule, StudioSplitLeftBadge, StudioDoubleSplitBadge, StudioSplitLeftButton, StudioSplitLeftDropdown, StudioDropdown, StudioSquareIconButton, StudioCircleIconButton, StudioPlayPauseButton, StudioLegendMultiDropdown, StudioSimpleDropdown, StudioTextArea, StudioTextBox, StudioTextInput, StudioWordToggle, StudioSwitch, StudioRadio, StudioSpectrumTag, StudioChoice, StudioUploadFrame, StudioCounter, StudioSideCounter, StudioSideTextCounter, StudioSideTextCounterIcon, StudioDoubleSplitSlider, StudioLeftWordCounter, StudioLeftWordSlider, normalizeStudioLeftWordIndex, STUDIO_LEFT_WORD_OPTIONS, StudioVerticalWordToggle, StudioCloseableBadge, StudioBrainStatusBadge, StudioBrainStatusIndicator, STUDIO_CONTROL_GLOBAL_RULE_EXCEPTIONS, getStudioCounterRepeatDelay } from "./StudioControls"
+import { StudioInteractiveChecklist } from "./StudioInteractiveChecklist"
 import { StudioHubCompletePrimitiveCatalog } from "../../components/studio-hub/StudioHubCompletePrimitiveCatalog"
 import { StudioHubConfirmedPrimitiveCatalog } from "../../components/studio-hub/StudioHubConfirmedPrimitiveCatalog"
 import { STUDIO_CONTROL_SIZE_BASE, type StudioControlSize, studioSizeTierToCssVars } from "../tokens"
@@ -1670,4 +1671,83 @@ it("draws the circle icon button with one circular perimeter", () => {
   expect(css).toMatch(/button\.vt-studio-circle-icon-button\s*\{[^}]*border-radius:\s*50%/s);
   expect(css).toMatch(/button\.vt-studio-circle-icon-button\s*\{[^}]*border:\s*var\(--vt-studio-control-stroke, 3px\) solid #000/s);
   expect(css).toMatch(/button\.vt-studio-circle-icon-button > \[data-vt-studio-button-face\]\s*\{[^}]*border:\s*0/s);
+});
+
+
+describe("Studio module visual regression contracts", () => {
+  it("uses full-tier icons and solid pair fills for Daily Oracle and Icon + Title modules", () => {
+    const oracle = readFileSync(resolve(process.cwd(), "src/styles/studio-daily-oracle-module.css"), "utf8");
+    const iconTitle = readFileSync(resolve(process.cwd(), "src/styles/studio-icon-title-module.css"), "utf8");
+    expect(oracle).toContain("width: var(--vt-studio-control-icon-size, 38px);");
+    expect(oracle).toContain("background: var(--vt-studio-control-accent, var(--pair-a, #36e0f6));");
+    expect(oracle).toContain("background: var(--vt-studio-control-secondary, var(--pair-b, #ff7f6b));");
+    expect(oracle).not.toContain("max-width: 22px");
+    expect(iconTitle).toContain("--vt-icon-title-height: var(--vt-studio-control-height, 44px);");
+    expect(iconTitle).toContain("width: var(--vt-studio-control-icon-size, 38px);");
+    expect(iconTitle).toContain("--vt-icon-title-fill: var(--vt-studio-control-accent, var(--pair-a, #36e0f6));");
+    expect(iconTitle).not.toContain("#a5f3fc");
+    expect(iconTitle).not.toContain("max-width: 28px");
+  });
+
+  it("renders checklist X checkboxes and spectrum tags from canonical Studio primitives", () => {
+    const html = renderToStaticMarkup(
+      <StudioInteractiveChecklist
+        items={[
+          { id: "checked", label: "Checked item", checked: true, badge: "HIGH", badgeTone: "high" },
+          { id: "open", label: "Open item", badge: "TODAY", badgeTone: "today" },
+        ]}
+      />
+    );
+    expect(html).toContain("vt-studio-44-choice");
+    expect(html).toContain("is-xwide");
+    expect(html).toContain("vt-studio-spectrum-tag");
+    expect(html).not.toContain("vt-studio-checklist__check");
+    expect(html).not.toContain("vt-studio-checklist__badge");
+  });
+
+  it("sizes dropdown option icons from the active menu size tier", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/styles/studio-dropdown-geometry.css"), "utf8");
+    expect(css).toContain('.vt-studio-dropdown-menu, .vt-studio-legend-menu)[data-size="supreme"]');
+    expect(css).toContain('.vt-studio-dropdown-menu, .vt-studio-legend-menu)[data-size="micro"]');
+    expect(css).toContain("flex: 0 0 var(--vt-dropdown-option-icon-size);");
+    expect(css).toContain("html body .vt-studio-dropdown-option-rail svg");
+  });
+
+  it("keeps bar meters in the center cell and puts solid rounded rails above them", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-value-toggles.css"), "utf8");
+    expect(css).toContain("grid-template-columns: var(--vt-studio-control-height, 44px) minmax(0, 1fr) var(--vt-studio-control-height, 44px);");
+    expect(css).toContain("grid-column: 2;");
+    expect(css).toContain("z-index: 4;");
+    expect(css).toContain('[data-vt-studio-split-rail][data-rail="end"]');
+    expect(css).toContain("border-radius: 0 var(--vt-studio-control-radius, 6px) var(--vt-studio-control-radius, 6px) 0;");
+  });
+
+  it("limits double-side focus glyph paint to the focused side", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-value-toggles.css"), "utf8");
+    expect(css).toContain(".vt-studio-value-toggle--double .vt-studio-value-toggle__double-side:focus-within .vt-studio-value-toggle__face");
+    expect(css).not.toContain(".vt-studio-value-toggle--double:focus-within .vt-studio-value-toggle__face");
+  });
+
+  it("keeps circle button borders circular and collapsing split icons stationary", () => {
+    const css = readFileSync(resolve(process.cwd(), "src/styles/studio-control-system.css"), "utf8");
+    expect(css).toContain('button[data-vt-studio-circle-icon-button="true"] {\n  overflow: hidden;');
+    expect(css).toContain('button[data-vt-studio-circle-icon-button="true"] > [data-vt-studio-button-face] {\n  border-radius: 50% !important;');
+    expect(css).toContain("height: var(--vt-top-split-size, 44px);");
+    expect(css).toContain("transform-origin: 50% 50%;");
+    expect(css).toContain("transition: transform 180ms ease;");
+  });
+
+  it("renders the joined icon group as one intrinsic-width horizontal row", () => {
+    const html = renderToStaticMarkup(
+      <StudioSquareIconButtonGroup sizeVariant="standard">
+        <StudioSquareIconButton icon={<Home />} label="Home" />
+        <StudioSquareIconButton icon={<Settings2 />} label="Settings" />
+        <StudioSquareIconButton icon={<Sparkles />} label="Enhance" />
+      </StudioSquareIconButtonGroup>
+    );
+    expect(html).toContain('data-vt-studio-icon-button-group="true"');
+    expect(html).toContain('display:flex');
+    expect(html).toContain('flex-direction:row');
+    expect(html).toContain('flex-wrap:nowrap');
+  });
 });
