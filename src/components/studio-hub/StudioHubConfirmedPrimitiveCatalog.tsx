@@ -1578,7 +1578,7 @@ export const StudioHubConfirmedPrimitiveCatalog: React.FC = () => {
       ]}
       provenance={<Provenance primitive="StudioSquareIconButtonGroup / StudioSquareIconButton" tsx="src/studio-ui/primitives/StudioControls.tsx" css="src/styles/studio-control-system.css" tokens="44px standard / 28px compact · five joined square faces · primary default / secondary selected · intrinsic content width" imports={["src/studio-ui/primitives/StudioControls.tsx", "src/studio-ui/index.ts"]} />}
     >
-      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSquareIconButtonGroup" style={{ display: "grid", gap: 8, justifyItems: "start", minWidth: 0 }}>
+      <div className="vt-confirmed-variant is-full-row" data-vt-library-component="StudioSquareIconButtonGroup" style={{ display: "grid", gap: 8, justifyItems: "start", width: "max-content", maxWidth: "100%", minWidth: 0 }}>
         <span>STANDARD · FIVE JOINED SQUARES · ONE SELECTED</span>
         <StudioSquareIconButtonGroup sizeVariant="standard" aria-label="Standard five-square joined icon actions">
           <StudioSquareIconButton icon={<Home aria-hidden="true" />} label="Home" sizeVariant="standard" variant="v3" />
