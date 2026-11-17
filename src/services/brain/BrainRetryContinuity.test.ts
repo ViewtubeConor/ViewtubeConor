@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { resolveBrainRetryInput, resolveBrainModelInputSnapshot, type BrainGenerationInputSnapshot } from "./BrainRetryContinuity"
+import { isBrainModelInputSnapshotChannelCompatible, resolveBrainRetryInput, resolveBrainModelInputSnapshot, type BrainGenerationInputSnapshot } from "./BrainRetryContinuity"
 
 type Snapshot = { evidenceIds: string[]; revision: string }
 const input = (revision: string): BrainGenerationInputSnapshot<Snapshot> => ({
@@ -101,5 +101,29 @@ describe("resolveBrainModelInputSnapshot", () => {
    continuity: "original_input_restored",
    saved: { ...saved, systemInstruction: undefined },
   })).toBeUndefined()
+ })
+})
+
+
+describe("isBrainModelInputSnapshotChannelCompatible", () => {
+ it("allows restoration only when saved and active channel IDs match exactly", () => {
+  expect(isBrainModelInputSnapshotChannelCompatible("channel-a", "channel-a")).toBe(true)
+ })
+
+ it("rejects a saved prompt when the active channel has changed", () => {
+  expect(isBrainModelInputSnapshotChannelCompatible("channel-a", "channel-b")).toBe(false)
+ })
+
+ it.each([
+  [undefined, "channel-a"],
+  [null, "channel-a"],
+  ["", "channel-a"],
+  ["   ", "channel-a"],
+  ["channel-a", undefined],
+  ["channel-a", null],
+  ["channel-a", ""],
+  ["channel-a", "   "],
+ ])("rejects missing or blank channel scope (%s, %s)", (savedChannelId, activeChannelId) => {
+  expect(isBrainModelInputSnapshotChannelCompatible(savedChannelId, activeChannelId)).toBe(false)
  })
 })
